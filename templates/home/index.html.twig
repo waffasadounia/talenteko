@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil | TalentÉkô{% endblock %}
+
+{% block content %}
+  <section class="bg-[#FFF6F2] py-20 text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-5xl font-extrabold text-gray-900 mb-6">
+        Talent<span class="text-[#E2865A]">Ékô</span>
+      </h1>
+      <p class="text-lg text-gray-700 mb-8">
+        Valorisez vos talents, enrichissez-vous.<br>Partagez vos savoir-faire et découvrez de nouvelles compétences sans dépenser un euro.
+      </p>
+      <div class="flex justify-center gap-4 flex-wrap">
+        <a href="#tendances" class="bg-[#E2865A] text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-600 transition">
+          Voir les annonces
+        </a>
+        <a href="#" class="border border-[#E2865A] text-[#E2865A] font-semibold px-6 py-3 rounded-full hover:bg-orange-100 transition">
+          Déposer une annonce
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="tendances" class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-gray-800 mb-10 text-center">Tendances actuelles</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for annonce in annonces %}
+          {% include 'partials/_annonce_card.html.twig' with {
+            title: annonce.title,
+            description: annonce.description,
+            id: annonce.id,
+            category: annonce.category,
+            user: annonce.user,
+            ville: annonce.ville,
+            stars: annonce.stars
+          } %}
+        {% else %}
+          <p class="text-center col-span-full">Aucune annonce pour le moment.</p>
+        {% endfor %}
+      </div>
+
+      <div class="mt-8 text-center">
+        <a href="#" class="text-[#E2865A] font-semibold hover:underline">Voir toutes les annonces</a>
+      </div>
+    </div>
+  </section>
+
+  {% include 'partials/_categories.html.twig' %}
+
+  <section class="py-20 bg-[#FFF6F2]">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4 text-gray-800">Comment ça marche ?</h2>
+      <p class="text-gray-600 mb-12">Échangez vos compétences en quelques étapes simples</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {% set etapes = [
+          {"numero": "1", "titre": "Créez votre compte", "texte": "Inscrivez-vous rapidement pour rejoindre la communauté."},
+          {"numero": "2", "titre": "Publiez une annonce", "texte": "Proposez ou recherchez une compétence à échanger."},
+          {"numero": "3", "titre": "Échangez et évoluez", "texte": "Bénéficiez de talents et développez vos savoirs."}
+        ] %}
+
+        {% for etape in etapes %}
+          <div class="flex flex-col items-center">
+            <div class="bg-[#E2865A] text-white rounded-full w-16 h-16 flex items-center justify-center mb-4 text-2xl font-bold">
+              {{ etape.numero }}
+            </div>
+            <h3 class="text-xl font-semibold mb-2">{{ etape.titre }}</h3>
+            <p class="text-gray-600 max-w-xs">{{ etape.texte }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="mt-10">
+        <a href="#" class="bg-[#E2865A] text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-600 transition">
+          Commencer maintenant
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {% include 'partials/_flash.html.twig' %}
+{% endblock %}

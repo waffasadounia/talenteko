@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}TalentÉkô
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="{{ asset('build/app.css') }}">
+		<link rel="stylesheet" href="{{ asset('build/tailwind.css') }}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+	</head>
+	<body class="bg-white text-gray-800">
+		{% include 'partials/_header.html.twig' %}
+
+		<main class="container mx-auto mt-8 min-h-[80vh]"> {% block content %}{% endblock %}
+
+			</main>
+
+			{% include 'partials/_footer.html.twig' %}
+
+			{% block javascripts %}{% endblock %}
+		</body>
+	</html>
