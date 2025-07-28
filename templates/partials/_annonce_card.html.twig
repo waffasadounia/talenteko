@@ -1,0 +1,44 @@
+{# Tendances actuelles #}
+
+{# carte #}
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col justify-between hover:shadow-md transition">
+  <div class="relative mb-3">
+    <img src="{{ asset('images/placeholder.png') }}" alt="Image annonce" class="w-full h-36 object-cover rounded-lg">
+    <button aria-label="Ajouter aux favoris" class="absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
+        5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
+        3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 
+        8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+    </button>
+  </div>
+  <div class="mb-4">
+    <h3 class="text-md font-semibold text-[#141C2E] leading-tight mb-1">{{ title }}</h3>
+    <p class="text-sm text-gray-600 line-clamp-2">{{ description }}</p>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-[#F7F4E7] text-[#D6713C] rounded-full flex items-center justify-center text-xs font-bold">
+        {{ user.name|slice(0,1)|upper }}
+      </div>
+      <span class="text-sm font-semibold text-[#141C2E]">{{ user.name }}</span>
+    </div>
+    <div class="text-sm text-gray-500">{{ ville }}</div>
+  </div>
+
+  <div class="mt-2 text-yellow-400 flex gap-0.5">
+    {% for i in 1..5 %}
+      {% if i <= stars %}
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.2 3.686a1 1 0 0 0 .95.69h3.873c.969 0 1.371 1.24.588 1.81l-3.13 2.276a1 1 0 0 0-.364 1.118l1.2 3.686c.3.921-.755 1.688-1.538 1.118l-3.13-2.276a1 1 0 0 0-1.176 0l-3.13 2.276c-.783.57-1.838-.197-1.538-1.118l1.2-3.686a1 1 0 0 0-.364-1.118L2.34 9.113c-.783-.57-.38-1.81.588-1.81h3.873a1 1 0 0 0 .95-.69l1.2-3.686z"/>
+        </svg>
+      {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927l1.2 3.686a1 1 0 0 0 .95.69h3.873c.969 0 1.371 1.24.588 1.81l-3.13 2.276a1 1 0 0 0-.364 1.118l1.2 3.686c.3.921-.755 1.688-1.538 1.118l-3.13-2.276a1 1 0 0 0-1.176 0l-3.13 2.276c-.783.57-1.838-.197-1.538-1.118l1.2-3.686a1 1 0 0 0-.364-1.118L2.34 9.113c-.783-.57-.38-1.81.588-1.81h3.873a1 1 0 0 0 .95-.69l1.2-3.686c.3-.921 1.603-.921 1.902 0z"/>
+        </svg>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

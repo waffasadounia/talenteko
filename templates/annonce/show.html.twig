@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ annonce.title }} | TalentÉkô{% endblock %}
+
+{% block content %}
+  <h1>{{ annonce.title }}</h1>
+  <p>{{ annonce.description }}</p>
+  <p><strong>Catégorie :</strong> {{ annonce.category }}</p>
+  <a href="{{ path('app_home') }}">← Retour à l'accueil</a>
+{% endblock %}

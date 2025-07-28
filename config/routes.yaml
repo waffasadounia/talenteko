@@ -3,3 +3,8 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+# config/routes.yaml
+
+annonce_show:
+    path: /annonce/{id}
+    controller: App\Controller\AnnonceController::show

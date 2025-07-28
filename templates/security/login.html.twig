@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion | TalentÉkô{% endblock %}
+
+{% block content %}
+  <div class="min-h-[70vh] flex items-center justify-center bg-white px-4">
+    <div class="bg-white shadow-lg rounded-xl p-8 max-w-md w-full border border-gray-200">
+      <h1 class="text-2xl font-bold text-center text-[#E2865A] mb-6">Connexion</h1>
+
+      {% if error %}
+        <div class="bg-red-100 text-red-700 text-sm p-3 rounded mb-4">
+          {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+      {% endif %}
+
+      {% if app.user %}
+        <div class="mb-4 text-sm text-green-600">
+          Connecté en tant que {{ app.user.userIdentifier }}. 
+          <a href="{{ path('app_logout') }}" class="underline text-blue-600">Se déconnecter</a>
+        </div>
+      {% endif %}
+
+      <form method="post" class="space-y-5">
+        <div>
+          <label for="inputEmail" class="block text-sm font-medium text-gray-700">Adresse email</label>
+          <input type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-[#E2865A] focus:border-[#E2865A]">
+        </div>
+
+        <div>
+          <label for="inputPassword" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+          <input type="password" name="password" id="inputPassword" autocomplete="current-password" required
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-[#E2865A] focus:border-[#E2865A]">
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" name="_remember_me" class="rounded">
+            <span>Se souvenir de moi</span>
+          </label>
+          <a href="#" class="text-[#E2865A] hover:underline">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-[#E2865A] text-white font-semibold py-2 rounded-full hover:bg-orange-600 transition">
+          Se connecter
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
