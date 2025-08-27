@@ -3,40 +3,34 @@
 
 namespace App\Controller;
 
+use App\Entity\Listing;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AnnonceController extends AbstractController
 {
-    #[Route("/annonce/{id}", name: "annonce_show")]
-    
-    public function show(int $id): Response
+    #[Route('/annonce/{slug}', name: 'app_listing_show')]
+    public function show(Listing $listing): Response
     {
-        // Ici, on utilise un tableau statique pour l'exemple,
-        // mais dans une application réelle, on récupère l'annonce depuis une base de données.
-        $annonces = [
-            1 => [
-                'id' => 1,
-                'title' => 'Cours de guitare',
-                'description' => 'Apprenez à jouer de la guitare avec un professionnel.',
-                'category' => 'Musique',
+        // On passe un tableau attendu par ton template show.html.twig
+        $annonce = [
+            'id' => $listing->getId(),
+            'slug' => $listing->getSlug(),
+            'title' => $listing->getTitle(),
+            'description' => $listing->getDescription(),
+            'category' => $listing->getCategory()->getName(),
+            'user' => [
+                'name' => $listing->getAuthor()->getFirstname() ?: 'Membre'
             ],
-            2 => [
-                'id' => 2,
-                'title' => 'Cours de cuisine',
-                'description' => 'Découvrez les secrets de la cuisine italienne.',
-                'category' => 'Cuisine',
-            ],
+            'ville' => $listing->getCity(),
+            'type' => $listing->getType(),
+            'createdAt' => $listing->getCreatedAt(),
         ];
 
-        // Vérifie si l'annonce existe
-        if (!isset($annonces[$id])) {
-            throw $this->createNotFoundException('Annonce non trouvée');
-        }
-
         return $this->render('annonce/show.html.twig', [
-            'annonce' => $annonces[$id],
+            'annonce' => $annonce,
         ]);
     }
 }
