@@ -1,16 +1,43 @@
+{# 
+  Ce template étend la mise en page principale "base.html.twig".
+  Tout ce qui est dans les blocks ci-dessous vient remplir les zones
+  prévues par le layout de base. 
+#}
 {% extends 'base.html.twig' %}
 
+{# 
+  <title> de la page. 
+  Affiché dans l’onglet du navigateur et utile pour le SEO.
+#}
 {% block title %}Accueil | TalentÉkô{% endblock %}
 
+{#
+  Block "content" : c’est la zone centrale de la page.
+  On y place trois grandes sections :
+  1) Hero (intro)
+  2) Tendances (grille d’annonces)
+  3) Comment ça marche (+ flash messages)
+#}
 {% block content %}
+
+  {# ===================== 1) HERO ===================== #}
+  {# Bandeau d’intro avec titre, sous-titre et 2 boutons. #}
   <section class="bg-[#FFF6F2] py-20 text-center">
     <div class="max-w-4xl mx-auto px-4">
-      <h1 class="text-5xl font-extrabold text-gray-900 mb-6">
+      {# Titre principal de la page #}
+      <h1 class="text-5xl font-extrabold mb-6 text-primary-color">
         Talent<span class="text-[#E2865A]">Ékô</span>
       </h1>
-      <p class="text-lg text-gray-700 mb-8">
-        Valorisez vos talents, enrichissez-vous.<br>Partagez vos savoir-faire et découvrez de nouvelles compétences sans dépenser un euro.
+
+      {# Phrase d’accroche (ligne de base pour expliquer la proposition de valeur) #}
+      <p class="text-lg mb-8 text-primary-color">
+        Valorisez vos talents, enrichissez-vous.<br>
+        Partagez vos savoir-faire et découvrez de nouvelles compétences sans dépenser un euro.
       </p>
+
+      {# Appels à l’action : 
+         - Voir les annonces (ancre #tendances)
+         - Déposer une annonce (à relier vers un formulaire plus tard) #}
       <div class="flex justify-center gap-4 flex-wrap">
         <a href="#tendances" class="bg-[#E2865A] text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-600 transition">
           Voir les annonces
@@ -22,39 +49,61 @@
     </div>
   </section>
 
+  {# ============== 2) TENDANCES / LISTE D’ANNONCES ============== #}
+  {# 
+    Section listant des annonces “tendances”.
+    Le contrôleur fournit une variable "annonces" (tableau d’objets simples).
+    Chaque élément a les clés : title, slug, description, user.name, ville, stars, etc.
+    On délègue l’affichage d’une carte à un partial : partials/_annonce_card.html.twig
+  #}
   <section id="tendances" class="py-16 bg-white">
     <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-gray-800 mb-10 text-center">Tendances actuelles</h2>
+      {# Titre de la section #}
+      <h2 class="text-3xl font-bold mb-10 text-center text-primary-color">Tendances actuelles</h2>
 
+      {# Grille responsive : 1 à 4 colonnes selon la taille d’écran #}
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+        {# Boucle sur la liste d’annonces #}
         {% for annonce in annonces %}
-          {% include 'partials/_annonce_card.html.twig' with {
-            title: annonce.title,
-            description: annonce.description,
-            id: annonce.id,
-            category: annonce.category,
-            user: annonce.user,
-            ville: annonce.ville,
-            stars: annonce.stars
-          } %}
+
+          {# Inclusion du partial de carte d’annonce.
+             On lui passe UN SEUL objet "annonce" (convention claire),
+             et le partial lit ses propriétés via "annonce.*".
+             Avantage : si on ajoute un champ demain, on ne change pas 36 paramètres ici. #}
+          {% include 'partials/_annonce_card.html.twig' with { annonce: annonce } %}
+
         {% else %}
-          <p class="text-center col-span-full">Aucune annonce pour le moment.</p>
+          {# Branche "else" du for : s’exécute si la liste est vide.
+             On affiche un message occupant toute la grille. #}
+          <p class="text-center col-span-full text-primary-color">
+            Aucune annonce pour le moment.
+          </p>
         {% endfor %}
       </div>
 
+      {# Lien secondaire : à relier plus tard vers une page listant tout (pagination). #}
       <div class="mt-8 text-center">
         <a href="#" class="text-[#E2865A] font-semibold hover:underline">Voir toutes les annonces</a>
       </div>
     </div>
   </section>
 
+  {# ============== 3) CATEGORIES (section réutilisable) ============== #}
+  {# On inclut un partial qui affiche un nuage/galerie de catégories.
+     Ce partial peut consommer des variables si le contrôleur en fournit (ex: categories).
+     Ici, on se contente de l’inclure tel quel pour l’UI. #}
   {% include 'partials/_categories.html.twig' %}
 
+  {# ============== 4) COMMENT ÇA MARCHE ============== #}
+  {# Section pédagogique : trois étapes simples. 
+     On définit un petit tableau "etapes" directement dans la vue pour l’illustration. #}
   <section class="py-20 bg-[#FFF6F2]">
     <div class="max-w-6xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold mb-4 text-gray-800">Comment ça marche ?</h2>
-      <p class="text-gray-600 mb-12">Échangez vos compétences en quelques étapes simples</p>
+      <h2 class="text-3xl font-bold mb-4 text-primary-color">Comment ça marche ?</h2>
+      <p class="mb-12 text-primary-color">Échangez vos compétences en quelques étapes simples</p>
 
+      {# Tableau de données local à la vue pour afficher les 3 étapes #}
       <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
         {% set etapes = [
           {"numero": "1", "titre": "Créez votre compte", "texte": "Inscrivez-vous rapidement pour rejoindre la communauté."},
@@ -62,17 +111,19 @@
           {"numero": "3", "titre": "Échangez et évoluez", "texte": "Bénéficiez de talents et développez vos savoirs."}
         ] %}
 
+        {# Boucle sur les trois étapes pour afficher des cartes simples #}
         {% for etape in etapes %}
           <div class="flex flex-col items-center">
             <div class="bg-[#E2865A] text-white rounded-full w-16 h-16 flex items-center justify-center mb-4 text-2xl font-bold">
               {{ etape.numero }}
             </div>
-            <h3 class="text-xl font-semibold mb-2">{{ etape.titre }}</h3>
-            <p class="text-gray-600 max-w-xs">{{ etape.texte }}</p>
+            <h3 class="text-xl font-semibold mb-2 text-primary-color">{{ etape.titre }}</h3>
+            <p class="text-primary-color max-w-xs">{{ etape.texte }}</p>
           </div>
         {% endfor %}
       </div>
 
+      {# Bouton de call-to-action final vers l’inscription (à relier plus tard). #}
       <div class="mt-10">
         <a href="#" class="bg-[#E2865A] text-white font-semibold px-6 py-3 rounded-full hover:bg-orange-600 transition">
           Commencer maintenant
@@ -81,5 +132,8 @@
     </div>
   </section>
 
+  {# ============== 5) FLASH MESSAGES ============== #}
+  {# Ce partial affiche les notifications (succès/erreur) stockées en session. #}
   {% include 'partials/_flash.html.twig' %}
+
 {% endblock %}

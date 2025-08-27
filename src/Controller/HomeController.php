@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\ListingRepository;
+use App\Repository\CategoryRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,49 +11,34 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(ListingRepository $repo, CategoryRepository $catRepo): Response
     {
-        $annonces = [
-            [
-                'id' => 1,
-                'title' => 'Cours de guitare',
-                'description' => 'Apprenez à jouer de la guitare avec un professionnel.',
-                'category' => 'Musique',
-                'user' => ['name' => 'Amine'],
-                'ville' => 'Paris',
-                'stars' => 5,
-            ],
-            [
-                'id' => 2,
-                'title' => 'Cours de cuisine',
-                'description' => 'Découvrez les secrets de la cuisine italienne.',
-                'category' => 'Cuisine',
-                'user' => ['name' => 'Graziella'],
-                'ville' => 'Lyon',
-                'stars' => 3,
-            ],
-            [
-                'id' => 3,
-                'title' => 'Cours de yoga',
-                'description' => 'Relaxation et bien-être avec des séances de yoga hebdomadaires.',
-                'category' => 'Bien-être',
-                'user' => ['name' => 'Sophie'],
-                'ville' => 'Reims',
-                'stars' => 2,
-            ],
-            [
-                'id' => 4,
-                'title' => 'Cours de théâtre',
-                'description' => 'Apprenez les bases du théâtre avec une comédienne professionnelle.',
-                'category' => 'Art',
-                'user' => ['name' => 'Fatou'],
-                'ville' => 'Marseille',
-                'stars' => 5,
-            ],
-        ];
+        // 12 dernières annonces avec auteur + catégorie
+        $annonces = $repo->createQueryBuilder('l')
+            ->leftJoin('l.author', 'a')->addSelect('a')
+            ->leftJoin('l.category', 'c')->addSelect('c')
+            ->orderBy('l.createdAt', 'DESC')
+            ->setMaxResults(12)
+            ->getQuery()->getResult();
+
+        // Map simple pour correspondre à tes partials (_annonce_card)
+        $cards = array_map(function($l) {
+            return [
+                'id' => $l->getId(),
+                'slug' => $l->getSlug(),
+                'title' => $l->getTitle(),
+                'description' => $l->getDescription(),
+                'category' => $l->getCategory()->getName(),
+                'user' => ['name' => $l->getAuthor()->getFirstname() ?: 'Membre'],
+                'ville' => $l->getCity(),
+                'stars' => 4, // TODO: calcule réel plus tard
+            ];
+        }, $annonces);
 
         return $this->render('home/index.html.twig', [
-            'annonces' => $annonces,
+            'annonces' => $cards,
+            // 'categories' => $catRepo->findBy([], ['name'=>'ASC'], 8), // si ton template les affiche
         ]);
     }
 }
+            //Dans les cartes, le lien vers la fiche pourra pointer sur path('app_listing_show', {slug: annonce.slug}).

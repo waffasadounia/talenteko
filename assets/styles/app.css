@@ -3,3 +3,8 @@
 @tailwind components; */
 /* @tailwind utilities; */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
+
+
+.text-primary-color {
+  color: #141C2E;
+}
