@@ -6,15 +6,16 @@
         "@hotwired/turbo": "^7.1.1 || ^8.0",
         "@symfony/stimulus-bridge": "^3.2.0 || ^4.0.0",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
-        "@symfony/webpack-encore": "^5.1.0",
+        "@symfony/webpack-encore": "^5.2.0",
         "autoprefixer": "^10.4.21",
         "core-js": "^3.38.0",
         "css-loader": "^7.1.2",
         "postcss": "^8.5.6",
         "postcss-loader": "^8.1.1",
         "regenerator-runtime": "^0.13.9",
+        "sass": "^1.91.0",
         "style-loader": "^4.0.0",
-        "tailwindcss": "^4.1.11",
+        "tailwindcss": "^4.1.12",
         "webpack": "^5.74.0",
         "webpack-cli": "^5.1.0"
     },
@@ -34,8 +35,16 @@
     },
     "keywords": [],
     "author": "",
-    "description": "",
     "dependencies": {
         "@tailwindcss/postcss": "^4.1.11"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/waffasadounia/talenteko.git"
+    },
+    "bugs": {
+        "url": "https://github.com/waffasadounia/talenteko/issues"
+    },
+    "homepage": "https://github.com/waffasadounia/talenteko#readme",
+    "description": ""
 }

@@ -1,26 +1,75 @@
+{# 
+  Layout de base pour toutes les pages.
+  - Je charge la CSS/JS via Webpack Encore (entrée "app") => c’est là que Tailwind est compilé.
+  - J'expose des blocks pour surcharger (title, stylesheets, content, javascripts).
+  - Objectif Turbo : charger le bundle JS dans <head> (deferred) pour éviter la ré-évaluation à chaque visite.
+#}
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<meta charset="UTF-8">
+		<meta
+		charset="UTF-8"/>
+
+		{# <title> : personnalisable par page #}
 		<title>
 			{% block title %}TalentÉkô
 			{% endblock %}
 		</title>
-		<link rel="stylesheet" href="{{ asset('build/app.css') }}">
-		<link rel="stylesheet" href="{{ asset('build/tailwind.css') }}">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+{# =======================
+   Favicon TalentÉkô
+   - Bonne pratique : lien explicite dans <head>
+   - On peut choisir le format PNG SVG en fallback (optionnel mais recommandé)
+   - PNG : utilisé par la majorité des navigateurs
+   - SVG : certains navigateurs modernes le supportent
+   - Favicon universel au format .ico (recommandé pour compatibilité maximale) 
+   ======================= #}
+<link rel="icon" type="image/png" href="{{ asset('images/faviconTalenteko.png') }}">
+<link rel="icon" type="image/svg+xml" href="{{ asset('images/faviconTalenteko.svg') }}">
+<link rel="icon" type="image/x-icon" href="{{ asset('images/faviconTalenteko.ico') }}">
+
+		{# CSS compilée par Encore (inclut Tailwind v4 via app.css) #}
+		{{ encore_entry_link_tags('app') }}
+
+		{# Polices Google (cohérent avec tailwind.config.js) #}
+		<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+		{# Font Awesome #}
+		<link
+		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+		{# Styles additionnels spécifiques à une page (optionnel) #}
+		{% block stylesheets %}{% endblock %}
+
+		{# 
+		      ⚠️ IMPORTANT (Turbo)
+		      Je charge le JS ICI (dans <head>) pour éviter l'avertissement :
+		      "You are loading Turbo from a <script> element inside the <body>..."
+		      Les scripts Encore sont 'defer' par défaut -> pas de blocage du rendu.
+		    #}
+		{{ encore_entry_script_tags('app') }}
 
 	</head>
-	<body class="bg-white text-gray-800">
+
+	{# 
+	    Option : si je préfère laisser le JS dans <body>, 
+	    je peux supprimer l'avertissement en ajoutant cet attribut :
+	    data-turbo-suppress-warning
+	  #}
+	<body
+		class="bg-white text-gray-800" {# data-turbo-suppress-warning #}>
+		{# Header global #}
 		{% include 'partials/_header.html.twig' %}
 
+		{# Contenu principal #}
 		<main class="container mx-auto mt-8 min-h-[80vh]"> {% block content %}{% endblock %}
-
 			</main>
 
+			{# Footer global #}
 			{% include 'partials/_footer.html.twig' %}
 
+			{# JS page-spécifique (optionnel). 
+			       👇 Je n’y remet PAS encore_entry_script_tags('app'), pour rester compatible Turbo. #}
 			{% block javascripts %}{% endblock %}
 		</body>
 	</html>
