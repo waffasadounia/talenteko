@@ -1,10 +1,69 @@
+/* ===========================================
+   THEME TALENTÉKÔ — Tailwind v4 (@theme)
+   - Expose les couleurs/polices sous forme de tokens CSS.
+   - Permet d'utiliser: bg-talenteko-orange-700, text-talenteko-blue, etc.
+   =========================================== */
+@theme {
+  /* Couleur de texte principale */
+  --color-talenteko-blue: #141C2E;
+
+  /* Orange de marque (niveaux) */
+  --color-talenteko-orange-400: #E8926A; /* clair: bordures, badges */
+  --color-talenteko-orange-500: #DB8050; /* brand */
+  --color-talenteko-orange-600: #C46F45; /* +sombre */
+  --color-talenteko-orange-700: #B35F3A; /* AA avec texte blanc (CTA plein) */
+  --color-talenteko-orange-800: #994F2E; /* hover sombre (CTA plein) */
+
+  /* Tons pêche (fonds doux / surfaces) */
+  --color-talenteko-peach-100: #FBF1EC;
+  --color-talenteko-peach-200: #FDF5F1;
+  --color-talenteko-peach-300: #FDFAF9;
+
+  /* Alias rétro-compatibles (pour tes anciennes classes) */
+  --color-fondPeche: var(--color-talenteko-peach-200);
+  --color-bleuFonce: var(--color-talenteko-blue);
+  --color-orangePeche: var(--color-talenteko-orange-500);
+
+  /* Polices (si tu veux des utilitaires font-*) */
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-catamaran: "Catamaran", sans-serif;
+  --font-chivo: "Chivo", sans-serif;
+}
+
+/* ===========================================
+   Import Tailwind v4 (base, components, utilities)
+   =========================================== */
 @import "tailwindcss";
-/* @tailwind base;
-@tailwind components; */
-/* @tailwind utilities; */
+
+/* ===========================================
+   Polices Google (cohérent avec le thème)
+   =========================================== */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
 
+/* ===========================================
+   SAFELIST — version "no-conflict"
+   - Chaque classe applique UN SEUL utilitaire Tailwind.
+   - Elles ne sont jamais utilisées dans ton HTML (juste pour forcer la build).
+   - On les met dans @layer utilities pour garder la bonne priorité.
+   =========================================== */
+@layer utilities {
+  /* CTA plein (Se connecter) */
+  .tw-sf-bg-orange-700         { @apply bg-talenteko-orange-700; }
+  .tw-sf-hover-bg-orange-800   { @apply hover:bg-talenteko-orange-800; }
+  .tw-sf-text-white            { @apply text-white; }
+  .tw-sf-focus-ring            { @apply focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-700; }
 
-.text-primary-color {
-  color: #141C2E;
+  /* CTA outline (Déposer une annonce) */
+  .tw-sf-border-orange-500     { @apply border-talenteko-orange-500; }
+  .tw-sf-text-orange-500       { @apply text-talenteko-orange-500; }
+  .tw-sf-hover-bg-peach-200    { @apply hover:bg-talenteko-peach-200; }
+
+  /* Tokens utilisés dans le header */
+  .tw-sf-text-blue             { @apply text-talenteko-blue; }
+  .tw-sf-bg-peach-100          { @apply bg-talenteko-peach-100; }
 }
+
+/* ===========================================
+   Styles custom existants (compat)
+   =========================================== */
+.text-primary-color { color: #141C2E; } /* = talenteko.blue */

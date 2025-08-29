@@ -1,88 +1,68 @@
+// webpack.config.js
+// ===============================================
+// Config Webpack Encore pour TalentÉkô
+// - Point d’entrée 'app' (importe Tailwind via app.css)
+// - Stimulus/Turbo (bridge activé)
+// - Source maps en DEV : 'inline-source-map' (évite le schéma webpack://)
+// - PostCSS activé (Tailwind v4 via postcss.config.js)
+// ===============================================
+
 const Encore = require('@symfony/webpack-encore');
 
-// Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
+// Configuration de l'environnement si non déjà fait
 if (!Encore.isRuntimeEnvironmentConfigured()) {
-    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+  Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
 Encore
-    // directory where compiled assets will be stored
-    .setOutputPath('public/build/')
-    // public path used by the web server to access the output path
-    .setPublicPath('/build')
-    // only needed for CDN's or subdirectory deploy
-    //.setManifestKeyPrefix('build/')
+  // Dossier de sortie des assets compilés
+  .setOutputPath('public/build/')
+  // URL publique pour accéder aux assets
+  .setPublicPath('/build')
+  // .setManifestKeyPrefix('build/') // utile si CDN/sous-dossier
 
-    /*
-     * ENTRY CONFIG
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
-     */
-    .addEntry('app', './assets/app.js')
+  // ================= Entrées =================
+  // Chaque entrée => 1 fichier JS + (si import CSS) 1 fichier CSS
+  .addEntry('app', './assets/app.js')
 
-    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-    .splitEntryChunks()
+  // Découpage des chunks (optimisation)
+  .splitEntryChunks()
 
-    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-    .enableStimulusBridge('./assets/controllers.json')
+  // Bridge Stimulus (permet auto-enregistrement des controllers)
+  .enableStimulusBridge('./assets/controllers.json')
 
-    // will require an extra script tag for runtime.js
-    // but, you probably want this, unless you're building a single-page app
-    .enableSingleRuntimeChunk()
+  // Runtime séparé (script runtime.js généré)
+  .enableSingleRuntimeChunk()
 
-    /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
-     */
-    .cleanupOutputBeforeBuild()
+  // Nettoyage du dossier /build avant chaque build
+  .cleanupOutputBeforeBuild()
 
-    // Displays build status system notifications to the user
-    // .enableBuildNotifications()
+  // ================= Source maps =================
+  // DEV: on force 'inline-source-map' pour éviter le protocole webpack://
+  // PROD: désactivé (bonnes pratiques, taille/infos sensibles)
+  .enableSourceMaps(!Encore.isProduction(), 'inline-source-map')
 
-    .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(Encore.isProduction())
+  // Hash des fichiers en production (cache-busting)
+  .enableVersioning(Encore.isProduction())
 
-    // configure Babel
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/a-babel-plugin');
-    // })
+  // ================= Babel =================
+  .configureBabelPresetEnv((config) => {
+    config.useBuiltIns = 'usage';
+    config.corejs = '3.38';
+  })
 
-    // enables and configure @babel/preset-env polyfills
-    .configureBabelPresetEnv((config) => {
-        config.useBuiltIns = 'usage';
-        config.corejs = '3.38';
-    })
+  // ================= Loaders =================
+  // SASS si besoin (laisse commenté si tu n’utilises pas .scss)
+  // .enableSassLoader()
 
-    // enables Sass/SCSS support
-    //.enableSassLoader()
+  // PostCSS (indispensable pour Tailwind v4)
+  .enablePostCssLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+  // ================= Watch =================
+  // Ignore node_modules et /public/build pour accélérer le watch
+  .configureWatchOptions((watchOptions) => {
+    watchOptions.ignored = ['**/node_modules/**', '**/public/build/**'];
+  });
 
-    // uncomment if you use React
-    //.enableReactPreset()
-
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
-
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
-    .enablePostCssLoader()
-    .configureWatchOptions(watchOptions => {
-        // Utilisez des glob strings, pas des RegExp
-        watchOptions.ignored = [
-            '**/node_modules/**',
-            '**/public/build/**'
-        ];
-    })
-    ;
-;
-
+// Export de la config
 module.exports = Encore.getWebpackConfig();

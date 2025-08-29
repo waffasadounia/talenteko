@@ -1,0 +1,16 @@
+{
+  // Désactive les faux warnings du validateur CSS intégré
+  "css.validate": false,
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+
+  // Associe UNIQUEMENT tes CSS du dossier assets/styles à PostCSS
+  "files.associations": {
+    "**/assets/styles/*.css": "postcss"
+  },
+
+  // Améliore les suggestions de classes Tailwind
+  "tailwindCSS.emmetCompletions": true,
+  "editor.quickSuggestions": { "strings": true }
+}

@@ -1,10 +1,9 @@
 import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
+
+// Import indispensable pour que Webpack Encore prenne en compte Tailwind
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+// ... mon JS éventuel
+// - Je pourrai ajouter Stimulus ou mon JS métier plus tard
+// - Ici, mon log de test
+console.log('Ceci provient de assets/app.js - bienvenue sur AssetMapper ! 🎉');
