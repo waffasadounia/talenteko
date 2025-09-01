@@ -1,9 +1,16 @@
-{# Layout de base (définitivement en block "body") #}
+{# Layout de base #}
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}TalentÉkô{% endblock %}</title>
+     {# Responsive mobile #}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+{# 👇 Évite que /styleguide/... apparaisse sur Google. #}
+    {% if app.request.pathinfo starts with '/styleguide' %}
+      <meta name="robots" content="noindex, nofollow">
+    {% endif %}
 
     {# Favicons #}
     <link rel="icon" type="image/png" href="{{ asset('images/faviconTalenteko.png') }}">
