@@ -1,0 +1,5 @@
+# .gitattributes
+* text=auto eol=lf
+
+# (optionnel) exceptions
+*.bat text eol=crlf
