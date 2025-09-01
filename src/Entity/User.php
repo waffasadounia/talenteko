@@ -9,7 +9,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Listing;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email.')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -79,11 +81,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-        return $this;
-    }
+   public function setEmail(string $email): static
+{
+    // évite les doublons Jean@… vs jean@…
+    $this->email = mb_strtolower($email);
+    return $this;
+}
+
 
     public function getUserIdentifier(): string
     {
@@ -122,14 +126,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // (legacy) Nettoyage des creds temporaires
-    #[\Deprecated]
     public function eraseCredentials(): void
-    {
-        // Exemple si tu avais un champ plainPassword:
-        // $this->plainPassword = null;
-    }
-
+{
+    // Exemple s'il y avait un champ temporaire :
+    // $this->plainPassword = null;
+}
     // === Profil (getters/setters) ===
     public function getFirstname(): ?string
     {
@@ -218,5 +219,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     return $this;
 }
-
+public function __toString(): string
+{
+    return $this->email ?? 'Utilisateur';
 }
+}
+
