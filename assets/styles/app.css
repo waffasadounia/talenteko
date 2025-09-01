@@ -1,7 +1,5 @@
 /* ===========================================
    THEME TALENTÉKÔ — Tailwind v4 (@theme)
-   - Expose les couleurs/polices sous forme de tokens CSS.
-   - Permet d'utiliser: bg-talenteko-orange-700, text-talenteko-blue, etc.
    =========================================== */
 @theme {
   /* Couleur de texte principale */
@@ -9,7 +7,7 @@
 
   /* Orange de marque (niveaux) */
   --color-talenteko-orange-400: #E8926A; /* clair: bordures, badges */
-  --color-talenteko-orange-500: #DB8050; /* brand */
+  --color-talenteko-orange-500: #D6713C; /* brand (officiel) */
   --color-talenteko-orange-600: #C46F45; /* +sombre */
   --color-talenteko-orange-700: #B35F3A; /* AA avec texte blanc (CTA plein) */
   --color-talenteko-orange-800: #994F2E; /* hover sombre (CTA plein) */
@@ -19,51 +17,93 @@
   --color-talenteko-peach-200: #FDF5F1;
   --color-talenteko-peach-300: #FDFAF9;
 
-  /* Alias rétro-compatibles (pour tes anciennes classes) */
+  /* Alias rétro-compatibles (pour anciennes classes) */
   --color-fondPeche: var(--color-talenteko-peach-200);
   --color-bleuFonce: var(--color-talenteko-blue);
   --color-orangePeche: var(--color-talenteko-orange-500);
 
-  /* Polices (si tu veux des utilitaires font-*) */
+  /* Polices */
   --font-montserrat: "Montserrat", sans-serif;
   --font-catamaran: "Catamaran", sans-serif;
   --font-chivo: "Chivo", sans-serif;
 }
 
-/* ===========================================
-   Import Tailwind v4 (base, components, utilities)
-   =========================================== */
+/* Import Tailwind */
 @import "tailwindcss";
 
-/* ===========================================
-   Polices Google (cohérent avec le thème)
-   =========================================== */
+/* Polices Google */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
 
-/* ===========================================
-   SAFELIST — version "no-conflict"
-   - Chaque classe applique UN SEUL utilitaire Tailwind.
-   - Elles ne sont jamais utilisées dans ton HTML (juste pour forcer la build).
-   - On les met dans @layer utilities pour garder la bonne priorité.
-   =========================================== */
+/* SAFELIST utilitaires (facultatif) */
 @layer utilities {
-  /* CTA plein (Se connecter) */
-  .tw-sf-bg-orange-700         { @apply bg-talenteko-orange-700; }
-  .tw-sf-hover-bg-orange-800   { @apply hover:bg-talenteko-orange-800; }
-  .tw-sf-text-white            { @apply text-white; }
-  .tw-sf-focus-ring            { @apply focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-700; }
+  /* Alias pratiques */
+  .text-orangePeche  { @apply text-talenteko-orange-500; }
+  .border-orangePeche{ @apply border-talenteko-orange-500; }
+  .ring-orangePeche  { @apply ring-talenteko-orange-700; }
 
-  /* CTA outline (Déposer une annonce) */
-  .tw-sf-border-orange-500     { @apply border-talenteko-orange-500; }
-  .tw-sf-text-orange-500       { @apply text-talenteko-orange-500; }
-  .tw-sf-hover-bg-peach-200    { @apply hover:bg-talenteko-peach-200; }
+  /* Échantillons pour forcer la génération */
+  .tw-sf-bg-orange-700       { @apply bg-talenteko-orange-700; }
+  .tw-sf-hover-bg-orange-800 { @apply hover:bg-talenteko-orange-800; }
+  .tw-sf-text-white          { @apply text-white; }
+  .tw-sf-focus-ring          { @apply focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-700; }
 
-  /* Tokens utilisés dans le header */
-  .tw-sf-text-blue             { @apply text-talenteko-blue; }
-  .tw-sf-bg-peach-100          { @apply bg-talenteko-peach-100; }
+  .tw-sf-border-orange-500   { @apply border-talenteko-orange-500; }
+  .tw-sf-text-orange-500     { @apply text-talenteko-orange-500; }
+  .tw-sf-hover-bg-peach-200  { @apply hover:bg-talenteko-peach-200; }
+
+  .tw-sf-text-blue           { @apply text-talenteko-blue; }
+  .tw-sf-bg-peach-100        { @apply bg-talenteko-peach-100; }
 }
 
-/* ===========================================
-   Styles custom existants (compat)
-   =========================================== */
+/* Compat existante */
 .text-primary-color { color: #141C2E; } /* = talenteko.blue */
+
+/* ===========================================
+   COMPONENTS — Boutons TalentÉkô
+   =========================================== */
+@layer components {
+  /* Bouton plein (CTA principal) */
+  .btn-primary {
+    @apply bg-talenteko-orange-500 text-white
+           px-4 py-2 rounded-full font-semibold inline-flex items-center gap-2
+           shadow-md
+           transition duration-200 ease-out will-change-transform
+           hover:-translate-y-0.5 hover:shadow-lg hover:bg-talenteko-orange-400
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
+  }
+
+  /* Bouton outline (CTA secondaire) */
+  .btn-outline {
+    @apply border border-talenteko-orange-500 text-talenteko-orange-500
+           px-4 py-2 rounded-full font-semibold inline-flex items-center gap-2
+           transition duration-200 ease-out
+           hover:bg-orange-100 hover:text-talenteko-orange-500
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
+  }
+
+/* Bouton lien (CTA tertiaire) */
+.btn-link {
+  @apply text-talenteko-orange-500 font-semibold
+         inline-flex items-center gap-1
+           transition duration-200 ease-out
+           hover:underline hover:text-talenteko-orange-600
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
+  }
+  /*Helpers*/
+  .btn-sm { @apply text-sm px-3 py-1.5; }
+  .btn-lg { @apply text-base px-5 py-3; }
+  .btn-icon { @apply p-2 rounded-full inline-flex items-center justify-center; } /* icône seule */
+  .btn-block { @apply w-full justify-center; } /* pleine largeur (mobile/form) */
+  .btn-loading { @apply opacity-70 pointer-events-none; } /* état attente */
+  .is-disabled { @apply opacity-50 pointer-events-none; }  /* état désactivé */
+
+  /* Liens de navigation (header) */
+  .nav-link {
+    @apply inline-flex items-center gap-2
+           text-talenteko-orange-500 font-semibold
+           py-2 transition-colors duration-150
+           hover:underline hover:text-talenteko-orange-600
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
+  }
+
+}

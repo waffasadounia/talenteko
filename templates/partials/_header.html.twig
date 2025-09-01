@@ -62,7 +62,7 @@
     <div class="flex items-center gap-4 shrink-0 whitespace-nowrap overflow-x-auto">
 
       {# Navigation principale #}
-      <nav aria-label="Navigation principale" class="flex items-center gap-6">
+      <nav aria-label="Navigation principale" class="flex items-center gap-6 py-3">
         <a href="{{ path('app_search') }}"
            class="text-[#E2865A] font-semibold hover:underline flex items-center gap-2">
           <i class="fa fa-search" aria-hidden="true"></i>
@@ -79,27 +79,17 @@
           <span>Messages</span>
         </a>
       </nav>
-{# CTA : Déposer une annonce — OUTLINE #}
-<a href="#"
-   class="border border-talenteko-orange-500 text-talenteko-orange-500
-          px-4 py-2 rounded-full font-semibold transition
-          hover:bg-talenteko-peach-200
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-700"
-   aria-label="Déposer une annonce">
+{# CTA : Déposer une annonce — OUTLINE amélioré #}
+<a href="{{ path('app_annonce_new') }}" class="btn-outline" aria-label="Déposer une annonce">
   + Déposer une annonce
 </a>
 
-{# Plein — fond 700 (AA) + hover 800 #}
-<a href="{{ path('app_login') }}"
-   class="bg-talenteko-orange-500 text-white
-          px-4 py-2 rounded-full font-semibold transition flex items-center gap-2
-          hover:bg-talenteko-orange-800
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-700"
-   aria-label="Se connecter à votre compte">
+
+{# CTA : Se connecter — lift + ombre (pas de débordement) #}
+<a href="{{ path('app_login') }}" class="btn-primary" aria-label="Se connecter à votre compte">
   <i class="fa fa-user" aria-hidden="true"></i>
   <span>Se connecter</span>
 </a>
-
     </div>
   </div>
   {# BARRE DE CATÉGORIES — fidèle à ta maquette (ligne séparatrice sous le header)

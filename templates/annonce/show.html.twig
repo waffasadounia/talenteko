@@ -1,5 +1,6 @@
-{# 
-  Page DÉTAIL (mise en forme légère, cohérente avec ton design).
+{# templates/annonce/show.html.twig #}
+{#
+  Page DÉTAIL (mise en forme légère).
   Variable attendue : "annonce" (title, description, category, user.name, ville, type, createdAt).
 #}
 {% extends 'base.html.twig' %}
@@ -7,7 +8,8 @@
 {# <title> pour l’onglet navigateur #}
 {% block title %}{{ annonce.title }} | TalentÉkô{% endblock %}
 
-{% block content %}
+{# IMPORTANT : utiliser "body" (pas "content") pour coller à base.html.twig #}
+{% block body %}
   {# ===== Bandeau d’en-tête : breadcrumb + titre ===== #}
   <section class="bg-[#FFF6F2] py-8">
     <div class="max-w-6xl mx-auto px-4">
@@ -23,9 +25,11 @@
         {{ annonce.title }}
       </h1>
 
-      {# Meta infos simples si dispo (catégorie + ville) #}
+      {# Meta infos (catégorie + ville) sécurisées #}
       <div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
-        <span>Catégorie : <strong>{{ annonce.category }}</strong></span>
+        {% if annonce.category is defined and annonce.category %}
+          <span>Catégorie : <strong>{{ annonce.category }}</strong></span>
+        {% endif %}
         {% if annonce.ville is defined and annonce.ville %}
           <span>Ville : <strong>{{ annonce.ville }}</strong></span>
         {% endif %}
@@ -40,19 +44,20 @@
       {# Colonne gauche : image + description #}
       <div class="md:col-span-2 space-y-6">
 
-        {# Image placeholder (à remplacer par une vraie image plus tard) #}
+        {# Image placeholder #}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <img 
-            src="{{ asset('images/placeholder.png') }}" 
+          <img
+            src="{{ asset('images/placeholder.png') }}"
             alt="Image de l’annonce"
             class="w-full h-72 object-cover"
+            onerror="this.onerror=null;this.src='{{ asset('images/placeholder.png') }}';"
           >
         </div>
 
-        {# Bloc Description #}
+        {# Bloc Description (sans plugin Typography pour éviter dépendances) #}
         <article class="bg-white border border-gray-200 rounded-xl p-6">
           <h2 class="text-xl font-bold mb-3 text-primary-color">Description</h2>
-          <div class="prose max-w-none text-gray-800">
+          <div class="max-w-none text-gray-800 leading-relaxed whitespace-pre-line">
             {{ annonce.description }}
           </div>
         </article>
@@ -65,10 +70,10 @@
           <div class="flex items-center gap-3">
             {# Avatar simple basé sur l'initiale du nom #}
             <div class="w-10 h-10 bg-[#F7F4E7] text-[#D6713C] rounded-full flex items-center justify-center font-bold">
-              {{ annonce.user.name|slice(0,1)|upper }}
+              {{ (annonce.user.name ?? 'M')|slice(0,1)|upper }}
             </div>
             <div>
-              <div class="font-semibold text-[#141C2E]">{{ annonce.user.name }}</div>
+              <div class="font-semibold text-[#141C2E]">{{ annonce.user.name ?? 'Membre' }}</div>
               {% if annonce.ville is defined and annonce.ville %}
                 <div class="text-sm text-gray-500">{{ annonce.ville }}</div>
               {% endif %}
