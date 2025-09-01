@@ -1,32 +1,46 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route; // cohérent avec tes autres contrôleurs
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+final class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    /**
+     * Page de connexion (GET pour afficher, POST pour laisser le firewall traiter la soumission).
+     * Le firewall `form_login` interceptera le POST sur la même route (check_path = login_path).
+     */
+    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
+    public function login(AuthenticationUtils $auth): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        // Déjà connecté ? On renvoie vers l’accueil (évite de revoir le formulaire)
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        // Récupère la dernière erreur éventuelle et le dernier identifiant saisi
+        $error = $auth->getLastAuthenticationError();
+        $lastUsername = $auth->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
+    /**
+     * Déconnexion : **ne sera jamais exécutée**.
+     * Le firewall interceptera cette route (config `logout` dans security.yaml).
+     */
+    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException(
+            'Cette méthode est vide : la déconnexion est gérée par le firewall (security.yaml).'
+        );
     }
 }

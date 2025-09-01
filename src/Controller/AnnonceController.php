@@ -7,6 +7,8 @@ use App\Entity\Listing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class AnnonceController extends AbstractController
 {
@@ -15,6 +17,7 @@ final class AnnonceController extends AbstractController
      * Route statique prioritaire, pas de collision avec {slug}.
      */
     #[Route('/annonce/nouvelle', name: 'app_annonce_new', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')] 
     public function new(): Response
     {
         return $this->render('annonce/new.html.twig', [

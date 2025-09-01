@@ -1,53 +1,60 @@
+{# templates/security/login.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion | TalentÉkô{% endblock %}
+{% block title %}Se connecter | TalentÉkô{% endblock %}
 
-{% block content %}
-  <div class="min-h-[70vh] flex items-center justify-center bg-white px-4">
-    <div class="bg-white shadow-lg rounded-xl p-8 max-w-md w-full border border-gray-200">
-      <h1 class="text-2xl font-bold text-center text-[#E2865A] mb-6">Connexion</h1>
+{% block body %}
+<section class="bg-talenteko-peach-100 py-16">
+  <div class="max-w-md mx-auto px-6">
+    <h1 class="text-3xl font-bold text-primary-color mb-6 text-center">Se connecter</h1>
 
-      {% if error %}
-        <div class="bg-red-100 text-red-700 text-sm p-3 rounded mb-4">
-          {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-      {% endif %}
+    {% if error %}
+      <div class="mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 p-3">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+      </div>
+    {% endif %}
 
-      {% if app.user %}
-        <div class="mb-4 text-sm text-green-600">
-          Connecté en tant que {{ app.user.userIdentifier }}. 
-          <a href="{{ path('app_logout') }}" class="underline text-blue-600">Se déconnecter</a>
-        </div>
-      {% endif %}
+    {% if app.user %}
+      <div class="mb-4 text-sm rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
+        Connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>.
+        <a href="{{ path('app_logout') }}" class="btn-link">Se déconnecter</a>
+      </div>
+    {% endif %}
 
-      <form method="post" class="space-y-5">
+    <div class="rounded-2xl border bg-white p-6 shadow-sm">
+      <form method="post" action="{{ path('app_login') }}" class="space-y-5" novalidate>
         <div>
-          <label for="inputEmail" class="block text-sm font-medium text-gray-700">Adresse email</label>
-          <input type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus
-                 class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-[#E2865A] focus:border-[#E2865A]">
+          <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
+          <input id="email" name="email" type="email" required autocomplete="email"
+                 value="{{ last_username|default('') }}"
+                 class="mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500" />
         </div>
 
         <div>
-          <label for="inputPassword" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-          <input type="password" name="password" id="inputPassword" autocomplete="current-password" required
-                 class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-[#E2865A] focus:border-[#E2865A]">
+          <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+          <input id="password" name="password" type="password" required autocomplete="current-password"
+                 class="mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500" />
         </div>
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
         <div class="flex items-center justify-between text-sm">
-          <label class="flex items-center space-x-2">
-            <input type="checkbox" name="_remember_me" class="rounded">
-            <span>Se souvenir de moi</span>
+          <label class="inline-flex items-center gap-2 text-gray-600">
+            <input type="checkbox" name="_remember_me"
+                   class="rounded border-gray-300 text-talenteko-orange-500 focus:ring-talenteko-orange-500">
+            Se souvenir de moi
           </label>
-          <a href="#" class="text-[#E2865A] hover:underline">Mot de passe oublié ?</a>
+          <a href="#" class="btn-link">Mot de passe oublié ?</a>
         </div>
 
-        <button type="submit"
-                class="w-full bg-[#E2865A] text-white font-semibold py-2 rounded-full hover:bg-orange-600 transition">
-          Se connecter
-        </button>
+        <button type="submit" class="btn-primary btn-block">Se connecter</button>
       </form>
+
+      <p class="text-sm text-gray-600 mt-6 text-center">
+        Pas encore de compte ?
+        <a href="#" class="btn-link">Créer un compte</a>
+      </p>
     </div>
   </div>
+</section>
 {% endblock %}
