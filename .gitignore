@@ -1,7 +1,9 @@
 ###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
+# Local overrides & secrets (ne jamais committer)
+.env.local
+.env.*.local
+.env.local.php
+
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -19,3 +21,8 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 tailwindcss.exe
+
+# Local overrides & secrets
+.env.local
+.env.*.local
+.env.local.php
