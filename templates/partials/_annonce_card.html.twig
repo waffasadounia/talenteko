@@ -2,74 +2,107 @@
 {#   Carte annonce (partial)  #}
 {# ========================== #}
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col justify-between hover:shadow-md transition">
+{# 
+  Conteneur carte :
+  - "group" permet de faire des effets group-hover (ex: zoom image)
+  - focus-visible:ring : accessibilité clavier
+#}
+<article class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition hover:shadow-md">
+  <a href="{{ path('app_listing_show', { slug: annonce.slug }) }}"
+     class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500"
+     aria-label="Voir l'annonce {{ annonce.title }}">
 
-  {# === Image de couverture === #}
-  <div class="relative mb-3">
-    {# Image par défaut (placeholder.png). Plus tard on mettra l’image réelle #}
-    <img src="{{ asset('images/placeholder.png') }}" alt="Image annonce" class="w-full h-36 object-cover rounded-lg">
-
-    {# Bouton favoris (icône cœur). Fonctionnel plus tard. #}
-    <button aria-label="Ajouter aux favoris" class="absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
-        5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
-        3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 
-        8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-      </svg>
-    </button>
-  </div>
-
-  {# === Titre + description === #}
-  <div class="mb-4">
-    <h3 class="text-md font-semibold text-[#141C2E] leading-tight mb-1">
-      {# Le titre est cliquable. On envoie vers la route "app_listing_show" avec le slug de l’annonce. #}
-      <a href="{{ path('app_listing_show', { slug: annonce.slug }) }}">
-        {{ annonce.title }}
-      </a>
-    </h3>
-
-    {# Description courte #}
-    <p class="text-sm text-gray-600 line-clamp-2">{{ annonce.description }}</p>
-  </div>
-
-  {# === Auteur + Ville === #}
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-2">
-      {# Avatar : première lettre du prénom de l’auteur #}
-      <div class="w-7 h-7 bg-[#F7F4E7] text-[#D6713C] rounded-full flex items-center justify-center text-xs font-bold">
-        {{ annonce.user.name|slice(0,1)|upper }}
+    {# === Image de couverture === #}
+    <div class="relative">
+      {# Image par défaut (placeholder.png). Plus tard on mettra l’image réelle #}
+      <div class="aspect-video bg-talenteko-peach-200">
+        <img 
+          src="{{ asset('images/placeholder.png') }}" 
+          alt="Image de l’annonce"
+          class="w-full h-full object-cover transition group-hover:scale-[1.02]"
+          onerror="this.onerror=null;this.src='{{ asset('images/placeholder.png') }}';"
+        >
       </div>
-      {# Nom complet de l’auteur #}
-      <span class="text-sm font-semibold text-[#141C2E]">{{ annonce.user.name }}</span>
+
+      {# Bouton favoris (icône cœur). Fonctionnel plus tard.
+         - aria-pressed="false" par défaut (toggle plus tard)
+         - aria-label descriptif
+      #}
+      <button type="button"
+              aria-label="Ajouter aux favoris"
+              aria-pressed="false"
+              class="absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-talenteko-orange-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
+          5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
+          3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 
+          8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </button>
     </div>
 
-    {# Ville de l’annonce #}
-    <div class="text-sm text-gray-500">{{ annonce.ville }}</div>
-  </div>
+    {# === Corps carte === #}
+    <div class="p-4 flex flex-col gap-3">
 
-  {# === Étoiles (notation) === #}
-  <div class="mt-2 text-yellow-400 flex gap-0.5">
-    {# On affiche 5 étoiles max #}
-    {% for i in 1..5 %}
-      {% if i <= annonce.stars %}
-        {# Étoile pleine #}
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.2 3.686a1 1 0 0 0 .95.69h3.873c.969 0 1.371 1.24.588 1.81l-3.13 2.276a1 1 0 0 0-.364 1.118l1.2 3.686c.3.921-.755 1.688-1.538 1.118l-3.13-2.276a1 1 0 0 0-1.176 0l-3.13 2.276c-.783.57-1.838-.197-1.538-1.118l1.2-3.686a1 1 0 0 0-.364-1.118L2.34 9.113c-.783-.57-.38-1.81.588-1.81h3.873a1 1 0 0 0 .95-.69l1.2-3.686z"/>
-        </svg>
-      {% else %}
-        {# Étoile vide #}
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927l1.2 3.686a1 1 0 0 0 .95.69h3.873c.969 0 1.371 1.24.588 1.81l-3.13 2.276a1 1 0 0 0-.364 1.118l1.2 3.686c.3.921-.755 1.688-1.538 1.118l-3.13-2.276a1 1 0 0 0-1.176 0l-3.13 2.276c-.783.57-1.838-.197-1.538-1.118l1.2-3.686a1 1 0 0 0-.364-1.118L2.34 9.113c-.783-.57-.38-1.81.588-1.81h3.873a1 1 0 0 0 .95-.69l1.2-3.686c.3-.921 1.603-.921 1.902 0z"/>
-        </svg>
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
+      {# === Titre + description === #}
+      <div>
+        <h3 class="text-md font-semibold text-primary-color leading-tight mb-1">
+          {# Le titre est cliquable. On envoie vers la route "app_listing_show" avec le slug de l’annonce. #}
+          <span>{{ annonce.title }}</span>
+        </h3>
+
+        {# Description courte 
+           - Si Tailwind line-clamp N'EST PAS activé, on utilise une troncature CSS compatible.
+           - Remplace "style" par "line-clamp-2" si tu as le plugin.
+        #}
+        <p class="text-sm text-gray-600 overflow-hidden text-ellipsis"
+           style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">
+          {{ annonce.description }}
+        </p>
+      </div>
+
+      {# === Auteur + Ville === #}
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          {# Avatar : première lettre du prénom de l’auteur #}
+          <div class="w-7 h-7 bg-[#F7F4E7] text-talenteko-orange-500 rounded-full flex items-center justify-center text-xs font-bold">
+            {{ (annonce.user.name ?? 'M')|slice(0,1)|upper }}
+          </div>
+          {# Nom complet de l’auteur #}
+          <span class="text-sm font-semibold text-primary-color">{{ annonce.user.name ?? 'Membre' }}</span>
+        </div>
+
+        {# Ville de l’annonce (affichée seulement si présente) #}
+        {% if annonce.ville is defined and annonce.ville %}
+          <div class="text-sm text-gray-500">{{ annonce.ville }}</div>
+        {% endif %}
+      </div>
+
+      {# === Étoiles (notation) === #}
+      <div class="text-yellow-400 flex gap-0.5" aria-label="Note indicative">
+        {# On affiche 5 étoiles max #}
+        {% set score = annonce.stars ?? 0 %}
+        {% for i in 1..5 %}
+          {% if i <= score %}
+            {# Étoile pleine #}
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.2 3.686a1 1 0 0 0 .95.69h3.873c.969 0 1.371 1.24.588 1.81l-3.13 2.276a1 1 0 0 0-.364 1.118l1.2 3.686c.3.921-.755 1.688-1.538 1.118l-3.13-2.276a1 1 0 0 0-1.176 0l-3.13 2.276c-.783.57-1.838-.197-1.538-1.118l1.2-3.686a1 1 0 0 0-.364-1.118L2.34 9.113c-.783-.57-.38-1.81.588-1.81h3.873a1 1 0 0 0 .95-.69l1.2-3.686z"/>
+            </svg>
+          {% else %}
+            {# Étoile vide #}
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927l1.2 3.686a1 1 0 0 0 .95.69h3.873c.969 0 1.371 1.24.588 1.81l-3.13 2.276a1 1 0 0 0-.364 1.118l1.2 3.686c.3.921-.755 1.688-1.538 1.118l-3.13-2.276a1 1 0 0 0-1.176 0l-3.13 2.276c-.783.57-1.838-.197-1.538-1.118l1.2-3.686a1 1 0 0 0-.364-1.118L2.34 9.113c-.783-.57-.38-1.81.588-1.81h3.873a1 1 0 0 0 .95-.69l1.2-3.686z"/>
+            </svg>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </a>
+</article>
+
 {# Note : pour l’instant, on utilise des données statiques (mock data) pour les annonces.
    Plus tard, on utilisera les vraies données passées depuis le contrôleur. #}
 {# Exemple d’utilisation dans une boucle :
    {% for annonce in annonces %}
      {% include 'partials/_annonce_card.html.twig' with { annonce: annonce } %}
    {% endfor %} #}
-   

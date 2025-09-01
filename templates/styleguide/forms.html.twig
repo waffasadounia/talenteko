@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Styleguide — Formulaires | TalentÉkô{% endblock %}
+
+{% block body %}
+{% include 'styleguide/_nav.html.twig' %}
+
+<main class="container mx-auto px-6 py-12 space-y-12">
+  <header class="space-y-2">
+    <h1 class="text-3xl font-bold text-primary-color">Styleguide — Formulaires</h1>
+    <p class="text-gray-600">Composants de formulaires accessibles (labels, aide, erreurs, focus). Sans JS.</p>
+  </header>
+
+  {# Champs texte #}
+  <section class="space-y-6">
+    <h2 class="text-xl font-semibold">Champs texte</h2>
+
+    <form class="grid gap-6 md:grid-cols-2" novalidate>
+      {# Nom (normal) #}
+      <div class="space-y-2">
+        <label for="sg-name" class="block font-semibold text-[#141C2E]">Nom</label>
+        <input id="sg-name" name="name" type="text" placeholder="Votre nom"
+               class="w-full rounded-xl border border-gray-300 px-4 py-2 outline-none
+                      focus:border-talenteko-orange-500 focus:ring-2 focus:ring-talenteko-orange-500
+                      transition"
+               aria-describedby="sg-name-help">
+        <p id="sg-name-help" class="text-sm text-gray-500">Saisis ton nom complet.</p>
+      </div>
+
+      {# Email (état erreur) #}
+      <div class="space-y-2">
+        <label for="sg-email" class="block font-semibold text-[#141C2E]">Email</label>
+        <input id="sg-email" name="email" type="email" value="exemple@"
+               class="w-full rounded-xl border px-4 py-2 outline-none
+                      border-red-400 text-red-800 bg-red-50
+                      focus:border-red-500 focus:ring-2 focus:ring-red-400
+                      transition"
+               aria-invalid="true" aria-describedby="sg-email-error sg-email-help">
+        <p id="sg-email-error" class="text-sm text-red-700">Adresse email invalide.</p>
+        <p id="sg-email-help" class="text-sm text-gray-500">Format attendu : nom@domaine.tld</p>
+      </div>
+
+      {# Ville (select) #}
+      <div class="space-y-2">
+        <label for="sg-city" class="block font-semibold text-[#141C2E]">Ville</label>
+        <select id="sg-city" name="city"
+                class="w-full rounded-xl border border-gray-300 px-4 py-2 outline-none
+                       focus:border-talenteko-orange-500 focus:ring-2 focus:ring-talenteko-orange-500
+                       transition">
+          <option value="">Choisir…</option>
+          <option>Paris</option>
+          <option>Lyon</option>
+          <option>Marseille</option>
+        </select>
+      </div>
+
+      {# Description (textarea) #}
+      <div class="space-y-2">
+        <label for="sg-desc" class="block font-semibold text-[#141C2E]">Description</label>
+        <textarea id="sg-desc" name="desc" rows="4" placeholder="Décris ton annonce…"
+                  class="w-full rounded-xl border border-gray-300 px-4 py-2 outline-none
+                         focus:border-talenteko-orange-500 focus:ring-2 focus:ring-talenteko-orange-500
+                         transition"></textarea>
+        <p class="text-sm text-gray-500">Max. 500 caractères.</p>
+      </div>
+
+      {# Désactivé #}
+      <div class="space-y-2">
+        <label for="sg-disabled" class="block font-semibold text-[#141C2E]">Champ désactivé</label>
+        <input id="sg-disabled" type="text" disabled value="Inactif"
+               class="w-full rounded-xl border px-4 py-2 outline-none
+                      border-gray-200 bg-gray-100/70 text-gray-500 cursor-not-allowed">
+      </div>
+    </form>
+  </section>
+
+  {# Cases à cocher / Radios #}
+  <section class="space-y-6">
+    <h2 class="text-xl font-semibold">Choix (checkbox / radio)</h2>
+
+    <div class="grid gap-8 md:grid-cols-2">
+      <fieldset class="space-y-3">
+        <legend class="font-semibold text-[#141C2E]">Catégories</legend>
+        <label class="flex items-center gap-3">
+          <input type="checkbox" class="h-4 w-4 rounded border-gray-300
+                 text-talenteko-orange-500 focus:ring-talenteko-orange-500">
+          <span>Musique</span>
+        </label>
+        <label class="flex items-center gap-3">
+          <input type="checkbox" class="h-4 w-4 rounded border-gray-300
+                 text-talenteko-orange-500 focus:ring-talenteko-orange-500">
+          <span>Cuisine</span>
+        </label>
+        <label class="flex items-center gap-3">
+          <input type="checkbox" class="h-4 w-4 rounded border-gray-300
+                 text-talenteko-orange-500 focus:ring-talenteko-orange-500">
+          <span>Sport</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="space-y-3">
+        <legend class="font-semibold text-[#141C2E]">Type d’annonce</legend>
+        <label class="flex items-center gap-3">
+          <input type="radio" name="type" class="h-4 w-4 border-gray-300
+                 text-talenteko-orange-500 focus:ring-talenteko-orange-500" checked>
+          <span>Propose</span>
+        </label>
+        <label class="flex items-center gap-3">
+          <input type="radio" name="type" class="h-4 w-4 border-gray-300
+                 text-talenteko-orange-500 focus:ring-talenteko-orange-500">
+          <span>Recherche</span>
+        </label>
+      </fieldset>
+    </div>
+  </section>
+
+  {# Actions #}
+  <section class="space-y-6">
+    <h2 class="text-xl font-semibold">Actions</h2>
+    <div class="flex flex-wrap items-center gap-4">
+      <button type="button" class="btn-primary">
+        <i class="fa fa-check" aria-hidden="true"></i>
+        Valider
+      </button>
+      <button type="button" class="btn-outline">Annuler</button>
+      <a href="{{ path('app_home') }}" class="btn-link">← Retour à l’accueil</a>
+    </div>
+    <p class="text-sm text-gray-500">Les boutons réutilisent ton kit `.btn-*`.</p>
+  </section>
+
+  {# États focus démonstration #}
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">Focus & aides</h2>
+    <p class="text-gray-600">Utilise <kbd>Tab</kbd> pour naviguer. Les champs affichent un anneau de focus orange, et les aides sont reliées via <code>aria-describedby</code>.</p>
+  </section>
+</main>
+{% endblock %}

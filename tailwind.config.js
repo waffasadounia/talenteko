@@ -13,7 +13,7 @@ module.exports = {
     "./assets/styles/**/*.css",
   ],
 
-  // --- FORCE l’inclusion de classes critiques, même si l’analyse rate des .twig ---
+  // FORCE l’inclusion de classes critiques si l’analyse rate des .twig
   safelist: [
     // CTA "Se connecter" (plein)
     "bg-talenteko-orange-700",
@@ -25,7 +25,7 @@ module.exports = {
     "text-talenteko-orange-500",
     "hover:bg-talenteko-peach-200",
 
-    // Tokens qu’on utilise souvent dans le header/nav
+    // Tokens header/nav
     "text-talenteko-blue",
     "bg-talenteko-peach-100",
     "bg-talenteko-peach-200",
@@ -41,20 +41,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // --- ALIAS rétro-compatibles ---
+        // ALIAS rétro-compatibles
         bleuFonce: "#141C2E",
         orangePeche: "#D6713C",
         fondPeche: "#FDF5F1",
 
-        // --- PALETTE OFFICIELLE TALENTÉKÔ (ta version) ---
+        // PALETTE OFFICIELLE TALENTÉKÔ
         talenteko: {
           blue: "#141C2E",
           orange: {
             400: "#E8926A",
-            500: "#DB8050",
+            500: "#D6713C", // aligne sur la couleur officielle
             600: "#C46F45",
-            700: "#B35F3A", // ajouté pour AA avec texte blanc
-            800: "#994F2E", // hover sombre
+            700: "#B35F3A",
+            800: "#994F2E",
           },
           peach: {
             100: "#FBF1EC",

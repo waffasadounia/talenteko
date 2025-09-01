@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Styleguide — CTA | TalentÉkô{% endblock %}
+
+{% block body %}
+{% include 'styleguide/_nav.html.twig' %}
+
+<main class="container mx-auto px-6 py-12 space-y-12">
+  <header class="space-y-2">
+    <h1 class="text-3xl font-bold text-primary-color">Styleguide — Boutons (CTA)</h1>
+    <p class="text-gray-600">Variantes réutilisables : primary, outline, link, tailles, états. Focus et hover accessibles respectés.</p>
+  </header>
+
+  {# Variantes de base #}
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold">Variantes</h2>
+    <div class="flex flex-wrap items-center gap-4">
+      <a href="#" class="btn-primary" aria-label="Exemple bouton primary">
+        <i class="fa fa-user" aria-hidden="true"></i><span>Primary</span>
+      </a>
+      <a href="#" class="btn-outline" aria-label="Exemple bouton outline">
+        <i class="fa fa-plus" aria-hidden="true"></i><span>Outline</span>
+      </a>
+      <a href="#" class="btn-link" aria-label="Exemple bouton lien">Lien (tertiaire)</a>
+    </div>
+    <p class="text-sm text-gray-500">Primary = CTA fort · Outline = CTA secondaire · Link = action de texte.</p>
+  </section>
+
+  {# Tailles #}
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold">Tailles</h2>
+    <div class="flex flex-wrap items-center gap-4">
+      <a class="btn-primary btn-sm" href="#" aria-label="Primary petit">Primary .btn-sm</a>
+      <a class="btn-primary" href="#" aria-label="Primary normal">Primary</a>
+      <a class="btn-primary btn-lg" href="#" aria-label="Primary grand">Primary .btn-lg</a>
+    </div>
+    <div class="flex flex-wrap items-center gap-4">
+      <a class="btn-outline btn-sm" href="#">Outline .btn-sm</a>
+      <a class="btn-outline" href="#">Outline</a>
+      <a class="btn-outline btn-lg" href="#">Outline .btn-lg</a>
+    </div>
+  </section>
+
+  {# Icône seule / Block #}
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold">Icônes & pleine largeur</h2>
+    <div class="flex flex-wrap items-center gap-4">
+      <button class="btn-icon bg-talenteko-orange-500 text-white" aria-label="Ouvrir le menu">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      <button class="btn-icon border border-talenteko-orange-500 text-talenteko-orange-500" aria-label="Ajouter en favori">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="max-w-md">
+      <a class="btn-primary btn-block" href="#" aria-label="Call to action pleine largeur">
+        <i class="fa fa-rocket" aria-hidden="true"></i><span>Lancer l’action</span>
+      </a>
+    </div>
+    <p class="text-sm text-gray-500">`.btn-icon` pour les boutons à icône seule · `.btn-block` pour la pleine largeur (mobile/form).</p>
+  </section>
+
+  {# États (disabled / loading) #}
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold">États</h2>
+    <div class="flex flex-wrap items-center gap-4">
+      <button class="btn-primary is-disabled" disabled aria-disabled="true">Primary (disabled)</button>
+      <button class="btn-outline is-disabled" disabled aria-disabled="true">Outline (disabled)</button>
+      <button class="btn-primary btn-loading" type="button" aria-busy="true">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        <span>Chargement…</span>
+      </button>
+    </div>
+    <p class="text-sm text-gray-500">`.is-disabled` désactive les interactions. `.btn-loading` baisse l’opacité et désactive le pointeur.</p>
+  </section>
+
+  {# Exemples concrets #}
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold">Exemples d’usage</h2>
+    <div class="flex flex-wrap items-center gap-4">
+      <a href="{{ path('app_annonce_new') }}" class="btn-primary">+ Déposer une annonce</a>
+      <a href="#tendances" class="btn-outline">Découvrir les talents</a>
+      <a href="{{ path('app_search') }}" class="btn-link">Voir toutes les annonces →</a>
+    </div>
+  </section>
+
+  {# Accessibilité (rappels) #}
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">Accessibilité</h2>
+    <ul class="list-disc pl-6 text-gray-800 space-y-1">
+      <li>Un seul <strong>CTA fort</strong> par zone.</li>
+      <li>Focus visible sur tous les CTA (déjà inclus dans les classes).</li>
+      <li>Icônes décoratives marquées <code>aria-hidden="true"</code> ; icônes d’action + texte = plus clair pour tous.</li>
+      <li>Animations discrètes ; possibles en <code>motion-safe:</code> si besoin.</li>
+    </ul>
+  </section>
+</main>
+{% endblock %}
