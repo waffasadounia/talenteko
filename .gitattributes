@@ -1,5 +1,26 @@
 # .gitattributes
+# Normaliser toutes les fins de ligne en LF dans le dépôt
 * text=auto eol=lf
 
-# (optionnel) exceptions
-*.bat text eol=crlf
+# Scripts Windows (gardent CRLF côté working copy si besoin)
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Binaires (pas de normalisation)
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.eot  binary
+*.mp4  binary
+*.mov  binary
+
+# SVG : texto (diff lisible), on garde LF
+*.svg  text eol=lf
