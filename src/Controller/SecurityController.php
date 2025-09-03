@@ -5,24 +5,27 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route; // cohérent avec tes autres contrôleurs
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class SecurityController extends AbstractController
 {
     /**
-     * Page de connexion (GET pour afficher, POST pour laisser le firewall traiter la soumission).
-     * Le firewall `form_login` interceptera le POST sur la même route (check_path = login_path).
+     * Page de connexion.
+     * GET  : affiche le formulaire
+     * POST : laissé à l'authenticator personnalisé (App\Security\LoginFormAuthenticator)
+     *        qui intercepte la requête POST sur cette même route.
      */
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
     {
-        // Déjà connecté ? On renvoie vers l’accueil (évite de revoir le formulaire)
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_home');
+        // ✅ Si l'utilisateur est FULLY authentifié, on évite de réafficher le formulaire
+    if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        return $this->redirectToRoute('app_home');
         }
 
-        // Récupère la dernière erreur éventuelle et le dernier identifiant saisi
+         // ℹ️ IMPORTANT : si l'utilisateur n'est que "remembered",
+         // on lui DOIT laisser l'accès au formulaire pour "sur-authentifier" (FULLY).
         $error = $auth->getLastAuthenticationError();
         $lastUsername = $auth->getLastUsername();
 
@@ -33,8 +36,9 @@ final class SecurityController extends AbstractController
     }
 
     /**
-     * Déconnexion : **ne sera jamais exécutée**.
-     * Le firewall interceptera cette route (config `logout` dans security.yaml).
+     * Déconnexion :
+     * Cette action ne s'exécute jamais : elle est interceptée par la config "logout" du firewall
+     * (configurée dans security.yaml, section firewalls.main.logout).
      */
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void

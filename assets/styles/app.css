@@ -64,38 +64,39 @@
 @layer components {
   /* Bouton plein (CTA principal) */
   .btn-primary {
-    @apply bg-talenteko-orange-500 text-white
-           px-4 py-2 rounded-full font-semibold inline-flex items-center gap-2
-           shadow-md
-           transition duration-200 ease-out will-change-transform
-           hover:-translate-y-0.5 hover:shadow-lg hover:bg-talenteko-orange-400
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
+  @apply bg-talenteko-orange-500 text-white
+         px-4 py-2 rounded-full font-semibold inline-flex items-center gap-2
+         shadow-md transition duration-200 ease-out will-change-transform
+         hover:-translate-y-0.5 hover:shadow-lg hover:bg-talenteko-orange-500
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
+}
+
   }
 
   /* Bouton outline (CTA secondaire) */
   .btn-outline {
-    @apply border border-talenteko-orange-500 text-talenteko-orange-500
+    @apply bg-white border-2 border-talenteko-orange-500 text-talenteko-orange-500
            px-4 py-2 rounded-full font-semibold inline-flex items-center gap-2
-           transition duration-200 ease-out
-           hover:bg-orange-100 hover:text-talenteko-orange-500
+           shadow-md transition duration-200 ease-out will-change-transform
+           hover:-translate-y-0.5 hover:shadow-lg hover:border-talenteko-orange-400
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
   }
 
-/* Bouton lien (CTA tertiaire) */
-.btn-link {
-  @apply text-talenteko-orange-500 font-semibold
-         inline-flex items-center gap-1
+  /* Bouton lien (CTA tertiaire) */
+  .btn-link {
+    @apply text-talenteko-orange-500 font-semibold inline-flex items-center gap-1
            transition duration-200 ease-out
            hover:underline hover:text-talenteko-orange-600
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
   }
-  /*Helpers*/
-  .btn-sm { @apply text-sm px-3 py-1.5; }
-  .btn-lg { @apply text-base px-5 py-3; }
-  .btn-icon { @apply p-2 rounded-full inline-flex items-center justify-center; } /* icône seule */
-  .btn-block { @apply w-full justify-center; } /* pleine largeur (mobile/form) */
-  .btn-loading { @apply opacity-70 pointer-events-none; } /* état attente */
-  .is-disabled { @apply opacity-50 pointer-events-none; }  /* état désactivé */
+
+  /* Helpers */
+  .btn-sm   { @apply text-sm px-3 py-1.5; }
+  .btn-lg   { @apply text-base px-5 py-3; }
+  .btn-icon { @apply p-2 rounded-full inline-flex items-center justify-center; }
+  .btn-block{ @apply w-full justify-center; }
+  .btn-loading { @apply opacity-70 pointer-events-none; }
+  .is-disabled { @apply opacity-50 pointer-events-none; }
 
   /* Liens de navigation (header) */
   .nav-link {
@@ -106,4 +107,3 @@
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-talenteko-orange-500;
   }
 
-}
