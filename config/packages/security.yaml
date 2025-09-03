@@ -24,6 +24,7 @@ security:
 
       logout:
         path: app_logout
+        target: /              # ⬅️ après déconnexion, retourne à l'accueil
 
       remember_me:
         secret: '%kernel.secret%'
@@ -31,18 +32,22 @@ security:
         path: /
         # always_remember_me: true
 
-  # --- règles d'accès (⚠️ au même niveau que firewalls/providers) ---
+   # --- règles d'accès (⚠️ ordre important) ---
   access_control:
+    # Routes publiques nécessaires
+    - { path: ^/login$, roles: PUBLIC_ACCESS }    # ⬅️ page de connexion doit être accessible
+    - { path: ^/logout$, roles: PUBLIC_ACCESS }
+
     # Profiler/dev (public en dev)
     - { path: ^/_profiler, roles: PUBLIC_ACCESS }
     - { path: ^/_wdt, roles: PUBLIC_ACCESS }
-    
+
+    # Admin & styleguide
     - { path: ^/admin, roles: ROLE_ADMIN }
- # 👉 Styleguide réservé aux admins
     - { path: ^/styleguide, roles: ROLE_ADMIN }
 
-    # Déposer une annonce = authentification FORTE (mot de passe récent)
-    - { path: ^/annonce/nouvelle, roles: IS_AUTHENTICATED_FULLY }
+    # Déposer une annonce = authentification FORTE
+    - { path: ^/annonce/nouvelle$, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
   security:
