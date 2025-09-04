@@ -13,14 +13,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 /**
  * Contrôleur des annonces (lecture publique + dépôt).
  * Bonnes pratiques :
- * - Contrôleurs "fins" : on laisse Symfony gérer au maximum (MapEntity, 404 auto si introuvable)
  * - Routes explicites et contraintes claires (regex sur slug)
  * - Méthodes final class : immutabilité / pas d’héritage
  */
 final class AnnonceController extends AbstractController
 {
     /**
-     * Déposer une annonce (protégée)
+     * Déposer une annonce (protégé)
      * URL: /annonce/nouvelle
      * Name: app_annonce_new
      *

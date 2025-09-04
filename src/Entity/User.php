@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Listing;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email.')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -23,7 +24,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    // ✅ Identifiant de connexion (email unique)
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'Merci de saisir un email.')]
+    #[Assert\Email(message: 'Email invalide.')]
     private ?string $email = null;
 
     /**
@@ -35,18 +39,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column] // colonne non-nullable (cohérent avec l’auth)
+    private string $password = ''; //non nullable pour éviter les états invalides
 
     // === Profil ===
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $firstname = null;
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $pseudo = null;
 
     #[ORM\Column(length: 120, nullable: true)]
-    private ?string $city = null;
+    private ?string $location = null;
+
+    // texte libre de présentation
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $bio = null;
+
+    // listes souples (CSV côté formulaire → JSON stocké)
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $skills_offered = null;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $skills_wanted = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $avatarPath = null;
+    private ?string $avatarFilename = null;
 
     #[ORM\Column(type: 'float', options: ['default' => 0])]
     private float $ratingAvg = 0.0;
@@ -81,17 +96,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-   public function setEmail(string $email): static
-{
-    // évite les doublons Jean@… vs jean@…
-    $this->email = mb_strtolower($email);
-    return $this;
-}
-
+    public function setEmail(string $email): static
+    {
+        // évite les doublons Jean@… vs jean@…
+        $this->email = mb_strtolower($email);
+        return $this;
+    }
 
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
+    }
+
+    // Compat <5.3 si besoin par des bundles
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
     }
 
     // Roles
@@ -114,8 +134,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Password
-    public function getPassword(): ?string
+    // Password (hash)
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -127,41 +147,75 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function eraseCredentials(): void
-{
-    // Exemple s'il y avait un champ temporaire :
-    // $this->plainPassword = null;
-}
+    {
+        // Exemple s'il y avait un champ temporaire :
+        // $this->plainPassword = null;
+    }
+
     // === Profil (getters/setters) ===
-    public function getFirstname(): ?string
+    public function getPseudo(): ?string
     {
-        return $this->firstname;
+        return $this->pseudo;
     }
 
-    public function setFirstname(?string $firstname): static
+    public function setPseudo(?string $pseudo): static
     {
-        $this->firstname = $firstname;
+        $this->pseudo = $pseudo;
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getLocation(): ?string
     {
-        return $this->city;
+        return $this->location;
     }
 
-    public function setCity(?string $city): static
+    public function setLocation(?string $location): static
     {
-        $this->city = $city;
+        $this->location = $location;
         return $this;
     }
 
-    public function getAvatarPath(): ?string
+    public function getBio(): ?string
     {
-        return $this->avatarPath;
+        return $this->bio;
     }
 
-    public function setAvatarPath(?string $avatarPath): static
+    public function setBio(?string $bio): static
     {
-        $this->avatarPath = $avatarPath;
+        $this->bio = $bio;
+        return $this;
+    }
+
+    public function getSkillsOffered(): ?array
+    {
+        return $this->skills_offered;
+    }
+
+    public function setSkillsOffered(?array $skills): static
+    {
+        $this->skills_offered = $skills;
+        return $this;
+    }
+
+    public function getSkillsWanted(): ?array
+    {
+        return $this->skills_wanted;
+    }
+
+    public function setSkillsWanted(?array $skills): static
+    {
+        $this->skills_wanted = $skills;
+        return $this;
+    }
+
+    public function getAvatarFilename(): ?string
+    {
+        return $this->avatarFilename;
+    }
+
+    public function setAvatarFilename(?string $fn): static
+    {
+        $this->avatarFilename = $fn;
         return $this;
     }
 
@@ -210,18 +264,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-   public function removeListing(Listing $listing): static
-{
-    if ($this->listings->removeElement($listing)) {
-        // NE PAS mettre setAuthor(null) si JoinColumn(nullable=false)
-        // L'owning side reste cohérent (author = this).
-        // Si tu veux vraiment détacher, il faut prévoir un autre flux (transfert d'auteur ou suppression du Listing).
+    public function removeListing(Listing $listing): static
+    {
+        if ($this->listings->removeElement($listing)) {
+            // NE PAS mettre setAuthor(null) si JoinColumn(nullable=false)
+            // L'owning side reste cohérent (author = this).
+            // Si tu veux vraiment détacher, il faut prévoir un autre flux (transfert d'auteur ou suppression du Listing).
+        }
+        return $this;
     }
-    return $this;
-}
-public function __toString(): string
-{
-    return $this->email ?? 'Utilisateur';
-}
+
+    public function __toString(): string
+    {
+        return $this->email ?? 'Utilisateur';
+    }
 }
 
