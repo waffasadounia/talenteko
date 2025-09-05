@@ -71,7 +71,7 @@ final class AppFixtures extends Fixture
                     ->setDescription($faker->paragraphs(random_int(2, 4), true))
                     ->setType($faker->boolean() ? 'OFFER' : 'REQUEST')
                     ->setStatus('PUBLISHED')
-                    ->setCity($city)
+                    ->setLocation($city)
                     ->setAuthor($user)
                     ->setCategory($cat);
 
