@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% block title %}Créer un compte | TalentÉkô{% endblock %}
+
+{% block body %}
+<section class="bg-talenteko-peach-100 py-12">
+  <div class="max-w-md mx-auto px-4">
+    <h1 class="text-2xl font-bold text-primary-color mb-6 text-center">
+      Créer un compte
+    </h1>
+
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+
+    <div class="rounded-2xl border bg-white p-6 shadow-sm">
+      {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+
+        <div class="space-y-4">
+          {{ form_row(form.email) }}
+          {{ form_row(form.pseudo) }}
+          {{ form_row(form.location) }}
+
+          <div id="pwd-help" class="text-xs text-gray-600">
+            Au moins 8 caractères. Évitez les mots de passe compromis. Feedback ci-dessous.
+          </div>
+
+          {{ form_row(form.plainPassword.first) }}
+          {{ form_row(form.plainPassword.second) }}
+
+          <ul id="pwd-criteria" class="text-xs mt-1" aria-live="polite" aria-atomic="true">
+            <li data-rule="len">• Au moins 8 caractères</li>
+            <li data-rule="mix">• Lettres + chiffres recommandés</li>
+          </ul>
+        </div>
+
+        <button class="btn-primary btn-block mt-5">Créer mon compte</button>
+      {{ form_end(form) }}
+
+      <p class="text-sm text-gray-600 mt-6 text-center">
+        Déjà un compte ?
+        <a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const pwd = document.getElementById('pwd');
+  const items = document.querySelectorAll('#pwd-criteria [data-rule]');
+  if (!pwd) return;
+  const check = () => {
+    const v = pwd.value || '';
+    const okLen = v.length >= 8;
+    const okMix = /[A-Za-z]/.test(v) && /\d/.test(v);
+    items.forEach(li => {
+      const ok = (li.dataset.rule === 'len') ? okLen : okMix;
+      li.style.opacity = ok ? '0.6' : '1';
+      li.style.textDecoration = ok ? 'line-through' : 'none';
+    });
+  };
+  pwd.addEventListener('input', check);
+});
+</script>
+{% endblock %}
