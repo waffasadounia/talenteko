@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -7,7 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
-#[ORM\Index(fields: ['title', 'city'])]
+// L’index porte désormais sur 'title' et **'location'** (nom de la propriété PHP).
+#[ORM\Index(fields: ['title', 'location'])]
 class Listing
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
@@ -26,8 +28,13 @@ class Listing
     #[ORM\Column(length: 10)]
     private string $type;
 
-    #[ORM\Column(length: 120)]
-    private string $city;
+    /**
+     * IMPORTANT : on utilise bien la propriété $location, mappée sur la
+     * colonne SQL 'location' (qui existe déjà dans ta BDD).
+     * Cela remplace l’ancienne propriété $city côté PHP.
+     */
+    #[ORM\Column(name: 'location', length: 120)]
+    private string $location;
 
     // 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
     #[ORM\Column(length: 12, options: ['default' => 'PUBLISHED'])]
@@ -58,6 +65,7 @@ class Listing
     }
 
     // === Getters / Setters ===
+
     public function getId(): ?int { return $this->id; }
 
     public function getTitle(): string { return $this->title; }
@@ -72,8 +80,22 @@ class Listing
     public function getType(): string { return $this->type; }
     public function setType(string $type): self { $this->type = $type; return $this; }
 
-    public function getCity(): string { return $this->city; }
-    public function setCity(string $city): self { $this->city = $city; return $this; }
+    /**
+     * Nouvelle API canonique : location (alignée DB).
+     */
+    public function getLocation(): string { return $this->location; }
+    public function setLocation(string $location): self { $this->location = $location; return $this; }
+
+    /**
+     * Compatibilité ascendante :
+     * - Certains endroits de l’app (ou anciennes branches) appelaient encore getCity()/setCity().
+     * - On les garde mais on les marque @deprecated pour guider la migration.
+     */
+    /** @deprecated Utilise getLocation() */
+    public function getCity(): string { return $this->getLocation(); }
+
+    /** @deprecated Utilise setLocation() */
+    public function setCity(string $city): self { return $this->setLocation($city); }
 
     public function getStatus(): string { return $this->status; }
     public function setStatus(string $status): self { $this->status = $status; return $this; }
@@ -103,9 +125,9 @@ class Listing
     public function removeImage(ListingImage $image): self
     {
         if ($this->images->removeElement($image)) {
-            if ($image->getListing() === $this) {
-                // pas besoin de null ici si JoinColumn(nullable=false); on supprime l'image
-            }
+            // Si JoinColumn(nullable=false), on ne met pas à null la FK.
+            // Si un jour tu rends la FK nullable, pense à :
+            // if ($image->getListing() === $this) { $image->setListing(null); }
         }
         return $this;
     }

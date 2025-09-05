@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+{% block title %}Créer un compte | TalentÉkô{% endblock %}
+
+{% block body %}
+<section class="bg-talenteko-peach-100 py-12">
+  <div class="max-w-md mx-auto px-6">
+    <h1 class="text-3xl font-bold text-primary-color mb-6 text-center">
+      Créer un compte
+    </h1>
+
+    {# Flashes #}
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+
+    <div class="rounded-2xl border bg-white p-6 shadow-sm">
+      {# Désactive Turbo si tu n’as pas mis le 422 côté contrôleur :
+         {{ form_start(form, { attr: { novalidate: 'novalidate', 'data-turbo': 'false' } }) }} #}
+      {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+
+        <div class="space-y-4">
+          <div>
+            {{ form_label(form.email, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
+            {{ form_widget(form.email, { attr: {
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+            } }) }}
+            {{ form_errors(form.email) }}
+          </div>
+
+          <div>
+            {{ form_label(form.pseudo, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
+            {{ form_widget(form.pseudo, { attr: {
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+            } }) }}
+            {{ form_errors(form.pseudo) }}
+          </div>
+
+          <div>
+            {{ form_label(form.location, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
+            {{ form_widget(form.location, { attr: {
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+            } }) }}
+            {{ form_errors(form.location) }}
+          </div>
+
+          <div>
+            <div id="pwd-help" class="text-xs text-gray-600 mb-1">
+              Au moins 8 caractères. Évitez les mots de passe compromis.
+            </div>
+            {{ form_label(form.plainPassword.first, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
+            {{ form_widget(form.plainPassword.first, { attr: {
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500',
+              'aria-describedby': 'pwd-help',
+              id: 'pwd'
+            } }) }}
+            {{ form_errors(form.plainPassword.first) }}
+          </div>
+
+          <div>
+            {{ form_label(form.plainPassword.second, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
+            {{ form_widget(form.plainPassword.second, { attr: {
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+            } }) }}
+            {{ form_errors(form.plainPassword.second) }}
+          </div>
+        </div>
+
+        <button class="btn-primary btn-block mt-6">Créer mon compte</button>
+      {{ form_end(form) }}
+
+      <p class="text-sm text-gray-600 mt-6 text-center">
+        Déjà un compte ?
+        <a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const pwd = document.getElementById('pwd');
+  const help = document.getElementById('pwd-help');
+  if (!pwd || !help) return;
+  pwd.addEventListener('input', () => {
+    const v = pwd.value || '';
+    const okLen = v.length >= 8;
+    help.style.opacity = okLen ? '0.7' : '1';
+  });
+});
+</script>
+{% endblock %}

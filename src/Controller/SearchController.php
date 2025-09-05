@@ -1,51 +1,69 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Listing;
 use App\Repository\ListingRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SearchController extends AbstractController
+final class SearchController extends AbstractController
 {
-    #[Route('/recherche', name: 'app_search')]
-    public function index(Request $req, ListingRepository $repo): Response
+    /**
+     * Page de recherche.
+     * - Filtre sur titre / description / location / nom de catégorie
+     * - Précharge auteur + catégorie pour éviter le N+1
+     */
+    #[Route('/recherche', name: 'app_search', methods: ['GET'])]
+    public function index(Request $request, ListingRepository $repo): Response
     {
-        $q = trim((string) $req->query->get('q', ''));
+        $q = trim((string) $request->query->get('q', ''));
 
         $qb = $repo->createQueryBuilder('l')
-            ->leftJoin('l.category','c')->addSelect('c')
-            ->leftJoin('l.author','a')->addSelect('a')
+            ->leftJoin('l.category', 'c')->addSelect('c')
+            ->leftJoin('l.author', 'a')->addSelect('a')
             ->orderBy('l.createdAt', 'DESC')
             ->setMaxResults(50);
 
         if ($q !== '') {
-            $qb->andWhere('l.title LIKE :q OR l.description LIKE :q OR l.city LIKE :q OR c.name LIKE :q')
+            // ✅ On utilise le champ d'entité "location" (plus "city")
+            $qb->andWhere('l.title LIKE :q OR l.description LIKE :q OR l.location LIKE :q OR c.name LIKE :q')
                ->setParameter('q', '%'.$q.'%');
         }
 
+        /** @var list<Listing> $results */
         $results = $qb->getQuery()->getResult();
 
-        // Adapter au format attendu par tes partials/listings
-        $cards = array_map(function($l) {
-            return [
-                'id' => $l->getId(),
-                'slug' => $l->getSlug(),
-                'title' => $l->getTitle(),
-                'description' => $l->getDescription(),
-                'category' => $l->getCategory()->getName(),
-                'user' => ['name' => $l->getAuthor()->getFirstname() ?: 'Membre'],
-                'ville' => $l->getCity(),
-                'stars' => 4,
-            ];
-        }, $results);
+        // Map des entités vers un tableau simple pour le template
+        $cards = array_map(
+            static function (Listing $l): array {
+                $categoryName = $l->getCategory() ? $l->getCategory()->getName() : 'Non classée';
+                $author       = $l->getAuthor();
+                $displayName  = ($author && method_exists($author, 'getPseudo') && $author->getPseudo())
+                    ? $author->getPseudo()
+                    : 'Membre';
 
+                return [
+                    'id'          => $l->getId(),
+                    'slug'        => $l->getSlug(),
+                    'title'       => $l->getTitle(),
+                    'description' => $l->getDescription(),
+                    'category'    => $categoryName,
+                    'user'        => ['name' => $displayName], // 👈 plus de getFirstname()
+                    'ville'       => $l->getLocation(),        // 👈 API canonique
+                    'stars'       => 4,                        // TODO: moyenne réelle
+                ];
+            },
+            $results
+        );
+
+        // NOTE : Si ton template attend 'annonces' au lieu de 'results', adapte la clé ci-dessous.
         return $this->render('search/index.html.twig', [
-            'q' => $q,
+            'q'       => $q,
             'results' => $cards,
         ]);
     }
 }
-
