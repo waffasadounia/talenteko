@@ -37,7 +37,7 @@ security:
     # Routes publiques nécessaires
     - { path: ^/login$, roles: PUBLIC_ACCESS }    # ⬅️ page de connexion doit être accessible
     - { path: ^/logout$, roles: PUBLIC_ACCESS }
-
+    - { path: ^/inscription$, roles: PUBLIC_ACCESS }
     # Profiler/dev (public en dev)
     - { path: ^/_profiler, roles: PUBLIC_ACCESS }
     - { path: ^/_wdt, roles: PUBLIC_ACCESS }
