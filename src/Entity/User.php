@@ -18,83 +18,90 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     // === Identité / Sécurité ===
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+
+    #[ORM\Id] // clé primaire
+    #[ORM\GeneratedValue] // auto-incrément
+    #[ORM\Column] // colonne SQL
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
     /**
-     * @var list<string> The user roles
+     * @var list<string> Liste des rôles utilisateur (ROLE_USER, ROLE_ADMIN…)
      */
     #[ORM\Column]
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string Mot de passe haché (jamais en clair !)
      */
     #[ORM\Column]
     private ?string $password = null;
 
-    // === Profil ===
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $firstname = null;
+    // === Profil public ===
 
-    #[ORM\Column(length: 120, nullable: true)]
-    private ?string $city = null;
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $pseudo = null; // choisi à la place du prénom/nom → vie privée
+
+    #[ORM\Column(name: 'Location', length: 120, nullable: true)]
+    private ?string $location = null; // localisation
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $avatarPath = null;
+    private ?string $avatarPath = null; // chemin du fichier avatar (upload)
+
+    // === Évaluations / réputation ===
 
     #[ORM\Column(type: 'float', options: ['default' => 0])]
-    private float $ratingAvg = 0.0;
+    private float $ratingAvg = 0.0; // moyenne des notes
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
-    private int $ratingCount = 0;
+    private int $ratingCount = 0; // nombre de notes
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt; // date de création du compte
 
     // === Relations ===
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Listing::class)]
-    private Collection $listings;
+    private Collection $listings; // toutes les annonces publiées par l’utilisateur
 
     public function __construct()
     {
-        // par sécurité : ROLE_USER toujours présent
+        // tout utilisateur a au minimum ROLE_USER
         $this->roles = ['ROLE_USER'];
+        // la date de création est définie dès l’instanciation
         $this->createdAt = new \DateTimeImmutable();
+        // initialiser la collection pour éviter null
         $this->listings = new ArrayCollection();
     }
 
     // === Getters / Setters de base ===
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // Email / Identifiant
+    // Email = identifiant unique
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-   public function setEmail(string $email): static
-{
-    // évite les doublons Jean@… vs jean@…
-    $this->email = mb_strtolower($email);
-    return $this;
-}
+    public function setEmail(string $email): static
+    {
+        // normaliser en minuscule (évite Jean@… vs jean@…)
+        $this->email = mb_strtolower($email);
+        return $this;
+    }
 
-
+    // Symfony Security → identifiant de connexion
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    // Roles
+    // Gestion des rôles
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -114,7 +121,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Password
+    // === Pseudo (identité publique) ===
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(?string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+        return $this;
+    }
+
+    // === Mot de passe ===
     public function getPassword(): ?string
     {
         return $this->password;
@@ -126,31 +145,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // Nettoyage éventuel de données sensibles
     public function eraseCredentials(): void
-{
-    // Exemple s'il y avait un champ temporaire :
-    // $this->plainPassword = null;
-}
-    // === Profil (getters/setters) ===
-    public function getFirstname(): ?string
     {
-        return $this->firstname;
+        // ex: $this->plainPassword = null;
     }
 
-    public function setFirstname(?string $firstname): static
+    // === Profil ===
+    public function getLocation(): ?string
     {
-        $this->firstname = $firstname;
-        return $this;
+        return $this->location;
     }
 
-    public function getCity(): ?string
+    public function setLocation(?string $location): static
     {
-        return $this->city;
-    }
-
-    public function setCity(?string $city): static
-    {
-        $this->city = $city;
+        $this->location = $location;
         return $this;
     }
 
@@ -165,6 +174,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // === Notations ===
     public function getRatingAvg(): float
     {
         return $this->ratingAvg;
@@ -192,7 +202,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    // === Relations ===
+    // === Relations avec Listing ===
     /**
      * @return Collection<int, Listing>
      */
@@ -210,18 +220,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-   public function removeListing(Listing $listing): static
-{
-    if ($this->listings->removeElement($listing)) {
-        // NE PAS mettre setAuthor(null) si JoinColumn(nullable=false)
-        // L'owning side reste cohérent (author = this).
-        // Si tu veux vraiment détacher, il faut prévoir un autre flux (transfert d'auteur ou suppression du Listing).
+    public function removeListing(Listing $listing): static
+    {
+        if ($this->listings->removeElement($listing)) {
+            // ⚠️ on ne met pas setAuthor(null) car JoinColumn(nullable=false)
+            // → sinon incohérence. Si besoin, prévoir un flux de transfert/suppression.
+        }
+        return $this;
     }
-    return $this;
-}
-public function __toString(): string
-{
-    return $this->email ?? 'Utilisateur';
-}
-}
 
+    // === Représentation textuelle ===
+    public function __toString(): string
+    {
+        // utile pour afficher l’utilisateur dans un <select> en admin
+        return $this->email ?? 'Utilisateur';
+    }
+}
+/**Chaque bloc est séparé : sécurité, profil, réputation, relations.
+Le champ pseudo a remplacé firstname/lastname pour des raisons UX + vie privée.
+Doctrine garantit les relations (OneToMany avec Listing).
+__toString() sert dans le back-office.
+Respect des conventions Symfony (UserInterface, PasswordAuthenticatedUserInterface). */

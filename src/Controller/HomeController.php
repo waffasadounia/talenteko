@@ -29,7 +29,7 @@ class HomeController extends AbstractController
                 'title' => $l->getTitle(),
                 'description' => $l->getDescription(),
                 'category' => $l->getCategory()->getName(),
-                'user' => ['name' => $l->getAuthor()->getFirstname() ?: 'Membre'],
+                'user' => ['name' => $l->getAuthor()->getPseudo() ?: 'Membre'],
                 'ville' => $l->getCity(),
                 'stars' => 4, // TODO: calcule réel plus tard
             ];

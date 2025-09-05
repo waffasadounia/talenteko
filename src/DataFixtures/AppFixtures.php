@@ -44,8 +44,8 @@ final class AppFixtures extends Fixture
             $user = new User();
             $user->setEmail("user{$u}@example.com");
             $user->setPassword($this->hasher->hashPassword($user, 'Password123!'));
-            $user->setFirstname($faker->firstName());
-            $user->setCity($faker->randomElement($cities));
+            $user->setPseudo($faker->firstName());
+            $user->setLocation($faker->randomElement($cities));
             // avatarPath/rating facultatifs
             $em->persist($user);
 
