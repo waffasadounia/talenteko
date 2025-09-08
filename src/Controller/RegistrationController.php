@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormError;
 
 /**
  * Inscription utilisateur (publique)
@@ -52,6 +53,20 @@ final class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($req);
 
+        // --- Anti-spam / honeypot (champ caché "website") ---
+        // Principe : les humains ne remplissent pas ce champ caché.
+        // Si rempli, on considère la soumission suspecte → on ajoute une erreur globale
+        // et on renvoie un 422 (comme pour une validation invalide).
+        if ($form->isSubmitted() && $req->request->get('website')) {
+            // Ajoute une erreur au formulaire (sera affichée dans le résumé d’erreurs global côté Twig)
+            $form->addError(new FormError('Validation anti-robot : merci de réessayer.'));
+            $resp = $this->render('security/register.html.twig', [
+                'form' => $form->createView(),
+            ]);
+            $resp->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY); // 422 → Turbo-friendly
+            return $resp;
+        }
+
         // Soumission valide : on hash le mot de passe puis on persiste l’utilisateur.
         if ($form->isSubmitted() && $form->isValid()) {
             // 1) Récupérer le mot de passe en clair depuis le champ non mappé.
@@ -90,3 +105,4 @@ final class RegistrationController extends AbstractController
         return $resp;
     }
 }
+
