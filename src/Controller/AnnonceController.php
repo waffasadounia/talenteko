@@ -90,7 +90,7 @@ final class AnnonceController extends AbstractController
             'description' => $listing->getDescription(),
             'category'    => $listing->getCategory()?->getName(),
             'user'        => [
-                'name' => $listing->getAuthor()?->getFirstname() ?: 'Membre',
+                'name' => $listing->getAuthor()?->getPseudo() ?: 'Membre',
             ],
             'ville'       => $listing->getLocation(),
             'type'        => $listing->getType(),

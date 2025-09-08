@@ -1,3 +1,4 @@
+{# templates/security/register.html.twig #}
 {% extends 'base.html.twig' %}
 {% block title %}Créer un compte | TalentÉkô{% endblock %}
 
@@ -8,7 +9,7 @@
       Créer un compte
     </h1>
 
-    {# Flashes #}
+    {# Flashes (succès après redirection) #}
     {% for label, messages in app.flashes %}
       {% for message in messages %}
         <div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
@@ -18,35 +19,96 @@
     {% endfor %}
 
     <div class="rounded-2xl border bg-white p-6 shadow-sm">
-      {# Désactive Turbo si tu n’as pas mis le 422 côté contrôleur :
-         {{ form_start(form, { attr: { novalidate: 'novalidate', 'data-turbo': 'false' } }) }} #}
-      {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+      {# -----------------------------------------------
+         IMPORTANT TURBO :
+         - Si le contrôleur renvoie 422 quand le POST est invalide,
+           on peut laisser Turbo activé (comportement fluide).
+         - Si ce n’est pas le cas, on peut désactiver Turbo ici avec data-turbo="false".
+         ----------------------------------------------- #}
+      {{ form_start(form, { attr: { novalidate: 'novalidate', id: 'register-form' } }) }}
+
+        {# Résumé d'erreurs global pour l’accessibilité :
+           - Avertit l’utilisateur qu’il y a des erreurs
+           - role="alert" + aria-live pour lecteurs d’écran #}
+        {% if not form.vars.valid and form.vars.submitted %}
+          <div class="mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 p-3"
+               role="alert" aria-live="polite">
+            Le formulaire contient des erreurs. Merci de vérifier les champs en rouge.
+          </div>
+        {% endif %}
 
         <div class="space-y-4">
+          {# ---------- Champ Email ---------- #}
           <div>
             {{ form_label(form.email, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
             {{ form_widget(form.email, { attr: {
-              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500',
+              autocomplete: 'email',
+              'aria-invalid': not form.email.vars.valid ? 'true' : 'false'
             } }) }}
-            {{ form_errors(form.email) }}
+
+            {# Erreurs stylées (encadré rouge + icône) #}
+            {% if form_errors(form.email) is not empty %}
+              <div class="mt-2 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-2 text-sm text-red-700">
+                {# Icône d’avertissement (SVG inline, accessible) #}
+                <svg aria-hidden="true" class="mt-[2px] h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11.589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div class="min-w-0">
+                  {{ form_errors(form.email) }}
+                </div>
+              </div>
+            {% endif %}
           </div>
 
+          {# ---------- Champ Pseudo (facultatif) ----------
+             - Autocomplete "nickname" recommandé
+             - aria-invalid selon la validité du sous-champ #}
           <div>
             {{ form_label(form.pseudo, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
             {{ form_widget(form.pseudo, { attr: {
-              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500',
+              autocomplete: 'nickname',
+              'aria-invalid': not form.pseudo.vars.valid ? 'true' : 'false'
             } }) }}
-            {{ form_errors(form.pseudo) }}
+
+            {% if form_errors(form.pseudo) is not empty %}
+              <div class="mt-2 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-2 text-sm text-red-700">
+                <svg aria-hidden="true" class="mt-[2px] h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11.589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div class="min-w-0">
+                  {{ form_errors(form.pseudo) }}
+                </div>
+              </div>
+            {% endif %}
           </div>
 
+          {# ---------- Champ Localisation (facultatif) ----------
+             - Autocomplete "address-level2" (ville) #}
           <div>
             {{ form_label(form.location, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
             {{ form_widget(form.location, { attr: {
-              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500',
+              autocomplete: 'address-level2',
+              'aria-invalid': not form.location.vars.valid ? 'true' : 'false'
             } }) }}
-            {{ form_errors(form.location) }}
+
+            {% if form_errors(form.location) is not empty %}
+              <div class="mt-2 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-2 text-sm text-red-700">
+                <svg aria-hidden="true" class="mt-[2px] h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11.589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div class="min-w-0">
+                  {{ form_errors(form.location) }}
+                </div>
+              </div>
+            {% endif %}
           </div>
 
+          {# ---------- Mot de passe ----------
+             - Aide liée via aria-describedby
+             - 8 caractères min (côté contraintes du FormType) #}
           <div>
             <div id="pwd-help" class="text-xs text-gray-600 mb-1">
               Au moins 8 caractères. Évitez les mots de passe compromis.
@@ -55,41 +117,96 @@
             {{ form_widget(form.plainPassword.first, { attr: {
               class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500',
               'aria-describedby': 'pwd-help',
+              'aria-invalid': not form.plainPassword.first.vars.valid ? 'true' : 'false',
               id: 'pwd'
             } }) }}
-            {{ form_errors(form.plainPassword.first) }}
+
+            {% if form_errors(form.plainPassword.first) is not empty %}
+              <div class="mt-2 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-2 text-sm text-red-700">
+                <svg aria-hidden="true" class="mt-[2px] h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11.589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div class="min-w-0">
+                  {{ form_errors(form.plainPassword.first) }}
+                </div>
+              </div>
+            {% endif %}
           </div>
 
+          {# ---------- Confirmation mot de passe ---------- #}
           <div>
             {{ form_label(form.plainPassword.second, null, { label_attr: { class: 'block text-sm font-medium text-[#141C2E]' } }) }}
             {{ form_widget(form.plainPassword.second, { attr: {
-              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500'
+              class: 'mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500',
+              'aria-invalid': not form.plainPassword.second.vars.valid ? 'true' : 'false'
             } }) }}
-            {{ form_errors(form.plainPassword.second) }}
+
+            {% if form_errors(form.plainPassword.second) is not empty %}
+              <div class="mt-2 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-2 text-sm text-red-700">
+                <svg aria-hidden="true" class="mt-[2px] h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11-589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div class="min-w-0">
+                  {{ form_errors(form.plainPassword.second) }}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+          {# ---------- Honeypot anti-bot (simple) ----------
+             - Champ caché que les humains ne remplissent pas
+             - À vérifier côté contrôleur (si rempli => 422) #}
+          <div class="hidden">
+            <label for="website">Votre site web</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
           </div>
         </div>
 
-        <button class="btn-primary btn-block mt-6">Créer mon compte</button>
+        {# Bouton :
+           - .btn-primary (design system)
+           - Anti double-submit : désactivé au submit (script plus bas) #}
+        <button id="submit-btn" class="btn-primary btn-block mt-6">Créer mon compte</button>
       {{ form_end(form) }}
 
       <p class="text-sm text-gray-600 mt-6 text-center">
         Déjà un compte ?
         <a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
       </p>
+
+      {# Petite note de confiance / RGPD #}
+      <p class="text-xs text-gray-500 mt-3 text-center">
+        En créant un compte, vous acceptez nos conditions d’utilisation et notre politique de confidentialité.
+      </p>
     </div>
   </div>
 </section>
 
+{# -----------------------------------------------
+   JS progressif :
+   - anti double-submit (empêche plusieurs clics rapides)
+   - feedback live (opacité de l’aide MDP)
+   ----------------------------------------------- #}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Anti double-submit
+  const form = document.getElementById('register-form');
+  const btn  = document.getElementById('submit-btn');
+  if (form && btn) {
+    form.addEventListener('submit', () => {
+      btn.disabled = true;
+      btn.classList.add('btn-loading'); // classe utilitaire prévue dans ton DS
+    });
+  }
+
+  // Aide mot de passe : simple feedback visuel
   const pwd = document.getElementById('pwd');
   const help = document.getElementById('pwd-help');
-  if (!pwd || !help) return;
-  pwd.addEventListener('input', () => {
-    const v = pwd.value || '';
-    const okLen = v.length >= 8;
-    help.style.opacity = okLen ? '0.7' : '1';
-  });
+  if (pwd && help) {
+    pwd.addEventListener('input', () => {
+      const okLen = (pwd.value || '').length >= 8;
+      help.style.opacity = okLen ? '0.7' : '1';
+    });
+  }
 });
 </script>
 {% endblock %}

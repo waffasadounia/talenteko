@@ -8,12 +8,24 @@
   <div class="max-w-md mx-auto px-6">
     <h1 class="text-3xl font-bold text-primary-color mb-6 text-center">Se connecter</h1>
 
+    {# Bloc erreur global :
+       - Utilisé si Symfony Security renvoie une erreur d’authentification.
+       - Exemple : "Identifiants invalides".
+       - Accessible (role="alert", aria-live="polite") → lu par les lecteurs d’écran.
+    #}
     {% if error %}
-      <div class="mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 p-3">
-        {{ error.messageKey|trans(error.messageData, 'security') }}
+      <div class="mb-4 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+           role="alert" aria-live="polite">
+        <svg aria-hidden="true" class="mt-[2px] h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11.589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+        </svg>
+        <div class="min-w-0">
+          {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
       </div>
     {% endif %}
 
+    {# Si l’utilisateur est déjà connecté, afficher une info + lien logout. #}
     {% if app.user %}
       <div class="mb-4 text-sm rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
         Connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>.
@@ -22,20 +34,52 @@
     {% endif %}
 
     <div class="rounded-2xl border bg-white p-6 shadow-sm">
+      {# Formulaire d’authentification :
+         - action = route "app_login" → interceptée par le firewall Security.
+         - novalidate = désactive la validation HTML5 (on affiche nos propres erreurs).
+      #}
       <form method="post" action="{{ path('app_login') }}" class="space-y-5" novalidate>
+        
+        {# Champ email #}
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
           <input id="email" name="email" type="email" required autocomplete="email"
                  value="{{ last_username|default('') }}"
-                 class="mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500" />
+                 aria-invalid="{{ error ? 'true' : 'false' }}"
+                 class="mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500
+                        {% if error %} border-red-500{% endif %}" />
+
+          {# Erreur inline sous le champ si authentification échouée #}
+          {% if error %}
+            <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+              <svg aria-hidden="true" class="h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11.589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              Email ou mot de passe incorrect.
+            </p>
+          {% endif %}
         </div>
 
+        {# Champ mot de passe #}
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
           <input id="password" name="password" type="password" required autocomplete="current-password"
-                 class="mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500" />
+                 aria-invalid="{{ error ? 'true' : 'false' }}"
+                 class="mt-1 w-full rounded-lg border-gray-300 focus:border-talenteko-orange-500 focus:ring-talenteko-orange-500
+                        {% if error %} border-red-500{% endif %}" />
+
+          {# Erreur inline identique, répétée sous le champ #}
+          {% if error %}
+            <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+              <svg aria-hidden="true" class="h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.75 1.335-.214 2.989-1.743 2.989H3.482c-1.53 0-2.494-1.654-1.744-2.99l6.519-11.589zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              Email ou mot de passe incorrect.
+            </p>
+          {% endif %}
         </div>
 
+        {# Token CSRF obligatoire : validé automatiquement par Symfony Security. #}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
         <div class="flex items-center justify-between text-sm">
@@ -47,12 +91,14 @@
           <a href="#" class="btn-link">Mot de passe oublié ?</a>
         </div>
 
+        {# Bouton principal cohérent avec le design system. #}
         <button type="submit" class="btn-primary btn-block">Se connecter</button>
       </form>
 
+      {# Lien vers inscription (route app_register). #}
       <p class="text-sm text-gray-600 mt-6 text-center">
         Pas encore de compte ?
-        <a href="#" class="btn-link">Créer un compte</a>
+        <a href="{{ path('app_register') }}" class="btn-link">Créer un compte</a>
       </p>
     </div>
   </div>
