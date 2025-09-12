@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html.twig' %}
 {% block title %}Créer un compte | TalentÉkô{% endblock %}
 
@@ -66,4 +67,224 @@ document.addEventListener('DOMContentLoaded', () => {
   pwd.addEventListener('input', check);
 });
 </script>
+=======
+{# ========================== #
+# templates/security/register.html.twig
+# ========================== #}
+{% extends 'base.html.twig' %}
+{% block title %}Créer un compte | TalentÉkô
+{% endblock %}
+
+{% block body %}
+	<section class="bg-talenteko-peach-100 py-12">
+		<div class="max-w-md mx-auto px-6">
+			<h1 class="text-3xl font-bold text-talenteko-orange-500 mb-6 text-center">
+				Créer un compte
+			</h1>
+
+			{# --- Bandeau d’erreurs global (rouge) --- #}
+			{% if not form.vars.valid and form.vars.submitted %}
+				<div id="form-global-errors" class="mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700 p-3" role="alert" aria-live="polite">
+					<strong class="font-semibold">Le formulaire contient des erreurs.</strong>
+					<span class="ml-1">Merci de vérifier les champs en rouge.</span>
+				</div>
+			{% endif %}
+
+			{# --- Messages flash (succès) --- #}
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+
+			<div class="rounded-2xl bg-white p-6 shadow-sm">
+				{{ form_start(form, {
+        attr: {
+          novalidate: 'novalidate',
+          id: 'register-form',
+          class: 'tk-form'
+        }
+      }) }}
+
+				<div
+					class="space-y-5">
+
+					{# ========== EMAIL ========== #}
+					{% set emailInvalid = (form_errors(form.email) is not empty) %}
+					{% set emailErrorsId = form.email.vars.id ~ '-errors' %}
+					<div>
+						<label for="{{ form.email.vars.id }}" class="form-label">
+							Adresse email
+							<span class="form-required" aria-hidden="true">*</span>
+						</label>
+						{{ form_widget(form.email, {
+            attr: {
+              placeholder: 'ex. vous@exemple.fr',
+              class: 'form-input' ~ (emailInvalid ? ' is-invalid' : ''),
+              'aria-invalid': emailInvalid ? 'true' : 'false',
+              'aria-describedby': emailInvalid ? emailErrorsId : null,
+              autocomplete: 'email'
+            }
+          }) }}
+						{% if emailInvalid %}
+							<p id="{{ emailErrorsId }}" class="form-error">{{ form_errors(form.email) }}</p>
+						{% endif %}
+					</div>
+
+					{# ========== PSEUDO ========== #}
+					{% set pseudoInvalid = (form_errors(form.pseudo) is not empty) %}
+					{% set pseudoErrorsId = form.pseudo.vars.id ~ '-errors' %}
+					<div>
+						<label for="{{ form.pseudo.vars.id }}" class="form-label">
+							Pseudonyme
+							<span class="form-required" aria-hidden="true">*</span>
+						</label>
+						{{ form_widget(form.pseudo, {
+            attr: {
+              placeholder: 'ex. BricoMan42',
+              class: 'form-input' ~ (pseudoInvalid ? ' is-invalid' : ''),
+              'aria-invalid': pseudoInvalid ? 'true' : 'false',
+              'aria-describedby': pseudoInvalid ? pseudoErrorsId : null,
+              autocomplete: 'nickname'
+            }
+          }) }}
+						{% if pseudoInvalid %}
+							<p id="{{ pseudoErrorsId }}" class="form-error">{{ form_errors(form.pseudo) }}</p>
+						{% endif %}
+					</div>
+
+					{# ========== LOCALISATION ========== #}
+					{% set locInvalid = (form_errors(form.location) is not empty) %}
+					{% set locErrorsId = form.location.vars.id ~ '-errors' %}
+					<div>
+						<label for="{{ form.location.vars.id }}" class="form-label">
+							Localisation
+							<span class="form-required" aria-hidden="true">*</span>
+						</label>
+						{{ form_widget(form.location, {
+            attr: {
+              placeholder: 'ex. Paris, Lyon…',
+              class: 'form-input' ~ (locInvalid ? ' is-invalid' : ''),
+              'aria-invalid': locInvalid ? 'true' : 'false',
+              'aria-describedby': locInvalid ? locErrorsId : null,
+              autocomplete: 'address-level2'
+            }
+          }) }}
+						{% if locInvalid %}
+							<p id="{{ locErrorsId }}" class="form-error">{{ form_errors(form.location) }}</p>
+						{% endif %}
+					</div>
+
+					{# ========== MOT DE PASSE + CONFIRMATION (Stimulus combiné) ========== #}
+					{% set pwd1Invalid = (form_errors(form.plainPassword.first) is not empty) %}
+					{% set pwd1ErrorsId = form.plainPassword.first.vars.id ~ '-errors' %}
+					{% set pwd2Invalid = (form_errors(form.plainPassword.second) is not empty) %}
+					{% set pwd2ErrorsId = form.plainPassword.second.vars.id ~ '-errors' %}
+
+					<div
+						data-controller="password-strength password-confirm" class="space-y-5">
+						{# Champ mot de passe principal #}
+						<div>
+
+							<label for="{{ form.plainPassword.first.vars.id }}" class="form-label">
+								Mot de passe
+								<span class="form-required" aria-hidden="true">*</span>
+							</label>
+
+							{{ form_widget(form.plainPassword.first, {
+      attr: {
+        'data-password-strength-target': 'input',
+        'data-action': 'input->password-strength#check input->password-confirm#check',
+        'data-password-confirm-target': 'original',
+        class: 'form-input' ~ (pwd1Invalid ? ' is-invalid' : ''),
+        placeholder: '••••••••',
+        'aria-describedby': 'pwd-help',
+        'aria-invalid': pwd1Invalid ? 'true' : 'false'
+      }
+    }) }}
+
+							{% if pwd1Invalid %}
+								<p id="{{ pwd1ErrorsId }}" class="form-error">{{ form_errors(form.plainPassword.first) }}</p>
+							{% endif %}
+
+							<div id="pwd-match" class="text-xs text-gray-600 mt-1" data-password-strength-target="feedback" aria-live="polite"></div>
+						</div>
+
+						{# Champ confirmation mot de passe #}
+						<div>
+							<label for="{{ form.plainPassword.second.vars.id }}" class="form-label">
+								Confirmer le mot de passe
+								<span class="form-required" aria-hidden="true">*</span>
+							</label>
+
+							{{ form_widget(form.plainPassword.second, {
+      attr: {
+        id: 'pwd_confirm',
+        placeholder: '••••••••',
+        'data-password-confirm-target': 'confirm',
+        'data-action': 'input->password-confirm#check',
+        class: 'form-input' ~ (pwd2Invalid ? ' is-invalid' : ''),
+        'aria-invalid': pwd2Invalid ? 'true' : 'false',
+        'aria-describedby': pwd2Invalid ? pwd2ErrorsId : null
+      }
+    }) }}
+
+							{% if pwd2Invalid %}
+								<p id="{{ pwd2ErrorsId }}" class="form-error">{{ form_errors(form.plainPassword.second) }}</p>
+							{% endif %}
+
+							<p data-password-confirm-target="feedback" class="text-xs mt-1" aria-live="polite"></p>
+						</div>
+					</div>
+					<div class="flex items-start gap-2 mt-4">
+						{{ form_widget(form.agreeTerms, { attr: { class: 'mt-1' } }) }}
+						<label for="{{ form.agreeTerms.vars.id }}" class="text-sm text-gray-600">
+							J’accepte les
+							<a href="{{ path('app_conditions') }}" class="underline text-gray-500 hover:text-gray-700">
+								conditions d’utilisation
+							</a>
+							et la
+							<a href="{{ path('app_confidentialite') }}" class="underline text-gray-500 hover:text-gray-700">
+								politique de confidentialité
+							</a>.
+						</label>
+					</div>
+
+
+					{# Honeypot anti-bot #}
+					<div class="hidden">
+						<label for="website">Votre site web</label>
+						<input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+					</div>
+				</div>
+
+				{# ========== BOUTON SOUMETTRE ========== #}
+				<button id="submit-btn" class="btn-primary btn-block mt-6">S'inscrire</button>
+				{{ form_end(form) }}
+
+				<p class="text-sm text-gray-600 mt-6 text-center">
+					Déjà un compte ?
+					<a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
+				</p>
+
+				<p class="text-xs text-gray-500 mt-3 text-center">
+					En créant un compte, vous acceptez nos conditions d’utilisation et notre politique de confidentialité.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		// Nettoyage du bandeau global d'erreurs avant mise en cache par Turbo
+document.addEventListener('turbo:before-cache', () => {
+const el = document.getElementById('form-global-errors');
+if (el) 
+el.remove();
+
+
+});
+	</script>
+>>>>>>> feat/user-entity-upgrade
 {% endblock %}

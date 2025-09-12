@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Listing;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email.')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -19,12 +20,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     // === Identité / Sécurité ===
 
-    #[ORM\Id] // clé primaire
-    #[ORM\GeneratedValue] // auto-incrément
-    #[ORM\Column] // colonne SQL
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
+    // Identifiant de connexion = email (unique en BDD)
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'Merci de saisir un email.')]
+    #[Assert\Email(message: 'Email invalide.')]
     private ?string $email = null;
 
     /**
@@ -34,23 +38,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string Mot de passe haché (jamais en clair !)
+     * Mot de passe hashé (stocké en BDD)
+     * → jamais le mot de passe en clair ici
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private string $password = '';
 
-    // === Profil public ===
+    /**
+     * Champ temporaire pour validation du mot de passe
+     * - NON stocké en BDD
+     * - Sert uniquement lors de l'inscription / modification
+     * - Contraintes fortes (ANSSI) :
+     *    • ≥ 10 caractères
+     *    • au moins 1 majuscule
+     *    • au moins 1 minuscule
+     *    • au moins 1 chiffre
+     *    • au moins 1 caractère spécial
+     */
+    #[Assert\NotBlank(message: 'Merci de saisir un mot de passe.')]
+    #[Assert\Length(
+        min: 10,
+        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/",
+        message: "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
+    )]
+    private ?string $plainPassword = null;
+
+    // === Profil ===
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $pseudo = null; // choisi à la place du prénom/nom → vie privée
+    private ?string $pseudo = null;
 
-    #[ORM\Column(name: 'Location', length: 120, nullable: true)]
-    private ?string $location = null; // localisation
+    #[ORM\Column(length: 120)]
+    #[Assert\NotBlank(message: 'Merci d’indiquer votre ville.')]
+    private ?string $location = null;
+
+    // texte libre de présentation
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $bio = null;
+
+    // compétences proposées et recherchées (stockées en JSON)
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $skills_offered = null;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $skills_wanted = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $avatarPath = null; // chemin du fichier avatar (upload)
-
-    // === Évaluations / réputation ===
+    private ?string $avatarFilename = null;
 
     #[ORM\Column(type: 'float', options: ['default' => 0])]
     private float $ratingAvg = 0.0; // moyenne des notes
@@ -67,7 +104,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        // tout utilisateur a au minimum ROLE_USER
+        // par sécurité : chaque utilisateur a au moins ROLE_USER
         $this->roles = ['ROLE_USER'];
         // la date de création est définie dès l’instanciation
         $this->createdAt = new \DateTimeImmutable();
@@ -75,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->listings = new ArrayCollection();
     }
 
-    // === Getters / Setters de base ===
+    // === Getters / Setters ===
 
     public function getId(): ?int
     {
@@ -90,7 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEmail(string $email): static
     {
-        // normaliser en minuscule (évite Jean@… vs jean@…)
+        // normalisation → évite doublons (Jean@… vs jean@…)
         $this->email = mb_strtolower($email);
         return $this;
     }
@@ -101,7 +138,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-    // Gestion des rôles
+    // Compatibilité avec anciens bundles
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
+    }
+
+    // Roles
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -121,20 +164,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // === Pseudo (identité publique) ===
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(?string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-        return $this;
-    }
-
-    // === Mot de passe ===
-    public function getPassword(): ?string
+    // Password (hashé en BDD)
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -145,13 +176,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Nettoyage éventuel de données sensibles
+    // Plain password (non stocké)
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+    // Nettoyage du plainPassword après usage
     public function eraseCredentials(): void
     {
-        // ex: $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     // === Profil ===
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(?string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
+        return $this;
+    }
+
+    // Affichage du nom d’utilisateur (pseudo ou fallback)
+    public function getDisplayName(): string
+    {
+        if ($this->pseudo) {
+            return $this->pseudo;
+        }
+        // fallback propre : masque une partie de l’email
+        $email = (string) $this->email;
+        $local = explode('@', $email)[0] ?? 'membre';
+        if (mb_strlen($local) > 4) {
+            return mb_substr($local, 0, 4) . str_repeat('•', 3);
+        }
+        return $local . '•';
+    }
+
     public function getLocation(): ?string
     {
         return $this->location;
@@ -163,14 +233,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAvatarPath(): ?string
+    public function getBio(): ?string
     {
-        return $this->avatarPath;
+        return $this->bio;
     }
 
-    public function setAvatarPath(?string $avatarPath): static
+    public function setBio(?string $bio): static
     {
-        $this->avatarPath = $avatarPath;
+        $this->bio = $bio;
+        return $this;
+    }
+
+    public function getSkillsOffered(): ?array
+    {
+        return $this->skills_offered;
+    }
+
+    public function setSkillsOffered(?array $skills): static
+    {
+        $this->skills_offered = $skills;
+        return $this;
+    }
+
+    public function getSkillsWanted(): ?array
+    {
+        return $this->skills_wanted;
+    }
+
+    public function setSkillsWanted(?array $skills): static
+    {
+        $this->skills_wanted = $skills;
+        return $this;
+    }
+
+    public function getAvatarFilename(): ?string
+    {
+        return $this->avatarFilename;
+    }
+
+    public function setAvatarFilename(?string $fn): static
+    {
+        $this->avatarFilename = $fn;
         return $this;
     }
 
@@ -202,7 +305,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    // === Relations avec Listing ===
+    // === Relations ===
+
     /**
      * @return Collection<int, Listing>
      */
@@ -223,21 +327,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeListing(Listing $listing): static
     {
         if ($this->listings->removeElement($listing)) {
-            // ⚠️ on ne met pas setAuthor(null) car JoinColumn(nullable=false)
-            // → sinon incohérence. Si besoin, prévoir un flux de transfert/suppression.
+            // NE PAS mettre setAuthor(null) si JoinColumn(nullable=false)
+            // sinon incohérence côté DB
         }
         return $this;
     }
 
-    // === Représentation textuelle ===
     public function __toString(): string
-    {
-        // utile pour afficher l’utilisateur dans un <select> en admin
-        return $this->email ?? 'Utilisateur';
+{
+    // Si le pseudo est défini → c’est lui qui prime
+    if (!empty($this->pseudo)) {
+        return $this->pseudo;
     }
+
+    // Sinon partie locale de l’email (avant le @), tronquée pour éviter d’exposer l’adresse
+    if (!empty($this->email)) {
+        $local = explode('@', $this->email)[0];
+        return mb_substr($local, 0, 4) . '…';
+    }
+
+    // Fallback ultime
+    return 'Membre';
 }
-/**Chaque bloc est séparé : sécurité, profil, réputation, relations.
-Le champ pseudo a remplacé firstname/lastname pour des raisons UX + vie privée.
-Doctrine garantit les relations (OneToMany avec Listing).
-__toString() sert dans le back-office.
-Respect des conventions Symfony (UserInterface, PasswordAuthenticatedUserInterface). */
+}

@@ -6,31 +6,20 @@
   ============================ #}
 
 <header role="banner" class="bg-white">
-
-  {# 
-    Conteneur ligne : 
-    - justify-between sépare clairement les 3 zones et évite le chevauchement
-    - gap-6 reste fidèle aux espacements aérés de la maquette
-  #}
   <div class="w-full max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
-
-    {# 1) LOGO — taille contrôlée, ne rétrécit pas #}
+    {# 1) LOGO — ne rétrécit pas #}
     <a href="{{ path('app_home') }}"
        class="flex flex-col items-center text-center mr-2 shrink-0"
        aria-label="Retour à l’accueil TalentÉkô">
-      <img src="{{ asset('images/logo_rond.png') }}"
+      <img src="{{ asset('images/talenteko_logo.png') }}"
            alt="Logo TalentÉkô"
            class="max-h-10 w-auto object-contain rounded-full shrink-0" />
       <span class="text-xs font-extrabold leading-none">
-        <span class="text-[#141C2E]">Talent</span><span class="text-[#D6713C]">Ékô</span>
+        <span class="text-talenteko-blue">Talent</span><span class="text-talenteko-orange-500">Ékô</span>
       </span>
     </a>
 
-    {# 2) RECHERCHE — prend l’espace central disponible, bornée en largeur
-       - flex-1 : occupe l’espace libre
-       - min-w évite l’écrasement
-       - max-w-xl : proportion cohérente avec la maquette
-    #}
+    {# 2) RECHERCHE #}
     <form action="{{ path('app_home') }}"
           method="get"
           role="search"
@@ -41,13 +30,13 @@
         name="q"
         placeholder="Rechercher une compétence…"
         aria-label="Rechercher une compétence"
-        class="w-full pl-10 pr-4 py-2 rounded-full border border-[#E2865A]
-               text-gray-700 bg-white placeholder-gray-400
-               focus:outline-none focus:ring-2 focus:ring-[#E2865A] focus:border-[#E2865A]
+        class="w-full pl-10 pr-4 py-2 rounded-full border border-talenteko-orange-500
+               text-talenteko-blue bg-white placeholder-gray-400
+               focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500
                transition"
       />
       {# Icône loupe (décorative) #}
-      <svg class="pointer-events-none absolute left-3 top-2.5 w-5 h-5 text-[#E2865A]"
+      <svg class="pointer-events-none absolute left-3 top-2.5 w-5 h-5 text-talenteko-orange-500"
            aria-hidden="true" focusable="false"
            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 5.5 5.5a7.5 7.5 0 0 0 11.15 11.15z" />
@@ -64,46 +53,43 @@
       {# Navigation principale #}
       <nav aria-label="Navigation principale" class="flex items-center gap-6 py-3">
         <a href="{{ path('app_search') }}"
-           class="text-[#E2865A] font-semibold hover:underline flex items-center gap-2">
+           class="text-talenteko-orange-500 font-semibold hover:underline flex items-center gap-2">
           <i class="fa fa-search" aria-hidden="true"></i>
           <span>Recherche</span>
         </a>
         <a href="#"
-           class="text-[#E2865A] font-semibold hover:underline flex items-center gap-2">
+           class="text-talenteko-orange-500 font-semibold hover:underline flex items-center gap-2">
           <i class="fa fa-heart" aria-hidden="true"></i>
           <span>Favoris</span>
         </a>
         <a href="#"
-           class="text-[#E2865A] font-semibold hover:underline flex items-center gap-2">
+           class="text-talenteko-orange-500 font-semibold hover:underline flex items-center gap-2">
           <i class="fa fa-envelope" aria-hidden="true"></i>
           <span>Messages</span>
         </a>
       </nav>
-{# CTA : Déposer une annonce — OUTLINE amélioré #}
-<a href="{{ path('app_annonce_new') }}" class="btn-outline" aria-label="Déposer une annonce">
-  + Déposer une annonce
-</a>
+{# CTA : Déposer une annonce #}
+      <a href="{{ path('app_annonce_new') }}" class="btn-outline" aria-label="Déposer une annonce">
+        + Déposer une annonce
+      </a>
 
-
-{# CTA : Se connecter — lift + ombre (pas de débordement) #}
-<a href="{{ path('app_login') }}" class="btn-primary" aria-label="Se connecter à votre compte">
-  <i class="fa fa-user" aria-hidden="true"></i>
-  <span>Se connecter</span>
-</a>
+      {# CTA : Se connecter #}
+      <a href="{{ path('app_login') }}" class="btn-primary" aria-label="Se connecter à votre compte">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>Se connecter</span>
+      </a>
     </div>
   </div>
-  {# BARRE DE CATÉGORIES — fidèle à ta maquette (ligne séparatrice sous le header)
-     NB : on laisse la bordure uniquement ici, pas sur le header.
-  #}
+  {# BARRE DE CATÉGORIES —#}
   {% set current_route = app.request.attributes.get('_route') %}
   {% if current_route in ['app_home', 'app_search'] %}
-    <div class="bg-white py-3 border-t border-[#E2865A]">
+    <div class="bg-white py-3 border-t border-talenteko-orange-500">
       {# Catégories centrées, retour à la ligne si besoin #}
       <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-2 text-sm">
         {% set categories = ['Bricolage', 'Bien-être', 'Jardinage', 'Éducation', 'Informatique', 'Langues', 'Art', 'Marketing', 'Administratif', 'Juridique'] %}
         {% for cat in categories %}
           <a href="#"
-             class="bg-white border border-orange-100 text-gray-700
+             class="bg-white border border-orange-100 text-talenteko-blue
                     px-4 py-1.5 rounded-full shadow-sm hover:bg-orange-50">
             {{ cat }}
           </a>

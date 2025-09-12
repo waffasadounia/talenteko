@@ -17,7 +17,7 @@ class ListingImage
     private bool $isPrimary = false;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Listing $listing;
 
     // === Getters / Setters ===

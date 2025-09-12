@@ -42,11 +42,21 @@ final class AppFixtures extends Fixture
 
         for ($u = 1; $u <= 8; $u++) {
             $user = new User();
-            $user->setEmail("user{$u}@example.com");
+
+            // Email en lowercase (cohérent avec setEmail())
+            $email = sprintf('user%d@example.com', $u);
+            $user->setEmail($email);
             $user->setPassword($this->hasher->hashPassword($user, 'Password123!'));
-            $user->setPseudo($faker->firstName());
-            $user->setLocation($faker->randomElement($cities));
-            // avatarPath/rating facultatifs
+
+            // Nouveaux champs profil
+            $user
+                ->setPseudo($faker->firstName())                 // ancien firstname
+                ->setLocation($faker->randomElement($cities))     // ancien city
+                ->setBio($faker->sentence(12))
+                ->setSkillsOffered($this->randomSkills())
+                ->setSkillsWanted($this->randomSkills());
+                // ->setAvatarFilename(null); // upload géré côté profil
+
             $em->persist($user);
 
             $nbListings = random_int(4, 5);
@@ -61,11 +71,11 @@ final class AppFixtures extends Fixture
                     ->setDescription($faker->paragraphs(random_int(2, 4), true))
                     ->setType($faker->boolean() ? 'OFFER' : 'REQUEST')
                     ->setStatus('PUBLISHED')
-                    ->setCity($city)
+                    ->setLocation($city)
                     ->setAuthor($user)
                     ->setCategory($cat);
 
-                // // Exemple si je veux créer des images :
+                // // Exemple si tu veux créer des images :
                 // $image = (new ListingImage())
                 //     ->setPath('/images/placeholder.png')
                 //     ->setIsPrimary(true)
@@ -75,6 +85,16 @@ final class AppFixtures extends Fixture
                 $em->persist($listing);
             }
         }
+
+        // Admin de démo
+        $admin = (new User())
+            ->setEmail('admin@talenteko.test')
+            ->setRoles(['ROLE_ADMIN'])
+            ->setPseudo('Admin')
+            ->setLocation('Paris')
+            ->setBio('Admin de TalentÉkô.');
+        $admin->setPassword($this->hasher->hashPassword($admin, 'Admin!2025'));
+        $em->persist($admin);
 
         $em->flush();
     }
@@ -88,5 +108,22 @@ final class AppFixtures extends Fixture
         $text = preg_replace('~-+~', '-', $text);
         $text = strtolower($text);
         return $text !== '' ? $text : 'n-a';
+    }
+
+    /**
+     * Renvoie un petit set de compétences (array) ou null pour varier.
+     * Stocké en JSON via Doctrine (colonne JSON nullable).
+     */
+    private function randomSkills(): ?array
+    {
+        $pool = [
+            'guitare','anglais','montage pc','coaching','soutien scolaire',
+            'jardinage','dessin','traduction','wordpress','excel'
+        ];
+        if (random_int(0, 2) === 0) {
+            return null; // 1/3 de chance d'absence de données
+        }
+        shuffle($pool);
+        return array_slice($pool, 0, random_int(2, 4));
     }
 }

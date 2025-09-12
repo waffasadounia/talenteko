@@ -1,12 +1,40 @@
-{# <div class="bg-white rounded-lg shadow hover:shadow-md transition p-6 flex flex-col items-center justify-center">
-  {# <div class="text-4xl mb-3">{{ icon }}</div>
-  <div class="text-md font-medium text-gray-700">{{ label }}</div> #}
-  {# <img src="{{ asset('icons/arts.png') }}" alt="{{ label }}" class="w-16 h-16 mx-auto">
-</div> #} 
+{# partials/_category_card.html.twig #}
+{#
+  Carte de catégorie (images entières, conteneur plus grand)
+  ================================ #}
 
+<a href="{{ path('app_category_show', { slug: category.slug }) }}"
+   class="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition group bg-white">
 
-<div class="bg-white shadow rounded-lg p-4">
-  {# <img src="{{ asset('/images/illustrations/' ~ image) }}" alt="{{ label }}" class="w-20 h-20 mx-auto mb-2"> #}
-  <img src="{{ asset('/images/illustrations/' ~ image) }}" alt="{{ label }}" class="w-32 h-32 mx-auto mb-2 object-contain">
-  <p class="text-lg font-semibold">{{ label }}</p>
-</div>
+  {# --- Mapping slug → image --- #}
+  {% set images = {
+    'art':            'art.png',
+    'langues':        'langues.png',
+    'informatique':   'informatique.png',
+    'cuisine':        'chefcuisto.png',
+    'sport':          'sport.png',
+    'bricolage':      'bricolage.png',
+    'bien-etre':      'bien-etre.png',
+    'jardinage':      'jardinage.png',
+    'education':      'education.png',
+    'marketing':      'marketing.png',
+    'administratif':  'administratif.png',
+    'juridique':      'juridique.png'
+  } %}
+
+  {% set image = images[category.slug]|default('placeholder.png') %}
+
+  {# --- Image plus grande, toujours entière --- #}
+  <div class="relative w-full h-60 flex items-center justify-center bg-transparent">
+    <img src="{{ asset('images/categories/' ~ image) }}"
+         alt="{{ category.name }}"
+         class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105">
+  </div>
+
+  {# --- Libellé catégorie --- #}
+  <div class="p-3 text-center">
+    <h3 class="text-lg font-semibold text-talenteko-blue">
+      {{ category.name }}
+    </h3>
+  </div>
+</a>
