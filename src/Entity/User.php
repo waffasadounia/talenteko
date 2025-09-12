@@ -19,12 +19,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     // === Identité / Sécurité ===
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    // ✅ Identifiant de connexion (email unique)
+    // Identifiant de connexion = email (unique en BDD)
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank(message: 'Merci de saisir un email.')]
     #[Assert\Email(message: 'Email invalide.')]
@@ -37,23 +38,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * Mot de passe hashé (stocké en BDD)
+     * → jamais le mot de passe en clair ici
      */
-    #[ORM\Column] // colonne non-nullable (cohérent avec l’auth)
-    private string $password = ''; //non nullable pour éviter les états invalides
+    #[ORM\Column]
+    private string $password = '';
+
+    /**
+     * Champ temporaire pour validation du mot de passe
+     * - NON stocké en BDD
+     * - Sert uniquement lors de l'inscription / modification
+     * - Contraintes fortes (ANSSI) :
+     *    • ≥ 10 caractères
+     *    • au moins 1 majuscule
+     *    • au moins 1 minuscule
+     *    • au moins 1 chiffre
+     *    • au moins 1 caractère spécial
+     */
+    #[Assert\NotBlank(message: 'Merci de saisir un mot de passe.')]
+    #[Assert\Length(
+        min: 10,
+        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/",
+        message: "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
+    )]
+    private ?string $plainPassword = null;
 
     // === Profil ===
+
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $pseudo = null;
 
-    #[ORM\Column(length: 120, nullable: true)]
+    #[ORM\Column(length: 120)]
+    #[Assert\NotBlank(message: 'Merci d’indiquer votre ville.')]
     private ?string $location = null;
 
     // texte libre de présentation
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $bio = null;
 
-    // listes souples (CSV côté formulaire → JSON stocké)
+    // compétences proposées et recherchées (stockées en JSON)
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $skills_offered = null;
 
@@ -78,13 +104,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        // par sécurité : ROLE_USER toujours présent
+        // par sécurité : chaque utilisateur a au moins ROLE_USER
         $this->roles = ['ROLE_USER'];
         $this->createdAt = new \DateTimeImmutable();
         $this->listings = new ArrayCollection();
     }
 
-    // === Getters / Setters de base ===
+    // === Getters / Setters ===
+
     public function getId(): ?int
     {
         return $this->id;
@@ -98,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEmail(string $email): static
     {
-        // évite les doublons Jean@… vs jean@…
+        // normalisation → évite doublons (Jean@… vs jean@…)
         $this->email = mb_strtolower($email);
         return $this;
     }
@@ -108,7 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-    // Compat <5.3 si besoin par des bundles
+    // Compatibilité avec anciens bundles
     public function getUsername(): string
     {
         return $this->getUserIdentifier();
@@ -134,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Password (hash)
+    // Password (hashé en BDD)
     public function getPassword(): string
     {
         return $this->password;
@@ -146,13 +173,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function eraseCredentials(): void
+    // Plain password (non stocké)
+    public function getPlainPassword(): ?string
     {
-        // Exemple s'il y avait un champ temporaire :
-        // $this->plainPassword = null;
+        return $this->plainPassword;
     }
 
-    // === Profil (getters/setters) ===
+    public function setPlainPassword(?string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+    // Nettoyage du plainPassword après usage
+    public function eraseCredentials(): void
+    {
+        $this->plainPassword = null;
+    }
+
+    // === Profil ===
+
     public function getPseudo(): ?string
     {
         return $this->pseudo;
@@ -162,6 +202,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->pseudo = $pseudo;
         return $this;
+    }
+
+    // Affichage du nom d’utilisateur (pseudo ou fallback)
+    public function getDisplayName(): string
+    {
+        if ($this->pseudo) {
+            return $this->pseudo;
+        }
+        // fallback propre : masque une partie de l’email
+        $email = (string) $this->email;
+        $local = explode('@', $email)[0] ?? 'membre';
+        if (mb_strlen($local) > 4) {
+            return mb_substr($local, 0, 4) . str_repeat('•', 3);
+        }
+        return $local . '•';
     }
 
     public function getLocation(): ?string
@@ -247,6 +302,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     // === Relations ===
+
     /**
      * @return Collection<int, Listing>
      */
@@ -268,15 +324,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->listings->removeElement($listing)) {
             // NE PAS mettre setAuthor(null) si JoinColumn(nullable=false)
-            // L'owning side reste cohérent (author = this).
-            // Si tu veux vraiment détacher, il faut prévoir un autre flux (transfert d'auteur ou suppression du Listing).
+            // sinon incohérence côté DB
         }
         return $this;
     }
 
     public function __toString(): string
-    {
-        return $this->email ?? 'Utilisateur';
+{
+    // Si le pseudo est défini → c’est lui qui prime
+    if (!empty($this->pseudo)) {
+        return $this->pseudo;
     }
-}
 
+    // Sinon partie locale de l’email (avant le @), tronquée pour éviter d’exposer l’adresse
+    if (!empty($this->email)) {
+        $local = explode('@', $this->email)[0];
+        return mb_substr($local, 0, 4) . '…';
+    }
+
+    // Fallback ultime
+    return 'Membre';
+}
+}
