@@ -1,0 +1,11 @@
+/* ===========================================
+   UTILITIES — Alias & compatibilité
+   -------------------------------------------
+   → Classes utilitaires TalentÉkô pour
+     compatibilité avec ancien code
+   =========================================== */
+
+@layer utilities {
+  .text-orangePeche  { @apply text-talenteko-orange-500; }
+  .border-orangePeche { @apply border-talenteko-orange-500; }
+}

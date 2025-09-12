@@ -27,14 +27,45 @@ class Category
     }
 
     // === Getters / Setters ===
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getName(): string { return $this->name; }
-    public function setName(string $name): self { $this->name = $name; return $this; }
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
-    public function getSlug(): string { return $this->slug; }
-    public function setSlug(string $slug): self { $this->slug = $slug; return $this; }
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+        return $this;
+    }
 
     /** @return Collection<int, Listing> */
-    public function getListings(): Collection { return $this->listings; }
+    public function getListings(): Collection
+    {
+        return $this->listings;
+    }
+
+    // === Astuce Symfony/Twig ===
+    // Quand Twig essaie d'afficher {{ category }},
+    // il utilise automatiquement __toString().
+    // Ici on renvoie le nom, ce qui évite l'erreur de conversion.
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

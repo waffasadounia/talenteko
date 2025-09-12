@@ -1,42 +1,66 @@
-{# Layout de base #}
+{# =============================
+   Layout principal TalentÉkô
+   - Sert de squelette global à toutes les pages
+   - Contient : <head>, header, footer, blocks Twig
+   ============================= #}
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+
+    {# Balise <title> personnalisable par page #}
     <title>{% block title %}TalentÉkô{% endblock %}</title>
-     {# Responsive mobile #}
+
+    {# Responsive mobile #}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-{# 👇 Évite que /styleguide/... apparaisse sur Google. #}
+
+    {# Exclusion du styleguide des moteurs de recherche #}
     {% if app.request.pathinfo starts with '/styleguide' %}
       <meta name="robots" content="noindex, nofollow">
     {% endif %}
 
-    {# Favicons #}
+    {# =============================
+       Favicons (multi-format)
+       ============================= #}
     <link rel="icon" type="image/png" href="{{ asset('images/faviconTalenteko.png') }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/faviconTalenteko.svg') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/faviconTalenteko.ico') }}">
 
-    {# CSS (Encore) #}
+    {# =============================
+       CSS principal (compilé via Webpack Encore)
+       ============================= #}
     {{ encore_entry_link_tags('app') }}
 
-    {# Polices #}
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {# Polices Google (Montserrat, Catamaran, Chivo) #}
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    >
 
-    {# Font Awesome #}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    {# Font Awesome (icônes) #}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-    {# Styles additionnels page #}
+    {# Espace réservé pour CSS additionnel par page #}
     {% block stylesheets %}{% endblock %}
 
-    {# JS (Encore) — defer par défaut #}
+    {# =============================
+       JS principal (Webpack Encore)
+       - Scripts compilés (Stimulus, Turbo…)
+       - Defer appliqué automatiquement
+       ============================= #}
     {{ encore_entry_script_tags('app') }}
   </head>
-  <body class="bg-white text-gray-800">
-    {# Header global #}
+
+  <body class="bg-white text-gray-800 font-montserrat">
+    {# Header global (navigation) #}
     {% include 'partials/_header.html.twig' %}
 
-    {# Zone de contenu principale #}
+    {# Zone principale de contenu #}
     <main class="container mx-auto mt-8 min-h-[80vh]">
       {% block body %}{% endblock %}
     </main>
@@ -44,7 +68,7 @@
     {# Footer global #}
     {% include 'partials/_footer.html.twig' %}
 
-    {# Scripts additionnels page #}
+    {# Espace réservé pour JS additionnel par page #}
     {% block javascripts %}{% endblock %}
   </body>
 </html>

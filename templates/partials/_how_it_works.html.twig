@@ -1,25 +1,35 @@
-<section class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold mb-12 text-gray-800">Comment ça marche ?</h2>
+{# ================================
+  partials/_how_it_work.html.twig
+  Section pédagogique "Comment ça marche ?"
+  ================================ #}
+
+<section class="relative py-20 bg-talenteko-peach-100">
+  <div class="max-w-6xl mx-auto px-4 text-center relative">
+    <h2 class="text-3xl font-bold mb-4 text-primary-color">Comment ça marche ?</h2>
+    <p class="mb-12 text-primary-color">Échangez vos compétences en quelques étapes simples</p>
+
+    {% set etapes = [
+      {"numero": "1", "titre": "Créez votre compte", "texte": "Inscrivez-vous rapidement pour rejoindre la communauté."},
+      {"numero": "2", "titre": "Publiez une annonce", "texte": "Proposez ou recherchez une compétence à échanger."},
+      {"numero": "3", "titre": "Échangez et évoluez", "texte": "Bénéficiez de talents et développez vos savoirs."}
+    ] %}
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-      <div class="flex flex-col items-center">
-        <div class="bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center mb-4 text-2xl font-bold">1</div>
-        <h3 class="text-xl font-semibold mb-2">Créez votre profil</h3>
-        <p class="text-gray-600 max-w-xs">Inscrivez-vous et complétez votre profil pour présenter vos compétences.</p>
-      </div>
+      {% for etape in etapes %}
+        <div class="flex flex-col items-center">
+          <div class="bg-talenteko-orange-500 text-white rounded-full w-16 h-16 flex items-center justify-center mb-4 text-2xl font-bold">
+            {{ etape.numero }}
+          </div>
+          <h3 class="text-xl font-semibold mb-2 text-primary-color">{{ etape.titre }}</h3>
+          <p class="text-primary-color max-w-xs">{{ etape.texte }}</p>
+        </div>
+      {% endfor %}
+    </div>
 
-      <div class="flex flex-col items-center">
-        <div class="bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center mb-4 text-2xl font-bold">2</div>
-        <h3 class="text-xl font-semibold mb-2">Publiez une annonce</h3>
-        <p class="text-gray-600 max-w-xs">Proposez vos services ou recherchez une compétence à échanger.</p>
-      </div>
-
-      <div class="flex flex-col items-center">
-        <div class="bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center mb-4 text-2xl font-bold">3</div>
-        <h3 class="text-xl font-semibold mb-2">Échangez avec la communauté</h3>
-        <p class="text-gray-600 max-w-xs">Communiquez avec les membres et réalisez des échanges gagnant-gagnant.</p>
-      </div>
+    <div class="mt-10">
+      <a href="{{ path('app_login') }}" class="btn-primary" aria-label="Commencer maintenant">
+        Commencer maintenant
+      </a>
     </div>
   </div>
 </section>

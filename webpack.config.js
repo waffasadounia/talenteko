@@ -40,7 +40,7 @@ Encore
   // ================= Source maps =================
   // DEV: on force 'inline-source-map' pour éviter le protocole webpack://
   // PROD: désactivé (bonnes pratiques, taille/infos sensibles)
-  .enableSourceMaps(!Encore.isProduction(), 'inline-source-map')
+  .enableSourceMaps(!Encore.isProduction(), 'cheap-module-source-map')
 
   // Hash des fichiers en production (cache-busting)
   .enableVersioning(Encore.isProduction())

@@ -1,18 +1,32 @@
-<section class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8 text-center">
-      Tendances actuelles
-    </h2>
+{# ==========================================
+  partials/_tendances.html.twig
+  Section des annonces tendances
+  Variable attendue : "annonces" (array d’objets Listing préparés par HomeController)
+  ========================================== #}
 
+<section id="tendances" class="py-16 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    {# Titre de la section #}
+    <h2 class="text-3xl font-bold mb-10 text-center text-primary-color">Tendances actuelles</h2>
+
+    {# Grille responsive : 1 à 4 colonnes selon écran #}
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {% include 'partials/_annonce_card.html.twig' with { 'title': 'Cours de guitare', 'category': 'Musique' , 'id': 1} %}
-      {% include 'partials/_annonce_card.html.twig' with { 'title': 'Cours d’anglais', 'category': 'Langues', 'id': 2 } %}
-      {% include 'partials/_annonce_card.html.twig' with { 'title': 'Montage PC', 'category': 'Informatique', 'id': 3 } %}
-      {% include 'partials/_annonce_card.html.twig' with { 'title': 'Coaching sportif', 'category': 'Sport', 'id': 4 } %}
+      {% for annonce in annonces %}
+        {# Inclusion du composant carte #}
+        {% include 'partials/_annonce_card.html.twig' with { annonce: annonce } %}
+      {% else %}
+        <p class="text-center col-span-full text-primary-color">
+          Aucune annonce pour le moment. 
+          <a href="{{ path('app_annonce_new') }}" class="btn-link">Dépose la première !</a>
+        </p>
+      {% endfor %}
     </div>
 
+    {# Lien vers la recherche complète #}
     <div class="mt-8 text-center">
-      <a href="#" class="text-orange-600 font-semibold hover:underline">Voir toutes les annonces</a>
+      <a href="{{ path('app_search') }}" class="btn-link" aria-label="Voir toutes les annonces">
+        Voir toutes les annonces →
+      </a>
     </div>
   </div>
 </section>

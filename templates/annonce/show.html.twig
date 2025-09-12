@@ -1,37 +1,28 @@
 {# templates/annonce/show.html.twig #}
-{#
-  Page DÉTAIL (mise en forme légère).
-  Variable attendue : "annonce" (title, description, category, user.name, ville, type, createdAt).
-#}
 {% extends 'base.html.twig' %}
 
-{# <title> pour l’onglet navigateur #}
 {% block title %}{{ annonce.title }} | TalentÉkô{% endblock %}
 
-{# IMPORTANT : utiliser "body" (pas "content") pour coller à base.html.twig #}
 {% block body %}
-  {# ===== Bandeau d’en-tête : breadcrumb + titre ===== #}
-  <section class="bg-[#FFF6F2] py-8">
+  {# ===== Bandeau d’en-tête ===== #}
+  <section class="bg-talenteko-peach-100 py-8">
     <div class="max-w-6xl mx-auto px-4">
-      {# Breadcrumb minimal (retour à l’accueil) #}
       <p class="text-sm mb-3">
-        <a href="{{ path('app_home') }}" class="text-[#E2865A] hover:underline">Accueil</a>
+        <a href="{{ path('app_home') }}" class="text-talenteko-orange-500 hover:underline">Accueil</a>
         <span class="text-gray-400">/</span>
         <span class="text-gray-600">Annonce</span>
       </p>
 
-      {# Titre principal #}
-      <h1 class="text-3xl md:text-4xl font-extrabold text-primary-color">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-talenteko-blue">
         {{ annonce.title }}
       </h1>
 
-      {# Meta infos (catégorie + ville) sécurisées #}
       <div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
-        {% if annonce.category is defined and annonce.category %}
+        {% if annonce.category %}
           <span>Catégorie : <strong>{{ annonce.category }}</strong></span>
         {% endif %}
-        {% if annonce.ville is defined and annonce.ville %}
-          <span>Ville : <strong>{{ annonce.ville }}</strong></span>
+        {% if annonce.location %}
+          <span>Ville : <strong>{{ annonce.location }}</strong></span>
         {% endif %}
       </div>
     </div>
@@ -44,19 +35,19 @@
       {# Colonne gauche : image + description #}
       <div class="md:col-span-2 space-y-6">
 
-        {# Image placeholder #}
+        {# Image réelle si dispo #}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
           <img
-            src="{{ asset('images/placeholder.png') }}"
-            alt="Image de l’annonce"
+            src="{{ annonce.images|first
+              ? asset('uploads/listings/' ~ annonce.images|first.filename)
+              : asset('images/placeholder.png') }}"
+            alt="{{ annonce.title }}"
             class="w-full h-72 object-cover"
-            onerror="this.onerror=null;this.src='{{ asset('images/placeholder.png') }}';"
           >
         </div>
 
-        {# Bloc Description (sans plugin Typography pour éviter dépendances) #}
         <article class="bg-white border border-gray-200 rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-3 text-primary-color">Description</h2>
+          <h2 class="text-xl font-bold mb-3 text-talenteko-blue">Description</h2>
           <div class="max-w-none text-gray-800 leading-relaxed whitespace-pre-line">
             {{ annonce.description }}
           </div>
@@ -66,24 +57,29 @@
       {# Colonne droite : informations auteur #}
       <aside class="space-y-6">
         <div class="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 class="text-lg font-semibold text-primary-color mb-4">Proposé par</h3>
-          <div class="flex items-center gap-3">
-            {# Avatar simple basé sur l'initiale du nom #}
-            <div class="w-10 h-10 bg-[#F7F4E7] text-[#D6713C] rounded-full flex items-center justify-center font-bold">
-              {{ (annonce.user.name ?? 'M')|slice(0,1)|upper }}
+          <h3 class="text-lg font-semibold text-talenteko-blue mb-4">Proposé par</h3>
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-talenteko-peach-200 text-talenteko-orange-500 rounded-full flex items-center justify-center font-bold">
+              {{ (annonce.author.pseudo ?? 'M')|slice(0,1)|upper }}
             </div>
             <div>
-              <div class="font-semibold text-[#141C2E]">{{ annonce.user.name ?? 'Membre' }}</div>
-              {% if annonce.ville is defined and annonce.ville %}
-                <div class="text-sm text-gray-500">{{ annonce.ville }}</div>
+              <div class="font-semibold text-talenteko-blue">{{ annonce.author.pseudo ?? 'Membre' }}</div>
+              {% if annonce.location %}
+                <div class="text-sm text-gray-500">{{ annonce.location }}</div>
               {% endif %}
             </div>
           </div>
+
+          {# Étoiles (notation statique en attendant la vraie moyenne) #}
+          <div class="flex items-center text-talenteko-orange-500 text-sm">
+            {% for i in 1..5 %}
+              <i class="fa{{ i <= 4 ? 's' : 'r' }} fa-star"></i>
+            {% endfor %}
+          </div>
         </div>
 
-        {# Lien retour (UX) #}
         <div class="bg-white border border-gray-200 rounded-xl p-6">
-          <a href="{{ path('app_home') }}" class="block text-center text-[#E2865A] hover:underline">
+          <a href="{{ path('app_home') }}" class="block text-center text-talenteko-orange-500 hover:underline">
             ← Retour à l’accueil
           </a>
         </div>
@@ -91,6 +87,5 @@
     </div>
   </section>
 
-  {# Messages flash (si besoin) #}
   {% include 'partials/_flash.html.twig' %}
 {% endblock %}
