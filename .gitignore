@@ -30,3 +30,4 @@ tailwindcss.exe
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+/public/uploads/
