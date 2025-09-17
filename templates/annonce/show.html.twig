@@ -1,4 +1,4 @@
-{# templates/annonce/show.html.twig #}
+{# templates/annonce/show.html.twig (V2 homogène avec LiipImagine) #}
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ annonce.title }} | TalentÉkô{% endblock %}
@@ -34,16 +34,30 @@
 
       {# Colonne gauche : image + description #}
       <div class="md:col-span-2 space-y-6">
-
-        {# Image réelle si dispo #}
-        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        {# Image principale homogène (900x506 via LiipImagine) #}
+        <div class="relative bg-white border border-gray-200 rounded-xl overflow-hidden">
           <img
-            src="{{ annonce.images|first
-              ? asset('uploads/listings/' ~ annonce.images|first.filename)
-              : asset('images/placeholder.png') }}"
+            src="{{ (annonce.images|length > 0
+                       ? asset('uploads/listings/' ~ annonce.images|first.path)
+                       : asset('uploads/listings/placeholder.png'))
+                       | imagine_filter('annonce_show') }}"
             alt="{{ annonce.title }}"
-            class="w-full h-72 object-cover"
-          >
+            class="w-full rounded-t-xl"
+          />
+
+          {# Bouton Favoris #}
+          <button class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white shadow flex items-center justify-center
+                         text-talenteko-orange-500 hover:bg-talenteko-orange-100 transition"
+                  aria-label="Ajouter aux favoris"
+                  data-controller="favorite-toggle"
+                  data-action="click->favorite-toggle#toggle">
+            <span data-favorite-toggle-target="empty">
+              <i class="fa-regular fa-heart"></i>
+            </span>
+            <span data-favorite-toggle-target="filled" class="hidden">
+              <i class="fa-solid fa-heart"></i>
+            </span>
+          </button>
         </div>
 
         <article class="bg-white border border-gray-200 rounded-xl p-6">
@@ -54,7 +68,7 @@
         </article>
       </div>
 
-      {# Colonne droite : informations auteur #}
+      {# Colonne droite : auteur #}
       <aside class="space-y-6">
         <div class="bg-white border border-gray-200 rounded-xl p-6">
           <h3 class="text-lg font-semibold text-talenteko-blue mb-4">Proposé par</h3>
@@ -65,12 +79,12 @@
             <div>
               <div class="font-semibold text-talenteko-blue">{{ annonce.author.pseudo ?? 'Membre' }}</div>
               {% if annonce.location %}
-                <div class="text-sm text-gray-500">{{ annonce.location }}</div>
+                <div class="text-sm text-gray-500 truncate max-w-[120px]">{{ annonce.location }}</div>
               {% endif %}
             </div>
           </div>
 
-          {# Étoiles (notation statique en attendant la vraie moyenne) #}
+          {# Étoiles statiques pour l’instant #}
           <div class="flex items-center text-talenteko-orange-500 text-sm">
             {% for i in 1..5 %}
               <i class="fa{{ i <= 4 ? 's' : 'r' }} fa-star"></i>

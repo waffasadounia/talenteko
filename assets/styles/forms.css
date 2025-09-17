@@ -1,12 +1,8 @@
 /* ===========================================
    FORMS — Champs et états
-   -------------------------------------------
-   → Styles pour inputs, selects, textareas
-   → États de focus, erreurs
    =========================================== */
-
 @layer components {
-  /* Styles de base pour champs dans un form.tk-form */
+  /* Champs de base */
   .tk-form input,
   .tk-form select,
   .tk-form textarea {
@@ -16,33 +12,55 @@
            transition;
   }
 
-  /* États d’erreur (aria-invalid=true ou .is-invalid) */
+  /* Erreurs */
   .tk-form [aria-invalid="true"],
   .tk-form .is-invalid {
     @apply border-red-500 ring-1 ring-red-500 focus:border-red-600 focus:ring-red-600;
   }
+  
+ .tk-form ul[role="listbox"] {
+    @apply border border-gray-200 rounded-lg bg-white shadow-sm;
+  }
 
-  /* Champ générique */
+  .tk-form ul[role="listbox"] li {
+    @apply px-3 py-2 text-sm cursor-pointer;
+  }
+
+  .tk-form ul[role="listbox"] li:hover,
+  .tk-form ul[role="listbox"] li.bg-talenteko-peach-200 {
+    @apply bg-talenteko-peach-200;
+  }
+
+  /* Input générique */
   .form-input {
     @apply border border-gray-300 rounded-lg px-3 py-2 text-base w-full;
   }
 
-  /* Focus sur .form-input (orange de marque) */
   .form-input:focus-visible {
     border: 1px solid #D6713C;
     outline: none;
-    /* box-shadow: 0 0 0 3px rgba(214, 113, 60, 0.5); */
   }
 
-  /* Style spécifique pour le champ email d'inscription */
-  #registration_email:focus-visible {
-    border: 1px solid #D6713C;
-    outline: none;
-    /* box-shadow: 0 0 0 3px rgba(214, 113, 60, 0.5); */
-  }
   .form-required {
-  color: #D6713C; /* orange officiel TalentÉkô */
-  font-weight: bold;
+    color: #D6713C;
+    font-weight: bold;
+  }
+
+  /* ====== Custom Checkbox ====== */
+.form-checkbox-box {
+  @apply w-4 h-4 flex items-center justify-center rounded border border-gray-400 
+         bg-white transition-colors duration-200; /* boîte blanche par défaut */
 }
 
+.peer:checked + .form-checkbox-box {
+  @apply bg-talenteko-orange-500 border-talenteko-orange-500;
 }
+
+.form-checkbox-icon {
+  @apply hidden w-3 h-3 text-white; /* caché par défaut */
+}
+
+.peer:checked + .form-checkbox-box .form-checkbox-icon {
+  @apply inline; /* icône visible quand coché */
+}
+} 

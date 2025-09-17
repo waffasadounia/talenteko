@@ -1,40 +1,39 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 /**
  * Contrôleur Stimulus : vérifie en direct
  * que la confirmation du mot de passe correspond au premier.
  *
- * Accessibilité :
- * - aria-live="polite" pour que les lecteurs d’écran soient informés.
- * - feedback visuel rouge/vert clair.
+ * UX / Accessibilité :
+ * - Feedback en direct avec icônes Font Awesome (✔️ / ✖️).
+ * - aria-live="polite" : le message est lu par les lecteurs d’écran.
+ * - Utilisation de setCustomValidity pour bloquer la soumission
+ *   tant que les deux mots de passe ne correspondent pas.
  */
 export default class extends Controller {
-  static targets = ["original", "confirm", "feedback"];
-
-  connect() {
-    console.log("✅ PasswordConfirm Stimulus controller connecté !");
-    this.updateFeedback(); // vérifie au chargement (utile si champ pré-rempli)
-  }
+  static targets = ["original", "confirm", "feedback"]
 
   check() {
-    this.updateFeedback();
-  }
-
-  updateFeedback() {
-    const pwd = this.originalTarget.value;
-    const confirm = this.confirmTarget.value;
+    const pwd = this.originalTarget.value
+    const confirm = this.confirmTarget.value
 
     if (!confirm) {
-      this.feedbackTarget.textContent = "";
-      return;
+      // Champ vide → on efface le feedback et on réinitialise la validation
+      this.feedbackTarget.innerHTML = ""
+      this.confirmTarget.setCustomValidity("") 
+      return
     }
 
     if (pwd === confirm) {
-      this.feedbackTarget.textContent = "✅ Les mots de passe correspondent.";
-      this.feedbackTarget.className = "text-green-600 text-xs mt-1";
+      // ✅ Mots de passe identiques
+      this.feedbackTarget.innerHTML = `<i class="fa-solid fa-check-circle text-green-500 mr-1"></i><span>Les mots de passe correspondent.</span>`
+      this.feedbackTarget.className = "flex items-center gap-1 text-green-600 text-xs mt-1"
+      this.confirmTarget.setCustomValidity("") 
     } else {
-      this.feedbackTarget.textContent = "❌ Les mots de passe ne correspondent pas.";
-      this.feedbackTarget.className = "text-red-600 text-xs mt-1";
+      // ❌ Mots de passe différents
+      this.feedbackTarget.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i><span>Les mots de passe ne correspondent pas.</span>`
+      this.feedbackTarget.className = "flex items-center gap-1 text-red-600 text-xs mt-1"
+      this.confirmTarget.setCustomValidity("Les mots de passe ne correspondent pas.")
     }
   }
 }

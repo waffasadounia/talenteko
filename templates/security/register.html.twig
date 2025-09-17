@@ -1,73 +1,3 @@
-<<<<<<< HEAD
-{% extends 'base.html.twig' %}
-{% block title %}Créer un compte | TalentÉkô{% endblock %}
-
-{% block body %}
-<section class="bg-talenteko-peach-100 py-12">
-  <div class="max-w-md mx-auto px-4">
-    <h1 class="text-2xl font-bold text-primary-color mb-6 text-center">
-      Créer un compte
-    </h1>
-
-    {% for label, messages in app.flashes %}
-      {% for message in messages %}
-        <div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endfor %}
-
-    <div class="rounded-2xl border bg-white p-6 shadow-sm">
-      {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
-
-        <div class="space-y-4">
-          {{ form_row(form.email) }}
-          {{ form_row(form.pseudo) }}
-          {{ form_row(form.location) }}
-
-          <div id="pwd-help" class="text-xs text-gray-600">
-            Au moins 8 caractères. Évitez les mots de passe compromis. Feedback ci-dessous.
-          </div>
-
-          {{ form_row(form.plainPassword.first) }}
-          {{ form_row(form.plainPassword.second) }}
-
-          <ul id="pwd-criteria" class="text-xs mt-1" aria-live="polite" aria-atomic="true">
-            <li data-rule="len">• Au moins 8 caractères</li>
-            <li data-rule="mix">• Lettres + chiffres recommandés</li>
-          </ul>
-        </div>
-
-        <button class="btn-primary btn-block mt-5">Créer mon compte</button>
-      {{ form_end(form) }}
-
-      <p class="text-sm text-gray-600 mt-6 text-center">
-        Déjà un compte ?
-        <a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
-      </p>
-    </div>
-  </div>
-</section>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const pwd = document.getElementById('pwd');
-  const items = document.querySelectorAll('#pwd-criteria [data-rule]');
-  if (!pwd) return;
-  const check = () => {
-    const v = pwd.value || '';
-    const okLen = v.length >= 8;
-    const okMix = /[A-Za-z]/.test(v) && /\d/.test(v);
-    items.forEach(li => {
-      const ok = (li.dataset.rule === 'len') ? okLen : okMix;
-      li.style.opacity = ok ? '0.6' : '1';
-      li.style.textDecoration = ok ? 'line-through' : 'none';
-    });
-  };
-  pwd.addEventListener('input', check);
-});
-</script>
-=======
 {# ========================== #
 # templates/security/register.html.twig
 # ========================== #}
@@ -82,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				Créer un compte
 			</h1>
 
-			{# --- Bandeau d’erreurs global (rouge) --- #}
+			{# --- Bandeau d’erreurs global --- #}
 			{% if not form.vars.valid and form.vars.submitted %}
 				<div id="form-global-errors" class="mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700 p-3" role="alert" aria-live="polite">
 					<strong class="font-semibold">Le formulaire contient des erreurs.</strong>
@@ -90,10 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				</div>
 			{% endif %}
 
-			{# --- Messages flash (succès) --- #}
+			{# --- Messages flash --- #}
 			{% for label, messages in app.flashes %}
 				{% for message in messages %}
-					<div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
+					<div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3" role="alert">
 						{{ message }}
 					</div>
 				{% endfor %}
@@ -101,156 +31,111 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			<div class="rounded-2xl bg-white p-6 shadow-sm">
 				{{ form_start(form, {
-        attr: {
-          novalidate: 'novalidate',
-          id: 'register-form',
-          class: 'tk-form'
-        }
+        attr: { novalidate: 'novalidate', id: 'register-form', class: 'tk-form' }
       }) }}
 
 				<div
 					class="space-y-5">
 
-					{# ========== EMAIL ========== #}
-					{% set emailInvalid = (form_errors(form.email) is not empty) %}
-					{% set emailErrorsId = form.email.vars.id ~ '-errors' %}
-					<div>
-						<label for="{{ form.email.vars.id }}" class="form-label">
-							Adresse email
-							<span class="form-required" aria-hidden="true">*</span>
-						</label>
-						{{ form_widget(form.email, {
-            attr: {
-              placeholder: 'ex. vous@exemple.fr',
-              class: 'form-input' ~ (emailInvalid ? ' is-invalid' : ''),
-              'aria-invalid': emailInvalid ? 'true' : 'false',
-              'aria-describedby': emailInvalid ? emailErrorsId : null,
-              autocomplete: 'email'
-            }
-          }) }}
-						{% if emailInvalid %}
-							<p id="{{ emailErrorsId }}" class="form-error">{{ form_errors(form.email) }}</p>
-						{% endif %}
+					{# EMAIL #}
+					{% include "partials/_form_field.html.twig" with {
+          field: form.email,
+          label: "Adresse email",
+          placeholder: "ex. vous@exemple.fr",
+          autocomplete: "email"
+        } %}
+
+					{# PSEUDO #}
+					{% include "partials/_form_field.html.twig" with {
+          field: form.pseudo,
+          label: "Pseudonyme",
+          placeholder: "ex. BricoMan42",
+          autocomplete: "nickname"
+        } %}
+
+					{# LOCALISATION avec autocomplétion + gestion erreurs #}
+<div data-controller="location-autocomplete" class="relative">
+  <label for="{{ form.location.vars.id }}" class="form-label">
+    Localisation
+    <span class="form-required" aria-hidden="true">*</span>
+  </label>
+
+  {% set locInvalid = (form_errors(form.location) is not empty) %}
+  {% set locErrorsId = form.location.vars.id ~ '-errors' %}
+
+  {{ form_widget(form.location, {
+    attr: {
+      class: 'form-input' ~ (locInvalid ? ' is-invalid' : ''),
+      'data-location-autocomplete-target': 'input',
+      'data-action': 'input->location-autocomplete#search keydown->location-autocomplete#keydown',
+      'aria-autocomplete': 'list',
+      'aria-expanded': 'false',
+      'aria-controls': 'location-suggestions',
+      'aria-invalid': locInvalid ? 'true' : 'false',
+      'aria-describedby': locInvalid ? locErrorsId : null,
+      autocomplete: 'off'
+    }
+  }) }}
+
+  {# Zone suggestions autocomplétion #}
+  <ul id="location-suggestions"
+      data-location-autocomplete-target="list"
+      role="listbox"
+      class="absolute z-10 mt-1 w-full rounded-lg border bg-white shadow-sm max-h-48 overflow-auto"></ul>
+
+  {# Affichage des erreurs (y compris celles du validateur API BAN) #}
+  {% if locInvalid %}
+    <p id="{{ locErrorsId }}" class="form-error" role="alert">
+      {{ form_errors(form.location) }}
+    </p>
+  {% endif %}
+</div>
+
+
+					{# MOT DE PASSE + CONFIRMATION #}
+					<div data-controller="password-strength password-confirm" class="space-y-5">
+						{% include "partials/_password_field.html.twig" with {
+            field: form.plainPassword.first,
+            label: "Mot de passe",
+            target: "original"
+          } %}
+
+						{% include "partials/_password_field.html.twig" with {
+            field: form.plainPassword.second,
+            label: "Confirmer le mot de passe",
+            target: "confirm"
+          } %}
 					</div>
 
-					{# ========== PSEUDO ========== #}
-					{% set pseudoInvalid = (form_errors(form.pseudo) is not empty) %}
-					{% set pseudoErrorsId = form.pseudo.vars.id ~ '-errors' %}
-					<div>
-						<label for="{{ form.pseudo.vars.id }}" class="form-label">
-							Pseudonyme
-							<span class="form-required" aria-hidden="true">*</span>
-						</label>
-						{{ form_widget(form.pseudo, {
-            attr: {
-              placeholder: 'ex. BricoMan42',
-              class: 'form-input' ~ (pseudoInvalid ? ' is-invalid' : ''),
-              'aria-invalid': pseudoInvalid ? 'true' : 'false',
-              'aria-describedby': pseudoInvalid ? pseudoErrorsId : null,
-              autocomplete: 'nickname'
-            }
-          }) }}
-						{% if pseudoInvalid %}
-							<p id="{{ pseudoErrorsId }}" class="form-error">{{ form_errors(form.pseudo) }}</p>
-						{% endif %}
-					</div>
+					{# Conditions d’utilisation — version custom stylisée #}
+					<label class="flex items-center gap-2 mt-4 cursor-pointer">
+						{{ form_widget(form.agreeTerms, {
+    attr: {
+      class: 'peer hidden',
+      id: form.agreeTerms.vars.id
+    }
+  }) }}
 
-					{# ========== LOCALISATION ========== #}
-					{% set locInvalid = (form_errors(form.location) is not empty) %}
-					{% set locErrorsId = form.location.vars.id ~ '-errors' %}
-					<div>
-						<label for="{{ form.location.vars.id }}" class="form-label">
-							Localisation
-							<span class="form-required" aria-hidden="true">*</span>
-						</label>
-						{{ form_widget(form.location, {
-            attr: {
-              placeholder: 'ex. Paris, Lyon…',
-              class: 'form-input' ~ (locInvalid ? ' is-invalid' : ''),
-              'aria-invalid': locInvalid ? 'true' : 'false',
-              'aria-describedby': locInvalid ? locErrorsId : null,
-              autocomplete: 'address-level2'
-            }
-          }) }}
-						{% if locInvalid %}
-							<p id="{{ locErrorsId }}" class="form-error">{{ form_errors(form.location) }}</p>
-						{% endif %}
-					</div>
+						<span class="form-checkbox-box">
+							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" class="form-checkbox-icon">
+								<path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z" clip-rule="evenodd"/>
+							</svg>
+						</span>
 
-					{# ========== MOT DE PASSE + CONFIRMATION (Stimulus combiné) ========== #}
-					{% set pwd1Invalid = (form_errors(form.plainPassword.first) is not empty) %}
-					{% set pwd1ErrorsId = form.plainPassword.first.vars.id ~ '-errors' %}
-					{% set pwd2Invalid = (form_errors(form.plainPassword.second) is not empty) %}
-					{% set pwd2ErrorsId = form.plainPassword.second.vars.id ~ '-errors' %}
-
-					<div
-						data-controller="password-strength password-confirm" class="space-y-5">
-						{# Champ mot de passe principal #}
-						<div>
-
-							<label for="{{ form.plainPassword.first.vars.id }}" class="form-label">
-								Mot de passe
-								<span class="form-required" aria-hidden="true">*</span>
-							</label>
-
-							{{ form_widget(form.plainPassword.first, {
-      attr: {
-        'data-password-strength-target': 'input',
-        'data-action': 'input->password-strength#check input->password-confirm#check',
-        'data-password-confirm-target': 'original',
-        class: 'form-input' ~ (pwd1Invalid ? ' is-invalid' : ''),
-        placeholder: '••••••••',
-        'aria-describedby': 'pwd-help',
-        'aria-invalid': pwd1Invalid ? 'true' : 'false'
-      }
-    }) }}
-
-							{% if pwd1Invalid %}
-								<p id="{{ pwd1ErrorsId }}" class="form-error">{{ form_errors(form.plainPassword.first) }}</p>
-							{% endif %}
-
-							<div id="pwd-match" class="text-xs text-gray-600 mt-1" data-password-strength-target="feedback" aria-live="polite"></div>
-						</div>
-
-						{# Champ confirmation mot de passe #}
-						<div>
-							<label for="{{ form.plainPassword.second.vars.id }}" class="form-label">
-								Confirmer le mot de passe
-								<span class="form-required" aria-hidden="true">*</span>
-							</label>
-
-							{{ form_widget(form.plainPassword.second, {
-      attr: {
-        id: 'pwd_confirm',
-        placeholder: '••••••••',
-        'data-password-confirm-target': 'confirm',
-        'data-action': 'input->password-confirm#check',
-        class: 'form-input' ~ (pwd2Invalid ? ' is-invalid' : ''),
-        'aria-invalid': pwd2Invalid ? 'true' : 'false',
-        'aria-describedby': pwd2Invalid ? pwd2ErrorsId : null
-      }
-    }) }}
-
-							{% if pwd2Invalid %}
-								<p id="{{ pwd2ErrorsId }}" class="form-error">{{ form_errors(form.plainPassword.second) }}</p>
-							{% endif %}
-
-							<p data-password-confirm-target="feedback" class="text-xs mt-1" aria-live="polite"></p>
-						</div>
-					</div>
-					<div class="flex items-start gap-2 mt-4">
-						{{ form_widget(form.agreeTerms, { attr: { class: 'mt-1' } }) }}
-						<label for="{{ form.agreeTerms.vars.id }}" class="text-sm text-gray-600">
+						<span class="text-xs text-talenteko-blue-400 leading-snug">
 							J’accepte les
-							<a href="{{ path('app_conditions') }}" class="underline text-gray-500 hover:text-gray-700">
-								conditions d’utilisation
+							<a href="{{ path('app_conditions') }}" class="underline hover:text-talenteko-blue-700">
+								CGU
 							</a>
 							et la
-							<a href="{{ path('app_confidentialite') }}" class="underline text-gray-500 hover:text-gray-700">
-								politique de confidentialité
+							<a href="{{ path('app_confidentialite') }}" class="underline hover:text-talenteko-blue-700">
+								politique
 							</a>.
-						</label>
-					</div>
+						</span>
+					</label>
+{% if form_errors(form.agreeTerms) %}
+  <p class="form-error mt-1" role="alert">{{ form_errors(form.agreeTerms) }}</p>
+{% endif %}
 
 
 					{# Honeypot anti-bot #}
@@ -260,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
 					</div>
 				</div>
 
-				{# ========== BOUTON SOUMETTRE ========== #}
 				<button id="submit-btn" class="btn-primary btn-block mt-6">S'inscrire</button>
 				{{ form_end(form) }}
 
@@ -268,23 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
 					Déjà un compte ?
 					<a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
 				</p>
-
-				<p class="text-xs text-gray-500 mt-3 text-center">
-					En créant un compte, vous acceptez nos conditions d’utilisation et notre politique de confidentialité.
-				</p>
 			</div>
 		</div>
 	</section>
 
 	<script>
-		// Nettoyage du bandeau global d'erreurs avant mise en cache par Turbo
-document.addEventListener('turbo:before-cache', () => {
+		document.addEventListener('turbo:before-cache', () => {
 const el = document.getElementById('form-global-errors');
 if (el) 
 el.remove();
 
-
 });
 	</script>
->>>>>>> feat/user-entity-upgrade
 {% endblock %}

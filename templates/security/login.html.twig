@@ -9,14 +9,15 @@
   <div class="max-w-md mx-auto px-6">
     <h1 class="text-3xl font-bold text-primary-color mb-6 text-center">Se connecter</h1>
 
+    {# --- Erreur globale --- #}
     {% if error %}
-      <div class="mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700 p-3" role="alert">
+      <div class="mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700 p-3" role="alert" aria-live="polite">
         {{ error.messageKey|trans(error.messageData, 'security') }}
       </div>
     {% endif %}
 
     {% if app.user %}
-      <div class="mb-4 text-sm rounded-lg border border-green-200 bg-green-50 text-green-700 p-3">
+      <div class="mb-4 text-sm rounded-lg border border-green-200 bg-green-50 text-green-700 p-3" role="alert">
         Connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>.
         <a href="{{ path('app_logout') }}" class="btn-link">Se déconnecter</a>
       </div>
@@ -24,7 +25,9 @@
 
     <div class="rounded-2xl border bg-white p-6 shadow-sm">
       <form method="post" action="{{ path('app_login') }}" class="space-y-5" novalidate>
-        {# EMAIL #}
+        
+        {# ========== EMAIL ========== #}
+        {% set emailErrorsId = 'email-errors' %}
         <div>
           <label for="email" class="form-label">
             Adresse email <span class="form-required" aria-hidden="true">*</span>
@@ -32,19 +35,35 @@
           <input id="email" name="email" type="email" required autocomplete="email"
                  value="{{ last_username|default('') }}"
                  placeholder="ex. vous@exemple.fr"
-                 class="form-input" />
+                 class="form-input {% if error %}is-invalid{% endif %}"
+                 aria-invalid="{{ error ? 'true' : 'false' }}"
+                 aria-describedby="{{ error ? emailErrorsId : '' }}">
+          {% if error %}
+            <p id="{{ emailErrorsId }}" class="form-error" role="alert">
+              Vérifiez votre adresse email.
+            </p>
+          {% endif %}
         </div>
 
-        {# MOT DE PASSE #}
+        {# ========== MOT DE PASSE ========== #}
+        {% set pwdErrorsId = 'password-errors' %}
         <div>
           <label for="password" class="form-label">
             Mot de passe <span class="form-required" aria-hidden="true">*</span>
           </label>
           <input id="password" name="password" type="password" required autocomplete="current-password"
                  placeholder="••••••••"
-                 class="form-input" />
+                 class="form-input {% if error %}is-invalid{% endif %}"
+                 aria-invalid="{{ error ? 'true' : 'false' }}"
+                 aria-describedby="{{ error ? pwdErrorsId : '' }}">
+          {% if error %}
+            <p id="{{ pwdErrorsId }}" class="form-error" role="alert">
+              Vérifiez votre mot de passe.
+            </p>
+          {% endif %}
         </div>
 
+        {# Token CSRF #}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
         <div class="flex items-center justify-between text-sm">
