@@ -26,3 +26,7 @@ tailwindcss.exe
 .env.local
 .env.*.local
 .env.local.php
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

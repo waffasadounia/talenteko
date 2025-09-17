@@ -18,7 +18,7 @@ class Listing
     #[ORM\Column(length: 180)]
     private string $title;
 
-    #[ORM\Column(length: 220, unique: true)]
+    #[ORM\Column(length: 220, unique: true, nullable: false)]
     private string $slug;
 
     #[ORM\Column(type: 'text')]
