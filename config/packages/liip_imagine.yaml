@@ -1,0 +1,36 @@
+liip_imagine:
+    driver: "gd"
+    resolvers:
+        default:
+            web_path: ~
+
+    filter_sets:
+        # Cartes annonces (petit format, homogène)
+        annonce_card:
+            quality: 85
+            filters:
+                thumbnail:
+                    size: [400, 225] # format 16/9
+                    mode: outbound
+                    position: center
+                    allow_upscale: false
+
+        # Page show (grande image, centrée)
+        annonce_show:
+            quality: 90
+            filters:
+                thumbnail:
+                    size: [900, 506] # format 16/9
+                    mode: outbound
+                    position: center
+                    allow_upscale: false
+
+        # Avatar auteur (profil rond)
+        avatar_thumb:
+            quality: 90
+            filters:
+                thumbnail:
+                    size: [100, 100]
+                    mode: outbound
+                    position: center
+                    allow_upscale: false
