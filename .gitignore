@@ -14,6 +14,7 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
@@ -30,4 +31,15 @@ tailwindcss.exe
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
-/public/uploads/
+
+# Uploads (keep dir, ignore files)
+/public/uploads/*
+!/public/uploads/.gitignore
+
+# Media runtime (keep dir, ignore files)
+/public/media/*
+!/public/media/.gitignore
+
+# System files
+.DS_Store
+Thumbs.db

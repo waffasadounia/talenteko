@@ -1,0 +1,4 @@
+# Ignore everything in media
+*
+# Except this file
+!.gitignore
