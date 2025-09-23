@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
- * ⚡ Crée les catégories de base
+ * 🏷️ Crée les catégories de base.
  */
 final class CategoryFixtures extends Fixture
 {
@@ -22,9 +22,9 @@ final class CategoryFixtures extends Fixture
         'Art',
         'Juridique',
         'Marketing',
-        'Bien-Être',
+        'Bien-ÃŠtre',
         'Jardinage',
-        'Éducation',
+        'Ã‰ducation',
     ];
 
     public function load(ObjectManager $em): void

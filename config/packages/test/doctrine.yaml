@@ -1,0 +1,14 @@
+# config/packages/test/doctrine.yaml
+doctrine:
+  dbal:
+    # On réutilise l’URL de connexion depuis .env.test
+    url: '%env(resolve:DATABASE_URL)%'
+    server_version: 'mariadb-10.4.32'
+    dbname_suffix: '_test'
+
+  orm:
+    auto_generate_proxy_classes: true
+    # Désactivation des caches pour les tests
+    metadata_cache_driver: null
+    query_cache_driver: null
+    result_cache_driver: null

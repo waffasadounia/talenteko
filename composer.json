@@ -84,7 +84,12 @@
         ],
         "fix": "php-cs-fixer fix --allow-risky=yes",
         "lint:twig": "twigcs templates/",
-        "test": "phpunit"
+        "test": "phpunit",
+        "check": [
+            "@fix",
+            "@lint:twig",
+            "@test"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"

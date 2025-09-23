@@ -35,10 +35,10 @@ final class Version20250905131922 extends AbstractMigration
         }
 
         // 2) Renommer la colonne si nécessaire: city -> location
-        $hasCity     = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='city'");
+        $hasCity = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='city'");
         $hasLocation = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='location'");
 
-        if ($hasCity > 0 && $hasLocation === 0) {
+        if ($hasCity > 0 && 0 === $hasLocation) {
             // Garde le type/longueur souhaités
             $this->addSql('ALTER TABLE `listing` CHANGE `city` `location` VARCHAR(120) NOT NULL');
         }
@@ -56,7 +56,7 @@ final class Version20250905131922 extends AbstractMigration
             ) t
         SQL);
 
-        if ($hasTitleLocation === 0) {
+        if (0 === $hasTitleLocation) {
             // Nom explicite et stable
             $this->addSql('CREATE INDEX `idx_listing_title_location` ON `listing` (`title`, `location`)');
         }
@@ -94,9 +94,9 @@ final class Version20250905131922 extends AbstractMigration
 
         // 2) Renommer location -> city si possible (rollback)
         $hasLocation = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='location'");
-        $hasCity     = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='city'");
+        $hasCity = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='city'");
 
-        if ($hasLocation > 0 && $hasCity === 0) {
+        if ($hasLocation > 0 && 0 === $hasCity) {
             $this->addSql('ALTER TABLE `listing` CHANGE `location` `city` VARCHAR(120) NOT NULL');
         }
 
@@ -112,7 +112,7 @@ final class Version20250905131922 extends AbstractMigration
                  AND SUM(CASE WHEN COLUMN_NAME='city'  THEN 1 ELSE 0 END) = 1
             ) t
         SQL);
-        if ($hasTitleCity === 0) {
+        if (0 === $hasTitleCity) {
             $this->addSql('CREATE INDEX `idx_listing_title_city` ON `listing` (`title`, `city`)');
         }
     }

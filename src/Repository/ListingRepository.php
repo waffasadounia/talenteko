@@ -1,5 +1,6 @@
 <?php
-// Repository = couche d’accès aux annonces (Listing).
+
+// Repository = couche d'accès aux annonces (Listing).
 // Permet à Symfony/Doctrine d’injecter ListingRepository dans les contrôleurs.
 
 namespace App\Repository;
@@ -21,9 +22,9 @@ class ListingRepository extends ServiceEntityRepository
     public function findLatestWithJoins(int $limit = 12): array
     {
         return $this->createQueryBuilder('l')
-            ->leftJoin('l.author','a')->addSelect('a')
-            ->leftJoin('l.category','c')->addSelect('c')
-            ->orderBy('l.createdAt','DESC')
+            ->leftJoin('l.author', 'a')->addSelect('a')
+            ->leftJoin('l.category', 'c')->addSelect('c')
+            ->orderBy('l.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()->getResult();
     }

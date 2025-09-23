@@ -13,20 +13,16 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 /.phpunit.cache/
+/coverage/
 ###< phpunit/phpunit ###
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
-npm-debug.log
+npm-debug.log*
 yarn-error.log
+yarn-debug.log*
 ###< symfony/webpack-encore-bundle ###
-tailwindcss.exe
-
-# Local overrides & secrets
-.env.local
-.env.*.local
-.env.local.php
 
 ###> liip/imagine-bundle ###
 /public/media/cache/
@@ -40,6 +36,20 @@ tailwindcss.exe
 /public/media/*
 !/public/media/.gitignore
 
+# Tailwind CLI
+tailwindcss.exe
+
 # System files
 .DS_Store
 Thumbs.db
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+# IDE / Editor configs
+.idea/
+.vscode/
+
+# Backup migration files
+/backup_migration/

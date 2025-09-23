@@ -6,7 +6,9 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{TextType, TextareaType, CollectionType};
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,7 +25,7 @@ final class ProfileType extends AbstractType
                 'attr' => ['maxlength' => 50, 'autocomplete' => 'nickname'],
             ])
             // Ville / Localisation
-            // Champ obligatoire car central pour TalentÉkô (filtrage, présentiel/distanciel).
+            // Champ obligatoire car central pour Talenték (filtrage, présentiel/distanciel).
             // On ajoute une contrainte NotBlank pour imposer la saisie.
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
@@ -39,7 +41,7 @@ final class ProfileType extends AbstractType
 
             // Courte bio (optionnel)
             ->add('bio', TextareaType::class, [
-                'label' => 'À propos de vous',
+                'label' => 'Ã€ propos de vous',
                 'required' => false,
                 'attr' => ['rows' => 4],
             ])

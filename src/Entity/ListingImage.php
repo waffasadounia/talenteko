@@ -21,14 +21,44 @@ class ListingImage
     private Listing $listing;
 
     // === Getters / Setters ===
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getPath(): string { return $this->path; }
-    public function setPath(string $path): self { $this->path = $path; return $this; }
+    public function getPath(): string
+    {
+        return $this->path;
+    }
 
-    public function isPrimary(): bool { return $this->isPrimary; }
-    public function setIsPrimary(bool $isPrimary): self { $this->isPrimary = $isPrimary; return $this; }
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
 
-    public function getListing(): Listing { return $this->listing; }
-    public function setListing(Listing $listing): self { $this->listing = $listing; return $this; }
+        return $this;
+    }
+
+    public function isPrimary(): bool
+    {
+        return $this->isPrimary;
+    }
+
+    public function setIsPrimary(bool $isPrimary): self
+    {
+        $this->isPrimary = $isPrimary;
+
+        return $this;
+    }
+
+    public function getListing(): Listing
+    {
+        return $this->listing;
+    }
+
+    public function setListing(Listing $listing): self
+    {
+        $this->listing = $listing;
+
+        return $this;
+    }
 }

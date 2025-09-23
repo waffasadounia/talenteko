@@ -21,4 +21,4 @@
 @import "./globals.css";    /* Reset, tokens (couleurs, polices) */
 @import "./components.css"; /* Boutons, navigation, helpers UI */
 @import "./forms.css";      /* Champs de formulaires et états */
-@import "./utilities.css";  /* Alias, classes de compatibilité */
+

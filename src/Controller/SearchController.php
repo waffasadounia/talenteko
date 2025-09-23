@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -14,8 +15,8 @@ final class SearchController extends AbstractController
 {
     /**
      * Page de recherche.
-     * - Filtre sur titre / description / location / nom de catégorie
-     * - Précharge auteur + catégorie pour éviter le N+1
+     * - Filtre sur titre / description / location / nom de catÃ©gorie
+     * - Précharge auteur + catégorie pour éviter le N+1.
      */
     #[Route('/recherche', name: 'app_search', methods: ['GET'])]
     public function index(Request $request, ListingRepository $repo): Response
@@ -28,8 +29,8 @@ final class SearchController extends AbstractController
             ->orderBy('l.createdAt', 'DESC')
             ->setMaxResults(50);
 
-        if ($q !== '') {
-            // ✅ On utilise le champ d'entité "location" (plus "city")
+        if ('' !== $q) {
+            // On utilise le champ d'entité "location" (plus "city")
             $qb->andWhere('l.title LIKE :q OR l.description LIKE :q OR l.location LIKE :q OR c.name LIKE :q')
                ->setParameter('q', '%'.$q.'%');
         }
@@ -41,28 +42,26 @@ final class SearchController extends AbstractController
         $cards = array_map(
             static function (Listing $l): array {
                 $categoryName = $l->getCategory() ? $l->getCategory()->getName() : 'Non classée';
-                $author       = $l->getAuthor();
-                $displayName  = ($author && method_exists($author, 'getPseudo') && $author->getPseudo())
+                $author = $l->getAuthor();
+                $displayName = ($author && method_exists($author, 'getPseudo') && $author->getPseudo())
                     ? $author->getPseudo()
                     : 'Membre';
 
                 return [
-                    'id'          => $l->getId(),
-                    'slug'        => $l->getSlug(),
-                    'title'       => $l->getTitle(),
+                    'id' => $l->getId(),
+                    'slug' => $l->getSlug(),
+                    'title' => $l->getTitle(),
                     'description' => $l->getDescription(),
-                    'category'    => $categoryName,
-                    'user'        => ['name' => $displayName], // 👈 plus de getFirstname()
-                    'ville'       => $l->getLocation(),        // 👈 API canonique
-                    'stars'       => 4,                        // TODO: moyenne réelle
+                    'category' => $categoryName,
+                    'user' => ['name' => $displayName], 
+                    'ville' => $l->getLocation(),        
+                    'stars' => 4,                    
                 ];
             },
             $results
         );
-
-        // NOTE : Si ton template attend 'annonces' au lieu de 'results', adapte la clé ci-dessous.
         return $this->render('search/index.html.twig', [
-            'q'       => $q,
+            'q' => $q,
             'results' => $cards,
         ]);
     }

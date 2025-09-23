@@ -1,23 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{
-    EmailType,
-    PasswordType,
-    RepeatedType,
-    TextType,
-    CheckboxType
-};
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Formulaire d’inscription utilisateur
+ * Formulaire d'inscription utilisateur.
  *
  * Champs :
  * - email (identifiant unique de connexion)
@@ -26,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * - plainPassword (saisi deux fois pour confirmation)
  * - agreeTerms (case obligatoire pour valider les CGU)
  *
- * Notes pédagogiques :
+ * Notes:
  * - Les règles métier principales (unicité email, regex pseudo, validLocation, etc.)
  *   sont définies **dans l’entité User**.
  * - Ici, on se concentre uniquement sur la **structure du formulaire**.
@@ -70,19 +69,19 @@ final class RegistrationType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent correspondre.',
-                'first_options'  => [
+                'first_options' => [
                     'label' => 'Mot de passe',
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'aria-describedby' => 'pwd-help', // zone d’aide force/feedback
-                        'placeholder' => '••••••••',
+                        'aria-describedby' => 'pwd-help', // zone d'aide force/feedback
+                        'placeholder' => '• • • • • • • •',
                     ],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'placeholder' => '••••••••',
+                        'placeholder' => '• • • • • • • •',
                     ],
                 ],
             ])

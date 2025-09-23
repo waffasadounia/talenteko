@@ -3,7 +3,7 @@
 # ========================== #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mon profil | TalentÉkô{% endblock %}
+{% block title %}Modifier mon profil | Talentékô{% endblock %}
 
 {% block body %}
 <section class="bg-talenteko-peach-100 py-12">
@@ -26,36 +26,36 @@
       <div class="space-y-6">
 
         {# ========== PSEUDO ========== #}
-        {% set pseudoInvalid = (form_errors(form.pseudo) is not empty) %}
-        {% set pseudoErrorsId = form.pseudo.vars.id ~ '-errors' %}
+        {% set pseudo_invalid = (form_errors(form.pseudo) is not empty) %}
+        {% set pseudo_errors_id = form.pseudo.vars.id ~ '-errors' %}
         <div>
           <label for="{{ form.pseudo.vars.id }}" class="form-label">Pseudonyme</label>
           {{ form_widget(form.pseudo, {
             attr: {
-              class: 'form-input' ~ (pseudoInvalid ? ' is-invalid' : ''),
-              'aria-invalid': pseudoInvalid ? 'true' : 'false',
-              'aria-describedby': pseudoInvalid ? pseudoErrorsId : null
+              class: 'form-input' ~ (pseudo_invalid ? ' is-invalid' : ''),
+              'aria-invalid': pseudo_invalid ? 'true' : 'false',
+              'aria-describedby': pseudo_invalid ? pseudo_errors_id : null
             }
           }) }}
-          {% if pseudoInvalid %}
-            <p id="{{ pseudoErrorsId }}" class="form-error" role="alert">{{ form_errors(form.pseudo) }}</p>
+          {% if pseudo_invalid %}
+            <p id="{{ pseudo_errors_id }}" class="form-error" role="alert">{{ form_errors(form.pseudo) }}</p>
           {% endif %}
         </div>
 
         {# ========== LOCALISATION ========== #}
-        {% set locInvalid = (form_errors(form.location) is not empty) %}
-        {% set locErrorsId = form.location.vars.id ~ '-errors' %}
+        {% set loc_invalid = (form_errors(form.location) is not empty) %}
+        {% set loc_errors_id = form.location.vars.id ~ '-errors' %}
         <div>
           <label for="{{ form.location.vars.id }}" class="form-label">Localisation</label>
           {{ form_widget(form.location, {
             attr: {
-              class: 'form-input' ~ (locInvalid ? ' is-invalid' : ''),
-              'aria-invalid': locInvalid ? 'true' : 'false',
-              'aria-describedby': locInvalid ? locErrorsId : null
+              class: 'form-input' ~ (loc_invalid ? ' is-invalid' : ''),
+              'aria-invalid': loc_invalid ? 'true' : 'false',
+              'aria-describedby': loc_invalid ? loc_errors_id : null
             }
           }) }}
-          {% if locInvalid %}
-            <p id="{{ locErrorsId }}" class="form-error" role="alert">{{ form_errors(form.location) }}</p>
+          {% if loc_invalid %}
+            <p id="{{ loc_errors_id }}" class="form-error" role="alert">{{ form_errors(form.location) }}</p>
           {% endif %}
         </div>
 
@@ -81,19 +81,19 @@
         </div>
 
         {# ========== AVATAR (upload) ========== #}
-        {% set avatarInvalid = (form_errors(form.avatar) is not empty) %}
-        {% set avatarErrorsId = form.avatar.vars.id ~ '-errors' %}
+        {% set avatar_invalid = (form_errors(form.avatar) is not empty) %}
+        {% set avatar_errors_id = form.avatar.vars.id ~ '-errors' %}
         <div>
           <label for="{{ form.avatar.vars.id }}" class="form-label">Photo de profil</label>
           {{ form_widget(form.avatar, {
             attr: {
-              class: (avatarInvalid ? 'is-invalid' : ''),
-              'aria-invalid': avatarInvalid ? 'true' : 'false',
-              'aria-describedby': avatarInvalid ? avatarErrorsId : null
+              class: (avatar_invalid ? 'is-invalid' : ''),
+              'aria-invalid': avatar_invalid ? 'true' : 'false',
+              'aria-describedby': avatar_invalid ? avatar_errors_id : null
             }
           }) }}
-          {% if avatarInvalid %}
-            <p id="{{ avatarErrorsId }}" class="form-error" role="alert">{{ form_errors(form.avatar) }}</p>
+          {% if avatar_invalid %}
+            <p id="{{ avatar_errors_id }}" class="form-error" role="alert">{{ form_errors(form.avatar) }}</p>
           {% endif %}
         </div>
 

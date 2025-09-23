@@ -1,31 +1,27 @@
-{# ==========================================
-  partials/_tendances.html.twig
-  Section des annonces tendances
-  Variable attendue : "annonces" (array d’objets Listing préparés par HomeController)
-  ========================================== #}
-
 <section id="tendances" class="py-16 bg-white">
   <div class="max-w-6xl mx-auto px-4">
-    {# Titre de la section #}
-    <h2 class="text-3xl font-bold mb-10 text-center text-primary-color">Tendances actuelles</h2>
+    <h2 class="text-3xl font-bold mb-10 text-center text-talenteko-blue">
+      Tendances actuelles
+    </h2>
 
-    {# Grille responsive : 1 à 4 colonnes selon écran #}
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {% for annonce in annonces %}
-        {# Inclusion du composant carte #}
-        {% include 'partials/_annonce_card.html.twig' with { annonce: annonce } %}
+      {% for listing in listings %}
+        {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
       {% else %}
-        <p class="text-center col-span-full text-primary-color">
-          Aucune annonce pour le moment. 
-          <a href="{{ path('app_annonce_new') }}" class="btn-link">Dépose la première !</a>
+        <p class="text-center col-span-full text-gray-500 italic">
+          Aucune annonce disponible pour l’instant.<br>
+          <a href="{{ path('app_listing_new') }}" class="btn-link">
+            <i class="fa fa-plus-circle"></i>
+            <span>Dépose le premier !</span>
+          </a>
         </p>
       {% endfor %}
     </div>
 
-    {# Lien vers la recherche complète #}
     <div class="mt-8 text-center">
-      <a href="{{ path('app_search') }}" class="btn-link" aria-label="Voir toutes les annonces">
-        Voir toutes les annonces →
+      <a href="{{ path('app_search') }}" class="btn-link" aria-label="Voir tous les listings">
+        <i class="fa fa-search"></i>
+        <span>Voir toutes les annonces</span>
       </a>
     </div>
   </div>

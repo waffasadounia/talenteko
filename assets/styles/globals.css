@@ -24,11 +24,6 @@
   --color-talenteko-peach-200: #FDF5F1;
   --color-talenteko-peach-300: #FDFAF9;
 
-  /* Alias rétro-compatibles (si anciennes classes existent encore) */
-  --color-fondPeche: var(--color-talenteko-peach-200);
-  --color-bleuFonce: var(--color-talenteko-blue);
-  --color-orangePeche: var(--color-talenteko-orange-500);
-
   /* Polices (charte officielle TalentÉkô) */
   --font-montserrat: "Montserrat", sans-serif;
   --font-catamaran: "Catamaran", sans-serif;

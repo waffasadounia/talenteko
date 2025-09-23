@@ -1,18 +1,18 @@
-{# ========================================== #
-# Partial Twig : Champ générique (input)
-# Usage : 
-# {% include "partials/_form_field.html.twig" with {
-#   field: form.email,
-#   label: "Adresse email",
-#   placeholder: "ex. vous@exemple.fr",
-#   autocomplete: "email"
-# } %}
-# ========================================== #}
+{# ==========================================
+  Partial Twig : Champ générique (input texte)
+  Usage : 
+  {% include "partials/_form_field.html.twig" with {
+    field: form.email,
+    label: "Adresse email",
+    placeholder: "ex. vous@exemple.fr",
+    autocomplete: "email"
+  } %}
+  ========================================== #}
 
-{% set isInvalid = (form_errors(field) is not empty) %}
-{% set errorsId = field.vars.id ~ '-errors' %}
+{% set is_invalid = (form_errors(field) is not empty) %}
+{% set errors_id = field.vars.id ~ '-errors' %}
 
-<div>
+<div class="space-y-1">
   <label for="{{ field.vars.id }}" class="form-label">
     {{ label }} <span class="form-required" aria-hidden="true">*</span>
   </label>
@@ -20,15 +20,15 @@
   {{ form_widget(field, {
     attr: {
       placeholder: placeholder|default(''),
-      class: 'form-input' ~ (isInvalid ? ' is-invalid' : ''),
-      'aria-invalid': isInvalid ? 'true' : 'false',
-      'aria-describedby': isInvalid ? errorsId : null,
+      class: 'form-input' ~ (is_invalid ? ' is-invalid' : ''),
+      'aria-invalid': is_invalid ? 'true' : 'false',
+      'aria-describedby': is_invalid ? errors_id : null,
       autocomplete: autocomplete|default('off')
     }
   }) }}
 
-  {% if isInvalid %}
-    <p id="{{ errorsId }}" class="form-error" role="alert">
+  {% if is_invalid %}
+    <p id="{{ errors_id }}" class="form-error" role="alert">
       {{ form_errors(field) }}
     </p>
   {% endif %}

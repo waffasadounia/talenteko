@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -19,19 +20,19 @@ final class SecurityController extends AbstractController
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
     {
-        // ✅ Si l'utilisateur est FULLY authentifié, on évite de réafficher le formulaire
-    if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
-        return $this->redirectToRoute('app_home');
+        //Si l'utilisateur est FULLY authentifié, on évite de réafficher le formulaire
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_home');
         }
 
-         // ℹ️ IMPORTANT : si l'utilisateur n'est que "remembered",
-         // on lui DOIT laisser l'accès au formulaire pour "sur-authentifier" (FULLY).
+        // IMPORTANT : si l'utilisateur n'est que "remembered",
+        // on lui DOIT laisser l'accès au formulaire pour "sur-authentifier" (FULLY).
         $error = $auth->getLastAuthenticationError();
         $lastUsername = $auth->getLastUsername();
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'error' => $error,
         ]);
     }
 
@@ -43,8 +44,6 @@ final class SecurityController extends AbstractController
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
-        throw new \LogicException(
-            'Cette méthode est vide : la déconnexion est gérée par le firewall (security.yaml).'
-        );
+        throw new \LogicException('Cette méthode est vide : la déconnexion est gérée par le firewall (security.yaml).');
     }
 }

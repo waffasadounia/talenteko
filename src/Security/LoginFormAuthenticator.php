@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Security;
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 /**
- * Authenticator de formulaire pour TalentÉkô.
+ * Authenticator de formulaire pour Talentékô.
  * - Lit les champs "email" et "password" envoyés par le formulaire.
  * - Vérifie le CSRF.
  * - Gère "Se souvenir de moi" si coché + activé dans security.yaml.
@@ -38,29 +39,27 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
      * Construit le "Passport" à partir de la requête.
      * Ici on récupère l'email, le mot de passe, le token CSRF et l'état du remember_me.
      */
-   public function authenticate(Request $request): Passport
-{
-    // Récupère les champs postés depuis un formulaire HTML
-    $email = $request->request->getString('email');
-    $password = $request->request->getString('password');
-    $csrf = $request->request->getString('_csrf_token');
+    public function authenticate(Request $request): Passport
+    {
+        // Récupère les champs postés depuis un formulaire HTML
+        $email = $request->request->getString('email');
+        $password = $request->request->getString('password');
+        $csrf = $request->request->getString('_csrf_token');
 
-    // Retenir le dernier identifiant saisi si erreur
-    $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
+        // Retenir le dernier identifiant saisi si erreur
+        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
-    $badges = [ new CsrfTokenBadge('authenticate', $csrf) ];
-    if ($request->request->getBoolean('_remember_me', false)) {
-        $badges[] = new RememberMeBadge();
+        $badges = [new CsrfTokenBadge('authenticate', $csrf)];
+        if ($request->request->getBoolean('_remember_me', false)) {
+            $badges[] = new RememberMeBadge();
+        }
+
+        return new Passport(
+            new UserBadge($email),
+            new PasswordCredentials($password),
+            $badges
+        );
     }
-
-    return new Passport(
-        new UserBadge($email),
-        new PasswordCredentials($password),
-        $badges
-    );
-}
-
-
 
     /**
      * Redirection après authentification réussie.

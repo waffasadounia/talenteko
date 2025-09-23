@@ -1,3 +1,12 @@
 framework:
-    mailer:
-        dsn: '%env(MAILER_DSN)%'
+  mailer:
+    dsn: '%env(MAILER_DSN)%'
+
+    # Par défaut, Symfony utilise text brut si pas de template.
+    # On ajoute les chemins vers nos templates Twig
+    envelope:
+      sender: 'no-reply@talenteko.test'
+
+twig:
+  paths:
+    '%kernel.project_dir%/templates/emails': emails

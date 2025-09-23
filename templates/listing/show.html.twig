@@ -1,10 +1,10 @@
-{# templates/annonce/show.html.twig (V2 homogène avec LiipImagine) #}
+{# templates/listing/show.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ annonce.title }} | TalentÉkô{% endblock %}
+{% block title %}{{ listing.title }} | Talentékô{% endblock %}
 
 {% block body %}
-  {# ===== Bandeau d’en-tête ===== #}
+  {# ===== Bandeau d'en-tête ===== #}
   <section class="bg-talenteko-peach-100 py-8">
     <div class="max-w-6xl mx-auto px-4">
       <p class="text-sm mb-3">
@@ -14,15 +14,15 @@
       </p>
 
       <h1 class="text-3xl md:text-4xl font-extrabold text-talenteko-blue">
-        {{ annonce.title }}
+        {{ listing.title }}
       </h1>
 
       <div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
-        {% if annonce.category %}
-          <span>Catégorie : <strong>{{ annonce.category }}</strong></span>
+        {% if listing.category %}
+          <span>Catégorie : <strong>{{ listing.category }}</strong></span>
         {% endif %}
-        {% if annonce.location %}
-          <span>Ville : <strong>{{ annonce.location }}</strong></span>
+        {% if listing.location %}
+          <span>Ville : <strong>{{ listing.location }}</strong></span>
         {% endif %}
       </div>
     </div>
@@ -37,11 +37,12 @@
         {# Image principale homogène (900x506 via LiipImagine) #}
         <div class="relative bg-white border border-gray-200 rounded-xl overflow-hidden">
           <img
-            src="{{ (annonce.images|length > 0
-                       ? asset('uploads/listings/' ~ annonce.images|first.path)
-                       : asset('uploads/listings/placeholder.png'))
-                       | imagine_filter('annonce_show') }}"
-            alt="{{ annonce.title }}"
+            src="{{ (
+              listing.images|length > 0
+                ? asset('uploads/listings/' ~ listing.images|first.path)
+                : asset('uploads/listings/placeholder.png')
+            ) | imagine_filter('listing_show') }}"
+            alt="{{ listing.title }}"
             class="w-full rounded-t-xl"
           />
 
@@ -63,7 +64,7 @@
         <article class="bg-white border border-gray-200 rounded-xl p-6">
           <h2 class="text-xl font-bold mb-3 text-talenteko-blue">Description</h2>
           <div class="max-w-none text-gray-800 leading-relaxed whitespace-pre-line">
-            {{ annonce.description }}
+            {{ listing.description }}
           </div>
         </article>
       </div>
@@ -74,27 +75,27 @@
           <h3 class="text-lg font-semibold text-talenteko-blue mb-4">Proposé par</h3>
           <div class="flex items-center gap-3 mb-3">
             <div class="w-10 h-10 bg-talenteko-peach-200 text-talenteko-orange-500 rounded-full flex items-center justify-center font-bold">
-              {{ (annonce.author.pseudo ?? 'M')|slice(0,1)|upper }}
+              {{ (listing.author.pseudo ?? 'M')|slice(0,1)|upper }}
             </div>
             <div>
-              <div class="font-semibold text-talenteko-blue">{{ annonce.author.pseudo ?? 'Membre' }}</div>
-              {% if annonce.location %}
-                <div class="text-sm text-gray-500 truncate max-w-[120px]">{{ annonce.location }}</div>
+              <div class="font-semibold text-talenteko-blue">{{ listing.author.pseudo ?? 'Membre' }}</div>
+              {% if listing.location %}
+                <div class="text-sm text-gray-500 truncate max-w-[120px]">{{ listing.location }}</div>
               {% endif %}
             </div>
           </div>
 
-          {# Étoiles statiques pour l’instant #}
+          {# Étoiles statiques pour l'instant #}
           <div class="flex items-center text-talenteko-orange-500 text-sm">
             {% for i in 1..5 %}
-              <i class="fa{{ i <= 4 ? 's' : 'r' }} fa-star"></i>
+              <i class="fa-{{ i <= 4 ? 'solid' : 'regular' }} fa-star"></i>
             {% endfor %}
           </div>
         </div>
 
         <div class="bg-white border border-gray-200 rounded-xl p-6">
           <a href="{{ path('app_home') }}" class="block text-center text-talenteko-orange-500 hover:underline">
-            ← Retour à l’accueil
+            ⬅ Retour à l'accueil
           </a>
         </div>
       </aside>

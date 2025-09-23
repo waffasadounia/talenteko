@@ -1,12 +1,13 @@
 liip_imagine:
     driver: "gd"
+
     resolvers:
         default:
             web_path: ~
 
     filter_sets:
-        # Cartes annonces (petit format, homogène)
-        annonce_card:
+        # Cartes listings (petit format, homogène)
+        listing_card:
             quality: 85
             filters:
                 thumbnail:
@@ -16,7 +17,7 @@ liip_imagine:
                     allow_upscale: false
 
         # Page show (grande image, centrée)
-        annonce_show:
+        listing_show:
             quality: 90
             filters:
                 thumbnail:

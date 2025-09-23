@@ -1,0 +1,68 @@
+{# templates/emails/new_message.html.twig #}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Nouveau message sur Talentékô</title>
+  </head>
+  <body
+    style="font-family: Montserrat, Arial, sans-serif; color:#141C2E; background:#FDFAF9; padding:20px; line-height:1.5;"
+  >
+    <h2 style="color:#D6713C; margin-bottom:15px;">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        fill="#D6713C"
+        viewBox="0 0 24 24"
+        style="vertical-align:middle; margin-right:6px;"
+      >
+        <path
+          d="M4 4h16c1.104 0 2 .896 2 2v12c0 1.104-.896 2-2 2H4c-1.104
+             0-2-.896-2-2V6c0-1.104.896-2 2-2zm0 2v.511l8 5.333
+             8-5.333V6H4zm0 2.489V18h16V8.489l-8
+             5.333-8-5.333z"
+        />
+      </svg>
+      Nouveau message reçu
+    </h2>
+
+    <p>
+      <strong>{{ sender }}</strong>
+      vous a écrit :
+    </p>
+
+    <blockquote
+      style="border-left:4px solid #D6713C; padding-left:12px; margin:12px 0; color:#434958; font-style:italic;"
+    >
+      {{ content }}
+    </blockquote>
+
+    <p style="margin:20px 0;">
+      <a
+        href="{{ url('app_login') }}"
+        style="display:inline-block; background:#D6713C; color:#fff; padding:12px 18px; border-radius:6px; text-decoration:none; font-weight:bold;"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          fill="white"
+          viewBox="0 0 20 20"
+          style="vertical-align:middle; margin-right:6px;"
+        >
+          <path
+            d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9V9h2v4zm0-6H9V5h2v2z"
+          />
+        </svg>
+        Lire la conversation complète
+      </a>
+    </p>
+
+    <hr style="margin:30px 0; border:none; border-top:1px solid #eee;" />
+    <p style="font-size:12px; color:#A1A4AB; text-align:center;">
+      Talentékô – plateforme d’échange de compétences
+    </p>
+  </body>
+</html>
+

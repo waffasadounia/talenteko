@@ -1,34 +1,48 @@
-<footer class="bg-talenteko-orange-500 text-white mt-12">
+{# templates/partials/_footer.html.twig #}
+<footer role="contentinfo" class="bg-talenteko-orange-500 text-white mt-12">
   <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
 
     {# Colonne gauche : Logo + slogan + réseaux sociaux #}
     <div class="flex flex-col items-center md:items-start">
-      {# Logo + texte centrés #}
       <div class="flex flex-col items-center text-center">
         <img src="{{ asset('images/talenteko_logo.png') }}"
-             alt="Logo TalentÉkô"
-             class="h-12 w-auto mb-2">
+             alt="Logo Talentékô"
+             class="h-12 w-auto mb-2" />
         <span class="text-base font-extrabold">
-          <span class="text-[#141C2E]">Talent</span><span class="text-talenteko-peach-300">Ékô</span>
+          <span class="text-talenteko-blue">Talent</span><span class="text-talenteko-peach-300">ékô</span>
         </span>
       </div>
 
-      {# Bloc slogan + icônes alignés à gauche (desktop) #}
       <div class="self-start mt-2">
         <p class="text-sm text-gray-100 mb-4">
           Plateforme de troc de compétences<br>entre particuliers
         </p>
-        <div class="flex gap-4 text-xl">
-          <a href="#" aria-label="Facebook" class="hover:text-talenteko-peach-300"><i class="fab fa-facebook"></i></a>
-          <a href="#" aria-label="Instagram" class="hover:text-talenteko-peach-300"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="Twitter" class="hover:text-talenteko-peach-300"><i class="fab fa-twitter"></i></a>
-        </div>
+        <ul class="flex gap-4 text-xl">
+          <li>
+            <a href="#" class="hover:text-talenteko-peach-300" aria-label="Facebook">
+              <i class="fab fa-facebook" aria-hidden="true"></i>
+              <span class="sr-only">Facebook</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-talenteko-peach-300" aria-label="Instagram">
+              <i class="fab fa-instagram" aria-hidden="true"></i>
+              <span class="sr-only">Instagram</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-talenteko-peach-300" aria-label="Twitter">
+              <i class="fab fa-twitter" aria-hidden="true"></i>
+              <span class="sr-only">Twitter</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
 
     {# Colonne milieu : À propos #}
-    <div>
-      <h3 class="font-bold mb-3 text-sm md:text-base">À propos</h3>
+    <div aria-labelledby="footer-about">
+      <h3 id="footer-about" class="font-bold mb-3 text-sm md:text-base">À propos</h3>
       <ul class="space-y-2 text-sm">
         <li><a href="{{ path('app_about') }}" class="hover:underline hover:text-talenteko-peach-300">Qui sommes-nous</a></li>
         <li><a href="{{ path('app_how') }}" class="hover:underline hover:text-talenteko-peach-300">Comment ça marche</a></li>
@@ -38,8 +52,8 @@
     </div>
 
     {# Colonne droite : Informations légales #}
-    <div>
-      <h3 class="font-bold mb-3 text-sm md:text-base">Informations légales</h3>
+    <div aria-labelledby="footer-legal">
+      <h3 id="footer-legal" class="font-bold mb-3 text-sm md:text-base">Informations légales</h3>
       <ul class="space-y-2 text-sm">
         <li><a href="{{ path('app_conditions') }}" class="hover:underline hover:text-talenteko-peach-300">Conditions générales</a></li>
         <li><a href="{{ path('app_confidentialite') }}" class="hover:underline hover:text-talenteko-peach-300">Politique de confidentialité</a></li>
@@ -51,6 +65,6 @@
 
   {# Copyright #}
   <div class="border-t border-white/30 py-4 text-center text-xs text-talenteko-peach-300">
-    © {{ "now"|date("Y") }} TalentÉkô. Tous droits réservés.
+    @ {{ "now"|date("Y") }} Talentékô. Tous droits réservés.
   </div>
 </footer>

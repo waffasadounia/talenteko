@@ -1,28 +1,22 @@
-{# ================================
-  templates/home/index.html.twig
-  Page d’accueil TalentÉkô
-  Assemble les différentes sections
-  ================================ #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil | TalentÉkô{% endblock %}
+{% block title %}Accueil | Talentékô{% endblock %}
 
 {% block body %}
 
-  {# 1) HERO (bandeau d’intro) #}
+  {# HERO (bandeau d'intro) #}
   {% include 'partials/_hero.html.twig' %}
 
-  {# 2) TENDANCES (dernières annonces) #}
-  {% include 'partials/_tendances.html.twig' with { annonces: annonces } %}
+  {# TENDANCES (derniers listings) #}
+  {% include 'partials/_tendances.html.twig' with { listings: listings } %}
 
-  {# 3) CATEGORIES (explorer par catégories) #}
-  {% include 'partials/_categories.html.twig' %}
+  {# CATEGORIES (explorer par catégories) #}
+  {% include 'partials/_categories.html.twig' with { categories: categories } %}
 
-  {# 4) COMMENT ÇA MARCHE #}
+  {# COMMENT ÇA MARCHE #}
   {% include 'partials/_how_it_works.html.twig' %}
 
-  {# 5) FLASH (messages système) #}
+  {# FLASH (messages système) #}
   {% include 'partials/_flash.html.twig' %}
 
 {% endblock %}

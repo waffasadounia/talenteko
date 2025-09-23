@@ -1,32 +1,40 @@
-
 {# =============================
-   Section HERO (bandeau d’introduction)
+   partials/_hero.html.twig
+   Section HERO (bandeau d'introduction)
    ============================= #}
 <section class="bg-talenteko-peach-100 py-20 text-center">
   <div class="max-w-4xl mx-auto px-4">
-    {# Titre principal #}
+
+    {# --- Titre principal --- #}
     <h1 class="text-5xl font-extrabold mb-6 text-primary-color">
       Talent<span class="text-talenteko-orange-500">Ékô</span>
     </h1>
 
-    {# Phrase d’accroche #}
+    {# --- Phrase d'accroche --- #}
     <p class="text-lg mb-8 text-primary-color">
       Valorisez vos talents, enrichissez-vous.<br>
       Partagez vos savoir-faire et découvrez de nouvelles compétences sans dépenser un euro.
     </p>
 
-    {# Appels à l’action #}
+    {# --- Appels à l'action --- #}
     <div class="flex justify-center gap-4 flex-wrap">
-      {# CTA principal #}
-      <a href="{{ path('app_annonce_new') }}" class="btn-primary" aria-label="Déposer une annonce">
-        + Déposer une annonce
+
+      {# CTA principal : dépôt d'annonce #}
+      <a href="{{ path('app_listing_new') }}"
+         class="btn-primary flex items-center gap-2"
+         aria-label="Déposer une annonce sur Talentékô">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        <span>Déposer une annonce</span>
       </a>
 
-      {# CTA secondaire #}
-      <a href="#tendances" class="btn-outline" aria-label="Découvrir les talents">
-        Découvrir les talents
+      {# CTA secondaire : voir les tendances #}
+      <a href="#tendances"
+         class="btn-outline"
+         aria-label="Découvrir les annonces en tendance">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>Découvrir les talents</span>
       </a>
+
     </div>
   </div>
 </section>
-

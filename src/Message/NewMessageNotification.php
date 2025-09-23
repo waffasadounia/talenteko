@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Message;
+
+/**
+ * Message pour notifier un utilisateur
+ * quand il reçoit un nouveau message privé.
+ */
+class NewMessageNotification
+{
+    public function __construct(
+        private int $recipientId,
+        private int $senderId,
+        private string $content,
+    ) {
+    }
+
+    public function getRecipientId(): int
+    {
+        return $this->recipientId;
+    }
+
+    public function getSenderId(): int
+    {
+        return $this->senderId;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+}

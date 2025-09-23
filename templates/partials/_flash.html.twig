@@ -1,14 +1,18 @@
 {# templates/partials/_flash.html.twig #}
+{# Mapping label classes Tailwind #}
+{% set flashClasses = {
+  'success': 'border border-green-200 bg-green-50 text-green-700',
+  'error':   'border border-red-200 bg-red-50 text-red-700',
+  'warning': 'border border-yellow-200 bg-yellow-50 text-yellow-700',
+  'info':    'border border-blue-200 bg-blue-50 text-blue-700'
+} %}
+
 {% for label, messages in app.flashes %}
   {% for message in messages %}
-    <div class="mb-4 rounded-lg p-3
-                {% if label == 'success' %}
-                  border border-green-200 bg-green-50 text-green-700
-                {% elseif label == 'error' %}
-                  border border-red-200 bg-red-50 text-red-700
-                {% else %}
-                  border border-gray-200 bg-gray-50 text-gray-700
-                {% endif %}">
+    <div 
+      class="mb-4 rounded-lg p-3 {{ flashClasses[label]|default('border border-gray-200 bg-gray-50 text-gray-700') }}" 
+      role="alert" 
+      aria-live="polite">
       {{ message }}
     </div>
   {% endfor %}

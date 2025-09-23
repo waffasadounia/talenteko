@@ -1,5 +1,6 @@
 <?php
-// Repository = couche d’accès aux catégories (Category).
+
+// Repository = couche d'accès aux catégories (Category).
 
 namespace App\Repository;
 

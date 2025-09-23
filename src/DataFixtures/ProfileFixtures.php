@@ -4,9 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 final class ProfileFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -20,11 +20,11 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
             $user
                 ->setBio($faker->paragraph(3))
                 ->setSkillsOffered($faker->randomElements(
-                    ['guitare','anglais','montage pc','coaching','soutien scolaire','dessin'],
+                    ['guitare', 'anglais', 'montage pc', 'coaching', 'soutien scolaire', 'dessin'],
                     random_int(1, 3)
                 ))
                 ->setSkillsWanted($faker->randomElements(
-                    ['espagnol','yoga','cuisine','marketing','excel'],
+                    ['espagnol', 'yoga', 'cuisine', 'marketing', 'excel'],
                     random_int(1, 2)
                 ))
                 // 70% des users ont un avatar, 30% non

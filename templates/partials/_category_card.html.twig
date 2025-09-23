@@ -1,12 +1,13 @@
-{# partials/_category_card.html.twig #}
-{#
-  Carte de catégorie (images entières, conteneur plus grand)
+{# ================================
+  partials/_category_card.html.twig
+  Carte de catégorie 
   ================================ #}
 
 <a href="{{ path('app_category_show', { slug: category.slug }) }}"
-   class="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition group bg-white">
+   class="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition group bg-white
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
 
-  {# --- Mapping slug → image --- #}
+  {# --- Mapping slug à image --- #}
   {% set images = {
     'art':            'art.png',
     'langues':        'langues.png',
@@ -24,11 +25,11 @@
 
   {% set image = images[category.slug]|default('placeholder.png') %}
 
-  {# --- Image plus grande, toujours entière --- #}
-  <div class="relative w-full h-60 flex items-center justify-center bg-transparent">
+  {# --- Image grande, entière --- #}
+  <div class="relative w-full h-60 flex items-center justify-center bg-white">
     <img src="{{ asset('images/categories/' ~ image) }}"
-         alt="{{ category.name }}"
-         class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105">
+         alt="Illustration de la catégorie {{ category.name }}"
+         class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105" />
   </div>
 
   {# --- Libellé catégorie --- #}

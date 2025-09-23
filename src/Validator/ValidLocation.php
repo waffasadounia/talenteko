@@ -1,14 +1,22 @@
 <?php
+
 namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
- * Utilise l’API officielle BAN (Base Adresse Nationale)
- * Validation : vérifie que la localisation saisie est reconnue par l’API BAN.
  */
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
 class ValidLocation extends Constraint
 {
-    public string $message = 'La localisation "{{ value }}" est invalide. Veuillez choisir une ville proposée.';
+    public string $message = 'La localisation "{{ value }}" est invalide.';
+
+    public function __construct(
+        mixed $options = null,
+        ?array $groups = null,
+        mixed $payload = null,
+    ) {
+        parent::__construct($options, $groups, $payload);
+    }
 }
