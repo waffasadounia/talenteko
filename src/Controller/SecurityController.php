@@ -20,7 +20,7 @@ final class SecurityController extends AbstractController
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
     {
-        //Si l'utilisateur est FULLY authentifié, on évite de réafficher le formulaire
+        // Si l'utilisateur est FULLY authentifié, on évite de réafficher le formulaire
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }

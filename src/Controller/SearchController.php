@@ -32,7 +32,7 @@ final class SearchController extends AbstractController
         if ('' !== $q) {
             // On utilise le champ d'entité "location" (plus "city")
             $qb->andWhere('l.title LIKE :q OR l.description LIKE :q OR l.location LIKE :q OR c.name LIKE :q')
-               ->setParameter('q', '%'.$q.'%');
+                ->setParameter('q', '%' . $q . '%');
         }
 
         /** @var list<Listing> $results */
@@ -53,13 +53,14 @@ final class SearchController extends AbstractController
                     'title' => $l->getTitle(),
                     'description' => $l->getDescription(),
                     'category' => $categoryName,
-                    'user' => ['name' => $displayName], 
-                    'ville' => $l->getLocation(),        
-                    'stars' => 4,                    
+                    'user' => ['name' => $displayName],
+                    'ville' => $l->getLocation(),
+                    'stars' => 4,
                 ];
             },
             $results
         );
+
         return $this->render('search/index.html.twig', [
             'q' => $q,
             'results' => $cards,

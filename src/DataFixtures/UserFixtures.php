@@ -18,7 +18,7 @@ final class UserFixtures extends Fixture
     {
         $faker = FakerFactory::create('fr_FR');
 
-        // ðŸ”¹ CrÃ©ation de 10 utilisateurs de test
+        //  Création de 10 utilisateurs de test
         for ($i = 1; $i <= 10; ++$i) {
             $user = new User();
 
@@ -39,7 +39,7 @@ final class UserFixtures extends Fixture
             $em->persist($user);
         }
 
-        //Admin de démo
+        // Admin de démo
         $admin = new User();
         $admin
             ->setEmail('admin@talenteko.test')

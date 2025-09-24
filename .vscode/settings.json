@@ -10,7 +10,35 @@
     "**/assets/styles/*.css": "postcss"
   },
 
-  // Améliore les suggestions de classes Tailwind
+  // Tailwind
   "tailwindCSS.emmetCompletions": true,
-  "editor.quickSuggestions": { "strings": true }
+  "editor.quickSuggestions": { "strings": true },
+
+  // Nettoyage automatique
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // Affichage des caractères invisibles (espaces, tabs, insécables)
+  "editor.renderWhitespace": "all",
+
+  // Formatters auto
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[twig]": {
+    "editor.defaultFormatter": "mblode.twig-language-2",
+    "editor.formatOnSave": true
+  },
+  // 🚫 Désactive les faux warnings d’Intelephense
+  "intelephense.diagnostics.undefinedTypes": false
 }

@@ -1,100 +1,113 @@
 {# templates/styleguide/buttons.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Styleguide — Boutons | Talentékô{% endblock %}
+{% block title %}Styleguide — Boutons | Talentékô
+{% endblock %}
 
 {% block body %}
-  {% include 'styleguide/_nav.html.twig' %}
+	{% include 'styleguide/_nav.html.twig' %}
 
-  <main class="container mx-auto px-6 py-12 space-y-10">
-    <header class="space-y-2">
-      <h1 class="text-3xl font-bold text-primary-color">Styleguide — Boutons</h1>
-      <p class="text-gray-600">
-        Page interne pour tester les composants UI Talentékô (boutons & liens).
-      </p>
-    </header>
+	<main class="container mx-auto px-6 py-12 space-y-10">
+		<header class="space-y-2">
+			<h1 class="text-3xl font-bold text-primary-color">Styleguide — Boutons</h1>
+			<p class="text-gray-600">
+				Page interne pour tester les composants UI Talentékô (boutons & liens).
+			</p>
+		</header>
 
-    {# Bouton principal #}
-    <section class="space-y-3">
-      <h2 class="text-xl font-semibold">Bouton principal (plein)</h2>
-      <div class="flex items-center gap-4">
-        <a href="#" class="btn-primary" aria-label="Exemple bouton connexion">
-          <i class="fa fa-user" aria-hidden="true"></i>
-          <span>Se connecter</span>
-        </a>
-        <a href="#" class="btn-primary" aria-label="Exemple bouton inscription">
-          <i class="fa fa-check" aria-hidden="true"></i>
-          <span>Valider mon inscription</span>
-        </a>
-      </div>
-      <p class="text-sm text-gray-500">
-        Normal : bg <code>talenteko-orange-500</code> · Hover : <code>talenteko-orange-400</code> (avec lift) · Focus ring visible.
-      </p>
-    </section>
+		{# Bouton principal #}
+		<section class="space-y-3">
+			<h2 class="text-xl font-semibold">Bouton principal (plein)</h2>
+			<div class="flex items-center gap-4">
+				<a href="#" class="btn-primary" aria-label="Exemple bouton connexion">
+					<i class="fa fa-user" aria-hidden="true"></i>
+					<span>Se connecter</span>
+				</a>
+				<a href="#" class="btn-primary" aria-label="Exemple bouton inscription">
+					<i class="fa fa-check" aria-hidden="true"></i>
+					<span>Valider mon inscription</span>
+				</a>
+			</div>
+			<p class="text-sm text-gray-500">
+				Normal : bg
+				<code>talenteko-orange-500</code>
+				· Hover :
+				<code>talenteko-orange-400</code>
+				(avec lift) · Focus ring visible.
+			</p>
+		</section>
 
-    {# Bouton secondaire #}
-    <section class="space-y-3">
-      <h2 class="text-xl font-semibold">Bouton secondaire (outline)</h2>
-      <div class="flex items-center gap-4">
-        <a href="#" class="btn-outline" aria-label="Exemple bouton déposer annonce">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          <span>Déposer une annonce</span>
-        </a>
-        <a href="#" class="btn-outline" aria-label="Exemple bouton publier">
-          <i class="fa fa-upload" aria-hidden="true"></i>
-          <span>Publier</span>
-        </a>
-      </div>
-      <p class="text-sm text-gray-500">
-        Normal : bordure + texte <code>talenteko-orange-500</code> · Hover : fond clair + texte orange renforcé.
-      </p>
-    </section>
+		{# Bouton secondaire #}
+		<section class="space-y-3">
+			<h2 class="text-xl font-semibold">Bouton secondaire (outline)</h2>
+			<div class="flex items-center gap-4">
+				<a href="#" class="btn-outline" aria-label="Exemple bouton déposer annonce">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+					<span>Déposer une annonce</span>
+				</a>
+				<a href="#" class="btn-outline" aria-label="Exemple bouton publier">
+					<i class="fa fa-upload" aria-hidden="true"></i>
+					<span>Publier</span>
+				</a>
+			</div>
+			<p class="text-sm text-gray-500">
+				Normal : bordure + texte
+				<code>talenteko-orange-500</code>
+				· Hover : fond clair + texte orange renforcé.
+			</p>
+		</section>
 
-    {# Bouton lien #}
-    <section class="space-y-3">
-      <h2 class="text-xl font-semibold">Bouton lien (tertiaire)</h2>
-      <div class="flex items-center gap-6">
-        <a href="#" class="btn-link" aria-label="Lien retour accueil">
-          <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          <span>Retour à l'accueil</span>
-        </a>
-        <a href="#" class="btn-link" aria-label="Lien voir plus">
-          <i class="fa fa-arrow-right" aria-hidden="true"></i>
-          <span>Voir plus</span>
-        </a>
-      </div>
-      <p class="text-sm text-gray-500">
-        Texte orange 500 · Hover : orange 600 + souligné · Focus ring visible.
-      </p>
-    </section>
+		{# Bouton lien #}
+		<section class="space-y-3">
+			<h2 class="text-xl font-semibold">Bouton lien (tertiaire)</h2>
+			<div class="flex items-center gap-6">
+				<a href="#" class="btn-link" aria-label="Lien retour accueil">
+					<i class="fa fa-arrow-left" aria-hidden="true"></i>
+					<span>Retour à l'accueil</span>
+				</a>
+				<a href="#" class="btn-link" aria-label="Lien voir plus">
+					<i class="fa fa-arrow-right" aria-hidden="true"></i>
+					<span>Voir plus</span>
+				</a>
+			</div>
+			<p class="text-sm text-gray-500">
+				Texte orange 500 · Hover : orange 600 + souligné · Focus ring visible.
+			</p>
+		</section>
 
-    {# Navigation #}
-    <section class="space-y-3">
-      <h2 class="text-xl font-semibold">Navigation principale (liens)</h2>
-      <nav aria-label="Navigation principale" class="flex items-center gap-6">
-        <a href="#" class="btn-link" aria-label="Aller à la recherche">
-          <i class="fa fa-search" aria-hidden="true"></i>
-          <span>Recherche</span>
-        </a>
-        <a href="#" class="btn-link" aria-label="Voir mes favoris">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-          <span>Favoris</span>
-        </a>
-        <a href="#" class="btn-link" aria-label="Accéder aux messages">
-          <i class="fa fa-envelope" aria-hidden="true"></i>
-          <span>Messages</span>
-        </a>
-      </nav>
-    </section>
+		{# Navigation #}
+		<section class="space-y-3">
+			<h2 class="text-xl font-semibold">Navigation principale (liens)</h2>
+			<nav aria-label="Navigation principale" class="flex items-center gap-6">
+				<a href="#" class="btn-link" aria-label="Aller à la recherche">
+					<i class="fa fa-search" aria-hidden="true"></i>
+					<span>Recherche</span>
+				</a>
+				<a href="#" class="btn-link" aria-label="Voir mes favoris">
+					<i class="fa fa-heart" aria-hidden="true"></i>
+					<span>Favoris</span>
+				</a>
+				<a href="#" class="btn-link" aria-label="Accéder aux messages">
+					<i class="fa fa-envelope" aria-hidden="true"></i>
+					<span>Messages</span>
+				</a>
+			</nav>
+		</section>
 
-    {# Accessibilité #}
-    <section class="space-y-3">
-      <h2 class="text-xl font-semibold">État focus & accessibilité</h2>
-      <p class="text-gray-600">
-        Testez avec <kbd>Tab</kbd> : chaque bouton possède un focus ring clair.
-        Les icônes sont marquées <code>aria-hidden="true"</code> pour ne pas être lues,
-        et chaque bouton/lien a un <code>aria-label</code> descriptif.
-      </p>
-    </section>
-  </main>
+		{# Accessibilité #}
+		<section class="space-y-3">
+			<h2 class="text-xl font-semibold">État focus & accessibilité</h2>
+			<p class="text-gray-600">
+				Testez avec
+				<kbd>Tab</kbd>
+				: chaque bouton possède un focus ring clair.
+				        Les icônes sont marquées
+				<code>aria-hidden="true"</code>
+				pour ne pas être lues,
+				        et chaque bouton/lien a un
+				<code>aria-label</code>
+				descriptif.
+			</p>
+		</section>
+	</main>
 {% endblock %}

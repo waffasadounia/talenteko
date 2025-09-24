@@ -1,17 +1,18 @@
 {
     "type": "project",
+    "name": "talenteko/project",
+    "description": "TalentÉkô — plateforme d’échange de compétences (Symfony 6.4, Doctrine, Twig, Tailwind, Stimulus, Turbo). Projet RNCP DWWM.",
+    "keywords": ["symfony", "talenteko", "doctrine", "twig", "tailwind", "stimulus", "turbo", "dwwm"],
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.15",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.5",
         "liip/imagine-bundle": "^2.14",
+        "php": ">=8.2",
         "symfony/asset": "6.4.*",
         "symfony/console": "6.4.*",
         "symfony/doctrine-messenger": "6.4.*",
@@ -25,7 +26,6 @@
         "symfony/mailer": "6.4.*",
         "symfony/mime": "6.4.*",
         "symfony/monolog-bundle": "^3.0",
-        "symfony/notifier": "6.4.*",
         "symfony/process": "6.4.*",
         "symfony/property-access": "6.4.*",
         "symfony/property-info": "6.4.*",
@@ -42,15 +42,22 @@
         "symfony/webpack-encore-bundle": "^2.2",
         "symfony/yaml": "6.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "ext-ctype": "*",
+        "ext-iconv": "*"
     },
-    "config": {
-        "allow-plugins": {
-            "php-http/discovery": true,
-            "symfony/flex": true,
-            "symfony/runtime": true
-        },
-        "sort-packages": true
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "fakerphp/faker": "^1.24",
+        "friendsofphp/php-cs-fixer": "^3.87",
+        "friendsoftwig/twigcs": "^6.5",
+        "phpunit/phpunit": "^11.5",
+        "symfony/browser-kit": "6.4.*",
+        "symfony/css-selector": "6.4.*",
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/stopwatch": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*"
     },
     "autoload": {
         "psr-4": {
@@ -100,17 +107,12 @@
             "require": "6.4.*"
         }
     },
-    "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^4.1",
-        "fakerphp/faker": "^1.24",
-        "friendsofphp/php-cs-fixer": "^3.64",
-        "friendsoftwig/twigcs": "^6.1",
-        "phpunit/phpunit": "^11.5",
-        "symfony/browser-kit": "6.4.*",
-        "symfony/css-selector": "6.4.*",
-        "symfony/debug-bundle": "6.4.*",
-        "symfony/maker-bundle": "^1.0",
-        "symfony/stopwatch": "6.4.*",
-        "symfony/web-profiler-bundle": "6.4.*"
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "sort-packages": true
     }
 }

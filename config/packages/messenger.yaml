@@ -19,9 +19,8 @@ framework:
         routing:
             # Routage natif déjà configuré
             Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            Symfony\Component\Notifier\Message\ChatMessage: async
-            Symfony\Component\Notifier\Message\SmsMessage: async
 
             # Routage pour tes messages personnalisés (TalentÉkô)
             App\Message\NewMessageNotification: async
             App\Message\NewExchangeNotification: async
+

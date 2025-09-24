@@ -1,27 +1,29 @@
-{# ================================
+{#================================
   templates/profile/favoris.html.twig
   Page "Mes favoris"
-  ================================ #}
+  ================================#}
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes favoris | Talentékô{% endblock %}
+{% block title %}Mes favoris | Talentékô
+{% endblock %}
 
 {% block body %}
-<section class="max-w-6xl mx-auto px-4 py-10">
-  <h1 class="text-3xl font-bold text-talenteko-blue mb-6">
-    <i class="fa-solid fa-heart text-talenteko-orange-500"></i> Mes favoris
-  </h1>
+	<section class="max-w-6xl mx-auto px-4 py-10">
+		<h1 class="text-3xl font-bold text-talenteko-blue mb-6">
+			<i class="fa-solid fa-heart text-talenteko-orange-500"></i>
+			Mes favoris
+		</h1>
 
-  {% if favoris is not empty %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {% for listing in favoris %}
-        {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="text-gray-600">
-      Vous n’avez encore ajouté aucune annonce à vos favoris.
-    </p>
-  {% endif %}
-</section>
+		{% if favoris is not empty %}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{% for listing in favoris %}
+					{% include 'partials/_listing_card.html.twig' with {listing: listing} %}
+				{% endfor %}
+			</div>
+		{% else %}
+			<p class="text-gray-600">
+				Vous n’avez encore ajouté aucune annonce à vos favoris.
+			</p>
+		{% endif %}
+	</section>
 {% endblock %}

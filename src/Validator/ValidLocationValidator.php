@@ -9,6 +9,10 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 final class ValidLocationValidator extends ConstraintValidator
 {
+    public function __construct(
+        private readonly string $appEnv
+    ) {}
+
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof ValidLocation) {
@@ -24,12 +28,12 @@ final class ValidLocationValidator extends ConstraintValidator
         }
 
         // On saute la vérification API pendant les tests automatisés
-        if ('test' === $_ENV['APP_ENV']) {
+        if ($this->appEnv === 'test') {
             return;
         }
 
         // Vérification via API Adresse.data.gouv.fr
-        $url = 'https://api-adresse.data.gouv.fr/search/?q='.urlencode($value).'&limit=1';
+        $url = 'https://api-adresse.data.gouv.fr/search/?q=' . urlencode($value) . '&limit=1';
         $json = @file_get_contents($url);
 
         if (!$json) {

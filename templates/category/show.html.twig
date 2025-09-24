@@ -1,37 +1,40 @@
-{# ================================
+{#================================
   templates/category/show.html.twig
   Page détail d’une catégorie
-  ================================ #}
+  ================================#}
 
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ category.name }} | Talentékô{% endblock %}
+{% block title %}
+	{{ category.name }}
+	| Talentékô
+{% endblock %}
 
 {% block body %}
-<section class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
+	<section class="py-16 bg-white">
+		<div class="max-w-6xl mx-auto px-4">
 
-    <h1 class="text-3xl font-bold mb-10 text-center text-talenteko-blue">
-      {{ category.name }}
-    </h1>
+			<h1 class="text-3xl font-bold mb-10 text-center text-talenteko-blue">
+				{{ category.name }}
+			</h1>
 
-    {# Grille des listings liés à cette catégorie #}
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {% for listing in category.listings %}
-        {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
-      {% else %}
-        <p class="text-center col-span-full text-gray-500 italic">
-          Aucun listing pour cette catégorie pour l’instant.
-        </p>
-      {% endfor %}
-    </div>
+			{#Grille des listings liés à cette catégorie#}
+			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+				{% for listing in category.listings %}
+					{% include 'partials/_listing_card.html.twig' with {listing: listing} %}
+				{% else %}
+					<p class="text-center col-span-full text-gray-500 italic">
+						Aucun listing pour cette catégorie pour l’instant.
+					</p>
+				{% endfor %}
+			</div>
 
-    <div class="mt-8 text-center">
-      <a href="{{ path('app_category_index') }}" class="btn-link">
-        <i class="fa fa-arrow-left"></i>
-        <span>Retour aux catégories</span>
-      </a>
-    </div>
-  </div>
-</section>
+			<div class="mt-8 text-center">
+				<a href="{{ path('app_category_index') }}" class="btn-link">
+					<i class="fa fa-arrow-left"></i>
+					<span>Retour aux catégories</span>
+				</a>
+			</div>
+		</div>
+	</section>
 {% endblock %}

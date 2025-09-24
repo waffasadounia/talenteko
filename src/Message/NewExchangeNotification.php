@@ -12,6 +12,7 @@ class NewExchangeNotification
         private int $recipientId,
         private int $exchangeId,
         private string $status,
+        private int $listingId,
     ) {
     }
 
@@ -28,5 +29,10 @@ class NewExchangeNotification
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    public function getListingId(): int
+    {
+        return $this->listingId;
     }
 }

@@ -13,17 +13,34 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-final class AnnoncesFixtures extends Fixture implements DependentFixtureInterface
+final class ListingFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
         $slugger = new AsciiSlugger();
 
-        // === Villes franÃ§aises rÃ©alistes ===
+        // === Villes françaises réalistes ===
         $cities = [
-            'Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Bordeaux', 'Nantes', 'Lille',
-            'Strasbourg', 'Montpellier', 'Rennes', 'Grenoble', 'Dijon', 'Angers', 'Tours',
-            'Clermont-Ferrand', 'Le Havre', 'Saint-Étienne', 'Metz', 'Orléans',
+            'Paris',
+            'Lyon',
+            'Marseille',
+            'Toulouse',
+            'Nice',
+            'Bordeaux',
+            'Nantes',
+            'Lille',
+            'Strasbourg',
+            'Montpellier',
+            'Rennes',
+            'Grenoble',
+            'Dijon',
+            'Angers',
+            'Tours',
+            'Clermont-Ferrand',
+            'Le Havre',
+            'Saint-Étienne',
+            'Metz',
+            'Orléans',
         ];
 
         // === Textes par catégorie ===
@@ -139,7 +156,7 @@ final class AnnoncesFixtures extends Fixture implements DependentFixtureInterfac
             $slug = $slugger->slug($catName)->lower()->toString();
 
             // Associer toutes les images trouvées
-            $imageFiles = glob(__DIR__."/../../public/uploads/listings/{$slug}/*.jpg");
+            $imageFiles = glob(__DIR__ . "/../../public/uploads/listings/{$slug}/*.jpg");
 
             if (!$imageFiles) {
                 continue;
@@ -160,7 +177,7 @@ final class AnnoncesFixtures extends Fixture implements DependentFixtureInterfac
                 $listing->setType(0 === $idx % 2 ? 'OFFER' : 'REQUEST');
                 $listing->setLocation($cities[array_rand($cities)]);
                 $listing->setStatus('PUBLISHED');
-                $listing->setSlug((string) $slugger->slug($title.'-'.uniqid()));
+                $listing->setSlug((string) $slugger->slug($title . '-' . uniqid()));
                 $listing->setAuthor($users[array_rand($users)]);
                 $listing->setCategory($category);
 
@@ -183,7 +200,7 @@ final class AnnoncesFixtures extends Fixture implements DependentFixtureInterfac
     public function getDependencies(): array
     {
         return [
-            UserFixtures::class,    
+            UserFixtures::class,
             CategoryFixtures::class,
         ];
     }

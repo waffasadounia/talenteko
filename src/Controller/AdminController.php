@@ -1,6 +1,7 @@
 <?php
 
 // src/Controller/AdminController.php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

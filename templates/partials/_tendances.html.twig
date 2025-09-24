@@ -1,28 +1,28 @@
 <section id="tendances" class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold mb-10 text-center text-talenteko-blue">
-      Tendances actuelles
-    </h2>
+	<div class="max-w-6xl mx-auto px-4">
+		<h2 class="text-3xl font-bold mb-10 text-center text-talenteko-bleue-900">
+			Tendances actuelles
+		</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {% for listing in listings %}
-        {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
-      {% else %}
-        <p class="text-center col-span-full text-gray-500 italic">
-          Aucune annonce disponible pour l’instant.<br>
-          <a href="{{ path('app_listing_new') }}" class="btn-link">
-            <i class="fa fa-plus-circle"></i>
-            <span>Dépose le premier !</span>
-          </a>
-        </p>
-      {% endfor %}
-    </div>
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+			{% for listing in listings %}
+				{% include 'partials/_listing_card.html.twig' with {listing: listing} %}
+			{% else %}
+				<p class="text-center col-span-full text-gray-500 italic">
+					Aucune annonce disponible pour l’instant.<br>
+					<a href="{{ path('app_listing_new') }}" class="btn-link">
+						<i class="fa fa-plus-circle"></i>
+						<span>Dépose le premier !</span>
+					</a>
+				</p>
+			{% endfor %}
+		</div>
 
-    <div class="mt-8 text-center">
-      <a href="{{ path('app_search') }}" class="btn-link" aria-label="Voir tous les listings">
-        <i class="fa fa-search"></i>
-        <span>Voir toutes les annonces</span>
-      </a>
-    </div>
-  </div>
+		<div class="mt-8 text-center">
+			<a href="{{ path('app_search') }}" class="btn-link" aria-label="Voir tous les listings">
+				<i class="fa fa-search"></i>
+				<span>Voir toutes les annonces</span>
+			</a>
+		</div>
+	</div>
 </section>

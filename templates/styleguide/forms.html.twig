@@ -1,128 +1,130 @@
 {# templates/styleguide/forms.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Styleguide — Formulaires | Talentékô{% endblock %}
+{% block title %}Styleguide — Formulaires | Talentékô
+{% endblock %}
 
 {% block body %}
-  {% include 'styleguide/_nav.html.twig' %}
+	{% include 'styleguide/_nav.html.twig' %}
 
-  <main class="container mx-auto px-6 py-12 space-y-12">
-    <header class="space-y-2">
-      <h1 class="text-3xl font-bold text-primary-color">Styleguide — Formulaires</h1>
-      <p class="text-gray-600">
-        Composants de formulaires accessibles : labels, aides, erreurs et focus.  
-        <strong>Sans JavaScript</strong>.
-      </p>
-    </header>
+	<main class="container mx-auto px-6 py-12 space-y-12">
+		<header class="space-y-2">
+			<h1 class="text-3xl font-bold text-primary-color">Styleguide — Formulaires</h1>
+			<p class="text-gray-600">
+				Composants de formulaires accessibles : labels, aides, erreurs et focus.
+				<strong>Sans JavaScript</strong>.
+			</p>
+		</header>
 
-    {# Champs texte #}
-    <section class="space-y-6">
-      <h2 class="text-xl font-semibold">Champs texte</h2>
+		{# Champs texte #}
+		<section class="space-y-6">
+			<h2 class="text-xl font-semibold">Champs texte</h2>
 
-      <form class="grid gap-6 md:grid-cols-2" novalidate>
-        {# Nom (normal) #}
-        <div class="space-y-2">
-          <label for="sg-name" class="form-label">Nom</label>
-          <input id="sg-name" name="name" type="text" placeholder="Votre nom"
-                 class="form-input"
-                 aria-describedby="sg-name-help">
-          <p id="sg-name-help" class="form-hint">Saisis ton nom complet.</p>
-        </div>
+			<form
+				class="grid gap-6 md:grid-cols-2" novalidate>
+				{# Nom (normal) #}
+				<div class="space-y-2">
+					<label for="sg-name" class="form-label">Nom</label>
+					<input id="sg-name" name="name" type="text" placeholder="Votre nom" class="form-input" aria-describedby="sg-name-help">
+					<p id="sg-name-help" class="form-hint">Saisis ton nom complet.</p>
+				</div>
 
-        {# Email (état erreur) #}
-        <div class="space-y-2">
-          <label for="sg-email" class="form-label">Email</label>
-          <input id="sg-email" name="email" type="email" value="exemple@"
-                 class="form-input is-invalid"
-                 aria-invalid="true" aria-describedby="sg-email-error sg-email-help">
-          <p id="sg-email-error" class="form-error">Adresse email invalide.</p>
-          <p id="sg-email-help" class="form-hint">Format attendu : nom@domaine.tld</p>
-        </div>
+				{# Email (état erreur) #}
+				<div class="space-y-2">
+					<label for="sg-email" class="form-label">Email</label>
+					<input id="sg-email" name="email" type="email" value="exemple@" class="form-input is-invalid" aria-invalid="true" aria-describedby="sg-email-error sg-email-help">
+					<p id="sg-email-error" class="form-error">Adresse email invalide.</p>
+					<p id="sg-email-help" class="form-hint">Format attendu : nom@domaine.tld</p>
+				</div>
 
-        {# Ville (select) #}
-        <div class="space-y-2">
-          <label for="sg-city" class="form-label">Ville</label>
-          <select id="sg-city" name="city" class="form-input">
-            <option value="">Choisir...</option>
-            <option>Paris</option>
-            <option>Lyon</option>
-            <option>Marseille</option>
-          </select>
-        </div>
+				{# Ville (select) #}
+				<div class="space-y-2">
+					<label for="sg-city" class="form-label">Ville</label>
+					<select id="sg-city" name="city" class="form-input">
+						<option value="">Choisir...</option>
+						<option>Paris</option>
+						<option>Lyon</option>
+						<option>Marseille</option>
+					</select>
+				</div>
 
-        {# Description (textarea) #}
-        <div class="space-y-2">
-          <label for="sg-desc" class="form-label">Description</label>
-          <textarea id="sg-desc" name="desc" rows="4" placeholder="Décris ton annonce..." class="form-input"></textarea>
-          <p class="form-hint">Max. 500 caractères.</p>
-        </div>
+				{# Description (textarea) #}
+				<div class="space-y-2">
+					<label for="sg-desc" class="form-label">Description</label>
+					<textarea id="sg-desc" name="desc" rows="4" placeholder="Décris ton annonce..." class="form-input"></textarea>
+					<p class="form-hint">Max. 500 caractères.</p>
+				</div>
 
-        {# Désactivé #}
-        <div class="space-y-2">
-          <label for="sg-disabled" class="form-label">Champ désactivé</label>
-          <input id="sg-disabled" type="text" disabled value="Inactif"
-                 class="form-input is-disabled">
-        </div>
-      </form>
-    </section>
+				{# Désactivé #}
+				<div class="space-y-2">
+					<label for="sg-disabled" class="form-label">Champ désactivé</label>
+					<input id="sg-disabled" type="text" disabled value="Inactif" class="form-input is-disabled">
+				</div>
+			</form>
+		</section>
 
-    {# Cases à cocher / Radios #}
-    <section class="space-y-6">
-      <h2 class="text-xl font-semibold">Choix (checkbox / radio)</h2>
+		{# Cases à cocher / Radios #}
+		<section class="space-y-6">
+			<h2 class="text-xl font-semibold">Choix (checkbox / radio)</h2>
 
-      <div class="grid gap-8 md:grid-cols-2">
-        <fieldset class="space-y-3">
-          <legend class="font-semibold text-primary-color">Catégories</legend>
-          <label class="flex items-center gap-3">
-            <input type="checkbox" class="form-checkbox">
-            <span>Musique</span>
-          </label>
-          <label class="flex items-center gap-3">
-            <input type="checkbox" class="form-checkbox">
-            <span>Cuisine</span>
-          </label>
-          <label class="flex items-center gap-3">
-            <input type="checkbox" class="form-checkbox">
-            <span>Sport</span>
-          </label>
-        </fieldset>
+			<div class="grid gap-8 md:grid-cols-2">
+				<fieldset class="space-y-3">
+					<legend class="font-semibold text-primary-color">Catégories</legend>
+					<label class="flex items-center gap-3">
+						<input type="checkbox" class="form-checkbox">
+						<span>Musique</span>
+					</label>
+					<label class="flex items-center gap-3">
+						<input type="checkbox" class="form-checkbox">
+						<span>Cuisine</span>
+					</label>
+					<label class="flex items-center gap-3">
+						<input type="checkbox" class="form-checkbox">
+						<span>Sport</span>
+					</label>
+				</fieldset>
 
-        <fieldset class="space-y-3">
-          <legend class="font-semibold text-primary-color">Type d'annonce</legend>
-          <label class="flex items-center gap-3">
-            <input type="radio" name="type" class="form-radio" checked>
-            <span>Propose</span>
-          </label>
-          <label class="flex items-center gap-3">
-            <input type="radio" name="type" class="form-radio">
-            <span>Recherche</span>
-          </label>
-        </fieldset>
-      </div>
-    </section>
+				<fieldset class="space-y-3">
+					<legend class="font-semibold text-primary-color">Type d'annonce</legend>
+					<label class="flex items-center gap-3">
+						<input type="radio" name="type" class="form-radio" checked>
+						<span>Propose</span>
+					</label>
+					<label class="flex items-center gap-3">
+						<input type="radio" name="type" class="form-radio">
+						<span>Recherche</span>
+					</label>
+				</fieldset>
+			</div>
+		</section>
 
-    {# Actions #}
-    <section class="space-y-6">
-      <h2 class="text-xl font-semibold">Actions</h2>
-      <div class="flex flex-wrap items-center gap-4">
-        <button type="button" class="btn-primary">
-          <i class="fa fa-check" aria-hidden="true"></i>
-          <span>Valider</span>
-        </button>
-        <button type="button" class="btn-outline">Annuler</button>
-        <a href="{{ path('app_home') }}" class="btn-link">← Retour à l’accueil</a>
-      </div>
-      <p class="text-sm text-gray-500">Les boutons réutilisent ton kit <code>.btn-*</code>.</p>
-    </section>
+		{# Actions #}
+		<section class="space-y-6">
+			<h2 class="text-xl font-semibold">Actions</h2>
+			<div class="flex flex-wrap items-center gap-4">
+				<button type="button" class="btn-primary">
+					<i class="fa fa-check" aria-hidden="true"></i>
+					<span>Valider</span>
+				</button>
+				<button type="button" class="btn-outline">Annuler</button>
+				<a href="{{ path('app_home') }}" class="btn-link">← Retour à l’accueil</a>
+			</div>
+			<p class="text-sm text-gray-500">Les boutons réutilisent ton kit
+				<code>.btn-*</code>.</p>
+		</section>
 
-    {# Focus démonstration #}
-    <section class="space-y-3">
-      <h2 class="text-xl font-semibold">Focus & aides</h2>
-      <p class="text-gray-600">
-        Utilise <kbd>Tab</kbd> pour naviguer.  
-        Les champs affichent un <strong>anneau de focus orange</strong>,  
-        et les aides sont reliÃ©es via <code>aria-describedby</code>.
-      </p>
-    </section>
-  </main>
+		{# Focus démonstration #}
+		<section class="space-y-3">
+			<h2 class="text-xl font-semibold">Focus & aides</h2>
+			<p class="text-gray-600">
+				Utilise
+				<kbd>Tab</kbd>
+				pour naviguer.
+				        Les champs affichent un
+				<strong>anneau de focus orange</strong>,
+					        et les aides sont reliÃ©es via
+				<code>aria-describedby</code>.
+			</p>
+		</section>
+	</main>
 {% endblock %}

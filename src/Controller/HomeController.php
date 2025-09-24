@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Repository\ListingRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\ListingRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +16,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(
         ListingRepository $listingRepository,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
     ): Response {
         // Derniers 8 listings
         $listings = $listingRepository->findLatestWithJoins(8);
@@ -25,7 +25,7 @@ class HomeController extends AbstractController
         $categories = $categoryRepository->findBy([], ['name' => 'ASC'], 8);
 
         return $this->render('home/index.html.twig', [
-            'listings'   => $listings,
+            'listings' => $listings,
             'categories' => $categories,
         ]);
     }

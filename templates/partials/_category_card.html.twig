@@ -1,40 +1,28 @@
 {# ================================
   partials/_category_card.html.twig
-  Carte de catégorie 
+  Carte de catégorie
   ================================ #}
 
-<a href="{{ path('app_category_show', { slug: category.slug }) }}"
-   class="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition group bg-white
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
+<a
+  href="{{ path('app_category_show', {slug: category.slug}) }}"
+  class="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition group bg-white
+         focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
 
-  {# --- Mapping slug à image --- #}
-  {% set images = {
-    'art':            'art.png',
-    'langues':        'langues.png',
-    'informatique':   'informatique.png',
-    'cuisine':        'cuisine.png',
-    'sport':          'sport.png',
-    'bricolage':      'bricolage.png',
-    'bien-etre':      'bien-etre.png',
-    'jardinage':      'jardinage.png',
-    'education':      'education.png',
-    'marketing':      'marketing.png',
-    'administratif':  'administratif.png',
-    'juridique':      'juridique.png'
-  } %}
+  {# --- Image de la catégorie (slug.png), sinon placeholder --- #}
+  {% set imagePath = 'images/categories/' ~ category.slug ~ '.png' %}
 
-  {% set image = images[category.slug]|default('placeholder.png') %}
-
-  {# --- Image grande, entière --- #}
   <div class="relative w-full h-60 flex items-center justify-center bg-white">
-    <img src="{{ asset('images/categories/' ~ image) }}"
-         alt="Illustration de la catégorie {{ category.name }}"
-         class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105" />
+    <img
+      src="{{ asset(imagePath) }}"
+      onerror="this.onerror=null;this.src='{{ asset('images/placeholders/placeholder.png') }}';"
+      alt="Illustration de la catégorie {{ category.name }}"
+      class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+    />
   </div>
 
   {# --- Libellé catégorie --- #}
-  <div class="p-3 text-center">
-    <h3 class="text-lg font-semibold text-talenteko-blue">
+  <div class="p-3 text-center bg-orange-50">
+    <h3 class="text-lg font-semibold text-talenteko-blue-900">
       {{ category.name }}
     </h3>
   </div>

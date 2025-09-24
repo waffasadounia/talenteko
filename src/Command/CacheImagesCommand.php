@@ -1,10 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Liip\ImagineBundle\Imagine\Filter\FilterManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,37 +13,35 @@ use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: 'app:cache-images',
-    description: 'PrÃ©-gÃ©nÃ¨re le cache LiipImagine pour toutes les images dans /uploads/listings.'
+    description: 'Pré-génère le cache LiipImagine pour toutes les images dans /uploads/listings.'
 )]
 class CacheImagesCommand extends Command
 {
     private CacheManager $cacheManager;
-    private FilterManager $filterManager;
 
-    public function __construct(CacheManager $cacheManager, FilterManager $filterManager)
+    public function __construct(CacheManager $cacheManager)
     {
         parent::__construct();
         $this->cacheManager = $cacheManager;
-        $this->filterManager = $filterManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $publicDir = __DIR__.'/../../public/uploads/listings';
+        $publicDir = __DIR__ . '/../../public/uploads/listings';
         $filters = ['listing_card', 'listing_show', 'avatar_thumb'];
 
         $finder = new Finder();
         $finder->files()->in($publicDir)->name('*.jpg');
 
         if (!$finder->hasResults()) {
-            $output->writeln("<comment>Aucune image trouvÃ©e dans $publicDir</comment>");
+            $output->writeln("<comment>Aucune image trouvée dans $publicDir</comment>");
 
             return Command::SUCCESS;
         }
 
         foreach ($finder as $file) {
             // Chemin relatif à /public
-            $relativePath = 'uploads/listings/'.$file->getRelativePathname();
+            $relativePath = 'uploads/listings/' . $file->getRelativePathname();
 
             foreach ($filters as $filter) {
                 try {

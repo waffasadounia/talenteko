@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ORM\UniqueConstraint(name: 'UNIQ_PSEUDO_TAG', fields: ['pseudo', 'tag'])] // unicité pseudo+tag
+#[ORM\UniqueConstraint(name: 'UNIQ_PSEUDO_TAG', fields: ['pseudo', 'tag'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     // === Identité / Sécurité ===
@@ -100,6 +100,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Listing::class)]
     private Collection $listings;
 
+    #[ORM\OneToMany(mappedBy: 'requester', targetEntity: Exchange::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $exchanges;
+
     #[ORM\OneToOne(mappedBy: 'user', targetEntity: Profile::class, cascade: ['persist', 'remove'])]
     private ?Profile $profile = null;
 
@@ -108,6 +111,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = ['ROLE_USER'];
         $this->createdAt = new \DateTimeImmutable();
         $this->listings = new ArrayCollection();
+        $this->exchanges = new ArrayCollection();
 
         // Génération auto du tag à 4 chiffres
         $this->tag = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
@@ -128,7 +132,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = mb_strtolower($email);
-
         return $this;
     }
 
@@ -143,14 +146,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!in_array('ROLE_USER', $roles, true)) {
             $roles[] = 'ROLE_USER';
         }
-
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -162,7 +163,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -174,7 +174,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(?string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
-
         return $this;
     }
 
@@ -191,7 +190,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
-
         return $this;
     }
 
@@ -203,7 +201,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTag(string $tag): static
     {
         $this->tag = $tag;
-
         return $this;
     }
 
@@ -212,7 +209,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->pseudo && $this->tag) {
             return $this->pseudo . '#' . $this->tag;
         }
-
         return $this->pseudo ?: mb_substr(explode('@', $this->email)[0] ?? 'membre', 0, 4) . '****';
     }
 
@@ -224,7 +220,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLocation(string $location): static
     {
         $this->location = $location;
-
         return $this;
     }
 
@@ -236,7 +231,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBio(?string $bio): static
     {
         $this->bio = $bio;
-
         return $this;
     }
 
@@ -248,7 +242,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkillsOffered(?array $skills): static
     {
         $this->skills_offered = $skills;
-
         return $this;
     }
 
@@ -260,7 +253,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkillsWanted(?array $skills): static
     {
         $this->skills_wanted = $skills;
-
         return $this;
     }
 
@@ -272,7 +264,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatarFilename(?string $fn): static
     {
         $this->avatarFilename = $fn;
-
         return $this;
     }
 
@@ -284,7 +275,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRatingAvg(float $ratingAvg): static
     {
         $this->ratingAvg = $ratingAvg;
-
         return $this;
     }
 
@@ -296,7 +286,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRatingCount(int $ratingCount): static
     {
         $this->ratingCount = $ratingCount;
-
         return $this;
     }
 
@@ -317,14 +306,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->listings->add($listing);
             $listing->setAuthor($this);
         }
-
         return $this;
     }
 
     public function removeListing(Listing $listing): static
     {
         $this->listings->removeElement($listing);
+        return $this;
+    }
 
+    /** @return Collection<int, Exchange> */
+    public function getExchanges(): Collection
+    {
+        return $this->exchanges;
+    }
+
+    public function addExchange(Exchange $exchange): static
+    {
+        if (!$this->exchanges->contains($exchange)) {
+            $this->exchanges->add($exchange);
+            $exchange->setRequester($this);
+        }
+        return $this;
+    }
+
+    public function removeExchange(Exchange $exchange): static
+    {
+        if ($this->exchanges->removeElement($exchange)) {
+            if ($exchange->getRequester() === $this) {
+                $exchange->setRequester(null);
+            }
+        }
         return $this;
     }
 
@@ -339,7 +351,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $profile->setUser($this);
         }
         $this->profile = $profile;
-
         return $this;
     }
 

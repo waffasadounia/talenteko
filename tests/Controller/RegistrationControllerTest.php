@@ -34,8 +34,8 @@ class RegistrationControllerTest extends WebTestCase
 
         // ✅ Remplit et soumet le formulaire d'inscription
         $form = $crawler->selectButton("S'inscrire")->form([
-            'registration[email]' => 'testuser_'.uniqid().'@example.com',
-            'registration[pseudo]' => 'TestUser'.uniqid(),
+            'registration[email]' => 'testuser_' . uniqid() . '@example.com',
+            'registration[pseudo]' => 'TestUser' . uniqid(),
             'registration[plainPassword][first]' => 'Password!123',
             'registration[plainPassword][second]' => 'Password!123',
             'registration[location]' => 'Paris',

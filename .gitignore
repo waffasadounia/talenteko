@@ -1,10 +1,11 @@
 ###> symfony/framework-bundle ###
-# Local overrides & secrets (ne jamais committer)
+# Local overrides & secrets
 .env.local
 .env.*.local
 .env.local.php
 
 /config/secrets/prod/prod.decrypt.private.php
+
 /public/bundles/
 /var/
 /vendor/
@@ -36,8 +37,8 @@ yarn-debug.log*
 /public/media/*
 !/public/media/.gitignore
 
-# Tailwind CLI
-tailwindcss.exe
+# Husky internal
+.husky/_/
 
 # System files
 .DS_Store
@@ -50,6 +51,3 @@ Thumbs.db
 # IDE / Editor configs
 .idea/
 .vscode/
-
-# Backup migration files
-/backup_migration/

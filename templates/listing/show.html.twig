@@ -1,106 +1,108 @@
 {# templates/listing/show.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ listing.title }} | Talentékô{% endblock %}
+{% block title %}
+	{{ listing.title }}
+	| TalentÉkô
+{% endblock %}
 
 {% block body %}
-  {# ===== Bandeau d'en-tête ===== #}
-  <section class="bg-talenteko-peach-100 py-8">
-    <div class="max-w-6xl mx-auto px-4">
-      <p class="text-sm mb-3">
-        <a href="{{ path('app_home') }}" class="text-talenteko-orange-500 hover:underline">Accueil</a>
-        <span class="text-gray-400">/</span>
-        <span class="text-gray-600">Annonce</span>
-      </p>
+	{# ===== Bandeau d'en-tête ===== #}
+	<section class="bg-talenteko-peach-100 py-8">
+		<div class="max-w-6xl mx-auto px-4">
+			<p class="text-sm mb-3">
+				<a href="{{ path('app_home') }}" class="text-talenteko-orange-500 hover:underline">Accueil</a>
+				<span class="text-gray-400">/</span>
+				<span class="text-gray-600">Annonce</span>
+			</p>
 
-      <h1 class="text-3xl md:text-4xl font-extrabold text-talenteko-blue">
-        {{ listing.title }}
-      </h1>
+			<h1 class="text-3xl md:text-4xl font-extrabold text-talenteko-blue">
+				{{ listing.title }}
+			</h1>
 
-      <div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
-        {% if listing.category %}
-          <span>Catégorie : <strong>{{ listing.category }}</strong></span>
-        {% endif %}
-        {% if listing.location %}
-          <span>Ville : <strong>{{ listing.location }}</strong></span>
-        {% endif %}
-      </div>
-    </div>
-  </section>
+			<div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
+				{% if listing.category %}
+					<span>Catégorie :
+						<strong>{{ listing.category.name ?? 'Non classée' }}</strong>
+					</span>
+				{% endif %}
+				{% if listing.location %}
+					<span>Ville :
+						<strong>{{ listing.location }}</strong>
+					</span>
+				{% endif %}
+			</div>
+		</div>
+	</section>
 
-  {# ===== Contenu principal ===== #}
-  <section class="py-10 bg-white">
-    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+	{# ===== Contenu principal ===== #}
+	<section class="py-10 bg-white">
+		<div
+			class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
-      {# Colonne gauche : image + description #}
-      <div class="md:col-span-2 space-y-6">
-        {# Image principale homogène (900x506 via LiipImagine) #}
-        <div class="relative bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <img
-            src="{{ (
-              listing.images|length > 0
-                ? asset('uploads/listings/' ~ listing.images|first.path)
-                : asset('uploads/listings/placeholder.png')
-            ) | imagine_filter('listing_show') }}"
-            alt="{{ listing.title }}"
-            class="w-full rounded-t-xl"
-          />
+			{# Colonne gauche : image + description #}
+			<div
+				class="md:col-span-2 space-y-6">
 
-          {# Bouton Favoris #}
-          <button class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white shadow flex items-center justify-center
-                         text-talenteko-orange-500 hover:bg-talenteko-orange-100 transition"
-                  aria-label="Ajouter aux favoris"
-                  data-controller="favorite-toggle"
-                  data-action="click->favorite-toggle#toggle">
-            <span data-favorite-toggle-target="empty">
-              <i class="fa-regular fa-heart"></i>
-            </span>
-            <span data-favorite-toggle-target="filled" class="hidden">
-              <i class="fa-solid fa-heart"></i>
-            </span>
-          </button>
-        </div>
+				{# Image principale homogène (900x506 via LiipImagine) #}
+				<div class="relative bg-white border border-gray-200 rounded-xl overflow-hidden">
+					{% if listing.images|length > 0 %}
+						<img src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path) | imagine_filter('listing_show') }}" alt="{{ listing.title|e }}" class="w-full rounded-t-xl"/>
+					{% else %}
+						<img src="{{ asset('images/placeholders/placeholder.png') }}" alt="Image non disponible" class="w-full rounded-t-xl"/>
+					{% endif %}
 
-        <article class="bg-white border border-gray-200 rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-3 text-talenteko-blue">Description</h2>
-          <div class="max-w-none text-gray-800 leading-relaxed whitespace-pre-line">
-            {{ listing.description }}
-          </div>
-        </article>
-      </div>
 
-      {# Colonne droite : auteur #}
-      <aside class="space-y-6">
-        <div class="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 class="text-lg font-semibold text-talenteko-blue mb-4">Proposé par</h3>
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 bg-talenteko-peach-200 text-talenteko-orange-500 rounded-full flex items-center justify-center font-bold">
-              {{ (listing.author.pseudo ?? 'M')|slice(0,1)|upper }}
-            </div>
-            <div>
-              <div class="font-semibold text-talenteko-blue">{{ listing.author.pseudo ?? 'Membre' }}</div>
-              {% if listing.location %}
-                <div class="text-sm text-gray-500 truncate max-w-[120px]">{{ listing.location }}</div>
-              {% endif %}
-            </div>
-          </div>
+					{# Bouton Favoris #}
+					<button class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-talenteko-orange-500 hover:bg-talenteko-orange-100 transition" aria-label="Ajouter aux favoris" data-controller="favorite-toggle" data-action="click->favorite-toggle#toggle">
+						<span data-favorite-toggle-target="empty">
+							<i class="fa-regular fa-heart"></i>
+						</span>
+						<span data-favorite-toggle-target="filled" class="hidden">
+							<i class="fa-solid fa-heart"></i>
+						</span>
+					</button>
+				</div>
+				<article class="bg-white border border-gray-200 rounded-xl p-6">
+					<h2 class="text-xl font-bold mb-3 text-talenteko-blue">Description</h2>
+					<div class="max-w-none text-gray-800 leading-relaxed whitespace-pre-line">
+						{{ listing.description }}
+					</div>
+				</article>
+			</div>
 
-          {# Étoiles statiques pour l'instant #}
-          <div class="flex items-center text-talenteko-orange-500 text-sm">
-            {% for i in 1..5 %}
-              <i class="fa-{{ i <= 4 ? 'solid' : 'regular' }} fa-star"></i>
-            {% endfor %}
-          </div>
-        </div>
+			{# Colonne droite : auteur #}
+			<aside class="space-y-6">
+				<div class="bg-white border border-gray-200 rounded-xl p-6">
+					<h3 class="text-lg font-semibold text-talenteko-blue mb-4">Proposé par</h3>
+					<div class="flex items-center gap-3 mb-3">
+						<div class="w-10 h-10 bg-talenteko-peach-200 text-talenteko-orange-500 rounded-full flex items-center justify-center font-bold">
+							{{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
+						</div>
+						<div>
+							<div class="font-semibold text-talenteko-blue">{{ listing.author.pseudo ?? 'Membre' }}</div>
+							{% if listing.location %}
+								<div class="text-sm text-gray-500 truncate max-w-[120px]">{{ listing.location }}</div>
+							{% endif %}
+						</div>
+					</div>
 
-        <div class="bg-white border border-gray-200 rounded-xl p-6">
-          <a href="{{ path('app_home') }}" class="block text-center text-talenteko-orange-500 hover:underline">
-            ⬅ Retour à l'accueil
-          </a>
-        </div>
-      </aside>
-    </div>
-  </section>
+					{# Étoiles statiques pour l'instant #}
+					<div class="flex items-center text-talenteko-orange-500 text-sm">
+						{% for i in 1..5 %}
+							<i class="fa-{{ i <= 4 ? 'solid' : 'regular' }} fa-star"></i>
+						{% endfor %}
+					</div>
+				</div>
 
-  {% include 'partials/_flash.html.twig' %}
+				<div class="bg-white border border-gray-200 rounded-xl p-6">
+					<a href="{{ path('app_home') }}" class="block text-center text-talenteko-orange-500 hover:underline">
+						⬅ Retour à l'accueil
+					</a>
+				</div>
+			</aside>
+		</div>
+	</section>
+
+	{% include 'partials/_flash.html.twig' %}
 {% endblock %}

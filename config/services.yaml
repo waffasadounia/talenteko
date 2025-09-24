@@ -17,7 +17,7 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # Exemple de service manuel (si besoin de config spécifique)
-    # App\Service\MailerService:
-    #     arguments:
-    #         $mailer: '@mailer'
+    # Injection de l'environnement dans le ValidLocationValidator
+    App\Validator\ValidLocationValidator:
+        arguments:
+            $appEnv: '%kernel.environment%'

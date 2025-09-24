@@ -30,7 +30,7 @@ class NewMessageNotificationHandler
 
         // Construire l’email
         $email = (new TemplatedEmail())
-            ->from('no-reply@talenteko.test')
+            ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
             ->to($recipient->getEmail())
             ->subject('Nouveau message sur Talentékô')
             ->htmlTemplate('emails/new_message.html.twig')

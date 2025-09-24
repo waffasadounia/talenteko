@@ -7,9 +7,9 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Exchange;
 
 #[ORM\Entity]
-// L’index porte désormais sur 'title' et **'location'** (nom de la propriété PHP).
 #[ORM\Index(fields: ['title', 'location'])]
 class Listing
 {
@@ -29,11 +29,6 @@ class Listing
     #[ORM\Column(length: 10)]
     private string $type;
 
-    /**
-     * IMPORTANT : on utilise bien la propriété $location, mappée sur la
-     * colonne SQL 'location' (qui existe déjà dans ta BDD).
-     * Cela remplace l’ancienne propriété $city côté PHP.
-     */
     #[ORM\Column(name: 'location', length: 120)]
     private string $location;
 
@@ -47,7 +42,6 @@ class Listing
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    // Relations (non-nullables, selon ton choix)
     #[ORM\ManyToOne(inversedBy: 'listings')]
     #[ORM\JoinColumn(nullable: false)]
     private User $author;
@@ -59,10 +53,14 @@ class Listing
     #[ORM\OneToMany(mappedBy: 'listing', targetEntity: ListingImage::class, cascade: ['persist', 'remove'])]
     private Collection $images;
 
+    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Exchange::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $exchanges;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
+        $this->exchanges = new ArrayCollection();
     }
 
     // === Getters / Setters ===
@@ -80,7 +78,6 @@ class Listing
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -92,7 +89,6 @@ class Listing
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -104,7 +100,6 @@ class Listing
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -116,13 +111,9 @@ class Listing
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
-    /**
-     * Nouvelle API canonique : location (alignée DB).
-     */
     public function getLocation(): string
     {
         return $this->location;
@@ -131,15 +122,9 @@ class Listing
     public function setLocation(string $location): self
     {
         $this->location = $location;
-
         return $this;
     }
 
-    /**
-     * Compatibilité ascendante :
-     * - Certains endroits de l’app (ou anciennes branches) appelaient encore getCity()/setCity().
-     * - On les garde mais on les marque @deprecated pour guider la migration.
-     */
     /** @deprecated Utilise getLocation() */
     public function getCity(): string
     {
@@ -160,7 +145,6 @@ class Listing
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -172,7 +156,6 @@ class Listing
     public function setUpdatedAt(?\DateTimeImmutable $date): self
     {
         $this->updatedAt = $date;
-
         return $this;
     }
 
@@ -189,7 +172,6 @@ class Listing
     public function setAuthor(User $author): self
     {
         $this->author = $author;
-
         return $this;
     }
 
@@ -201,7 +183,6 @@ class Listing
     public function setCategory(Category $category): self
     {
         $this->category = $category;
-
         return $this;
     }
 
@@ -217,15 +198,37 @@ class Listing
             $this->images->add($image);
             $image->setListing($this);
         }
-
         return $this;
     }
 
     public function removeImage(ListingImage $image): self
     {
-        if ($this->images->removeElement($image)) {
-            }
+        $this->images->removeElement($image);
+        return $this;
+    }
 
+    /** @return Collection<int, Exchange> */
+    public function getExchanges(): Collection
+    {
+        return $this->exchanges;
+    }
+
+    public function addExchange(Exchange $exchange): self
+    {
+        if (!$this->exchanges->contains($exchange)) {
+            $this->exchanges->add($exchange);
+            $exchange->setListing($this);
+        }
+        return $this;
+    }
+
+    public function removeExchange(Exchange $exchange): self
+    {
+        if ($this->exchanges->removeElement($exchange)) {
+            if ($exchange->getListing() === $this) {
+                $exchange->setListing(null);
+            }
+        }
         return $this;
     }
 
@@ -234,3 +237,4 @@ class Listing
         return $this->title ?? 'Annonce';
     }
 }
+

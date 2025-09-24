@@ -1,6 +1,6 @@
 {# ==========================================
   Partial Twig : Champ générique (input texte)
-  Usage : 
+  Usage :
   {% include "partials/_form_field.html.twig" with {
     field: form.email,
     label: "Adresse email",
@@ -13,11 +13,12 @@
 {% set errors_id = field.vars.id ~ '-errors' %}
 
 <div class="space-y-1">
-  <label for="{{ field.vars.id }}" class="form-label">
-    {{ label }} <span class="form-required" aria-hidden="true">*</span>
-  </label>
+	<label for="{{ field.vars.id }}" class="form-label">
+		{{ label }}
+		<span class="form-required" aria-hidden="true">*</span>
+	</label>
 
-  {{ form_widget(field, {
+	{{ form_widget(field, {
     attr: {
       placeholder: placeholder|default(''),
       class: 'form-input' ~ (is_invalid ? ' is-invalid' : ''),
@@ -27,9 +28,9 @@
     }
   }) }}
 
-  {% if is_invalid %}
-    <p id="{{ errors_id }}" class="form-error" role="alert">
-      {{ form_errors(field) }}
-    </p>
-  {% endif %}
+	{% if is_invalid %}
+		<p id="{{ errors_id }}" class="form-error" role="alert">
+			{{ form_errors(field) }}
+		</p>
+	{% endif %}
 </div>

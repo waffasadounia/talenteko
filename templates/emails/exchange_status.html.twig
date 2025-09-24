@@ -3,50 +3,57 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statut de votre échange</title>
   </head>
-  <body style="font-family: Montserrat, Arial, sans-serif; color: #141C2E; background: #FDFAF9; padding: 20px; line-height:1.5;">
-
-    <h2 style="color: #D6713C; margin-bottom: 15px;">Mise à jour de votre échange</h2>
+  <body style="font-family:Montserrat,Arial,sans-serif;color:#141C2E;background:#FDFAF9;padding:20px;line-height:1.5;">
+    <h2 style="color:#D6713C;margin-bottom:15px;">Mise à jour de votre échange</h2>
 
     <p>Votre proposition d'échange concernant l'annonce :</p>
-    <p style="font-style: italic; margin: 10px 0;">{{ listingTitle }}</p>
+    <p style="font-style:italic;margin:10px 0;">{{ listingTitle|default('Annonce inconnue') }}</p>
 
-    {% if status == 'accepted' %}
-      <p style="color: green; font-weight: bold;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" viewBox="0 0 20 20" style="vertical-align:middle; margin-right:6px;">
+    {% if status is same as(constant('App\\\\Enum\\\\ExchangeStatus::ACCEPTED')) %}
+      <p style="color:green;font-weight:bold;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" viewBox="0 0 20 20" style="vertical-align:middle;margin-right:6px;" aria-hidden="true">
           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8.25 8.25a1 1 0 01-1.414 0l-3.75-3.75a1 1 0 111.414-1.414L7.75 12.086l7.543-7.543a1 1 0 011.414 0z" clip-rule="evenodd"/>
         </svg>
         Bonne nouvelle ! Votre échange a été accepté.
       </p>
-    {% elseif status == 'declined' %}
-      <p style="color: red; font-weight: bold;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" viewBox="0 0 20 20" style="vertical-align:middle; margin-right:6px;">
+
+    {% elseif status is same as(constant('App\\\\Enum\\\\ExchangeStatus::DECLINED')) %}
+      <p style="color:red;font-weight:bold;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" viewBox="0 0 20 20" style="vertical-align:middle;margin-right:6px;" aria-hidden="true">
           <path fill-rule="evenodd" d="M10 8.586l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414L8.586 10l-4.95-4.95A1 1 0 115.05 3.636L10 8.586z" clip-rule="evenodd"/>
         </svg>
         Dommage… Votre échange a été refusé.
       </p>
+
+    {% elseif status is same as(constant('App\\\\Enum\\\\ExchangeStatus::CANCELED')) %}
+      <p style="color:orange;font-weight:bold;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" viewBox="0 0 20 20" style="vertical-align:middle;margin-right:6px;" aria-hidden="true">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+        Votre échange a été annulé.
+      </p>
+
     {% else %}
       <p>
         Statut actuel de votre échange :
-        <strong>{{ status }}</strong>
+        <strong>{{ status.label() }}</strong>
       </p>
     {% endif %}
 
-    <p style="margin: 20px 0;">
-      <a href="{{ url('app_exchange_show', { id: exchangeId }) }}" style="display:inline-block; background:#D6713C; color:#fff; padding:12px 18px; border-radius:6px; text-decoration:none; font-weight:bold;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="white" viewBox="0 0 20 20" style="vertical-align:middle; margin-right:6px;">
+    <p style="margin:20px 0;">
+      <a href="{{ url('app_exchange_show', {id: exchangeId}) }}" style="display:inline-block;background:#D6713C;color:#fff;padding:12px 18px;border-radius:6px;text-decoration:none;font-weight:bold;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="white" viewBox="0 0 20 20" style="vertical-align:middle;margin-right:6px;" aria-hidden="true">
           <path d="M12.293 2.293a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L14 5.414V17a1 1 0 11-2 0V5.414L9.707 7.707a1 1 0 01-1.414-1.414l4-4z"/>
         </svg>
         Consulter l’échange
       </a>
     </p>
 
-    <hr style="margin: 30px 0; border:none; border-top:1px solid #eee;">
-    <p style="font-size:12px; color:#A1A4AB; text-align:center;">
+    <hr style="margin:30px 0;border:none;border-top:1px solid #eee;">
+    <p style="font-size:12px;color:#A1A4AB;text-align:center;">
       Talentékô – plateforme d’échange de compétences
     </p>
   </body>
 </html>
-
