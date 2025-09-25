@@ -16,7 +16,7 @@ class Exchange
     #[ORM\Column]
     private ?int $id = null;
 
-    // Statut typé avec l’Enum ExchangeStatus
+    // Statut typÃ© avec lâ€™Enum ExchangeStatus
     #[ORM\Column(enumType: ExchangeStatus::class)]
     private ExchangeStatus $status = ExchangeStatus::PENDING;
 
@@ -102,7 +102,7 @@ class Exchange
         $listingTitle = $this->listing?->getTitle() ?? 'Annonce inconnue';
 
         return sprintf(
-            'Échange #%d (%s) - %s',
+            'Ã‰change #%d (%s) - %s',
             $this->id ?? 0,
             $this->status->label(),
             $listingTitle,

@@ -20,7 +20,7 @@ final class UserFixtures extends Fixture
     {
         $faker = FakerFactory::create('fr_FR');
 
-        //  Création de 10 utilisateurs de test
+        //  CrÃ©ation de 10 utilisateurs de test
         for ($i = 1; $i <= 10; ++$i) {
             $user = new User();
 
@@ -32,7 +32,7 @@ final class UserFixtures extends Fixture
 
             $user
                 ->setEmail($email)
-                ->setPseudo($faker->firstName()) // pseudo peut être dupliqué → mais tag assure l’unicité
+                ->setPseudo($faker->firstName()) // pseudo peut Ãªtre dupliquÃ© â†’ mais tag assure lâ€™unicitÃ©
                 ->setLocation($faker->city())
                 ->setPassword(
                     $this->hasher->hashPassword($user, 'Password123!'),
@@ -41,7 +41,7 @@ final class UserFixtures extends Fixture
             $em->persist($user);
         }
 
-        // Admin de démo
+        // Admin de dÃ©mo
         $admin = new User();
         $admin
             ->setEmail('admin@talenteko.test')

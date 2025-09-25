@@ -2,16 +2,16 @@
 framework:
     secret: '%env(APP_SECRET)%'
 
-    # désactive totalement les annotations (routes, etc.)
+    # dÃ©sactive totalement les annotations (routes, etc.)
     annotations: false
 
-    # Empêche les overrides HTTP type _method
+    # EmpÃªche les overrides HTTP type _method
     http_method_override: false
 
     # Intercepte toutes les erreurs PHP (y compris fatales)
     handle_all_throwables: true
 
-    # Protection CSRF activée globalement (sécurité des formulaires)
+    # Protection CSRF activÃ©e globalement (sÃ©curitÃ© des formulaires)
     csrf_protection: true
 
     # Sessions
@@ -24,7 +24,7 @@ framework:
     php_errors:
         log: true
 
-# Configuration spécifique à l’environnement de test
+# Configuration spÃ©cifique Ã  lâ€™environnement de test
 when@test:
     framework:
         test: true

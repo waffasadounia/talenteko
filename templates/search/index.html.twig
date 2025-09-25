@@ -1,37 +1,37 @@
 {#================================
   templates/search/index.html.twig
-  Page de recherche Talentékô
+  Page de recherche TalentÃƒÂ©kÃƒÂ´
   Variables attendues :
-    - q       : requête saisie (string)
+    - q       : requÃƒÂªte saisie (string)
     - results : tableau d'annonces (Listings)
   ================================#}
 {% extends 'base.html.twig' %}
 
 {% block title %}Recherche
 	{% if q %}
-		— «
+		Ã¢â‚¬â€ Ã‚Â«
 		{{ q }}
-		»
+		Ã‚Â»
 	{% endif %}
-	| Talentékô
+	| TalentÃƒÂ©kÃƒÂ´
 {% endblock %}
 
 {% block body %}
-	{#================== En-tête ==================#}
+	{#================== En-tÃƒÂªte ==================#}
 	<section class="py-10 bg-talenteko-peach-100">
 		<div class="max-w-6xl mx-auto px-4">
 			<h1 class="text-3xl font-bold text-center text-talenteko-orange-500 mb-6">
-				Résultats
+				RÃƒÂ©sultats
 				{% if q %}
-					pour «
+					pour Ã‚Â«
 					{{ q }}
-					»
+					Ã‚Â»
 				{% endif %}
 			</h1>
 
 			{#Formulaire de recherche rapide#}
 			<form action="{{ path('app_search') }}" method="get" class="flex justify-center gap-2">
-				<input type="text" name="q" value="{{ q }}" placeholder="Rechercher une compétence, une ville, une catégorie…" class="border border-gray-300 rounded-lg px-3 py-2 w-2/3 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-300">
+				<input type="text" name="q" value="{{ q }}" placeholder="Rechercher une compÃƒÆ’Ã‚Â©tence, une ville, une catÃƒÆ’Ã‚Â©gorieÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" class="border border-gray-300 rounded-lg px-3 py-2 w-2/3 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-300">
 				<button class="bg-talenteko-orange-500 text-white px-4 py-2 rounded-lg hover:bg-talenteko-orange-600 transition flex items-center gap-2">
 					<i class="fa fa-search" aria-hidden="true"></i>
 					<span>Rechercher</span>
@@ -40,7 +40,7 @@
 		</div>
 	</section>
 
-	{#================== Résultats ==================#}
+	{#================== RÃƒÂ©sultats ==================#}
 	<section class="py-10 bg-white">
 		<div class="max-w-6xl mx-auto px-4">
 			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -49,9 +49,9 @@
 				{% else %}
 					<p class="text-center col-span-full text-gray-600">
 						{% if q %}
-							Aucun résultat pour «
+							Aucun rÃƒÂ©sultat pour Ã‚Â«
 							{{ q }}
-							».
+							Ã‚Â».
 						{% else %}
 							Entrez un terme de recherche pour voir des annonces.
 						{% endif %}

@@ -6,7 +6,7 @@ namespace App\Message;
 
 /**
  * Message pour notifier un utilisateur
- * quand il reçoit un nouveau message privé.
+ * quand il reÃ§oit un nouveau message privÃ©.
  */
 class NewMessageNotification
 {

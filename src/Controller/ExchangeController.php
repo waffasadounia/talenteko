@@ -26,20 +26,20 @@ final class ExchangeController extends AbstractController
         MessageBusInterface $bus,
         Security $security,
     ): Response {
-        // 1) Vérifier que l'utilisateur est connecté
+        // 1) VÃ©rifier que l'utilisateur est connectÃ©
         /** @var User $user */
         $user = $security->getUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
-        // 2) Récupérer l'annonce
+        // 2) RÃ©cupÃ©rer l'annonce
         $listing = $em->getRepository(Listing::class)->find($id);
         if (!$listing) {
             throw $this->createNotFoundException('Annonce introuvable.');
         }
 
-        // 3) Créer la proposition d’échange
+        // 3) CrÃ©er la proposition dâ€™Ã©change
         $exchange = new Exchange();
         $exchange->setListing($listing);
         $exchange->setRequester($user);           // celui qui propose
@@ -48,16 +48,16 @@ final class ExchangeController extends AbstractController
         $em->persist($exchange);
         $em->flush();
 
-        // 4) Préparer et dispatcher la notification email
+        // 4) PrÃ©parer et dispatcher la notification email
         $bus->dispatch(new NewExchangeCreatedNotification(
-            $listing->getAuthor()->getId(),   // destinataire = auteur de l’annonce
-            $user->getId(),                   // expéditeur = utilisateur actuel
-            $exchange->getId(),               // id de l’échange
-            $listing->getId(),                 // id de l’annonce
+            $listing->getAuthor()->getId(),   // destinataire = auteur de l'annonce
+            $user->getId(),                   // expÃ©diteur = utilisateur actuel
+            $exchange->getId(),               // id de l'Ã©change
+            $listing->getId(),                 // id de l'annonce
         ));
 
         // 5) Feedback utilisateur
-        $this->addFlash('success', 'Votre proposition d’échange a été envoyée !');
+        $this->addFlash('success', 'Votre proposition dâ€™Ã©change a Ã©tÃ© envoyÃ©e !');
 
         return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
     }

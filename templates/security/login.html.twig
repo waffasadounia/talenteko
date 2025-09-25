@@ -3,7 +3,7 @@
    ========================== #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Se connecter | Talentékô
+{% block title %}Se connecter | TalentÃƒÂ©kÃƒÂ´
 {% endblock %}
 
 {% block body %}
@@ -18,12 +18,12 @@
 				</div>
 			{% endif %}
 
-			{# --- Déjà connecté --- #}
+			{# --- DÃƒÂ©jÃƒÂ  connectÃƒÂ© --- #}
 			{% if app.user %}
 				<div class="mb-4 text-sm rounded-lg border border-green-200 bg-green-50 text-green-700 p-3" role="alert">
-					connecté en tant que
+					connectÃƒÂ© en tant que
 					<strong>{{ app.user.userIdentifier }}</strong>.
-					<a href="{{ path('app_logout') }}" class="btn-link">Se déconnecter</a>
+					<a href="{{ path('app_logout') }}" class="btn-link">Se dÃƒÂ©connecter</a>
 				</div>
 			{% endif %}
 
@@ -42,7 +42,7 @@
 						<input id="email" name="email" type="email" required autocomplete="email" value="{{ last_username|default('') }}" placeholder="ex. vous@exemple.fr" class="form-input{% if error %} is-invalid{% endif %}" aria-invalid="{{ error ? 'true' : 'false' }}" aria-describedby="{{ error ? email_errors_id : '' }}">
 						{% if error %}
 							<p id="{{ email_errors_id }}" class="form-error" role="alert">
-								Vérifiez votre adresse email.
+								VÃƒÂ©rifiez votre adresse email.
 							</p>
 						{% endif %}
 					</div>
@@ -57,7 +57,7 @@
 						<input id="password" name="password" type="password" required autocomplete="current-password" placeholder="Votre mot de passe" class="form-input{% if error %} is-invalid{% endif %}" aria-invalid="{{ error ? 'true' : 'false' }}" aria-describedby="{{ error ? pwd_errors_id : '' }}">
 						{% if error %}
 							<p id="{{ pwd_errors_id }}" class="form-error" role="alert">
-								Vérifiez votre mot de passe.
+								VÃƒÂ©rifiez votre mot de passe.
 							</p>
 						{% endif %}
 					</div>
@@ -66,13 +66,13 @@
 					<input
 					type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
 
-					{# Remember me + lien oublié #}
+					{# Remember me + lien oubliÃƒÂ© #}
 					<div class="flex items-center justify-between text-sm">
 						<label class="inline-flex items-center gap-2 text-gray-600">
 							<input type="checkbox" name="_remember_me" class="form-checkbox">
 							<span>Se souvenir de moi</span>
 						</label>
-						<a href="#" class="btn-link">Mot de passe oublié ?</a>
+						<a href="#" class="btn-link">Mot de passe oubliÃƒÂ© ?</a>
 					</div>
 
 					<button type="submit" class="btn-primary btn-block">Se connecter</button>
@@ -80,7 +80,7 @@
 
 				<p class="text-sm text-gray-600 mt-6 text-center">
 					Pas encore de compte ?
-					<a href="{{ path('app_register') }}" class="btn-link">Créer un compte</a>
+					<a href="{{ path('app_register') }}" class="btn-link">CrÃƒÂ©er un compte</a>
 				</p>
 			</div>
 		</div>

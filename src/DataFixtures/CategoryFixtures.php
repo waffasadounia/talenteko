@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
- * Crée les catégories de base.
+ * CrÃ©e les catÃ©gories de base.
  */
 final class CategoryFixtures extends Fixture
 {
@@ -24,7 +24,7 @@ final class CategoryFixtures extends Fixture
         'Art',
         'Juridique',
         'Marketing',
-        'Bien-ÃŠtre',
+        'Bien-Ãªtre',
         'Jardinage',
         'Ã‰ducation',
     ];

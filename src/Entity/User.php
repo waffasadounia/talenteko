@@ -15,14 +15,14 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email.')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe dÃ©jÃ  avec cet email.')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\UniqueConstraint(name: 'UNIQ_PSEUDO_TAG', fields: ['pseudo', 'tag'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    // === Identité / Sécurité ===
+    // === IdentitÃ© / SÃ©curitÃ© ===
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,11 +43,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Merci de saisir un mot de passe.')]
     #[Assert\Length(
         min: 10,
-        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
+        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractÃ¨res.',
     )]
     #[Assert\Regex(
         pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/",
-        message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.',
+        message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractÃ¨re spÃ©cial.',
     )]
     private ?string $plainPassword = null;
 
@@ -63,12 +63,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 4)]
-    #[Assert\NotBlank(message: 'Le tag est obligatoire (auto-généré).')]
+    #[Assert\NotBlank(message: 'Le tag est obligatoire (auto-gÃ©nÃ©rÃ©).')]
     #[Assert\Regex(pattern: '/^\d{4}$/', message: 'Le tag doit contenir exactement 4 chiffres.')]
     private ?string $tag = null;
 
     #[ORM\Column(length: 120)]
-    #[Assert\NotBlank(message: 'Merci d’indiquer votre ville.')]
+    #[Assert\NotBlank(message: 'Merci dâ€™indiquer votre ville.')]
     #[Assert\Length(min: 2, max: 120)]
     #[Assert\Regex(
         pattern: '/^[\p{L}\s\'\-]+$/u',
@@ -116,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->listings = new ArrayCollection();
         $this->exchanges = new ArrayCollection();
 
-        // Génération auto du tag à 4 chiffres
+        // GÃ©nÃ©ration auto du tag Ã  4 chiffres
         $this->tag = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
     }
 

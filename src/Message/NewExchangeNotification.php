@@ -6,7 +6,7 @@ namespace App\Message;
 
 /**
  * Message pour notifier un utilisateur
- * quand une proposition d'échange est envoyée ou mise à jour.
+ * quand une proposition d'Ã©change est envoyÃ©e ou mise Ã  jour.
  */
 class NewExchangeNotification
 {

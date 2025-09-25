@@ -3,11 +3,11 @@
 
 {% block title %}
 	{{ listing.title }}
-	| TalentÉkô
+	| TalentÃƒÂ©kÃƒÂ´
 {% endblock %}
 
 {% block body %}
-	{# ===== Bandeau d'en-tête ===== #}
+	{# ===== Bandeau d'en-tÃƒÂªte ===== #}
 	<section class="bg-talenteko-peach-100 py-8">
 		<div class="max-w-6xl mx-auto px-4">
 			<p class="text-sm mb-3">
@@ -22,8 +22,8 @@
 
 			<div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
 				{% if listing.category %}
-					<span>Catégorie :
-						<strong>{{ listing.category.name ?? 'Non classée' }}</strong>
+					<span>CatÃƒÂ©gorie :
+						<strong>{{ listing.category.name ?? 'Non classÃƒÂ©e' }}</strong>
 					</span>
 				{% endif %}
 				{% if listing.location %}
@@ -44,10 +44,10 @@
 			<div
 				class="md:col-span-2 space-y-6">
 
-				{# Image principale homogène (900x506 via LiipImagine) #}
+				{# Image principale homogÃƒÂ¨ne (900x506 via LiipImagine) #}
 				<div class="relative bg-white border border-gray-200 rounded-xl overflow-hidden">
 					{% if listing.images|length > 0 %}
-						<img src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path) | imagine_filter('listing_show') }}" alt="{{ listing.title|e }}" class="w-full rounded-t-xl"/>
+						<img src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path)|imagine_filter('listing_show') }}" alt="{{ listing.title|e }}" class="w-full rounded-t-xl"/>
 					{% else %}
 						<img src="{{ asset('images/placeholders/placeholder.png') }}" alt="Image non disponible" class="w-full rounded-t-xl"/>
 					{% endif %}
@@ -74,7 +74,7 @@
 			{# Colonne droite : auteur #}
 			<aside class="space-y-6">
 				<div class="bg-white border border-gray-200 rounded-xl p-6">
-					<h3 class="text-lg font-semibold text-talenteko-blue mb-4">Proposé par</h3>
+					<h3 class="text-lg font-semibold text-talenteko-blue mb-4">ProposÃƒÂ© par</h3>
 					<div class="flex items-center gap-3 mb-3">
 						<div class="w-10 h-10 bg-talenteko-peach-200 text-talenteko-orange-500 rounded-full flex items-center justify-center font-bold">
 							{{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
@@ -87,7 +87,7 @@
 						</div>
 					</div>
 
-					{# Étoiles statiques pour l'instant #}
+					{# ÃƒÆ’Ã¢â‚¬Â°toiles statiques pour l'instant #}
 					<div class="flex items-center text-talenteko-orange-500 text-sm">
 						{% for i in 1..5 %}
 							<i class="fa-{{ i <= 4 ? 'solid' : 'regular' }} fa-star"></i>
@@ -97,12 +97,11 @@
 
 				<div class="bg-white border border-gray-200 rounded-xl p-6">
 					<a href="{{ path('app_home') }}" class="block text-center text-talenteko-orange-500 hover:underline">
-						⬅ Retour à l'accueil
+						Retour ÃƒÂ  l'accueil
 					</a>
 				</div>
 			</aside>
 		</div>
 	</section>
-
 	{% include 'partials/_flash.html.twig' %}
 {% endblock %}

@@ -37,6 +37,9 @@ yarn-debug.log*
 /public/media/*
 !/public/media/.gitignore
 
+# Archives locales
+*.zip
+
 # Husky internal
 .husky/_/
 
@@ -51,3 +54,4 @@ Thumbs.db
 # IDE / Editor configs
 .idea/
 .vscode/
+

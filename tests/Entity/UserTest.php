@@ -8,10 +8,10 @@ use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests unitaires de l'entité User
+ * Tests unitaires de l'entitÃ© User
  *
- * Vérifie le bon fonctionnement des setters/getters
- * et la cohérence des données manipulées.
+ * VÃ©rifie le bon fonctionnement des setters/getters
+ * et la cohÃ©rence des donnÃ©es manipulÃ©es.
  */
 class UserTest extends TestCase
 {
@@ -20,7 +20,7 @@ class UserTest extends TestCase
         $user = new User();
         $user->setEmail('test@example.com');
 
-        $this->assertSame('test@example.com', $user->getEmail(), '❌ L’email devrait être correctement défini et récupéré');
+        $this->assertSame('test@example.com', $user->getEmail(), 'âŒ Lâ€™email devrait Ãªtre correctement dÃ©fini et rÃ©cupÃ©rÃ©');
     }
 
     public function testPseudoSetterGetter(): void
@@ -28,7 +28,7 @@ class UserTest extends TestCase
         $user = new User();
         $user->setPseudo('Talenteko#1234');
 
-        $this->assertSame('Talenteko#1234', $user->getPseudo(), '❌ Le pseudo devrait être correctement défini et récupéré');
+        $this->assertSame('Talenteko#1234', $user->getPseudo(), 'âŒ Le pseudo devrait Ãªtre correctement dÃ©fini et rÃ©cupÃ©rÃ©');
     }
 
     public function testPasswordSetterGetter(): void
@@ -36,14 +36,14 @@ class UserTest extends TestCase
         $user = new User();
         $user->setPassword('hashedPassword');
 
-        $this->assertNotEmpty($user->getPassword(), '❌ Le mot de passe ne devrait pas être vide après setPassword()');
-        $this->assertSame('hashedPassword', $user->getPassword(), '❌ Le mot de passe défini devrait être identique à celui récupéré');
+        $this->assertNotEmpty($user->getPassword(), 'âŒ Le mot de passe ne devrait pas Ãªtre vide aprÃ¨s setPassword()');
+        $this->assertSame('hashedPassword', $user->getPassword(), 'âŒ Le mot de passe dÃ©fini devrait Ãªtre identique Ã  celui rÃ©cupÃ©rÃ©');
     }
 
     public function testRolesDefault(): void
     {
         $user = new User();
 
-        $this->assertContains('ROLE_USER', $user->getRoles(), '❌ Tout nouvel utilisateur doit avoir le rôle ROLE_USER par défaut');
+        $this->assertContains('ROLE_USER', $user->getRoles(), 'âŒ Tout nouvel utilisateur doit avoir le rÃ´le ROLE_USER par dÃ©faut');
     }
 }

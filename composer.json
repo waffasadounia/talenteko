@@ -1,7 +1,7 @@
 {
     "type": "project",
     "name": "talenteko/project",
-    "description": "TalentÉkô — plateforme d’échange de compétences (Symfony 6.4, Doctrine, Twig, Tailwind, Stimulus, Turbo). Projet RNCP DWWM.",
+    "description": "TalentÃ‰kÃ´ â€” plateforme dâ€™Ã©change de compÃ©tences (Symfony 6.4, Doctrine, Twig, Tailwind, Stimulus, Turbo). Projet RNCP DWWM.",
     "keywords": ["symfony", "talenteko", "doctrine", "twig", "tailwind", "stimulus", "turbo", "dwwm"],
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -83,19 +83,33 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
+
         "post-install-cmd": [
             "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "fix": "php-cs-fixer fix --allow-risky=yes",
+
+        "lint:php": "php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+        "lint:php:fix": "php-cs-fixer fix --allow-risky=yes",
         "lint:twig": "twigcs templates/",
-        "test": "phpunit",
+        "lint": [
+            "@lint:php",
+            "@lint:twig"
+        ],
+
+        "test:unit": "phpunit --testsuite=unit --stop-on-failure",
+        "test:all": "phpunit --stop-on-failure",
+        "test": "@test:all",
+
         "check": [
-            "@fix",
-            "@lint:twig",
-            "@test"
+            "@lint",
+            "@test:unit"
+        ],
+
+        "fix": [
+            "@lint:php:fix"
         ]
     },
     "conflict": {

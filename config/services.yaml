@@ -1,11 +1,11 @@
 # config/services.yaml
-# Configuration des services TalentÉkô
+# Configuration des services TalentÃ‰kÃ´
 
 parameters: { }
 
 services:
     _defaults:
-        autowire: true      # Injection automatique des dépendances
+        autowire: true      # Injection automatique des dÃ©pendances
         autoconfigure: true # Tags automatiques (Command, EventSubscriber, Voter, Handler, etc.)
 
     # Rend toutes les classes de src/ disponibles comme services

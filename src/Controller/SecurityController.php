@@ -15,19 +15,19 @@ final class SecurityController extends AbstractController
     /**
      * Page de connexion.
      * GET  : affiche le formulaire
-     * POST : laissé à l'authenticator personnalisé (App\Security\LoginFormAuthenticator)
-     *        qui intercepte la requête POST sur cette même route.
+     * POST : laissÃ© Ã  l'authenticator personnalisÃ© (App\Security\LoginFormAuthenticator)
+     *        qui intercepte la requÃªte POST sur cette mÃªme route.
      */
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
     {
-        // Si l'utilisateur est FULLY authentifié, on évite de réafficher le formulaire
+        // Si l'utilisateur est FULLY authentifiÃ©, on Ã©vite de rÃ©afficher le formulaire
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }
 
         // IMPORTANT : si l'utilisateur n'est que "remembered",
-        // on lui DOIT laisser l'accès au formulaire pour "sur-authentifier" (FULLY).
+        // on lui DOIT laisser l'accÃƒÂ¨s au formulaire pour "sur-authentifier" (FULLY).
         $error = $auth->getLastAuthenticationError();
         $lastUsername = $auth->getLastUsername();
 
@@ -38,13 +38,13 @@ final class SecurityController extends AbstractController
     }
 
     /**
-     * Déconnexion :
-     * Cette action ne s'exécute jamais : elle est interceptée par la config "logout" du firewall
-     * (configurée dans security.yaml, section firewalls.main.logout).
+     * DÃ©connexion :
+     * Cette action ne s'exÃ©cute jamais : elle est interceptÃ©e par la config "logout" du firewall
+     * (configurÃ©e dans security.yaml, section firewalls.main.logout).
      */
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
-        throw new LogicException('Cette méthode est vide : la déconnexion est gérée par le firewall (security.yaml).');
+        throw new LogicException('Cette mÃ©thode est vide : la dÃ©connexion est gÃ©rÃ©e par le firewall (security.yaml).');
     }
 }

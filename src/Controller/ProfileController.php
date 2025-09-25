@@ -13,8 +13,8 @@ final class ProfileController extends AbstractController
     #[Route('/profil/favoris', name: 'app_profile_favoris', methods: ['GET'])]
     public function favoris(): Response
     {
-        // ⚠️ Pour l’instant on renvoie juste le template vide
-        // Plus tard on passera les favoris réels de l’utilisateur
+        // Pour lâ€™instant on renvoie juste le template vide
+        // Plus tard on passera les favoris rÃ©els de lâ€™utilisateur
         return $this->render('profile/favoris.html.twig');
     }
 }

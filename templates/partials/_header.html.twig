@@ -4,19 +4,20 @@
 		class="w-full max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
 
 		{# 1) LOGO #}
-		<a href="{{ path('app_home') }}" class="flex flex-col items-center text-center shrink-0" aria-label="Retour à l’accueil Talentékô">
-			<img src="{{ asset('images/talenteko_logo.png') }}" alt="Logo Talentékô" class="max-h-10 w-auto object-contain rounded-full"/>
+		<a href="{{ path('app_home') }}" class="flex flex-col items-center text-center shrink-0" aria-label="Retour ÃƒÂ  l'accueil TalentÃƒÂ©kÃƒÂ´">
+			<img src="{{ asset('images/talenteko_logo.png') }}" alt="Logo TalentÃƒÂ©kÃƒÂ´" class="max-h-10 w-auto object-contain rounded-full"/>
 			<span class="text-xs font-extrabold leading-tight">
-				<span class="text-talenteko-blue">Talent</span><span class="text-talenteko-orange-500">Ékô</span>
+				<span class="text-talenteko-blue">Talent</span>
+				<span class="text-talenteko-orange-500">Ãƒâ€°kÃƒÂ´</span>
 			</span>
 		</a>
 
 		{# 2) RECHERCHE #}
-		<form action="{{ path('app_search') }}" method="get" role="search" aria-label="Recherche de compétences" class="relative flex-1 min-w-[220px] max-w-xl">
-			<input type="search" name="q" placeholder="Rechercher une compétence" aria-label="Rechercher une compétence" class="w-full pl-10 pr-4 py-2 rounded-full border border-talenteko-orange-500
-				                    text-talenteko-blue placeholder-gray-400
-				                    focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500
-				                    transition"/>
+		<form action="{{ path('app_search') }}" method="get" role="search" aria-label="Recherche de compÃƒÂ©tences" class="relative flex-1 min-w-[220px] max-w-xl">
+			<input type="search" name="q" placeholder="Rechercher une compÃƒÂ©tence" aria-label="Rechercher une compÃƒÂ©tence" class="w-full pl-10 pr-4 py-2 rounded-full border border-talenteko-orange-500
+																                    text-talenteko-blue placeholder-gray-400
+																                    focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500
+																                    transition"/>
 			<i class="fa fa-search absolute left-3 top-2.5 text-talenteko-orange-500" aria-hidden="true"></i>
 		</form>
 
@@ -37,32 +38,31 @@
 				</a>
 			</nav>
 
-			{# CTA : Déposer une annonce #}
-			<a href="{{ path('app_listing_new') }}" class="btn-outline flex items-center gap-2" aria-label="Déposer une annonce">
+			{# CTA : DÃƒÂ©poser une annonce #}
+			<a href="{{ path('app_listing_new') }}" class="btn-outline flex items-center gap-2" aria-label="DÃƒÂ©poser une annonce">
 				<i class="fa fa-plus-circle" aria-hidden="true"></i>
-				<span>Déposer une annonce</span>
+				<span>DÃƒÂ©poser une annonce</span>
 			</a>
 
 			{# CTA : Connexion #}
-			<a href="{{ path('app_login') }}" class="btn-primary flex items-center gap-2" aria-label="Se connecter à votre compte">
+			<a href="{{ path('app_login') }}" class="btn-primary flex items-center gap-2" aria-label="Se connecter ÃƒÂ  votre compte">
 				<i class="fa fa-user" aria-hidden="true"></i>
 				<span>Se connecter</span>
 			</a>
 		</div>
 	</div>
 
-	{# BARRE DES CATÉGORIES visible uniquement sur certaines pages #}
+	{# BARRE DES CATÃƒâ€°GORIES visible uniquement sur certaines pages #}
 	{% set current_route = app.request.attributes.get('_route') %}
 	{% if current_route in ['app_home', 'app_search'] %}
-		<nav aria-label="Catégories" class="bg-white py-3 border-t border-talenteko-orange-500">
+		<nav aria-label="CatÃƒÂ©gories" class="bg-white py-3 border-t border-talenteko-orange-500">
 			<div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-2 text-sm">
 				{% set categories = [
-          'Bricolage', 'Bien-être', 'Jardinage', 'Éducation', 'Informatique',
+          'Bricolage', 'Bien-ÃƒÅ tre', 'Jardinage', 'Ãƒâ€°ducation', 'Informatique',
           'Langues', 'Art', 'Marketing', 'Administratif', 'Juridique'
         ] %}
 				{% for cat in categories %}
-					<a href="#" class="bg-white border border-orange-100 text-talenteko-blue
-							                    px-4 py-1.5 rounded-full shadow-sm hover:bg-orange-50">
+					<a href="#" class="bg-white border border-orange-100 text-talenteko-blue px-4 py-1.5 rounded-full shadow-sm hover:bg-orange-50">
 						{{ cat }}
 					</a>
 				{% endfor %}

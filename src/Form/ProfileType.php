@@ -25,38 +25,38 @@ final class ProfileType extends AbstractType
                 'attr' => ['maxlength' => 50, 'autocomplete' => 'nickname'],
             ])
             // Ville / Localisation
-            // Champ obligatoire car central pour Talenték (filtrage, présentiel/distanciel).
+            // Champ obligatoire car central pour Talenteko (filtrage, prÃ©sentiel/distanciel).
             // On ajoute une contrainte NotBlank pour imposer la saisie.
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
-                'required' => true, // côté Form (HTML5 + validation serveur)
+                'required' => true, // cÃ´tÃ© Form (HTML5 + validation serveur)
                 'attr' => [
                     'maxlength' => 120,
-                    'autocomplete' => 'address-level2', // aide les navigateurs à suggérer la ville
+                    'autocomplete' => 'address-level2', // aide les navigateurs Ã  suggÃ©rer la ville
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Merci d’indiquer votre ville.'), // validation serveur Symfony
+                    new Assert\NotBlank(message: 'Merci dâ€™indiquer votre ville.'), // validation serveur Symfony
                 ],
             ])
 
             // Courte bio (optionnel)
             ->add('bio', TextareaType::class, [
-                'label' => 'Ã€ propos de vous',
+                'label' => 'ÃƒÆ’Ã¢â€šÂ¬ propos de vous',
                 'required' => false,
                 'attr' => ['rows' => 4],
             ])
-            // Compétences proposées (JSON → array simple)
+            // CompÃ©tences proposÃ©es (JSON â†’ array simple)
             ->add('skillsOffered', CollectionType::class, [
-                'label' => 'Compétences proposées',
+                'label' => 'CompÃ©tences proposÃ©es',
                 'required' => false,
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            // Compétences recherchées
+            // CompÃ©tences recherchÃ©es
             ->add('skillsWanted', CollectionType::class, [
-                'label' => 'Compétences recherchées',
+                'label' => 'CompÃ©tences recherchÃ©es',
                 'required' => false,
                 'entry_type' => TextType::class,
                 'allow_add' => true,

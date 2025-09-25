@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Page d’accueil
+ * Page d'accueil
  */
 class HomeController extends AbstractController
 {
@@ -23,7 +23,7 @@ class HomeController extends AbstractController
         // Derniers 8 listings
         $listings = $listingRepository->findLatestWithJoins(8);
 
-        // 8 catégories populaires (ordre alphabétique pour l’instant)
+        // 8 catÃ©gories populaires (ordre alphabÃ©tique pour lâ€™instant)
         $categories = $categoryRepository->findBy([], ['name' => 'ASC'], 8);
 
         return $this->render('home/index.html.twig', [

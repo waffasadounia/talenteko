@@ -23,20 +23,20 @@ class NewExchangeCreatedNotificationHandler
 
     public function __invoke(NewExchangeCreatedNotification $notification): void
     {
-        // Récupérer destinataire, expéditeur et annonce
+        // RÃ©cupÃ©rer destinataire, expÃ©diteur et annonce
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
         $sender = $this->em->getRepository(User::class)->find($notification->getSenderId());
         $listing = $this->em->getRepository(Listing::class)->find($notification->getListingId());
 
         if (!$recipient || !$sender) {
-            return; // sécurité : si l’un n’existe pas → rien à faire
+            return; // sÃ©curitÃ© : si lâ€™un nâ€™existe pas â†’ rien Ã  faire
         }
 
-        // Construire l’email
+        // Construire lâ€™email
         $email = (new TemplatedEmail())
             ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
             ->to($recipient->getEmail())
-            ->subject('Nouvelle proposition d’échange sur Talentékô')
+            ->subject('Nouvelle proposition dâ€™Ã©change sur TalentÃ©kÃ´')
             ->htmlTemplate('@emails/new_exchange.html.twig')
             ->context([
                 'sender' => $sender->getPseudo(),

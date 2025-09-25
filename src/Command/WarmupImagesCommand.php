@@ -13,7 +13,7 @@ use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: 'app:warmup-images',
-    description: 'Pré-génère toutes les variantes LiipImagine pour les images de démonstration',
+    description: 'PrÃ©chauffe toutes les variantes LiipImagine pour les images de dÃ©monstration',
 )]
 class WarmupImagesCommand extends Command
 {
@@ -35,7 +35,7 @@ class WarmupImagesCommand extends Command
             $relativePath = str_replace($uploadDir, '', $file->getPathname());
             $relativePath = '/uploads/listings' . str_replace('\\', '/', $relativePath);
 
-            $output->writeln("→ Génération : $relativePath");
+            $output->writeln("â†’ GÃ©nÃ©ration : $relativePath");
 
             foreach ($filters as $filter) {
                 $this->cacheManager->generateUrl($relativePath, $filter);
@@ -43,7 +43,7 @@ class WarmupImagesCommand extends Command
             }
         }
 
-        $output->writeln('✅ Warmup terminé !');
+        $output->writeln('âœ”ï¸ Warmup terminÃ© !');
 
         return Command::SUCCESS;
     }

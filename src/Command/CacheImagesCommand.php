@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: 'app:cache-images',
-    description: 'Pré-génère le cache LiipImagine pour toutes les images dans /uploads/listings.',
+    description: 'PrÃ©- gÃ©nÃ©rÃ© le cache LiipImagine pour toutes les images dans /uploads/listings.',
 )]
 class CacheImagesCommand extends Command
 {
@@ -35,27 +35,27 @@ class CacheImagesCommand extends Command
         $finder->files()->in($publicDir)->name('*.jpg');
 
         if (!$finder->hasResults()) {
-            $output->writeln("<comment>Aucune image trouvée dans $publicDir</comment>");
+            $output->writeln("<comment>Aucune image trouvÃ©e dans $publicDir</comment>");
 
             return Command::SUCCESS;
         }
 
         foreach ($finder as $file) {
-            // Chemin relatif à /public
+            // Chemin relatif Ã  /public
             $relativePath = 'uploads/listings/' . $file->getRelativePathname();
 
             foreach ($filters as $filter) {
                 try {
-                    $this->cacheManager->remove($relativePath, $filter); // reset éventuel
+                    $this->cacheManager->remove($relativePath, $filter); // reset Ã©ventuel
                     $this->cacheManager->getBrowserPath($relativePath, $filter);
-                    $output->writeln("✔ [$filter] généré pour $relativePath");
+                    $output->writeln("âœ” [$filter] gÃ©nÃ©rÃ© pour $relativePath");
                 } catch (Exception $e) {
-                    $output->writeln("<error>✖ [$filter] échec sur $relativePath : {$e->getMessage()}</error>");
+                    $output->writeln("<error>âœ– [$filter] Ã©chec sur $relativePath : {$e->getMessage()}</error>");
                 }
             }
         }
 
-        $output->writeln('<info>✅ Toutes les images ont été traitées avec succès.</info>');
+        $output->writeln('<info>âœ” Toutes les images ont Ã©tÃ© traitÃ©es avec succÃ¨s.</info>');
 
         return Command::SUCCESS;
     }

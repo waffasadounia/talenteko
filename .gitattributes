@@ -24,3 +24,11 @@
 
 # SVG : texto (diff lisible), on garde LF
 *.svg  text eol=lf
+
+# Lockfiles → forcer LF (sinon conflits sous Windows)
+composer.lock text eol=lf
+package-lock.json text eol=lf
+symfony.lock text eol=lf
+
+# Fichiers spécifiques
+*.twig text eol=lf working-tree-encoding=UTF-8

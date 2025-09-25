@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class StyleguideController extends AbstractController
 {
     /**
-     * Page interne : styleguide des boutons Talenteko´.
+     * Page interne : styleguide des boutons TalentekoÃ‚Â´.
      * URL : /styleguide/buttons
      * Name : app_styleguide_buttons.
      */
@@ -26,7 +26,7 @@ final class StyleguideController extends AbstractController
     }
 
     /**
-     * Page interne : styleguide des formulaires Talentékô.
+     * Page interne : styleguide des formulaires TalentÃ©kÃ´.
      * URL : /styleguide/forms
      * Name : app_styleguide_forms.
      */
@@ -43,7 +43,7 @@ final class StyleguideController extends AbstractController
     }
 
     /**
-     * Page interne : styleguide CTA Talentékô.
+     * Page interne : styleguide CTA TalentÃ©kÃ´.
      * URL : /styleguide/cta
      * Name : app_styleguide_cta.
      */

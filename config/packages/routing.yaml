@@ -3,14 +3,14 @@ framework:
     router:
         utf8: true
         default_uri: '%env(APP_BASE_URL)%'
-        # En dev/test → garder localhost par défaut (pas besoin de l'activer ici).
-        # Pour les mails envoyés en prod, voir bloc ci-dessous.
+        # En dev/test â†’ garder localhost par dÃ©faut (pas besoin de l'activer ici).
+        # Pour les mails envoyÃ©s en prod, voir bloc ci-dessous.
 
 when@prod:
     framework:
         router:
             utf8: true
-            # Domaine réel de mon app en prod
+            # Domaine rÃ©el de mon app en prod
             default_uri: '%env(APP_BASE_URL)%'
-            # Évite que des erreurs de param constraints cassent tout en prod
+            # Ã‰vite que des erreurs de param constraints cassent tout en prod
             strict_requirements: null

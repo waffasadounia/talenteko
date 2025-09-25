@@ -1,97 +1,69 @@
 {# ================================
   partials/_listing_card.html.twig
-  Carte annonce TalentÉkô (V2 homogénéisée)
+  Carte annonce TalentÃƒÂ©kÃƒÂ´ (V2 homogÃƒÂ©nÃƒÂ©isÃƒÂ©e)
   ================================ #}
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition relative">
+<div
+	class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition relative">
 
-  {# --- Bouton Favoris (Stimulus toggle) --- #}
-  <button
-    type="button"
-    class="absolute top-2 right-2 w-9 h-9 flex items-center justify-center rounded-full
-           text-talenteko-orange-400 bg-white shadow
-           hover:bg-talenteko-orange-100 hover:text-talenteko-orange-500 transition"
-    aria-label="Ajouter ou retirer des favoris"
-    data-controller="favorite-toggle"
-    data-action="click->favorite-toggle#toggle"
-  >
-    <span data-favorite-toggle-target="empty">
-      <i class="fa-regular fa-heart" aria-hidden="true"></i>
-    </span>
-    <span data-favorite-toggle-target="filled" class="hidden">
-      <i class="fa-solid fa-heart" aria-hidden="true"></i>
-    </span>
-  </button>
+	{# --- Bouton Favoris (Stimulus toggle) --- #}
+	<button type="button" class="absolute top-2 right-2 w-9 h-9 flex items-center justify-center rounded-full
+		           text-talenteko-orange-400 bg-white shadow
+		           hover:bg-talenteko-orange-100 hover:text-talenteko-orange-500 transition" aria-label="Ajouter ou retirer des favoris" data-controller="favorite-toggle" data-action="click->favorite-toggle#toggle">
+		<span data-favorite-toggle-target="empty">
+			<i class="fa-regular fa-heart" aria-hidden="true"></i>
+		</span>
+		<span data-favorite-toggle-target="filled" class="hidden">
+			<i class="fa-solid fa-heart" aria-hidden="true"></i>
+		</span>
+	</button>
 
-  {# --- Image principale (réelle si connecté, sinon placeholder) --- #}
-  <a
-    href="{{ path('app_listing_show', { slug: listing.slug }) }}"
-    class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded-t-xl"
-  >
-   <div class="w-full h-40 bg-white overflow-hidden">
-  {% if listing.images|length > 0 %}
-    <img
-      src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path)
-        | imagine_filter('listing_card') }}"
-      alt="Image du listing {{ listing.title|e }}"
-      class="w-full h-full object-cover bg-gray-200"
-      loading="lazy"
-      width="400"
-      height="225"
-    />
-  {% else %}
-    <img
-      src="{{ asset('images/placeholders/placeholder.png') }}"
-      alt="Image non disponible"
-      class="w-full h-full object-cover bg-gray-200"
-      loading="lazy"
-      width="400"
-      height="225"
-    />
-  {% endif %}
-</div>
-  {# --- Contenu texte --- #}
-  <div class="p-4 flex flex-col gap-2">
-    {# Catégorie (fallback si null) #}
-    <span class="inline-block text-xs font-semibold text-talenteko-orange-500">
-      {{ listing.category.name ?? 'Non classée' }}
-    </span>
+	{# --- Image principale (rÃƒÂ©elle si connectÃƒÂ©e, sinon placeholder) --- #}
+	<a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded-t-xl">
+		<div class="w-full h-40 bg-white overflow-hidden">
+			{% if listing.images|length > 0 %}
+				<img src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path)|imagine_filter('listing_card') }}" alt="Image du listing {{ listing.title|e }}" class="w-full h-full object-cover bg-gray-200" loading="lazy" width="400" height="225"/>
+			{% else %}
+				<img src="{{ asset('images/placeholders/placeholder.png') }}" alt="Image non disponible" class="w-full h-full object-cover bg-gray-200" loading="lazy" width="400" height="225"/>
+			{% endif %}
+		</div>
+		{# --- Contenu texte --- #}
+		<div
+			class="p-4 flex flex-col gap-2">
+			{# CatÃƒÂ©gorie (fallback si null) #}
+			<span class="inline-block text-xs font-semibold text-talenteko-orange-500">
+				{{ listing.category.name ?? 'Non classÃƒÂ©e' }}
+			</span>
 
-    {# Titre cliquable #}
-    <h3 class="text-base font-bold text-talenteko-blue line-clamp-1">
-      <a
-        href="{{ path('app_listing_show', { slug: listing.slug }) }}"
-        class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded"
-      >
-        {{ listing.title }}
-      </a>
-    </h3>
+			{# Titre cliquable #}
+			<h3 class="text-base font-bold text-talenteko-blue line-clamp-1">
+				<a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded">
+					{{ listing.title }}
+				</a>
+			</h3>
 
-    {# Description tronquée (2 lignes max) #}
-    <p class="text-sm text-talenteko-blue-600 line-clamp-2">
-      {{ listing.description }}
-    </p>
+			{# Description tronquÃƒÂ©e (2 lignes max) #}
+			<p class="text-sm text-talenteko-blue-600 line-clamp-2">
+				{{ listing.description }}
+			</p>
 
-    {# --- Footer : auteur + ville --- #}
-    <div class="flex justify-between items-center mt-3 text-sm">
-      <div class="flex items-center gap-2">
-        <div
-          class="w-8 h-8 rounded-full bg-talenteko-peach-200 flex items-center justify-center font-bold text-talenteko-orange-500"
-          aria-hidden="true"
-        >
-          {{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
-        </div>
-        <span class="text-sm font-medium text-talenteko-blue">
-          {{ listing.author.pseudo ?? 'Membre' }}
-        </span>
-      </div>
+			{# --- Footer : auteur + ville --- #}
+			<div class="flex justify-between items-center mt-3 text-sm">
+				<div class="flex items-center gap-2">
+					<div class="w-8 h-8 rounded-full bg-talenteko-peach-200 flex items-center justify-center font-bold text-talenteko-orange-500" aria-hidden="true">
+						{{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
+					</div>
+					<span class="text-sm font-medium text-talenteko-blue">
+						{{ listing.author.pseudo ?? 'Membre' }}
+					</span>
+				</div>
 
-      {% if listing.location %}
-        <span class="text-xs text-talenteko-blue-400 flex items-center gap-1 truncate max-w-[100px]">
-          <i class="fa fa-map-marker-alt text-talenteko-orange-500" aria-hidden="true"></i>
-          {{ listing.location }}
-        </span>
-      {% endif %}
-    </div>
-  </div>
-</div>
+				{% if listing.location %}
+					<span class="text-xs text-talenteko-blue-400 flex items-center gap-1 truncate max-w-[100px]">
+						<i class="fa fa-map-marker-alt text-talenteko-orange-500" aria-hidden="true"></i>
+						{{ listing.location }}
+					</span>
+				{% endif %}
+			</div>
+		</div>
+	</div>
