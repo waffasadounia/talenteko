@@ -1,45 +1,29 @@
+# config/packages/webpack_encore.yaml
 webpack_encore:
-    # The path where Encore is building the assets - i.e. Encore.setOutputPath()
+    # répertoire où Encore génère les assets
     output_path: '%kernel.project_dir%/public/build'
-    # If multiple builds are defined (as shown below), you can disable the default build:
-    # output_path: false
 
-    # Set attributes that will be rendered on all script and link tags
+    # Attributs appliqués à toutes les balises <script>
     script_attributes:
         defer: true
-        # Uncomment (also under link_attributes) if using Turbo Drive
-        # https://turbo.hotwired.dev/handbook/drive#reloading-when-assets-change
+        # Décommenter si je veux que Turbo recharge quand les assets changent
         # 'data-turbo-track': reload
+
+    # Attributs appliqués à toutes les balises <link>
     # link_attributes:
-        # Uncomment if using Turbo Drive
-        # 'data-turbo-track': reload
-
-    # If using Encore.enableIntegrityHashes() and need the crossorigin attribute (default: false, or use 'anonymous' or 'use-credentials')
-    # crossorigin: 'anonymous'
-
-    # Preload all rendered script and link tags automatically via the HTTP/2 Link header
-    # preload: true
-
-    # Throw an exception if the entrypoints.json file is missing or an entry is missing from the data
-    # strict_mode: false
-
-    # If you have multiple builds:
-    # builds:
-        # frontend: '%kernel.project_dir%/public/frontend/build'
-
-        # pass the build name as the 3rd argument to the Twig functions
-        # {{ encore_entry_script_tags('entry1', null, 'frontend') }}
+    #     'data-turbo-track': reload
 
 framework:
     assets:
+        # Manifest généré par Webpack Encore
         json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
 
-#when@prod:
-#    webpack_encore:
-#        # Cache the entrypoints.json (rebuild Symfony's cache when entrypoints.json changes)
-#        # Available in version 1.2
-#        cache: true
+when@prod:
+    webpack_encore:
+        # Active le cache pour ne pas relire entrypoints.json à chaque requête
+        cache: true
 
-#when@test:
-#    webpack_encore:
-#        strict_mode: false
+when@test:
+    webpack_encore:
+        # Évite les erreurs si un entry manque pendant les tests
+        strict_mode: false
