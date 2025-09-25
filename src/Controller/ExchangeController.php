@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Exchange;
@@ -8,11 +10,11 @@ use App\Entity\User;
 use App\Message\NewExchangeCreatedNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Routing\Annotation\Route;
 
 final class ExchangeController extends AbstractController
 {
@@ -22,7 +24,7 @@ final class ExchangeController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         MessageBusInterface $bus,
-        Security $security
+        Security $security,
     ): Response {
         // 1) Vérifier que l'utilisateur est connecté
         /** @var User $user */
@@ -51,7 +53,7 @@ final class ExchangeController extends AbstractController
             $listing->getAuthor()->getId(),   // destinataire = auteur de l’annonce
             $user->getId(),                   // expéditeur = utilisateur actuel
             $exchange->getId(),               // id de l’échange
-            $listing->getId()                 // id de l’annonce
+            $listing->getId(),                 // id de l’annonce
         ));
 
         // 5) Feedback utilisateur

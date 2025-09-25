@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\MessageHandler;
 
-use App\Entity\User;
 use App\Entity\Listing;
+use App\Entity\User;
 use App\Message\NewExchangeCreatedNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -21,10 +23,10 @@ class NewExchangeCreatedNotificationHandler
 
     public function __invoke(NewExchangeCreatedNotification $notification): void
     {
-        // Récupérer destinataire et expéditeur
+        // Récupérer destinataire, expéditeur et annonce
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
-        $sender    = $this->em->getRepository(User::class)->find($notification->getSenderId());
-        $listing   = $this->em->getRepository(Listing::class)->find($notification->getListingId());
+        $sender = $this->em->getRepository(User::class)->find($notification->getSenderId());
+        $listing = $this->em->getRepository(Listing::class)->find($notification->getListingId());
 
         if (!$recipient || !$sender) {
             return; // sécurité : si l’un n’existe pas → rien à faire
@@ -35,11 +37,11 @@ class NewExchangeCreatedNotificationHandler
             ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
             ->to($recipient->getEmail())
             ->subject('Nouvelle proposition d’échange sur Talentékô')
-            ->htmlTemplate('emails/new_exchange.html.twig')
+            ->htmlTemplate('@emails/new_exchange.html.twig')
             ->context([
-                'sender'       => $sender->getPseudo(),
-                'listingTitle' => $listing ? $listing->getTitle() : 'Annonce inconnue',
-                'exchangeId'   => $notification->getExchangeId(),
+                'sender' => $sender->getPseudo(),
+                'listingTitle' => $listing?->getTitle() ?? 'Annonce inconnue',
+                'exchangeId' => $notification->getExchangeId(),
             ]);
 
         // Envoyer

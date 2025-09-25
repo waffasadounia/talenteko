@@ -24,36 +24,37 @@ security:
 
       logout:
         path: app_logout
-        target: /  # redirection après déconnexion
+        target: /   # Redirection après déconnexion
 
       remember_me:
         secret: '%kernel.secret%'
         lifetime: 604800   # 1 semaine
         path: /
-        # always_remember_me: true
+        # always_remember_me: true activer seulement si souhaité
 
   # --- Règles d'accès (ordre évalué de haut en bas) ---
   access_control:
-    # Pages publiques (visibles sans compte)
-    - { path: ^/$, roles: PUBLIC_ACCESS }                  # Accueil
+    # Pages publiques
+    - { path: ^/$, roles: PUBLIC_ACCESS }
     - { path: ^/login$, roles: PUBLIC_ACCESS }
     - { path: ^/logout$, roles: PUBLIC_ACCESS }
     - { path: ^/inscription$, roles: PUBLIC_ACCESS }
-    - { path: ^/uploads/listings, roles: PUBLIC_ACCESS }   # Vignettes des annonces migre les images sensibles (photos de personnes) vers un dossier privé et placeholders publiques
+    - { path: ^/uploads/listings, roles: PUBLIC_ACCESS } #
 
-    # Pages statiques (footer)
+    # Pages statiques
     - { path: ^/faq, roles: PUBLIC_ACCESS }
     - { path: ^/a-propos, roles: PUBLIC_ACCESS }
     - { path: ^/mentions-legales, roles: PUBLIC_ACCESS }
     - { path: ^/contact, roles: PUBLIC_ACCESS }
 
-    # Admin & styleguide (réservés aux admins)
+    # Admin & styleguide
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/styleguide, roles: ROLE_ADMIN }
 
-    # Tout le reste nécessite un compte (utilisateur inscrit)
+    # Tout le reste nécessite une authentification complète
     - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
+# --- Config spécifique aux tests ---
 when@test:
   security:
     password_hashers:
@@ -64,4 +65,4 @@ when@test:
         memory_cost: 10
     firewalls:
       main:
-        remember_me: false  # désactivé en test
+        remember_me: false  # Désactivé en test

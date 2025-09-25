@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // Repository = couche d'accès aux catégories (Category).
 
 namespace App\Repository;

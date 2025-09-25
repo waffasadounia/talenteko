@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator;
 
+use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
  */
-#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class ValidLocation extends Constraint
 {
     public string $message = 'La localisation "{{ value }}" est invalide.';

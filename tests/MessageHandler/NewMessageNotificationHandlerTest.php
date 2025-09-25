@@ -8,10 +8,10 @@ use App\Entity\User;
 use App\Message\NewMessageNotification;
 use App\MessageHandler\NewMessageNotificationHandler;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mailer\EventListener\MessageLoggerListener;
+use Symfony\Component\Mailer\MailerInterface;
 
 class NewMessageNotificationHandlerTest extends KernelTestCase
 {
@@ -54,7 +54,7 @@ class NewMessageNotificationHandlerTest extends KernelTestCase
         $notification = new NewMessageNotification(
             recipientId: $recipient->getId(),
             senderId: $sender->getId(),
-            content: 'Salut, ça m’intéresse !'
+            content: 'Salut, ça m’intéresse !',
         );
 
         // 4) Handler

@@ -1,45 +1,46 @@
 # config/packages/doctrine.yaml
 doctrine:
   dbal:
+    # DSN principal → défini dans .env / .env.local
     url: '%env(resolve:DATABASE_URL)%'
-    mapping_types:
-      enum: string
-    # IMPORTANT: configure your server version
+
+    # Forcer la version exacte de MariaDB (évite erreurs Doctrine avec migrations)
     server_version: 'mariadb-10.4.32'
-    profiling_collect_backtrace: '%kernel.debug%'
-    use_savepoints: true
+
+    # Charset par défaut (UTF-8 full)
+    charset: utf8mb4
+    default_table_options:
+      charset: utf8mb4
+      collate: utf8mb4_unicode_ci
 
   orm:
+    # Génération auto des proxies (utile en dev, désactivé en prod)
     auto_generate_proxy_classes: true
     enable_lazy_ghost_objects: true
-    report_fields_where_declared: true
-    validate_xml_mapping: true
+
     naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
     auto_mapping: true
+
     mappings:
       App:
-        type: attribute
         is_bundle: false
+        type: attribute
         dir: '%kernel.project_dir%/src/Entity'
         prefix: 'App\Entity'
         alias: App
 
+when@test:
+  doctrine:
+    dbal:
+      # DB dédiée aux tests (purgée à chaque run)
+      url: '%env(resolve:DATABASE_URL_TEST)%'
+    orm:
+      auto_generate_proxy_classes: true
+      # En tests, activer schema validation stricte
+      validate_schema: true
+
 when@prod:
   doctrine:
     orm:
+      # En prod, les proxies sont générés au déploiement → meilleures perfs
       auto_generate_proxy_classes: false
-      proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
-      query_cache_driver:
-        type: pool
-        pool: doctrine.system_cache_pool
-      result_cache_driver:
-        type: pool
-        pool: doctrine.result_cache_pool
-
-  framework:
-    cache:
-      pools:
-        doctrine.result_cache_pool:
-          adapter: cache.app
-        doctrine.system_cache_pool:
-          adapter: cache.system

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use App\Entity\ListingImage;
-use Doctrine\ORM\Events;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 /**
@@ -20,8 +22,9 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 class ListingImageListener
 {
     public function __construct(
-        private CacheManager $cacheManager
-    ) {}
+        private CacheManager $cacheManager,
+    ) {
+    }
 
     public function postPersist(ListingImage $image): void
     {

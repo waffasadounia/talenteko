@@ -17,7 +17,7 @@ enum ExchangeStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::PENDING  => 'En attente',
+            self::PENDING => 'En attente',
             self::ACCEPTED => 'Accepté',
             self::DECLINED => 'Refusé',
             self::CANCELED => 'Annulé',

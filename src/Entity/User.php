@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
 use App\Validator\ValidLocation;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,11 +43,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Merci de saisir un mot de passe.')]
     #[Assert\Length(
         min: 10,
-        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères.'
+        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
     )]
     #[Assert\Regex(
         pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/",
-        message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.'
+        message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.',
     )]
     private ?string $plainPassword = null;
 
@@ -55,7 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 3, max: 30)]
     #[Assert\Regex(
         pattern: '/^[a-zA-Z0-9_.\- ]+$/u',
-        message: 'Le pseudo ne peut contenir que lettres, chiffres, espaces et . _ -'
+        message: 'Le pseudo ne peut contenir que lettres, chiffres, espaces et . _ -',
     )]
     private ?string $pseudo = null;
 
@@ -69,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, max: 120)]
     #[Assert\Regex(
         pattern: '/^[\p{L}\s\'\-]+$/u',
-        message: 'La localisation ne peut contenir que des lettres, espaces, apostrophes ou tirets.'
+        message: 'La localisation ne peut contenir que des lettres, espaces, apostrophes ou tirets.',
     )]
     #[ValidLocation]
     private ?string $location = null;
@@ -93,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private int $ratingCount = 0;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdAt;
 
     // === Relations ===
 
@@ -109,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
         $this->listings = new ArrayCollection();
         $this->exchanges = new ArrayCollection();
 
@@ -132,6 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = mb_strtolower($email);
+
         return $this;
     }
 
@@ -146,12 +150,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!in_array('ROLE_USER', $roles, true)) {
             $roles[] = 'ROLE_USER';
         }
+
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
+
         return $this;
     }
 
@@ -163,6 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -174,6 +181,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(?string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
+
         return $this;
     }
 
@@ -190,6 +198,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
+
         return $this;
     }
 
@@ -201,6 +210,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTag(string $tag): static
     {
         $this->tag = $tag;
+
         return $this;
     }
 
@@ -209,6 +219,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->pseudo && $this->tag) {
             return $this->pseudo . '#' . $this->tag;
         }
+
         return $this->pseudo ?: mb_substr(explode('@', $this->email)[0] ?? 'membre', 0, 4) . '****';
     }
 
@@ -220,6 +231,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLocation(string $location): static
     {
         $this->location = $location;
+
         return $this;
     }
 
@@ -231,6 +243,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBio(?string $bio): static
     {
         $this->bio = $bio;
+
         return $this;
     }
 
@@ -242,6 +255,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkillsOffered(?array $skills): static
     {
         $this->skills_offered = $skills;
+
         return $this;
     }
 
@@ -253,6 +267,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkillsWanted(?array $skills): static
     {
         $this->skills_wanted = $skills;
+
         return $this;
     }
 
@@ -264,6 +279,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatarFilename(?string $fn): static
     {
         $this->avatarFilename = $fn;
+
         return $this;
     }
 
@@ -275,6 +291,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRatingAvg(float $ratingAvg): static
     {
         $this->ratingAvg = $ratingAvg;
+
         return $this;
     }
 
@@ -286,10 +303,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRatingCount(int $ratingCount): static
     {
         $this->ratingCount = $ratingCount;
+
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -306,12 +324,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->listings->add($listing);
             $listing->setAuthor($this);
         }
+
         return $this;
     }
 
     public function removeListing(Listing $listing): static
     {
         $this->listings->removeElement($listing);
+
         return $this;
     }
 
@@ -327,6 +347,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->exchanges->add($exchange);
             $exchange->setRequester($this);
         }
+
         return $this;
     }
 
@@ -337,6 +358,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $exchange->setRequester(null);
             }
         }
+
         return $this;
     }
 
@@ -351,6 +373,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $profile->setUser($this);
         }
         $this->profile = $profile;
+
         return $this;
     }
 

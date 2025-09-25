@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\ListingImage;
@@ -38,7 +40,7 @@ class FixImagePathsCommand extends Command
                 $filename = end($parts);
 
                 $image->setPath($filename);
-                $count++;
+                ++$count;
             }
         }
 

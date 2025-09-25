@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Exception;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -13,7 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: 'app:cache-images',
-    description: 'Pré-génère le cache LiipImagine pour toutes les images dans /uploads/listings.'
+    description: 'Pré-génère le cache LiipImagine pour toutes les images dans /uploads/listings.',
 )]
 class CacheImagesCommand extends Command
 {
@@ -48,7 +49,7 @@ class CacheImagesCommand extends Command
                     $this->cacheManager->remove($relativePath, $filter); // reset éventuel
                     $this->cacheManager->getBrowserPath($relativePath, $filter);
                     $output->writeln("✔ [$filter] généré pour $relativePath");
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $output->writeln("<error>✖ [$filter] échec sur $relativePath : {$e->getMessage()}</error>");
                 }
             }

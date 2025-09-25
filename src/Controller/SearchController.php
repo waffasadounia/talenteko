@@ -58,7 +58,7 @@ final class SearchController extends AbstractController
                     'stars' => 4,
                 ];
             },
-            $results
+            $results,
         );
 
         return $this->render('search/index.html.twig', [

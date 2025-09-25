@@ -1,22 +1,30 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
+
+    # désactive totalement les annotations (routes, etc.)
     annotations: false
+
+    # Empêche les overrides HTTP type _method
     http_method_override: false
+
+    # Intercepte toutes les erreurs PHP (y compris fatales)
     handle_all_throwables: true
 
-    # Enables session support. Note that the session will ONLY be started if you read or write from it.
-    # Remove or comment this section to explicitly disable session support.
+    # Protection CSRF activée globalement (sécurité des formulaires)
+    csrf_protection: true
+
+    # Sessions
     session:
         handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
 
-    #esi: true
-    #fragments: true
+    # Journalisation des erreurs PHP
     php_errors:
         log: true
 
+# Configuration spécifique à l’environnement de test
 when@test:
     framework:
         test: true

@@ -57,7 +57,7 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($password),
-            $badges
+            $badges,
         );
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // src/Controller/AdminController.php
 
 namespace App\Controller;

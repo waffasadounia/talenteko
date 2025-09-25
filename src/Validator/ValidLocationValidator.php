@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
@@ -10,8 +12,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 final class ValidLocationValidator extends ConstraintValidator
 {
     public function __construct(
-        private readonly string $appEnv
-    ) {}
+        private readonly string $appEnv,
+    ) {
+    }
 
     public function validate($value, Constraint $constraint): void
     {

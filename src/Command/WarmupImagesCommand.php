@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -16,7 +18,7 @@ use Symfony\Component\Finder\Finder;
 class WarmupImagesCommand extends Command
 {
     public function __construct(
-        private CacheManager $cacheManager
+        private CacheManager $cacheManager,
     ) {
         parent::__construct();
     }
@@ -41,7 +43,8 @@ class WarmupImagesCommand extends Command
             }
         }
 
-        $output->writeln("✅ Warmup terminé !");
+        $output->writeln('✅ Warmup terminé !');
+
         return Command::SUCCESS;
     }
 }

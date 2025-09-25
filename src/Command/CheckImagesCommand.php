@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Repository\CategoryRepository;
@@ -67,10 +69,11 @@ class CheckImagesCommand extends Command
         $io->section('Résumé');
         if (empty($errors)) {
             $io->success('Toutes les images sont présentes ou fallback disponible ✅');
+
             return Command::SUCCESS;
         }
 
-        $io->error("Problèmes détectés :");
+        $io->error('Problèmes détectés :');
         foreach ($errors as $err) {
             $io->writeln("- $err");
         }
@@ -79,4 +82,4 @@ class CheckImagesCommand extends Command
     }
 }
 
-#utilisation: php bin/console app:check-images
+// utilisation: php bin/console app:check-images

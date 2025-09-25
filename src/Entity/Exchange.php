@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Enum\ExchangeStatus;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -18,10 +21,10 @@ class Exchange
     private ExchangeStatus $status = ExchangeStatus::PENDING;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     // === Relations ===
 
@@ -35,7 +38,7 @@ class Exchange
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     // === Getters / Setters ===
@@ -53,17 +56,17 @@ class Exchange
     public function setStatus(ExchangeStatus $status): self
     {
         $this->status = $status;
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
 
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -97,11 +100,12 @@ class Exchange
     public function __toString(): string
     {
         $listingTitle = $this->listing?->getTitle() ?? 'Annonce inconnue';
+
         return sprintf(
             'Échange #%d (%s) - %s',
             $this->id ?? 0,
             $this->status->label(),
-            $listingTitle
+            $listingTitle,
         );
     }
 }

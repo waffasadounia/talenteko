@@ -1,13 +1,14 @@
+# config/packages/validator.yaml
 framework:
     validation:
         email_validation_mode: html5
 
-        # Enables validator auto-mapping support.
-        # For instance, basic validation constraints will be inferred from Doctrine's metadata.
-        #auto_mapping:
-        #    App\Entity\: []
+        # Active l’auto-mapping pour toutes les entités App\Entity
+        auto_mapping:
+            App\Entity\: []
 
 when@test:
     framework:
         validation:
+            # En test : pas de vérification contre haveibeenpwned
             not_compromised_password: false

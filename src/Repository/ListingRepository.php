@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // Repository = couche d'accès aux annonces (Listing).
 // Permet à Symfony/Doctrine d’injecter ListingRepository dans les contrôleurs.
 

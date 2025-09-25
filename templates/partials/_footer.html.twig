@@ -1,15 +1,12 @@
 {# templates/partials/_footer.html.twig #}
 <footer role="contentinfo" class="bg-talenteko-orange-500 text-white mt-12">
-	<div
-		class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-
+	<div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
 		{# Colonne gauche : Logo + slogan + réseaux sociaux #}
 		<div class="flex flex-col items-center md:items-start">
 			<div class="flex flex-col items-center text-center">
 				<img src="{{ asset('images/talenteko_logo.png') }}" alt="Logo Talentékô" class="h-12 w-auto mb-2"/>
 				<span class="text-base font-extrabold">
-					<span class="text-talenteko-blue">Talent</span>
-					<span class="text-talenteko-peach-300">ékô</span>
+					<span class="text-talenteko-blue-900">Talent</span><span class="text-talenteko-peach-300">Ékô</span>
 				</span>
 			</div>
 
@@ -81,8 +78,7 @@
 
 	{# Copyright #}
 	<div class="border-t border-white/30 py-4 text-center text-xs text-talenteko-peach-300">
-		@
-		{{ "now"|date("Y") }}
-		Talentékô. Tous droits réservés.
+		@ {{ "now"|date("Y") }} TalentÉkô. Tous droits réservés.
 	</div>
+
 </footer>

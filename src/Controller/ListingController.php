@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Listing;
@@ -26,7 +28,7 @@ final class ListingController extends AbstractController
         methods: ['GET'],
         requirements: [
             'slug' => '(?!nouvelle$)(?!\d+$)[A-Za-z0-9][A-Za-z0-9\-]*',
-        ]
+        ],
     )]
     public function show(
         #[MapEntity(expr: 'repository.findOneBy({slug: slug})')] Listing $listing,

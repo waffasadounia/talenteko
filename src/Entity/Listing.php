@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Exchange;
 
 #[ORM\Entity]
 #[ORM\Index(fields: ['title', 'location'])]
@@ -37,10 +37,10 @@ class Listing
     private string $status = 'PUBLISHED';
 
     #[ORM\Column]
-    private \DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'listings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -58,7 +58,7 @@ class Listing
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->exchanges = new ArrayCollection();
     }
@@ -78,6 +78,7 @@ class Listing
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -89,6 +90,7 @@ class Listing
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
         return $this;
     }
 
@@ -100,6 +102,7 @@ class Listing
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -111,6 +114,7 @@ class Listing
     public function setType(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -122,6 +126,7 @@ class Listing
     public function setLocation(string $location): self
     {
         $this->location = $location;
+
         return $this;
     }
 
@@ -145,21 +150,23 @@ class Listing
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $date): self
+    public function setUpdatedAt(?DateTimeImmutable $date): self
     {
         $this->updatedAt = $date;
+
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -172,6 +179,7 @@ class Listing
     public function setAuthor(User $author): self
     {
         $this->author = $author;
+
         return $this;
     }
 
@@ -183,6 +191,7 @@ class Listing
     public function setCategory(Category $category): self
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -198,12 +207,14 @@ class Listing
             $this->images->add($image);
             $image->setListing($this);
         }
+
         return $this;
     }
 
     public function removeImage(ListingImage $image): self
     {
         $this->images->removeElement($image);
+
         return $this;
     }
 
@@ -219,6 +230,7 @@ class Listing
             $this->exchanges->add($exchange);
             $exchange->setListing($this);
         }
+
         return $this;
     }
 
@@ -229,6 +241,7 @@ class Listing
                 $exchange->setListing(null);
             }
         }
+
         return $this;
     }
 
@@ -237,4 +250,3 @@ class Listing
         return $this->title ?? 'Annonce';
     }
 }
-

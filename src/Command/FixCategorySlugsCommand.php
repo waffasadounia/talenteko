@@ -15,14 +15,14 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[AsCommand(
     name: 'app:fix-category-slugs',
-    description: 'Corrige automatiquement les slugs de catégories en recalculant depuis le nom (UTF-8, accents, etc.)'
+    description: 'Corrige automatiquement les slugs de catégories en recalculant depuis le nom (UTF-8, accents, etc.)',
 )]
 final class FixCategorySlugsCommand extends Command
 {
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
         private readonly EntityManagerInterface $em,
-        private readonly SluggerInterface $slugger
+        private readonly SluggerInterface $slugger,
     ) {
         parent::__construct();
     }
@@ -37,21 +37,21 @@ final class FixCategorySlugsCommand extends Command
                 continue;
             }
 
-           // Recalcule le slug depuis le nom
-$correctSlug = strtolower((string) $this->slugger->slug($category->getName()));
+            // Recalcule le slug depuis le nom
+            $correctSlug = strtolower((string) $this->slugger->slug($category->getName()));
 
-if ($category->getSlug() !== $correctSlug) {
-    $output->writeln(sprintf(
-        '⚠️  Catégorie "%s" (id: %d) : slug "%s" → corrigé en "%s"',
-        $category->getName(),
-        $category->getId(),
-        $category->getSlug(),
-        $correctSlug
-    ));
+            if ($category->getSlug() !== $correctSlug) {
+                $output->writeln(sprintf(
+                    '⚠️  Catégorie "%s" (id: %d) : slug "%s" → corrigé en "%s"',
+                    $category->getName(),
+                    $category->getId(),
+                    $category->getSlug(),
+                    $correctSlug,
+                ));
 
-    $category->setSlug($correctSlug);
-    $updated++;
-}
+                $category->setSlug($correctSlug);
+                ++$updated;
+            }
 
         }
 
@@ -59,7 +59,7 @@ if ($category->getSlug() !== $correctSlug) {
             $this->em->flush();
             $output->writeln("✅ $updated slugs corrigés !");
         } else {
-            $output->writeln("👌 Aucun slug incorrect trouvé.");
+            $output->writeln('👌 Aucun slug incorrect trouvé.');
         }
 
         return Command::SUCCESS;

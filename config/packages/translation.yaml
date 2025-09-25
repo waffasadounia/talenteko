@@ -1,5 +1,12 @@
+# config/packages/translation.yaml
 framework:
-    default_locale: en
-    translator:
-        default_path: '%kernel.project_dir%/translations'
-        providers:
+  # Langue par défaut de l'application
+  default_locale: fr
+
+  translator:
+    # Dossier où se trouvent les fichiers de traduction (.yaml, .xlf, .php)
+    default_path: '%kernel.project_dir%/translations'
+
+    # Si une traduction est manquante → repli automatique sur le français
+    fallbacks:
+      - fr

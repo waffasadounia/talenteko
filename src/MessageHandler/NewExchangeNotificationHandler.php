@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\MessageHandler;
 
 use App\Entity\Listing;
@@ -35,11 +37,11 @@ class NewExchangeNotificationHandler
             ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
             ->to($recipient->getEmail())
             ->subject('Mise à jour d’un échange sur Talentékô')
-            ->htmlTemplate('emails/exchange_status.html.twig')
+            ->htmlTemplate('@emails/exchange_status.html.twig') // namespace twig
             ->context([
-                'exchangeId'   => $notification->getExchangeId(),
-                'status'       => $notification->getStatus(),
-                'listingTitle' => $listing ? $listing->getTitle() : 'Annonce inconnue',
+                'exchangeId' => $notification->getExchangeId(),
+                'status' => $notification->getStatus(),
+                'listingTitle' => $listing?->getTitle() ?? 'Annonce inconnue',
             ]);
 
         // Envoyer

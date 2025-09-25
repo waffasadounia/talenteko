@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\MessageHandler;
 
 use App\Entity\User;
@@ -33,9 +35,9 @@ class NewMessageNotificationHandler
             ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
             ->to($recipient->getEmail())
             ->subject('Nouveau message sur Talentékô')
-            ->htmlTemplate('emails/new_message.html.twig')
+            ->htmlTemplate('@emails/new_message.html.twig') // ✅ namespace Twig
             ->context([
-                'sender' => $sender->getPseudo(),
+                'sender' => $sender?->getPseudo() ?? 'Un utilisateur',
                 'content' => $notification->getContent(),
             ]);
 
