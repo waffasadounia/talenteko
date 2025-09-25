@@ -10,13 +10,13 @@ use Doctrine\ORM\Events;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 /**
- * Listener Doctrine pour les entitÃ©s ListingImage
- * - Objectif : gÃ©nÃ©rer automatiquement les caches LiipImagine
- *   dÃ¨s qu'une nouvelle image est persistÃ©e en BDD.
+ * Listener Doctrine pour les entitÃƒÂ©s ListingImage
+ * - Objectif : gÃƒÂ©nÃƒÂ©rer automatiquement les caches LiipImagine
+ *   dÃƒÂ¨s qu'une nouvelle image est persistÃƒÂ©e en BDD.
  *
  * Avantage :
- * - Plus de latence cÃ´tÃ© visiteur (images prÃªtes dÃ¨s l'upload).
- * - Plus de problÃ¨me d'accÃ¨s anonyme (cache dÃ©jÃ  Ã©crit dans /public/media/cache).
+ * - Plus de latence cÃƒÂ´tÃƒÂ© visiteur (images prÃƒÂªtes dÃƒÂ¨s l'upload).
+ * - Plus de problÃƒÂ¨me d'accÃƒÂ¨s anonyme (cache dÃƒÂ©jÃƒÂ  ÃƒÂ©crit dans /public/media/cache).
  */
 #[AsEntityListener(event: Events::postPersist, entity: ListingImage::class)]
 class ListingImageListener
@@ -28,19 +28,20 @@ class ListingImageListener
 
     public function postPersist(ListingImage $image): void
     {
-        // 1) On rÃ©cupÃ¨re la catÃ©gorie de l'annonce
+        // 1) On rÃƒÂ©cupÃƒÂ¨re la catÃƒÂ©gorie de l'annonce
         $categorySlug = $image->getListing()->getCategory()->getSlug();
 
         // 2) On reconstruit le chemin relatif attendu par LiipImagine
         // Exemple : /uploads/listings/bien-etre/2.jpg
         $path = '/uploads/listings/' . $categorySlug . '/' . $image->getPath();
 
-        // 3) On supprime d'Ã©ventuels caches prÃ©cÃ©dents (sÃ©curitÃ©)
+        // 3) On supprime d'ÃƒÂ©ventuels caches prÃƒÂ©cÃƒÂ©dents (sÃƒÂ©curitÃƒÂ©)
         $this->cacheManager->remove($path);
 
-        // 4) On gÃ©nÃ¨re toutes les variantes configurÃ©es dans liip_imagine.yaml
+        // 4) On gÃƒÂ©nÃƒÂ¨re toutes les variantes configurÃƒÂ©es dans liip_imagine.yaml
         foreach (['listing_card', 'listing_show', 'avatar_thumb'] as $filter) {
             $this->cacheManager->generateUrl($path, $filter);
         }
     }
 }
+

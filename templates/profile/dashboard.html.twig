@@ -4,7 +4,7 @@
   ================================ #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon tableau de bord | TalentÃƒÂ©kÃƒÂ´
+{% block title %}Mon tableau de bord | TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
 {% endblock %}
 
 {% block body %}
@@ -23,7 +23,7 @@
 					{{ app.user.pseudo }}#{{ app.user.tag }}
 				</div>
 				<div class="text-sm text-gray-500">
-					{{ app.user.location ?? 'Ville non renseignÃƒÂ©e' }}
+					{{ app.user.location ?? 'Ville non renseignÃƒÆ’Ã‚Â©e' }}
 				</div>
 			</div>
 		</div>
@@ -32,9 +32,9 @@
 			<a href="{{ path('app_listing_new') }}" class="bg-talenteko-orange-500 text-white rounded-xl p-6 shadow hover:shadow-md transition text-center">
 				<h2 class="text-xl font-bold mb-2">
 					<i class="fa-solid fa-bullhorn  "></i>
-					DÃƒÂ©poser une annonce
+					DÃƒÆ’Ã‚Â©poser une annonce
 				</h2>
-				<p>Partagez vos compÃƒÂ©tences ou trouvez de l'aide.</p>
+				<p>Partagez vos compÃƒÆ’Ã‚Â©tences ou trouvez de l'aide.</p>
 			</a>
 
 			<a href="{{ path('app_profile_favoris') }}" class="bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-md transition text-center">
@@ -42,8 +42,9 @@
 					<i class="fa-solid fa-heart"></i>
 					Mes favoris
 				</h2>
-				<p>Consultez les annonces que vous avez enregistrÃƒÂ©es.</p>
+				<p>Consultez les annonces que vous avez enregistrÃƒÆ’Ã‚Â©es.</p>
 			</a>
 		</div>
 	</section>
 {% endblock %}
+

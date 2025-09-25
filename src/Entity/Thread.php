@@ -98,3 +98,4 @@ class Thread
         return $this->createdAt;
     }
 }
+

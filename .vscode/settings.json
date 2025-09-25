@@ -1,11 +1,11 @@
 {
-  // DÃ©sactive les faux warnings du validateur CSS intÃ©grÃ©
+  // DÃƒÂ©sactive les faux warnings du validateur CSS intÃƒÂ©grÃƒÂ©
   "css.validate": false,
   "css.lint.unknownAtRules": "ignore",
   "scss.lint.unknownAtRules": "ignore",
   "less.lint.unknownAtRules": "ignore",
 
-  // Associe UNIQUEMENT tes CSS du dossier assets/styles Ã  PostCSS
+  // Associe UNIQUEMENT tes CSS du dossier assets/styles ÃƒÂ  PostCSS
   "files.associations": {
     "**/assets/styles/*.css": "postcss"
   },
@@ -25,7 +25,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
 
-  // Affichage des caractÃ¨res invisibles (espaces, tabs, insÃ©cables)
+  // Affichage des caractÃƒÂ¨res invisibles (espaces, tabs, insÃƒÂ©cables)
   "editor.renderWhitespace": "all",
 
   // Formatters auto
@@ -45,6 +45,6 @@
     "editor.defaultFormatter": "mblode.twig-language-2",
     "editor.formatOnSave": true
   },
-  // ðŸš« DÃ©sactive les faux warnings dâ€™Intelephense
+  // Ã°Å¸Å¡Â« DÃƒÂ©sactive les faux warnings dÃ¢â‚¬â„¢Intelephense
   "intelephense.diagnostics.undefinedTypes": false
 }

@@ -1,23 +1,24 @@
 {# ================================
   partials/_category_card.html.twig
-  Carte de catÃƒÂ©gorie
+  Carte de catÃƒÆ’Ã‚Â©gorie
   ================================ #}
 
 <a
 	href="{{ path('app_category_show', {slug: category.slug}) }}" class="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition group bg-white
 		         focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
 
-	{# --- Image de la catÃƒÂ©gorie (slug.png), sinon placeholder --- #}
+	{# --- Image de la catÃƒÆ’Ã‚Â©gorie (slug.png), sinon placeholder --- #}
 	{% set image_path = 'images/categories/' ~ category.slug ~ '.png' %}
 
 	<div class="relative w-full h-60 flex items-center justify-center bg-white">
-		<img src="{{ asset(image_path) }}" onerror="this.onerror=null;this.src='{{ asset('images/placeholders/placeholder.png') }}';" alt="Illustration de la catÃƒÂ©gorie {{ category.name }}" class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"/>
+		<img src="{{ asset(image_path) }}" onerror="this.onerror=null;this.src='{{ asset('images/placeholders/placeholder.png') }}';" alt="Illustration de la catÃƒÆ’Ã‚Â©gorie {{ category.name }}" class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"/>
 	</div>
 
-	{# --- LibellÃƒÂ© catÃƒÂ©gorie --- #}
+	{# --- LibellÃƒÆ’Ã‚Â© catÃƒÆ’Ã‚Â©gorie --- #}
 	<div class="p-3 text-center bg-white">
 		<h3 class="text-lg font-semibold text-talenteko-blue-900">
 			{{ category.name }}
 		</h3>
 	</div>
 </a>
+

@@ -19,7 +19,7 @@ class ProfileRepository extends ServiceEntityRepository
     }
 
     /**
-     * Persiste une entitÃ© Profile.
+     * Persiste une entitÃƒÂ© Profile.
      */
     public function save(Profile $entity, bool $flush = false): void
     {
@@ -31,7 +31,7 @@ class ProfileRepository extends ServiceEntityRepository
     }
 
     /**
-     * Supprime une entitÃ© Profile.
+     * Supprime une entitÃƒÂ© Profile.
      */
     public function remove(Profile $entity, bool $flush = false): void
     {
@@ -42,7 +42,7 @@ class ProfileRepository extends ServiceEntityRepository
         }
     }
 
-    // ðŸ” Exemple de mÃ©thode personnalisÃ©e (optionnelle)
+    // Ã°Å¸â€Â Exemple de mÃƒÂ©thode personnalisÃƒÂ©e (optionnelle)
     public function findByFirstname(string $firstname): array
     {
         return $this->createQueryBuilder('p')
@@ -53,3 +53,4 @@ class ProfileRepository extends ServiceEntityRepository
             ->getResult();
     }
 }
+

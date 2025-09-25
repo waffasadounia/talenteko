@@ -1,29 +1,29 @@
 # config/packages/webpack_encore.yaml
 webpack_encore:
-    # rÃ©pertoire oÃ¹ Encore gÃ©nÃ¨re les assets
+    # rÃƒÂ©pertoire oÃƒÂ¹ Encore gÃƒÂ©nÃƒÂ¨re les assets
     output_path: '%kernel.project_dir%/public/build'
 
-    # Attributs appliquÃ©s Ã  toutes les balises <script>
+    # Attributs appliquÃƒÂ©s ÃƒÂ  toutes les balises <script>
     script_attributes:
         defer: true
-        # DÃ©commenter si je veux que Turbo recharge quand les assets changent
+        # DÃƒÂ©commenter si je veux que Turbo recharge quand les assets changent
         # 'data-turbo-track': reload
 
-    # Attributs appliquÃ©s Ã  toutes les balises <link>
+    # Attributs appliquÃƒÂ©s ÃƒÂ  toutes les balises <link>
     # link_attributes:
     #     'data-turbo-track': reload
 
 framework:
     assets:
-        # Manifest gÃ©nÃ©rÃ© par Webpack Encore
+        # Manifest gÃƒÂ©nÃƒÂ©rÃƒÂ© par Webpack Encore
         json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
 
 when@prod:
     webpack_encore:
-        # Active le cache pour ne pas relire entrypoints.json Ã  chaque requÃªte
+        # Active le cache pour ne pas relire entrypoints.json ÃƒÂ  chaque requÃƒÂªte
         cache: true
 
 when@test:
     webpack_encore:
-        # Ã‰vite les erreurs si un entry manque pendant les tests
+        # Ãƒâ€°vite les erreurs si un entry manque pendant les tests
         strict_mode: false

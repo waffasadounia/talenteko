@@ -28,3 +28,4 @@ final class LegalController extends AbstractController
         return $this->render('legal/mentions_legales.html.twig');
     }
 }
+

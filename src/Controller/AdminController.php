@@ -20,3 +20,4 @@ final class AdminController extends AbstractController
         return $this->render('admin/dashboard.html.twig');
     }
 }
+

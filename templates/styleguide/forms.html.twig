@@ -1,7 +1,7 @@
 {# templates/styleguide/forms.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Styleguide Ã¢â‚¬â€ Formulaires | TalentÃƒÂ©kÃƒÂ´
+{% block title %}Styleguide ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Formulaires | TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 
 	<main class="container mx-auto px-6 py-12 space-y-12">
 		<header class="space-y-2">
-			<h1 class="text-3xl font-bold text-primary-color">Styleguide Ã¢â‚¬â€ Formulaires</h1>
+			<h1 class="text-3xl font-bold text-primary-color">Styleguide ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Formulaires</h1>
 			<p class="text-gray-600">
 				Composants de formulaires accessibles : labels, aides, erreurs et focus.
 				<strong>Sans JavaScript</strong>.
@@ -29,7 +29,7 @@
 					<p id="sg-name-help" class="form-hint">Saisis ton nom complet.</p>
 				</div>
 
-				{# Email (ÃƒÂ©tat erreur) #}
+				{# Email (ÃƒÆ’Ã‚Â©tat erreur) #}
 				<div class="space-y-2">
 					<label for="sg-email" class="form-label">Email</label>
 					<input id="sg-email" name="email" type="email" value="exemple@" class="form-input is-invalid" aria-invalid="true" aria-describedby="sg-email-error sg-email-help">
@@ -51,25 +51,25 @@
 				{# Description (textarea) #}
 				<div class="space-y-2">
 					<label for="sg-desc" class="form-label">Description</label>
-					<textarea id="sg-desc" name="desc" rows="4" placeholder="DÃƒÂ©cris ton annonce..." class="form-input"></textarea>
-					<p class="form-hint">Max. 500 caractÃƒÂ¨res.</p>
+					<textarea id="sg-desc" name="desc" rows="4" placeholder="DÃƒÆ’Ã‚Â©cris ton annonce..." class="form-input"></textarea>
+					<p class="form-hint">Max. 500 caractÃƒÆ’Ã‚Â¨res.</p>
 				</div>
 
-				{# DÃƒÂ©sactivÃƒÂ© #}
+				{# DÃƒÆ’Ã‚Â©sactivÃƒÆ’Ã‚Â© #}
 				<div class="space-y-2">
-					<label for="sg-disabled" class="form-label">Champ dÃƒÂ©sactivÃƒÂ©</label>
+					<label for="sg-disabled" class="form-label">Champ dÃƒÆ’Ã‚Â©sactivÃƒÆ’Ã‚Â©</label>
 					<input id="sg-disabled" type="text" disabled value="Inactif" class="form-input is-disabled">
 				</div>
 			</form>
 		</section>
 
-		{# Cases ÃƒÂ  cocher / Radios #}
+		{# Cases ÃƒÆ’Ã‚Â  cocher / Radios #}
 		<section class="space-y-6">
 			<h2 class="text-xl font-semibold">Choix (checkbox / radio)</h2>
 
 			<div class="grid gap-8 md:grid-cols-2">
 				<fieldset class="space-y-3">
-					<legend class="font-semibold text-primary-color">CatÃƒÂ©gories</legend>
+					<legend class="font-semibold text-primary-color">CatÃƒÆ’Ã‚Â©gories</legend>
 					<label class="flex items-center gap-3">
 						<input type="checkbox" class="form-checkbox">
 						<span>Musique</span>
@@ -107,13 +107,13 @@
 					<span>Valider</span>
 				</button>
 				<button type="button" class="btn-outline">Annuler</button>
-				<a href="{{ path('app_home') }}" class="btn-link">Ã¢â€ Â Retour ÃƒÂ  l'accueil</a>
+				<a href="{{ path('app_home') }}" class="btn-link">ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Retour ÃƒÆ’Ã‚Â  l'accueil</a>
 			</div>
-			<p class="text-sm text-gray-500">Les boutons rÃƒÂ©utilisent ton kit
+			<p class="text-sm text-gray-500">Les boutons rÃƒÆ’Ã‚Â©utilisent ton kit
 				<code>.btn-*</code>.</p>
 		</section>
 
-		{# Focus dÃƒÂ©monstration #}
+		{# Focus dÃƒÆ’Ã‚Â©monstration #}
 		<section class="space-y-3">
 			<h2 class="text-xl font-semibold">Focus & aides</h2>
 			<p class="text-gray-600">
@@ -122,9 +122,10 @@
 				pour naviguer.
 												        Les champs affichent un
 				<strong>anneau de focus orange</strong>,
-															        et les aides sont reliÃƒÂ©es via
+															        et les aides sont reliÃƒÆ’Ã‚Â©es via
 				<code>aria-describedby</code>.
 			</p>
 		</section>
 	</main>
 {% endblock %}
+

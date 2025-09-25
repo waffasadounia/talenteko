@@ -28,57 +28,57 @@ class NewMessageNotificationHandlerTest extends KernelTestCase
         $this->em = $container->get(EntityManagerInterface::class);
         $this->mailerLogger = $container->get(MessageLoggerListener::class);
 
-        // Nettoyer les emails envoyÃ©s avant chaque test
+        // Nettoyer les emails envoyÃƒÂ©s avant chaque test
         $this->mailerLogger->reset();
     }
 
     public function testNotificationEmailIsSent(): void
     {
-        // 1) CrÃ©er un utilisateur destinataire
+        // 1) CrÃƒÂ©er un utilisateur destinataire
         $recipient = new User();
         $recipient->setEmail('destinataire@test.com');
         $recipient->setPseudo('Destinataire');
         $recipient->setPassword('hashed-password');
         $this->em->persist($recipient);
 
-        // 2) CrÃ©er un utilisateur expÃ©diteur
+        // 2) CrÃƒÂ©er un utilisateur expÃƒÂ©diteur
         $sender = new User();
         $sender->setEmail('expediteur@test.com');
-        $sender->setPseudo('ExpÃ©diteur');
+        $sender->setPseudo('ExpÃƒÂ©diteur');
         $sender->setPassword('hashed-password');
         $this->em->persist($sender);
 
         $this->em->flush();
 
-        // 3) CrÃ©er une notification
+        // 3) CrÃƒÂ©er une notification
         $notification = new NewMessageNotification(
             recipientId: $recipient->getId(),
             senderId: $sender->getId(),
-            content: 'Salut, Ã§a mâ€™intÃ©resse !',
+            content: 'Salut, ÃƒÂ§a mÃ¢â‚¬â„¢intÃƒÂ©resse !',
         );
 
         // 4) Handler
         $handler = new NewMessageNotificationHandler($this->mailer, $this->em);
         $handler($notification);
 
-        // 5) VÃ©rifier quâ€™un email a Ã©tÃ© envoyÃ©
+        // 5) VÃƒÂ©rifier quÃ¢â‚¬â„¢un email a ÃƒÂ©tÃƒÂ© envoyÃƒÂ©
         $events = $this->mailerLogger->getEvents();
         $messages = $events->getMessages();
 
-        self::assertCount(1, $messages, 'Un email doit Ãªtre envoyÃ©.');
+        self::assertCount(1, $messages, 'Un email doit ÃƒÂªtre envoyÃƒÂ©.');
 
         /** @var TemplatedEmail $email */
         $email = $messages[0];
         self::assertInstanceOf(TemplatedEmail::class, $email);
 
-        // VÃ©rifier les infos principales
+        // VÃƒÂ©rifier les infos principales
         self::assertEquals('destinataire@test.com', $email->getTo()[0]->getAddress());
         self::assertEquals('no-reply@talenteko.test', $email->getFrom()[0]->getAddress());
-        self::assertEquals('Nouveau message sur TalentÃ©kÃ´', $email->getSubject());
+        self::assertEquals('Nouveau message sur TalentÃƒÂ©kÃƒÂ´', $email->getSubject());
 
-        // VÃ©rifier que le contexte contient bien les bonnes donnÃ©es
+        // VÃƒÂ©rifier que le contexte contient bien les bonnes donnÃƒÂ©es
         $context = $email->getContext();
-        self::assertEquals('ExpÃ©diteur', $context['sender']);
-        self::assertEquals('Salut, Ã§a mâ€™intÃ©resse !', $context['content']);
+        self::assertEquals('ExpÃƒÂ©diteur', $context['sender']);
+        self::assertEquals('Salut, ÃƒÂ§a mÃ¢â‚¬â„¢intÃƒÂ©resse !', $context['content']);
     }
 }

@@ -1,10 +1,10 @@
 {# ================================
   templates/profile/edit.html.twig
-  Page d'ÃƒÂ©dition de profil
+  Page d'ÃƒÆ’Ã‚Â©dition de profil
   ================================ #}
 
 {% extends 'base.html.twig' %}
-{% block title %}Modifier mon profil | TalentÃƒÂ©kÃƒÂ´
+{% block title %}Modifier mon profil | TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
 {% endblock %}
 
 {% block body %}
@@ -84,18 +84,18 @@
 						{{ form_errors(form.bio) }}
 					</div>
 
-					{# ========== COMPÃƒâ€°TENCES PROPOSÃƒâ€°ES ========== #}
+					{# ========== COMPÃƒÆ’Ã¢â‚¬Â°TENCES PROPOSÃƒÆ’Ã¢â‚¬Â°ES ========== #}
 					<div>
-						<label for="{{ form.skills_offered.vars.id }}" class="form-label">CompÃƒÂ©tences proposÃƒÂ©es</label>
+						<label for="{{ form.skills_offered.vars.id }}" class="form-label">CompÃƒÆ’Ã‚Â©tences proposÃƒÆ’Ã‚Â©es</label>
 						{{ form_widget(form.skills_offered, {
               attr: {class: 'form-input'}
             }) }}
 						{{ form_errors(form.skills_offered) }}
 					</div>
 
-					{# ========== COMPÃƒâ€°TENCES RECHERCHÃƒâ€°ES ========== #}
+					{# ========== COMPÃƒÆ’Ã¢â‚¬Â°TENCES RECHERCHÃƒÆ’Ã¢â‚¬Â°ES ========== #}
 					<div>
-						<label for="{{ form.skills_wanted.vars.id }}" class="form-label">CompÃƒÂ©tences recherchÃƒÂ©es</label>
+						<label for="{{ form.skills_wanted.vars.id }}" class="form-label">CompÃƒÆ’Ã‚Â©tences recherchÃƒÆ’Ã‚Â©es</label>
 						{{ form_widget(form.skills_wanted, {
               attr: {class: 'form-input'}
             }) }}
@@ -128,3 +128,4 @@
 		</div>
 	</section>
 {% endblock %}
+

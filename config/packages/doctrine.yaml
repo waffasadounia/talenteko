@@ -1,20 +1,20 @@
 # config/packages/doctrine.yaml
 doctrine:
   dbal:
-    # DSN principal â†’ dÃ©fini dans .env / .env.local
+    # DSN principal Ã¢â€ â€™ dÃƒÂ©fini dans .env / .env.local
     url: '%env(resolve:DATABASE_URL)%'
 
-    # Forcer la version exacte de MariaDB (Ã©vite erreurs Doctrine avec migrations)
+    # Forcer la version exacte de MariaDB (ÃƒÂ©vite erreurs Doctrine avec migrations)
     server_version: 'mariadb-10.4.32'
 
-    # Charset par dÃ©faut (UTF-8 full)
+    # Charset par dÃƒÂ©faut (UTF-8 full)
     charset: utf8mb4
     default_table_options:
       charset: utf8mb4
       collate: utf8mb4_unicode_ci
 
   orm:
-    # GÃ©nÃ©ration auto des proxies (utile en dev, dÃ©sactivÃ© en prod)
+    # GÃƒÂ©nÃƒÂ©ration auto des proxies (utile en dev, dÃƒÂ©sactivÃƒÂ© en prod)
     auto_generate_proxy_classes: true
     enable_lazy_ghost_objects: true
 
@@ -32,7 +32,7 @@ doctrine:
 when@test:
   doctrine:
     dbal:
-      # DB dÃ©diÃ©e aux tests (purgÃ©e Ã  chaque run)
+      # DB dÃƒÂ©diÃƒÂ©e aux tests (purgÃƒÂ©e ÃƒÂ  chaque run)
       url: '%env(resolve:DATABASE_URL_TEST)%'
     orm:
       auto_generate_proxy_classes: true
@@ -42,5 +42,5 @@ when@test:
 when@prod:
   doctrine:
     orm:
-      # En prod, les proxies sont gÃ©nÃ©rÃ©s au dÃ©ploiement â†’ meilleures perfs
+      # En prod, les proxies sont gÃƒÂ©nÃƒÂ©rÃƒÂ©s au dÃƒÂ©ploiement Ã¢â€ â€™ meilleures perfs
       auto_generate_proxy_classes: false

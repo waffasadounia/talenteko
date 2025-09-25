@@ -45,3 +45,4 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 }
+

@@ -15,19 +15,19 @@ final class SecurityController extends AbstractController
     /**
      * Page de connexion.
      * GET  : affiche le formulaire
-     * POST : laissÃ© Ã  l'authenticator personnalisÃ© (App\Security\LoginFormAuthenticator)
-     *        qui intercepte la requÃªte POST sur cette mÃªme route.
+     * POST : laissÃƒÂ© ÃƒÂ  l'authenticator personnalisÃƒÂ© (App\Security\LoginFormAuthenticator)
+     *        qui intercepte la requÃƒÂªte POST sur cette mÃƒÂªme route.
      */
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
     {
-        // Si l'utilisateur est FULLY authentifiÃ©, on Ã©vite de rÃ©afficher le formulaire
+        // Si l'utilisateur est FULLY authentifiÃƒÂ©, on ÃƒÂ©vite de rÃƒÂ©afficher le formulaire
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }
 
         // IMPORTANT : si l'utilisateur n'est que "remembered",
-        // on lui DOIT laisser l'accÃƒÂ¨s au formulaire pour "sur-authentifier" (FULLY).
+        // on lui DOIT laisser l'accÃƒÆ’Ã‚Â¨s au formulaire pour "sur-authentifier" (FULLY).
         $error = $auth->getLastAuthenticationError();
         $lastUsername = $auth->getLastUsername();
 
@@ -38,13 +38,14 @@ final class SecurityController extends AbstractController
     }
 
     /**
-     * DÃ©connexion :
-     * Cette action ne s'exÃ©cute jamais : elle est interceptÃ©e par la config "logout" du firewall
-     * (configurÃ©e dans security.yaml, section firewalls.main.logout).
+     * DÃƒÂ©connexion :
+     * Cette action ne s'exÃƒÂ©cute jamais : elle est interceptÃƒÂ©e par la config "logout" du firewall
+     * (configurÃƒÂ©e dans security.yaml, section firewalls.main.logout).
      */
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
-        throw new LogicException('Cette mÃ©thode est vide : la dÃ©connexion est gÃ©rÃ©e par le firewall (security.yaml).');
+        throw new LogicException('Cette mÃƒÂ©thode est vide : la dÃƒÂ©connexion est gÃƒÂ©rÃƒÂ©e par le firewall (security.yaml).');
     }
 }
+

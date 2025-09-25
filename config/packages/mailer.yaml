@@ -3,6 +3,6 @@ framework:
   mailer:
     dsn: '%env(MAILER_DSN)%'
 
-    # ExpÃ©diteur par dÃ©faut (variable d'environnement)
+    # ExpÃƒÂ©diteur par dÃƒÂ©faut (variable d'environnement)
     envelope:
       sender: '%env(APP_MAILER_FROM)%'

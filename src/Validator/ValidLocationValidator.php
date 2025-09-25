@@ -23,24 +23,24 @@ final class ValidLocationValidator extends ConstraintValidator
         }
 
         if (null === $value || '' === $value) {
-            return; // Champ vide = pas bloquÃ© (dÃ©jÃ  couvert par NotBlank si besoin)
+            return; // Champ vide = pas bloquÃƒÂ© (dÃƒÂ©jÃƒÂ  couvert par NotBlank si besoin)
         }
 
         if (!is_string($value)) {
             throw new UnexpectedValueException($value, 'string');
         }
 
-        // On saute la vÃ©rification API pendant les tests automatisÃ©s
+        // On saute la vÃƒÂ©rification API pendant les tests automatisÃƒÂ©s
         if ($this->appEnv === 'test') {
             return;
         }
 
-        // VÃ©rification via API Adresse.data.gouv.fr
+        // VÃƒÂ©rification via API Adresse.data.gouv.fr
         $url = 'https://api-adresse.data.gouv.fr/search/?q=' . urlencode($value) . '&limit=1';
         $json = @file_get_contents($url);
 
         if (!$json) {
-            // API inaccessible â†’ on ne bloque pas lâ€™inscription
+            // API inaccessible Ã¢â€ â€™ on ne bloque pas lÃ¢â‚¬â„¢inscription
             return;
         }
 
@@ -53,3 +53,4 @@ final class ValidLocationValidator extends ConstraintValidator
         }
     }
 }
+

@@ -12,7 +12,7 @@ final class Version20250905131922 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Aligne listing: renomme cityâ†’location et (re)crÃ©e index (title, location) en Ã©tant idempotent.';
+        return 'Aligne listing: renomme cityÃ¢â€ â€™location et (re)crÃƒÂ©e index (title, location) en ÃƒÂ©tant idempotent.';
     }
 
     public function up(Schema $schema): void
@@ -34,16 +34,16 @@ final class Version20250905131922 extends AbstractMigration
             $this->addSql(sprintf('DROP INDEX `%s` ON `listing`', $idx));
         }
 
-        // 2) Renommer la colonne si nÃ©cessaire: city -> location
+        // 2) Renommer la colonne si nÃƒÂ©cessaire: city -> location
         $hasCity = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='city'");
         $hasLocation = (int) $conn->fetchOne("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='listing' AND COLUMN_NAME='location'");
 
         if ($hasCity > 0 && 0 === $hasLocation) {
-            // Garde le type/longueur souhaitÃ©s
+            // Garde le type/longueur souhaitÃƒÂ©s
             $this->addSql('ALTER TABLE `listing` CHANGE `city` `location` VARCHAR(120) NOT NULL');
         }
 
-        // 3) CrÃ©er un index stable (title, location) sâ€™il nâ€™existe pas dÃ©jÃ  (peu importe le nom)
+        // 3) CrÃƒÂ©er un index stable (title, location) sÃ¢â‚¬â„¢il nÃ¢â‚¬â„¢existe pas dÃƒÂ©jÃƒÂ  (peu importe le nom)
         $hasTitleLocation = (int) $conn->fetchOne(<<<SQL
             SELECT COUNT(*) FROM (
               SELECT INDEX_NAME
@@ -67,7 +67,7 @@ final class Version20250905131922 extends AbstractMigration
         /** @var Connection $conn */
         $conn = $this->connection;
 
-        // 1) Drop lâ€™index (title, location) si prÃ©sent (quel que soit le nom, on traite dâ€™abord le nom stable crÃ©Ã© ci-dessus)
+        // 1) Drop lÃ¢â‚¬â„¢index (title, location) si prÃƒÂ©sent (quel que soit le nom, on traite dÃ¢â‚¬â„¢abord le nom stable crÃƒÂ©ÃƒÂ© ci-dessus)
         $existsStable = (int) $conn->fetchOne(<<<SQL
             SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
             WHERE TABLE_SCHEMA = DATABASE()
@@ -77,7 +77,7 @@ final class Version20250905131922 extends AbstractMigration
         if ($existsStable > 0) {
             $this->addSql('DROP INDEX `idx_listing_title_location` ON `listing`');
         } else {
-            // Si lâ€™index existe sous un autre nom, on le droppe aussi
+            // Si lÃ¢â‚¬â„¢index existe sous un autre nom, on le droppe aussi
             $otherIdx = $conn->fetchFirstColumn(<<<SQL
                 SELECT INDEX_NAME
                 FROM INFORMATION_SCHEMA.STATISTICS
@@ -100,7 +100,7 @@ final class Version20250905131922 extends AbstractMigration
             $this->addSql('ALTER TABLE `listing` CHANGE `location` `city` VARCHAR(120) NOT NULL');
         }
 
-        // 3) RecrÃ©er un index (title, city) si pas prÃ©sent
+        // 3) RecrÃƒÂ©er un index (title, city) si pas prÃƒÂ©sent
         $hasTitleCity = (int) $conn->fetchOne(<<<SQL
             SELECT COUNT(*) FROM (
               SELECT INDEX_NAME

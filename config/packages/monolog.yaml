@@ -21,7 +21,7 @@ when@test:
             main:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
-                level: error   # rÃ©duit pour ne pas spammer pendant les tests
+                level: error   # rÃƒÂ©duit pour ne pas spammer pendant les tests
 
 when@prod:
     monolog:

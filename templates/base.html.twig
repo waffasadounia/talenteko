@@ -1,6 +1,6 @@
 {# =============================
-   Layout principal TalentÃƒÂ©ko
-   - Sert de squelette global ÃƒÂ  toutes les pages
+   Layout principal TalentÃƒÆ’Ã‚Â©ko
+   - Sert de squelette global ÃƒÆ’Ã‚Â  toutes les pages
    - Contient : <head>, header, footer, blocks Twig
    ============================= #}
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
 
 		{# Balise <title> personnalisable par page #}
 		<title>
-			{% block title %}TalentÃƒÂ©ko
+			{% block title %}TalentÃƒÆ’Ã‚Â©ko
 			{% endblock %}
 		</title>
 
@@ -33,7 +33,7 @@
 		rel="icon" type="image/x-icon" href="{{ asset('images/faviconTalenteko.ico') }}">
 
 		{# =============================
-				       CSS principal (compilÃƒÂ© via Webpack Encore)
+				       CSS principal (compilÃƒÆ’Ã‚Â© via Webpack Encore)
 				       ============================= #}
 		{{ encore_entry_link_tags('app') }}
 
@@ -41,17 +41,17 @@
 		<link
 		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-		{# Font Awesome (icÃƒÂ´nes) #}
+		{# Font Awesome (icÃƒÆ’Ã‚Â´nes) #}
 		<link
 		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-		{# Espace rÃƒÂ©servÃƒÂ© pour CSS additionnel par page #}
+		{# Espace rÃƒÆ’Ã‚Â©servÃƒÆ’Ã‚Â© pour CSS additionnel par page #}
 		{% block stylesheets %}{% endblock %}
 
 		{# =============================
 				       JS principal (Webpack Encore)
-				       - Scripts compilÃƒÂ©s (Stimulus, TurboÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦)
-				       - Defer appliquÃƒÂ© automatiquement
+				       - Scripts compilÃƒÆ’Ã‚Â©s (Stimulus, TurboÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦)
+				       - Defer appliquÃƒÆ’Ã‚Â© automatiquement
 				       ============================= #}
 		{{ encore_entry_script_tags('app') }}
 	</head>
@@ -68,7 +68,8 @@
 			{# Footer global #}
 			{% include 'partials/_footer.html.twig' %}
 
-			{# Espace rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©servÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© pour JS additionnel par page #}
+			{# Espace rÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©servÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© pour JS additionnel par page #}
 			{% block javascripts %}{% endblock %}
 		</body>
 	</html>
+

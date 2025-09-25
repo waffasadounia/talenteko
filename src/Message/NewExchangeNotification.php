@@ -6,7 +6,7 @@ namespace App\Message;
 
 /**
  * Message pour notifier un utilisateur
- * quand une proposition d'Ã©change est envoyÃ©e ou mise Ã  jour.
+ * quand une proposition d'ÃƒÂ©change est envoyÃƒÂ©e ou mise ÃƒÂ  jour.
  */
 class NewExchangeNotification
 {
@@ -38,3 +38,4 @@ class NewExchangeNotification
         return $this->listingId;
     }
 }
+

@@ -2,21 +2,21 @@
    templates/security/register.html.twig
    ==========================#}
 {% extends 'base.html.twig' %}
-{% block title %}CrÃƒÂ©er un compte | TalentÃƒÂ©kÃƒÂ´
+{% block title %}CrÃƒÆ’Ã‚Â©er un compte | TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
 {% endblock %}
 
 {% block body %}
 	<section class="bg-talenteko-peach-100 py-12">
 		<div class="max-w-md mx-auto px-6">
 			<h1 class="text-3xl font-bold text-talenteko-orange-500 mb-6 text-center">
-				CrÃƒÂ©er un compte
+				CrÃƒÆ’Ã‚Â©er un compte
 			</h1>
 
 			{#--- Bandeau d'erreurs global ---#}
 			{% if not form.vars.valid and form.vars.submitted %}
 				<div id="form-global-errors" class="mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700 p-3" role="alert" aria-live="polite">
 					<strong class="font-semibold">Le formulaire contient des erreurs.</strong>
-					<span class="ml-1">Merci de vÃƒÂ©rifier les champs en rouge.</span>
+					<span class="ml-1">Merci de vÃƒÆ’Ã‚Â©rifier les champs en rouge.</span>
 				</div>
 			{% endif %}
 
@@ -51,7 +51,7 @@
           autocomplete: "nickname"
         } %}
 
-				{# LOCALISATION avec autocomplÃƒÂ©tion + gestion erreurs #}
+				{# LOCALISATION avec autocomplÃƒÆ’Ã‚Â©tion + gestion erreurs #}
 				{% set loc_invalid = (form_errors(form.location) is not empty) %}
 				{% set loc_errors_id = form.location.vars.id ~ '-errors' %}
 				<div class="relative space-y-1" data-controller="location-autocomplete">
@@ -132,7 +132,7 @@
 				{{ form_end(form) }}
 
 				<p class="text-sm text-gray-600 mt-6 text-center">
-					DÃƒÂ©jÃƒÂ  un compte ?
+					DÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  un compte ?
 					<a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
 				</p>
 			</div>
@@ -149,3 +149,4 @@ el.remove();
 });
 	</script>
 {% endblock %}
+

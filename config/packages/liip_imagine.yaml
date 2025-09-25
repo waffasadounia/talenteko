@@ -16,7 +16,7 @@ liip_imagine:
                     mode: outbound
                     allow_upscale: false
 
-        # Grande image (page dÃ©tail)
+        # Grande image (page dÃƒÂ©tail)
         listing_show:
             quality: 90
             filters:

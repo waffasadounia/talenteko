@@ -1,13 +1,13 @@
 {#================================
   templates/category/show.html.twig
-  Page dÃƒÂ©tail d'une catÃƒÂ©gorie
+  Page dÃƒÆ’Ã‚Â©tail d'une catÃƒÆ’Ã‚Â©gorie
   ================================#}
 
 {% extends 'base.html.twig' %}
 
 {% block title %}
 	{{ category.name }}
-	| TalentÃƒÂ©kÃƒÂ´
+	| TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
 {% endblock %}
 
 {% block body %}
@@ -18,13 +18,13 @@
 				{{ category.name }}
 			</h1>
 
-			{#Grille des listings liÃƒÂ©s ÃƒÂ  cette catÃƒÂ©gorie#}
+			{#Grille des listings liÃƒÆ’Ã‚Â©s ÃƒÆ’Ã‚Â  cette catÃƒÆ’Ã‚Â©gorie#}
 			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 				{% for listing in category.listings %}
 					{% include 'partials/_listing_card.html.twig' with {listing: listing} %}
 				{% else %}
 					<p class="text-center col-span-full text-gray-500 italic">
-						Aucun listing pour cette catÃƒÂ©gorie pour lÃ¢â‚¬â„¢instant.
+						Aucun listing pour cette catÃƒÆ’Ã‚Â©gorie pour lÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢instant.
 					</p>
 				{% endfor %}
 			</div>
@@ -32,9 +32,10 @@
 			<div class="mt-8 text-center">
 				<a href="{{ path('app_category_index') }}" class="btn-link">
 					<i class="fa fa-arrow-left"></i>
-					<span>Retour aux catÃƒÂ©gories</span>
+					<span>Retour aux catÃƒÆ’Ã‚Â©gories</span>
 				</a>
 			</div>
 		</div>
 	</section>
 {% endblock %}
+

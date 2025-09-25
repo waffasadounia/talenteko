@@ -24,15 +24,15 @@ security:
 
       logout:
         path: app_logout
-        target: /   # Redirection aprÃ¨s dÃ©connexion
+        target: /   # Redirection aprÃƒÂ¨s dÃƒÂ©connexion
 
       remember_me:
         secret: '%kernel.secret%'
         lifetime: 604800   # 1 semaine
         path: /
-        # always_remember_me: true activer seulement si souhaitÃ©
+        # always_remember_me: true activer seulement si souhaitÃƒÂ©
 
-  # --- RÃ¨gles d'accÃ¨s (ordre Ã©valuÃ© de haut en bas) ---
+  # --- RÃƒÂ¨gles d'accÃƒÂ¨s (ordre ÃƒÂ©valuÃƒÂ© de haut en bas) ---
   access_control:
     # Pages publiques
     - { path: ^/$, roles: PUBLIC_ACCESS }
@@ -51,10 +51,10 @@ security:
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/styleguide, roles: ROLE_ADMIN }
 
-    # Tout le reste nÃ©cessite une authentification complÃ¨te
+    # Tout le reste nÃƒÂ©cessite une authentification complÃƒÂ¨te
     - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
-# --- Config spÃ©cifique aux tests ---
+# --- Config spÃƒÂ©cifique aux tests ---
 when@test:
   security:
     password_hashers:
@@ -65,4 +65,4 @@ when@test:
         memory_cost: 10
     firewalls:
       main:
-        remember_me: false  # DÃ©sactivÃ© en test
+        remember_me: false  # DÃƒÂ©sactivÃƒÂ© en test

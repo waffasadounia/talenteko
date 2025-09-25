@@ -1,6 +1,6 @@
 framework:
     messenger:
-        # Transport par dÃ©faut pour les messages Ã©chouÃ©s
+        # Transport par dÃƒÂ©faut pour les messages ÃƒÂ©chouÃƒÂ©s
         failure_transport: failed
 
         transports:
@@ -14,13 +14,13 @@ framework:
                     max_retries: 3
                     multiplier: 2
 
-            # Transport dÃ©diÃ© aux messages Ã©chouÃ©s
+            # Transport dÃƒÂ©diÃƒÂ© aux messages ÃƒÂ©chouÃƒÂ©s
             failed: 'doctrine://default?queue_name=failed'
 
         routing:
             # Routage Symfony natif (emails via Mailer)
             Symfony\Component\Mailer\Messenger\SendEmailMessage: async
 
-            # Routage pour les messages personnalisÃ©s TalentÃ‰kÃ´
+            # Routage pour les messages personnalisÃƒÂ©s TalentÃƒâ€°kÃƒÂ´
             App\Message\NewMessageNotification: async
             App\Message\NewExchangeNotification: async

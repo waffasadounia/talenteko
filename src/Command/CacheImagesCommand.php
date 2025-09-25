@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: 'app:cache-images',
-    description: 'PrÃ©- gÃ©nÃ©rÃ© le cache LiipImagine pour toutes les images dans /uploads/listings.',
+    description: 'PrÃƒÂ©- gÃƒÂ©nÃƒÂ©rÃƒÂ© le cache LiipImagine pour toutes les images dans /uploads/listings.',
 )]
 class CacheImagesCommand extends Command
 {
@@ -35,28 +35,29 @@ class CacheImagesCommand extends Command
         $finder->files()->in($publicDir)->name('*.jpg');
 
         if (!$finder->hasResults()) {
-            $output->writeln("<comment>Aucune image trouvÃ©e dans $publicDir</comment>");
+            $output->writeln("<comment>Aucune image trouvÃƒÂ©e dans $publicDir</comment>");
 
             return Command::SUCCESS;
         }
 
         foreach ($finder as $file) {
-            // Chemin relatif Ã  /public
+            // Chemin relatif ÃƒÂ  /public
             $relativePath = 'uploads/listings/' . $file->getRelativePathname();
 
             foreach ($filters as $filter) {
                 try {
-                    $this->cacheManager->remove($relativePath, $filter); // reset Ã©ventuel
+                    $this->cacheManager->remove($relativePath, $filter); // reset ÃƒÂ©ventuel
                     $this->cacheManager->getBrowserPath($relativePath, $filter);
-                    $output->writeln("âœ” [$filter] gÃ©nÃ©rÃ© pour $relativePath");
+                    $output->writeln("Ã¢Å“â€ [$filter] gÃƒÂ©nÃƒÂ©rÃƒÂ© pour $relativePath");
                 } catch (Exception $e) {
-                    $output->writeln("<error>âœ– [$filter] Ã©chec sur $relativePath : {$e->getMessage()}</error>");
+                    $output->writeln("<error>Ã¢Å“â€“ [$filter] ÃƒÂ©chec sur $relativePath : {$e->getMessage()}</error>");
                 }
             }
         }
 
-        $output->writeln('<info>âœ” Toutes les images ont Ã©tÃ© traitÃ©es avec succÃ¨s.</info>');
+        $output->writeln('<info>Ã¢Å“â€ Toutes les images ont ÃƒÂ©tÃƒÂ© traitÃƒÂ©es avec succÃƒÂ¨s.</info>');
 
         return Command::SUCCESS;
     }
 }
+

@@ -1,7 +1,7 @@
 {
     "type": "project",
     "name": "talenteko/project",
-    "description": "TalentÃ‰kÃ´ â€” plateforme dâ€™Ã©change de compÃ©tences (Symfony 6.4, Doctrine, Twig, Tailwind, Stimulus, Turbo). Projet RNCP DWWM.",
+    "description": "TalentÃƒâ€°kÃƒÂ´ Ã¢â‚¬â€ plateforme dÃ¢â‚¬â„¢ÃƒÂ©change de compÃƒÂ©tences (Symfony 6.4, Doctrine, Twig, Tailwind, Stimulus, Turbo). Projet RNCP DWWM.",
     "keywords": ["symfony", "talenteko", "doctrine", "twig", "tailwind", "stimulus", "turbo", "dwwm"],
     "license": "proprietary",
     "minimum-stability": "stable",

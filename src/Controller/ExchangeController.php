@@ -26,20 +26,20 @@ final class ExchangeController extends AbstractController
         MessageBusInterface $bus,
         Security $security,
     ): Response {
-        // 1) VÃ©rifier que l'utilisateur est connectÃ©
+        // 1) VÃƒÂ©rifier que l'utilisateur est connectÃƒÂ©
         /** @var User $user */
         $user = $security->getUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
-        // 2) RÃ©cupÃ©rer l'annonce
+        // 2) RÃƒÂ©cupÃƒÂ©rer l'annonce
         $listing = $em->getRepository(Listing::class)->find($id);
         if (!$listing) {
             throw $this->createNotFoundException('Annonce introuvable.');
         }
 
-        // 3) CrÃ©er la proposition dâ€™Ã©change
+        // 3) CrÃƒÂ©er la proposition dÃ¢â‚¬â„¢ÃƒÂ©change
         $exchange = new Exchange();
         $exchange->setListing($listing);
         $exchange->setRequester($user);           // celui qui propose
@@ -48,17 +48,18 @@ final class ExchangeController extends AbstractController
         $em->persist($exchange);
         $em->flush();
 
-        // 4) PrÃ©parer et dispatcher la notification email
+        // 4) PrÃƒÂ©parer et dispatcher la notification email
         $bus->dispatch(new NewExchangeCreatedNotification(
             $listing->getAuthor()->getId(),   // destinataire = auteur de l'annonce
-            $user->getId(),                   // expÃ©diteur = utilisateur actuel
-            $exchange->getId(),               // id de l'Ã©change
+            $user->getId(),                   // expÃƒÂ©diteur = utilisateur actuel
+            $exchange->getId(),               // id de l'ÃƒÂ©change
             $listing->getId(),                 // id de l'annonce
         ));
 
         // 5) Feedback utilisateur
-        $this->addFlash('success', 'Votre proposition dâ€™Ã©change a Ã©tÃ© envoyÃ©e !');
+        $this->addFlash('success', 'Votre proposition dÃ¢â‚¬â„¢ÃƒÂ©change a ÃƒÂ©tÃƒÂ© envoyÃƒÂ©e !');
 
         return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
     }
 }
+

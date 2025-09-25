@@ -1,37 +1,37 @@
 {#================================
   templates/search/index.html.twig
-  Page de recherche TalentÃƒÂ©kÃƒÂ´
+  Page de recherche TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
   Variables attendues :
-    - q       : requÃƒÂªte saisie (string)
+    - q       : requÃƒÆ’Ã‚Âªte saisie (string)
     - results : tableau d'annonces (Listings)
   ================================#}
 {% extends 'base.html.twig' %}
 
 {% block title %}Recherche
 	{% if q %}
-		Ã¢â‚¬â€ Ã‚Â«
+		ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ãƒâ€šÃ‚Â«
 		{{ q }}
-		Ã‚Â»
+		Ãƒâ€šÃ‚Â»
 	{% endif %}
-	| TalentÃƒÂ©kÃƒÂ´
+	| TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
 {% endblock %}
 
 {% block body %}
-	{#================== En-tÃƒÂªte ==================#}
+	{#================== En-tÃƒÆ’Ã‚Âªte ==================#}
 	<section class="py-10 bg-talenteko-peach-100">
 		<div class="max-w-6xl mx-auto px-4">
 			<h1 class="text-3xl font-bold text-center text-talenteko-orange-500 mb-6">
-				RÃƒÂ©sultats
+				RÃƒÆ’Ã‚Â©sultats
 				{% if q %}
-					pour Ã‚Â«
+					pour Ãƒâ€šÃ‚Â«
 					{{ q }}
-					Ã‚Â»
+					Ãƒâ€šÃ‚Â»
 				{% endif %}
 			</h1>
 
 			{#Formulaire de recherche rapide#}
 			<form action="{{ path('app_search') }}" method="get" class="flex justify-center gap-2">
-				<input type="text" name="q" value="{{ q }}" placeholder="Rechercher une compÃƒÆ’Ã‚Â©tence, une ville, une catÃƒÆ’Ã‚Â©gorieÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" class="border border-gray-300 rounded-lg px-3 py-2 w-2/3 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-300">
+				<input type="text" name="q" value="{{ q }}" placeholder="Rechercher une compÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©tence, une ville, une catÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©gorieÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦" class="border border-gray-300 rounded-lg px-3 py-2 w-2/3 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-300">
 				<button class="bg-talenteko-orange-500 text-white px-4 py-2 rounded-lg hover:bg-talenteko-orange-600 transition flex items-center gap-2">
 					<i class="fa fa-search" aria-hidden="true"></i>
 					<span>Rechercher</span>
@@ -40,7 +40,7 @@
 		</div>
 	</section>
 
-	{#================== RÃƒÂ©sultats ==================#}
+	{#================== RÃƒÆ’Ã‚Â©sultats ==================#}
 	<section class="py-10 bg-white">
 		<div class="max-w-6xl mx-auto px-4">
 			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -49,9 +49,9 @@
 				{% else %}
 					<p class="text-center col-span-full text-gray-600">
 						{% if q %}
-							Aucun rÃƒÂ©sultat pour Ã‚Â«
+							Aucun rÃƒÆ’Ã‚Â©sultat pour Ãƒâ€šÃ‚Â«
 							{{ q }}
-							Ã‚Â».
+							Ãƒâ€šÃ‚Â».
 						{% else %}
 							Entrez un terme de recherche pour voir des annonces.
 						{% endif %}
@@ -64,3 +64,4 @@
 	{#================== Messages flash ==================#}
 	{% include 'partials/_flash.html.twig' %}
 {% endblock %}
+

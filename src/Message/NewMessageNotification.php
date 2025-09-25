@@ -6,7 +6,7 @@ namespace App\Message;
 
 /**
  * Message pour notifier un utilisateur
- * quand il reÃ§oit un nouveau message privÃ©.
+ * quand il reÃƒÂ§oit un nouveau message privÃƒÂ©.
  */
 class NewMessageNotification
 {
@@ -32,3 +32,4 @@ class NewMessageNotification
         return $this->content;
     }
 }
+

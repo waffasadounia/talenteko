@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-// Repository = couche d'accÃƒÂ¨s aux annonces (Listing).
-// PermetvÃ  Symfony/Doctrine d'injecter ListingRepository dans les contrÃ´leurs.
+// Repository = couche d'accÃƒÆ’Ã‚Â¨s aux annonces (Listing).
+// PermetvÃƒÂ  Symfony/Doctrine d'injecter ListingRepository dans les contrÃƒÂ´leurs.
 
 namespace App\Repository;
 
@@ -13,14 +13,14 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class ListingRepository extends ServiceEntityRepository
 {
-    // Le constructeur enregistre lâ€™entitÃ© gÃ©rÃ©e par ce repo : Listing::class
+    // Le constructeur enregistre lÃ¢â‚¬â„¢entitÃƒÂ© gÃƒÂ©rÃƒÂ©e par ce repo : Listing::class
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Listing::class);
     }
 
-    // Exemple de mÃ©thode dÃ©diÃ©e (optionnelle) :
-    // RÃ©cupÃ¨re les 12 derniÃ¨res annonces avec auteur+catÃ©gorie.
+    // Exemple de mÃƒÂ©thode dÃƒÂ©diÃƒÂ©e (optionnelle) :
+    // RÃƒÂ©cupÃƒÂ¨re les 12 derniÃƒÂ¨res annonces avec auteur+catÃƒÂ©gorie.
     public function findLatestWithJoins(int $limit = 12): array
     {
         return $this->createQueryBuilder('l')
@@ -31,3 +31,4 @@ class ListingRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 }
+

@@ -67,9 +67,10 @@ class Category
     // === Astuce Symfony/Twig ===
     // Quand Twig essaie d'afficher {{ category }},
     // il utilise automatiquement __toString().
-    // Ici on renvoie le nom, ce qui Ã©vite l'erreur de conversion.
+    // Ici on renvoie le nom, ce qui ÃƒÂ©vite l'erreur de conversion.
     public function __toString(): string
     {
         return $this->name;
     }
 }
+
