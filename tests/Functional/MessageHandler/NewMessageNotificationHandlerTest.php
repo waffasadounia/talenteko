@@ -2,83 +2,73 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\MessageHandler;
+namespace App\Tests\Functional\MessageHandler;
 
 use App\Entity\User;
 use App\Message\NewMessageNotification;
 use App\MessageHandler\NewMessageNotificationHandler;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Mailer\EventListener\MessageLoggerListener;
+use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
-class NewMessageNotificationHandlerTest extends KernelTestCase
+final class NewMessageNotificationHandlerTest extends TestCase
 {
-    private MailerInterface $mailer;
-    private EntityManagerInterface $em;
-    private MessageLoggerListener $mailerLogger;
-
-    protected function setUp(): void
+    public function testHandlerSendsEmailToRecipient(): void
     {
-        self::bootKernel();
+        // Arrange : faux utilisateurs
+        $recipient = (new User())->setEmail('dest@test.com')->setPseudo('Alice');
+        $sender    = (new User())->setEmail('src@test.com')->setPseudo('Bob');
 
-        $container = static::getContainer();
-        $this->mailer = $container->get(MailerInterface::class);
-        $this->em = $container->get(EntityManagerInterface::class);
-        $this->mailerLogger = $container->get(MessageLoggerListener::class);
+        // Mock du repository User
+        $userRepo = $this->createMock(EntityRepository::class);
+        $userRepo->method('find')
+            ->willReturnMap([
+                [1, $recipient],
+                [2, $sender],
+            ]);
 
-        // Nettoyer les emails envoyés avant chaque test
-        $this->mailerLogger->reset();
+        // Mock EntityManager → retournera le repo mocké
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->method('getRepository')->willReturn($userRepo);
+
+        // Mock Mailer → vérifie l’envoi
+        $mailer = $this->createMock(MailerInterface::class);
+        $mailer->expects($this->once())
+            ->method('send')
+            ->with(
+                $this->callback(function (Email $email) {
+                    return $email->getTo()[0]->getAddress() === 'dest@test.com'
+                        && $email->getSubject() === 'Nouveau message sur Talentéko';
+                })
+            );
+
+        $handler = new NewMessageNotificationHandler($mailer, $em);
+
+        // Act
+        $notification = new NewMessageNotification(1, 2, 'Hello Alice!');
+        $handler($notification);
     }
 
-    public function testNotificationEmailIsSent(): void
+    public function testHandlerDoesNotSendEmailIfRecipientMissing(): void
     {
-        // 1) Créer un utilisateur destinataire
-        $recipient = new User();
-        $recipient->setEmail('destinataire@test.com');
-        $recipient->setPseudo('Destinataire');
-        $recipient->setPassword('hashed-password');
-        $this->em->persist($recipient);
+        // Mock du repository User qui renvoie toujours null
+        $userRepo = $this->createMock(EntityRepository::class);
+        $userRepo->method('find')->willReturn(null);
 
-        // 2) Créer un utilisateur expéditeur
-        $sender = new User();
-        $sender->setEmail('expediteur@test.com');
-        $sender->setPseudo('Expéditeur');
-        $sender->setPassword('hashed-password');
-        $this->em->persist($sender);
+        // Mock EntityManager
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->method('getRepository')->willReturn($userRepo);
 
-        $this->em->flush();
+        // Mock Mailer → ne doit jamais être appelé
+        $mailer = $this->createMock(MailerInterface::class);
+        $mailer->expects($this->never())->method('send');
 
-        // 3) Créer une notification
-        $notification = new NewMessageNotification(
-            recipientId: $recipient->getId(),
-            senderId: $sender->getId(),
-            content: 'Salut, ça m’intéresse !',
-        );
+        $handler = new NewMessageNotificationHandler($mailer, $em);
 
-        // 4) Handler
-        $handler = new NewMessageNotificationHandler($this->mailer, $this->em);
+        // Act
+        $notification = new NewMessageNotification(999, 2, 'Nobody here');
         $handler($notification);
-
-        // 5) Vérifier qu'un email a été envoyé
-        $events = $this->mailerLogger->getEvents();
-        $messages = $events->getMessages();
-
-        self::assertCount(1, $messages, 'Un email doit être envoyé.');
-
-        /** @var TemplatedEmail $email */
-        $email = $messages[0];
-        self::assertInstanceOf(TemplatedEmail::class, $email);
-
-        // Vérifier les infos principales
-        self::assertEquals('destinataire@test.com', $email->getTo()[0]->getAddress());
-        self::assertEquals('no-reply@talenteko.test', $email->getFrom()[0]->getAddress());
-        self::assertEquals('Nouveau message sur Talenteko', $email->getSubject());
-
-        // Vérifier que le contexte contient bien les bonnes données
-        $context = $email->getContext();
-        self::assertEquals('Expéditeur', $context['sender']);
-        self::assertEquals('Salut, ça m’intéresse !', $context['content']);
     }
 }

@@ -16,14 +16,15 @@ module.exports = {
   ],
 
   safelist: [
-    // Cas dynamiques : si des classes ne sont pas visibles
-    // au moment du build (Twig/JS), on les force ici
-    "bg-talenteko-orange-700",
-    "hover:bg-talenteko-orange-800",
-    "focus-visible:ring-2",
-    "focus-visible:ring-offset-2",
-    "focus-visible:ring-talenteko-orange-700",
-  ],
+  "hidden",
+  "dark",
+  "bg-talenteko-orange-700",
+  "hover:bg-talenteko-orange-800",
+  "focus-visible:ring-2",
+  "focus-visible:ring-offset-2",
+  "focus-visible:ring-talenteko-orange-700",
+],
+
 
   theme: {
     extend: {
@@ -35,7 +36,7 @@ module.exports = {
             600:"#2B3343",  // Bleu secondaire
             500:"#434958",  // Bleu alternatif
             400:"#A1A4AB",  // Bleu clair (liens, accents)
-            
+
           },
 
           orange: {

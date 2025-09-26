@@ -5,25 +5,31 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Toutes les catégories | Talentéko{% endblock %}
+{% block title %}
+  Toutes les catégories | Talentéko
+{% endblock %}
 {% endblock %}
 
 {% block body %}
-	<section class="py-16 bg-white">
-		<div class="max-w-6xl mx-auto px-4">
-			<h1 class="text-3xl font-bold mb-10 text-center text-talenteko-blue">
-				Toutes les catégories
-			</h1>
+  <section class="bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4">
+      <h1 class="text-talenteko-blue mb-10 text-center text-3xl font-bold">
+        Toutes les catégories
+      </h1>
 
-			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
-				{% for category in categories %}
-					{% include 'partials/_category_card.html.twig' with {category: category} %}
-				{% else %}
-					<p class="text-center col-span-full text-gray-500 italic">
-						Aucune catégorie disponible pour l’instant.
-					</p>
-				{% endfor %}
-			</div>
-		</div>
-	</section>
+      <div
+        class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4"
+      >
+        {% for category in categories %}
+          {% include 'partials/_category_card.html.twig' with {
+            category: category
+          } %}
+        {% else %}
+          <p class="col-span-full text-center text-gray-500 italic">
+            Aucune catégorie disponible pour l’instant.
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 {% endblock %}

@@ -2,150 +2,219 @@
    templates/security/register.html.twig
    ==========================#}
 {% extends 'base.html.twig' %}
-{% block title %}Créer un compte | Talentéko
+{% block title %}
+  Créer un compte | Talentéko
 {% endblock %}
 
 {% block body %}
-	<section class="bg-talenteko-peach-100 py-12">
-		<div class="max-w-md mx-auto px-6">
-			<h1 class="text-3xl font-bold text-talenteko-orange-500 mb-6 text-center">
-				Créer un compte
-			</h1>
+  <section class="bg-talenteko-peach-100 py-12">
+    <div class="mx-auto max-w-md px-6">
+      <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
+        Créer un compte
+      </h1>
 
-			{#--- Bandeau d'erreurs global ---#}
-			{% if not form.vars.valid and form.vars.submitted %}
-				<div id="form-global-errors" class="mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700 p-3" role="alert" aria-live="polite">
-					<strong class="font-semibold">Le formulaire contient des erreurs.</strong>
-					<span class="ml-1">Merci de vérifier les champs en rouge.</span>
-				</div>
-			{% endif %}
+      {#- - Bandeau d'erreurs global - -#}
+      {% if not form.vars.valid and form.vars.submitted %}
+        <div
+          id="form-global-errors"
+          class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700"
+          role="alert"
+          aria-live="polite"
+        >
+          <strong class="font-semibold">
+            Le formulaire contient des erreurs.
+          </strong>
+          <span class="ml-1">Merci de vérifier les champs en rouge.</span>
+        </div>
+      {% endif %}
 
-			{# --- Messages flash --- #}
-			{% for messages in app.flashes %}
-				{% for message in messages %}
-					<div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 p-3" role="alert">
-						{{ message }}
-					</div>
-				{% endfor %}
-			{% endfor %}
+      {# --- Messages flash --- #}
+      {% for messages in app.flashes %}
+        {% for message in messages %}
+          <div
+            class="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-green-700"
+            role="alert"
+          >
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endfor %}
 
-			{# --- Formulaire d'inscription --- #}
-			<div class="rounded-2xl bg-white p-6 shadow-sm">
-				{{ form_start(form, {
-        attr: {novalidate: 'novalidate', id: 'register-form', class: 'tk-form space-y-5'}
-      }) }}
-
-				{#EMAIL#}
-				{% include "partials/_form_field.html.twig" with {
-          field: form.email,
-          label: "Adresse email",
-          placeholder: "ex. vous@exemple.fr",
-          autocomplete: "email"
-        } %}
-
-				{# PSEUDO #}
-				{% include "partials/_form_field.html.twig" with {
-          field: form.pseudo,
-          label: "Pseudonyme",
-          placeholder: "ex. BricoMan42",
-          autocomplete: "nickname"
-        } %}
-
-				{# LOCALISATION avec autocomplétion + gestion erreurs #}
-				{% set loc_invalid = (form_errors(form.location) is not empty) %}
-				{% set loc_errors_id = form.location.vars.id ~ '-errors' %}
-				<div class="relative space-y-1" data-controller="location-autocomplete">
-					<label for="{{ form.location.vars.id }}" class="form-label">
-						Localisation
-						<span class="form-required" aria-hidden="true">*</span>
-					</label>
-
-					{{ form_widget(form.location, {
-            attr: {
-              class: 'form-input' ~ (loc_invalid ? ' is-invalid' : ''),
-              'data-location-autocomplete-target': 'input',
-              'data-action': 'input->location-autocomplete#search keydown->location-autocomplete#keydown',
-              'aria-autocomplete': 'list',
-              'aria-expanded': 'false',
-              'aria-controls': 'location-suggestions',
-              'aria-invalid': loc_invalid ? 'true' : 'false',
-              'aria-describedby': loc_invalid ? loc_errors_id : null,
-              autocomplete: 'off'
+      {# --- Formulaire d'inscription --- #}
+      <div class="rounded-2xl bg-white p-6 shadow-sm">
+        {{
+          form_start(
+            form,
+            {
+              attr: {
+                novalidate: 'novalidate',
+                id: 'register-form',
+                class: 'tk-form space-y-5'
+              }
             }
-          }) }}
+          )
+        }}
 
-					<ul id="location-suggestions" data-location-autocomplete-target="list" role="listbox" class="absolute z-10 mt-1 w-full rounded-lg border bg-white shadow-sm max-h-48 overflow-auto"></ul>
+        {# EMAIL #}
+        {% include 'partials/_form_field.html.twig' with {
+          field: form.email,
+          label: 'Adresse email',
+          placeholder: 'ex. vous@exemple.fr',
+          autocomplete: 'email'
+        } %}
 
-					{% if loc_invalid %}
-						<p id="{{ loc_errors_id }}" class="form-error" role="alert">
-							{{ form_errors(form.location) }}
-						</p>
-					{% endif %}
-				</div>
+        {# PSEUDO #}
+        {% include 'partials/_form_field.html.twig' with {
+          field: form.pseudo,
+          label: 'Pseudonyme',
+          placeholder: 'ex. BricoMan42',
+          autocomplete: 'nickname'
+        } %}
 
-				{# MOT DE PASSE + CONFIRMATION #}
-				<div data-controller="password-strength password-confirm" class="space-y-5">
-					{% include "partials/_password_field.html.twig" with {
+        {# LOCALISATION avec autocomplétion + gestion erreurs #}
+        {% set loc_invalid = form_errors(form.location) is not empty %}
+        {% set loc_errors_id = form.location.vars.id ~ '-errors' %}
+        <div class="relative space-y-1" data-controller="location-autocomplete">
+          <label for="{{ form.location.vars.id }}" class="form-label">
+            Localisation
+            <span class="form-required" aria-hidden="true">*</span>
+          </label>
+
+          {{
+            form_widget(
+              form.location,
+              {
+                attr: {
+                  class: 'form-input' ~ (loc_invalid ? ' is-invalid' : ''),
+                  'data-location-autocomplete-target': 'input',
+                  'data-action': 'input->location-autocomplete#search keydown->location-autocomplete#keydown',
+                  'aria-autocomplete': 'list',
+                  'aria-expanded': 'false',
+                  'aria-controls': 'location-suggestions',
+                  'aria-invalid': loc_invalid ? 'true' : 'false',
+                  'aria-describedby': loc_invalid ? loc_errors_id : null,
+                  autocomplete: 'off'
+                }
+              }
+            )
+          }}
+
+          <ul
+            id="location-suggestions"
+            data-location-autocomplete-target="list"
+            role="listbox"
+            class="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-lg border bg-white shadow-sm"
+          ></ul>
+
+          {% if loc_invalid %}
+            <p id="{{ loc_errors_id }}" class="form-error" role="alert">
+              {{ form_errors(form.location) }}
+            </p>
+          {% endif %}
+        </div>
+
+        {# MOT DE PASSE + CONFIRMATION #}
+        <div
+          data-controller="password-strength password-confirm"
+          class="space-y-5"
+        >
+          {% include 'partials/_password_field.html.twig' with {
             field: form.plainPassword.first,
-            label: "Mot de passe",
-            target: "original"
+            label: 'Mot de passe',
+            target: 'original'
           } %}
-					{% include "partials/_password_field.html.twig" with {
+          {% include 'partials/_password_field.html.twig' with {
             field: form.plainPassword.second,
-            label: "Confirmer le mot de passe",
-            target: "confirm"
+            label: 'Confirmer le mot de passe',
+            target: 'confirm'
           } %}
-				</div>
+        </div>
 
-				{# CONDITIONS D'UTILISATION #}
-				<div class="mt-4 space-y-1">
-					<label class="flex items-center gap-2 cursor-pointer">
-						{{ form_widget(form.agreeTerms, {
-              attr: {class: 'peer hidden', id: form.agreeTerms.vars.id}
-            }) }}
-						<span class="form-checkbox-box">
-							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" class="form-checkbox-icon">
-								<path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z" clip-rule="evenodd"/>
-							</svg>
-						</span>
-						<span class="text-xs text-talenteko-blue-400 leading-snug">
-							J'accepte les
-							<a href="{{ path('app_conditions') }}" class="underline hover:text-talenteko-blue-700">CGU</a>
-							et la
-							<a href="{{ path('app_confidentialite') }}" class="underline hover:text-talenteko-blue-700">politique</a>.
-						</span>
-					</label>
-					{% if form_errors(form.agreeTerms) %}
-						<p class="form-error mt-1" role="alert">{{ form_errors(form.agreeTerms) }}</p>
-					{% endif %}
-				</div>
+        {# CONDITIONS D'UTILISATION #}
+        <div class="mt-4 space-y-1">
+          <label class="flex cursor-pointer items-center gap-2">
+            {{
+              form_widget(
+                form.agreeTerms,
+                {
+                  attr: {
+                    class: 'peer hidden',
+                    id: form.agreeTerms.vars.id
+                  }
+                }
+              )
+            }}
+            <span class="form-checkbox-box">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewbox="0 0 20 20"
+                fill="currentColor"
+                class="form-checkbox-icon"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <span class="text-talenteko-blue-400 text-xs leading-snug">
+              J'accepte les
+              <a
+                href="{{ path('app_conditions') }}"
+                class="hover:text-talenteko-blue-700 underline"
+              >
+                CGU
+              </a>
+              et la
+              <a
+                href="{{ path('app_confidentialite') }}"
+                class="hover:text-talenteko-blue-700 underline"
+              >
+                politique
+              </a>.
+            </span>
+          </label>
+          {% if form_errors(form.agreeTerms) %}
+            <p class="form-error mt-1" role="alert">
+              {{ form_errors(form.agreeTerms) }}
+            </p>
+          {% endif %}
+        </div>
 
-				{# HONEYPOT ANTI-BOT #}
-				<div class="hidden">
-					<label for="website">Votre site web</label>
-					<input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-				</div>
+        {# HONEYPOT ANTI-BOT #}
+        <div class="hidden">
+          <label for="website">Votre site web</label>
+          <input
+            type="text"
+            id="website"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
 
-				<button id="submit-btn" type="submit" class="btn-primary btn-block mt-6">
-					S'inscrire
-				</button>
-				{{ form_end(form) }}
+        <button
+          id="submit-btn"
+          type="submit"
+          class="btn-primary btn-block mt-6"
+        >
+          S'inscrire
+        </button>
+        {{ form_end(form) }}
 
-				<p class="text-sm text-gray-600 mt-6 text-center">
-					Déjà un compte ?
-					<a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
-				</p>
-			</div>
-		</div>
-	</section>
+        <p class="mt-6 text-center text-sm text-gray-600">
+          Déjà un compte ?
+          <a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
+        </p>
+      </div>
+    </div>
+  </section>
 
-	<script>
-		document.addEventListener('turbo:before-cache', () => {
-const el = document.getElementById('form-global-errors');
-if (el)
-el.remove();
+  <script>
+    document.addEventListener('turbo:before-cache', () => { const el =
+    document.getElementById('form-global-errors'); if (el) el.remove();
 
-
-});
-	</script>
+    });
+  </script>
 {% endblock %}

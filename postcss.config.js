@@ -2,6 +2,6 @@
 module.exports = {
   plugins: {
     '@tailwindcss/postcss': {}, // plugin officiel Tailwind v4
-    autoprefixer: {},          // garde Autoprefixer
+    autoprefixer: {}, // garde Autoprefixer
   },
 };

@@ -3,33 +3,59 @@
   Section pédagogique "Comment ça marche ?"
   ================================ #}
 
-<section class="relative py-20 bg-talenteko-peach-100">
-	<div class="max-w-6xl mx-auto px-4 text-center relative">
-		<h2 class="text-3xl font-bold mb-4 text-shadow-talenteko-blue-900">Comment ça marche ?</h2>
-		<p class="mb-12 text-shadow-talenteko-blue-900">Échangez vos compétences en quelques étapes simples</p>
+<section class="bg-talenteko-peach-100 relative py-20">
+  <div class="relative mx-auto max-w-6xl px-4 text-center">
+    <h2 class="text-shadow-talenteko-blue-900 mb-4 text-3xl font-bold">
+      Comment ça marche ?
+    </h2>
+    <p class="text-shadow-talenteko-blue-900 mb-12">
+      Échangez vos compétences en quelques étapes simples
+    </p>
 
-		{% set etapes = [
-      {"numero": "1", "titre": "Créez votre compte", "texte": "Inscrivez-vous rapidement pour rejoindre la communauté."},
-      {"numero": "2", "titre": "Publiez une annonce", "texte": "Proposez ou recherchez une compétence à échanger."},
-      {"numero": "3", "titre": "Échangez et évoluez", "texte": "Bénéficiez de talents et développez vos savoirs."}
+    {% set etapes = [
+      {
+        numero: '1',
+        titre: 'Créez votre compte',
+        texte: 'Inscrivez-vous rapidement pour rejoindre la communauté.'
+      },
+      {
+        numero: '2',
+        titre: 'Publiez une annonce',
+        texte: 'Proposez ou recherchez une compétence à échanger.'
+      },
+      {
+        numero: '3',
+        titre: 'Échangez et évoluez',
+        texte: 'Bénéficiez de talents et développez vos savoirs.'
+      }
     ] %}
 
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-			{% for etape in etapes %}
-				<div class="flex flex-col items-center">
-					<div class="bg-talenteko-orange-500 text-white rounded-full w-16 h-16 flex items-center justify-center mb-4 text-2xl font-bold">
-						{{ etape.numero }}
-					</div>
-					<h3 class="text-xl font-semibold mb-2 text-primary-color">{{ etape.titre }}</h3>
-					<p class="text-primary-color max-w-xs">{{ etape.texte }}</p>
-				</div>
-			{% endfor %}
-		</div>
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
+      {% for etape in etapes %}
+        <div class="flex flex-col items-center">
+          <div
+            class="bg-talenteko-orange-500 mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold text-white"
+          >
+            {{ etape.numero }}
+          </div>
+          <h3 class="text-primary-color mb-2 text-xl font-semibold">
+            {{ etape.titre }}
+          </h3>
+          <p class="text-primary-color max-w-xs">
+            {{ etape.texte }}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
 
-		<div class="mt-10">
-			<a href="{{ path('app_login') }}" class="btn-primary" aria-label="Commencer maintenant">
-				Commencer maintenant
-			</a>
-		</div>
-	</div>
+    <div class="mt-10">
+      <a
+        href="{{ path('app_login') }}"
+        class="btn-primary"
+        aria-label="Commencer maintenant"
+      >
+        Commencer maintenant
+      </a>
+    </div>
+  </div>
 </section>

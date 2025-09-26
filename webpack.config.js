@@ -1,10 +1,12 @@
 // webpack.config.js
 // ===============================================
 // Config Webpack Encore pour TalentÉkô
-// - Point d’entrée 'app' (importe Tailwind via app.css)
-// - Stimulus/Turbo (bridge activé)
-// - Source maps en DEV : 'inline-source-map' (évite le schéma webpack://)
-// - PostCSS activé (Tailwind v4 via postcss.config.js)
+// -----------------------------------------------
+// - Entrée principale : app.js (importe Tailwind via app.css)
+// - Stimulus/Turbo activés via controllers.json
+// - Source maps : inline en dev, désactivées en prod
+// - PostCSS activé (Tailwind v4)
+// - Optimisations prod : cache-busting + intégrité SRI
 // ===============================================
 
 const Encore = require('@symfony/webpack-encore');
@@ -15,31 +17,28 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-  // Dossier de sortie des assets compilés
+  // ================= Sortie =================
   .setOutputPath('public/build/')
-  // URL publique pour accéder aux assets
   .setPublicPath('/build')
-  // .setManifestKeyPrefix('build/') // utile si CDN/sous-dossier
+  // Préfixe manifest (utile si déploiement en sous-dossier/CDN)
+  .setManifestKeyPrefix('build/')
 
   // ================= Entrées =================
-  // Chaque entrée => 1 fichier JS + (si import CSS) 1 fichier CSS
   .addEntry('app', './assets/app.js')
 
   // Découpage des chunks (optimisation)
   .splitEntryChunks()
 
-  // Bridge Stimulus (permet auto-enregistrement des controllers)
+  // Stimulus Bridge (auto-enregistrement des controllers)
   .enableStimulusBridge('./assets/controllers.json')
 
-  // Runtime séparé (script runtime.js généré)
+  // Runtime séparé (runtime.js généré)
   .enableSingleRuntimeChunk()
 
   // Nettoyage du dossier /build avant chaque build
   .cleanupOutputBeforeBuild()
 
   // ================= Source maps =================
-  // DEV: on force 'inline-source-map' pour éviter le protocole webpack://
-  // PROD: désactivé (bonnes pratiques, taille/infos sensibles)
   .enableSourceMaps(!Encore.isProduction(), 'cheap-module-source-map')
 
   // Hash des fichiers en production (cache-busting)
@@ -51,15 +50,16 @@ Encore
     config.corejs = '3.38';
   })
 
-  // ================= Loaders =================
-  // SASS si besoin (laisse commenté si tu n’utilises pas .scss)
-  // .enableSassLoader()
-
-  // PostCSS (indispensable pour Tailwind v4)
+  // ================= PostCSS (Tailwind v4) =================
   .enablePostCssLoader()
 
+  // ================= Optimisations PROD =================
+  .enableIntegrityHashes(Encore.isProduction()) // SRI (sécurité intégrité des assets)
+  .configureTerserPlugin((options) => {
+    options.extractComments = false; // pas de .LICENSE.txt parasites
+  })
+
   // ================= Watch =================
-  // Ignore node_modules et /public/build pour accélérer le watch
   .configureWatchOptions((watchOptions) => {
     watchOptions.ignored = ['**/node_modules/**', '**/public/build/**'];
   });

@@ -7,60 +7,74 @@
   ================================#}
 {% extends 'base.html.twig' %}
 
-{% block title %}Recherche
-	{% if q %}
-		«
-		{{ q }}
-		»
-	{% endif %}
-	| Talentéko
+{% block title %}
+  Recherche{% if q %}
+    «
+    {{ q }}
+    »
+  {% endif %}| Talentéko
 {% endblock %}
 
 {% block body %}
-	{#================== En-tête ==================#}
-	<section class="py-10 bg-talenteko-peach-100">
-		<div class="max-w-6xl mx-auto px-4">
-			<h1 class="text-3xl font-bold text-center text-talenteko-orange-500 mb-6">
-				Résultats
-				{% if q %}
-					pour «
-					{{ q }}
-					»
-				{% endif %}
-			</h1>
+  {# ================== En-tête ================== #}
+  <section class="bg-talenteko-peach-100 py-10">
+    <div class="mx-auto max-w-6xl px-4">
+      <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
+        Résultats{% if q %}
+          pour «
+          {{ q }}
+          »
+        {% endif %}
+      </h1>
 
-			{#Formulaire de recherche rapide#}
-			<form action="{{ path('app_search') }}" method="get" class="flex justify-center gap-2">
-				<input type="text" name="q" value="{{ q }}" placeholder="Rechercher une compétence, une ville, une catégorie…" class="border border-gray-300 rounded-lg px-3 py-2 w-2/3 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-300">
-				<button class="bg-talenteko-orange-500 text-white px-4 py-2 rounded-lg hover:bg-talenteko-orange-600 transition flex items-center gap-2">
-					<i class="fa fa-search" aria-hidden="true"></i>
-					<span>Rechercher</span>
-				</button>
-			</form>
-		</div>
-	</section>
+      {# Formulaire de recherche rapide #}
+      <form
+        action="{{ path('app_search') }}"
+        method="get"
+        class="flex justify-center gap-2"
+      >
+        <input
+          type="text"
+          name="q"
+          value="{{ q }}"
+          placeholder="Rechercher une compétence, une ville, une catégorie…"
+          class="focus:ring-talenteko-orange-300 w-2/3 rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:outline-none"
+        />
+        <button
+          class="bg-talenteko-orange-500 hover:bg-talenteko-orange-600 flex items-center gap-2 rounded-lg px-4 py-2 text-white transition"
+        >
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span>Rechercher</span>
+        </button>
+      </form>
+    </div>
+  </section>
 
-	{#================== Résultats ==================#}
-	<section class="py-10 bg-white">
-		<div class="max-w-6xl mx-auto px-4">
-			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-				{% for listing in results %}
-					{% include 'partials/_listing_card.html.twig' with {listing: listing} %}
-				{% else %}
-					<p class="text-center col-span-full text-gray-600">
-						{% if q %}
-							Aucun résultat pour «
-							{{ q }}
-							».
-						{% else %}
-							Entrez un terme de recherche pour voir des annonces.
-						{% endif %}
-					</p>
-				{% endfor %}
-			</div>
-		</div>
-	</section>
+  {# ================== Résultats ================== #}
+  <section class="bg-white py-10">
+    <div class="mx-auto max-w-6xl px-4">
+      <div
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
+        {% for listing in results %}
+          {% include 'partials/_listing_card.html.twig' with {
+            listing: listing
+          } %}
+        {% else %}
+          <p class="col-span-full text-center text-gray-600">
+            {% if q %}
+              Aucun résultat pour «
+              {{ q }}
+              ».
+            {% else %}
+              Entrez un terme de recherche pour voir des annonces.
+            {% endif %}
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-	{#================== Messages flash ==================#}
-	{% include 'partials/_flash.html.twig' %}
+  {# ================== Messages flash ================== #}
+  {% include 'partials/_flash.html.twig' %}
 {% endblock %}

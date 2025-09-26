@@ -6,10 +6,12 @@ use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-if (method_exists(Dotenv::class, 'bootEnv')) {
-    (new Dotenv())->bootEnv(dirname(__DIR__) . '/.env');
+// Charge les variables d'environnement
+if (file_exists(dirname(__DIR__).'/.env')) {
+    (new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
 }
 
-if ($_SERVER['APP_DEBUG']) {
-    umask(0000);
+// Si on est en test, surcharge avec .env.test
+if ($_SERVER['APP_ENV'] === 'test' && file_exists(dirname(__DIR__).'/.env.test')) {
+    (new Dotenv())->overload(dirname(__DIR__).'/.env.test');
 }

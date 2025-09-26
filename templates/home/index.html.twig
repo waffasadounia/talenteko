@@ -1,23 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil | Talentéko
+{% block title %}
+  Accueil | Talentéko
 {% endblock %}
 
 {% block body %}
+  {# HERO (bandeau d'intro) #}
+  {% include 'partials/_hero.html.twig' %}
 
-	{#HERO (bandeau d'intro)#}
-	{% include 'partials/_hero.html.twig' %}
+  {# TENDANCES (derniers listings) #}
+  {% include 'partials/_tendances.html.twig' with {
+    listings: listings
+  } %}
 
-	{#TENDANCES (derniers listings)#}
-	{% include 'partials/_tendances.html.twig' with {listings: listings} %}
+  {# CATEGORIES (explorer par catégories) #}
+  {% include 'partials/_categories.html.twig' with {
+    categories: categories
+  } %}
 
-	{#CATEGORIES (explorer par catégories)#}
-	{% include 'partials/_categories.html.twig' with {categories: categories} %}
+  {# COMMENT ÇA MARCHE #}
+  {% include 'partials/_how_it_works.html.twig' %}
 
-	{#COMMENT ÇA MARCHE#}
-	{% include 'partials/_how_it_works.html.twig' %}
-
-	{#FLASH (messages système)#}
-	{% include 'partials/_flash.html.twig' %}
-
+  {# FLASH (messages système) #}
+  {% include 'partials/_flash.html.twig' %}
 {% endblock %}
