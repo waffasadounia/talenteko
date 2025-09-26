@@ -1,10 +1,10 @@
-# config/packages/doctrine_migrations.yaml
+﻿# config/packages/doctrine_migrations.yaml
 doctrine_migrations:
   migrations_paths:
-    # Namespace rÃƒÂ©servÃƒÂ© aux migrations Doctrine (ne pas utiliser App\Ã¢â‚¬Â¦)
+    # Namespace rÃƒÂ©servÃƒÂ© aux migrations Doctrine (ne pas utiliser App\ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦)
     'DoctrineMigrations': '%kernel.project_dir%/migrations'
 
-  # AtomicitÃƒÂ© : une migration ÃƒÂ©choue Ã¢â€ â€™ rollback complet
+  # AtomicitÃƒÂ© : une migration ÃƒÂ©choue ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ rollback complet
   all_or_nothing: true
 
   # Classement automatique des migrations dans des sous-dossiers (annÃƒÂ©e/mois)
@@ -12,3 +12,5 @@ doctrine_migrations:
 
   # DÃƒÂ©sactivÃƒÂ© en prod pour ÃƒÂ©viter les surcharges
   enable_profiler: false
+
+

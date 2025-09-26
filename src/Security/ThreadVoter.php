@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -32,5 +32,7 @@ class ThreadVoter extends Voter
         return $thread->getParticipants()->contains($user);
     }
 }
+
+
 
 

@@ -1,29 +1,29 @@
-{#================================
+﻿{#================================
   templates/search/index.html.twig
-  Page de recherche TalentÃƒÆ’Ã‚Â©ko
+  Page de recherche TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko
   Variables attendues :
-    - q       : requÃƒÆ’Ã‚Âªte saisie (string)
-    - results : tableau d'annonces (Listings)ÃƒÆ’Ã‚Â©ko
+    - q       : requÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âªte saisie (string)
+    - results : tableau d'annonces (Listings)ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko
   ================================#}
 {% extends 'base.html.twig' %}
 
 {% block title %}
   Recherche{% if q %}
-    Ãƒâ€šÃ‚Â«
+    ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â«
     {{ q }}
-    Ãƒâ€šÃ‚Â»
-  {% endif %}| TalentÃƒÆ’Ã‚Â©ko
+    ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»
+  {% endif %}| TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko
 {% endblock %}
 
 {% block body %}
-  {# ================== En-tÃƒÆ’Ã‚Âªte ================== #}
+  {# ================== En-tÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âªte ================== #}
   <section class="bg-talenteko-peach-100 py-10">
     <div class="mx-auto max-w-6xl px-4">
       <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-        RÃƒÆ’Ã‚Â©sultats{% if q %}
-          pour Ãƒâ€šÃ‚Â«
+        RÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sultats{% if q %}
+          pour ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â«
           {{ q }}
-          Ãƒâ€šÃ‚Â»
+          ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»
         {% endif %}
       </h1>
 
@@ -37,7 +37,7 @@
           type="text"
           name="q"
           value="{{ q }}"
-          placeholder="Rechercher une compÃƒÆ’Ã‚Â©tence, une ville, une catÃƒÆ’Ã‚Â©gorieÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
+          placeholder="Rechercher une compÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tence, une ville, une catÃ©gorieÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦"
           class="focus:ring-talenteko-orange-300 w-2/3 rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:outline-none"
         />
         <button
@@ -50,7 +50,7 @@
     </div>
   </section>
 
-  {# ================== RÃƒÆ’Ã‚Â©sultats ================== #}
+  {# ================== RÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sultats ================== #}
   <section class="bg-white py-10">
     <div class="mx-auto max-w-6xl px-4">
       <div
@@ -63,9 +63,9 @@
         {% else %}
           <p class="col-span-full text-center text-gray-600">
             {% if q %}
-              Aucun rÃƒÆ’Ã‚Â©sultat pour Ãƒâ€šÃ‚Â«
+              Aucun rÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sultat pour ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â«
               {{ q }}
-              Ãƒâ€šÃ‚Â».
+              ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â».
             {% else %}
               Entrez un terme de recherche pour voir des annonces.
             {% endif %}
@@ -78,5 +78,10 @@
   {# ================== Messages flash ================== #}
   {% include 'partials/_flash.html.twig' %}
 {% endblock %}
+
+
+
+
+
 
 

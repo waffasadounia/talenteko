@@ -1,16 +1,18 @@
-# config/packages/validator.yaml
+﻿# config/packages/validator.yaml
 framework:
   validation:
     email_validation_mode: html5
 
-    # Active l'auto-mapping pour toutes les entitÃƒÆ’Ã‚Â©s App\Entity
+    # Active l'auto-mapping pour toutes les entitÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©s App\Entity
     auto_mapping:
       App\Entity\: []
 
 when@test:
   framework:
     validation:
-      # En test : pas de vÃƒÆ’Ã‚Â©rification contre haveibeenpwned
+      # En test : pas de vÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rification contre haveibeenpwned
       not_compromised_password: false
+
+
 
 

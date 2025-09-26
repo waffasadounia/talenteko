@@ -1,4 +1,4 @@
-{# templates/partials/_header.html.twig #}
+﻿{# templates/partials/_header.html.twig #}
 <header role="banner" class="bg-white">
   <div
     class="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-3"
@@ -7,16 +7,16 @@
     <a
       href="{{ path('app_home') }}"
       class="flex shrink-0 flex-col items-center text-center"
-      aria-label="Retour ÃƒÆ’Ã‚Â  l'accueil TalentÃƒÆ’Ã‚Â©ko"
+      aria-label="Retour ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  l'accueil TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko"
     >
       <img
         src="{{ asset('images/talenteko_logo.png') }}"
-        alt="Logo TalentÃƒÆ’Ã‚Â©ko"
+        alt="Logo TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko"
         class="max-h-10 w-auto rounded-full object-contain"
       />
       <span class="text-xs leading-tight font-extrabold">
         <span class="text-talenteko-blue">Talent</span>
-        <span class="text-talenteko-orange-500">ÃƒÆ’Ã‚Â©ko</span>
+        <span class="text-talenteko-orange-500">ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko</span>
       </span>
     </a>
 
@@ -25,14 +25,14 @@
       action="{{ path('app_search') }}"
       method="get"
       role="search"
-      aria-label="Recherche de compÃƒÆ’Ã‚Â©tences"
+      aria-label="Recherche de compÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tences"
       class="relative max-w-xl min-w-[220px] flex-1"
     >
       <input
         type="search"
         name="q"
-        placeholder="Rechercher une compÃƒÆ’Ã‚Â©tence"
-        aria-label="Rechercher une compÃƒÆ’Ã‚Â©tence"
+        placeholder="Rechercher une compÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tence"
+        aria-label="Rechercher une compÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tence"
         class="border-talenteko-orange-500 text-talenteko-blue focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500 w-full rounded-full border py-2 pr-4 pl-10 placeholder-gray-400 transition focus:ring-2 focus:outline-none"
       />
       <i
@@ -69,21 +69,21 @@
         </a>
       </nav>
 
-      {# CTA : DÃƒÆ’Ã‚Â©poser une annonce #}
+      {# CTA : DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©poser une annonce #}
       <a
         href="{{ path('app_listing_new') }}"
         class="btn-outline flex items-center gap-2"
-        aria-label="DÃƒÆ’Ã‚Â©poser une annonce"
+        aria-label="DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©poser une annonce"
       >
         <i class="fa fa-plus-circle" aria-hidden="true"></i>
-        <span>DÃƒÆ’Ã‚Â©poser une annonce</span>
+        <span>DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©poser une annonce</span>
       </a>
 
       {# CTA : Connexion #}
       <a
         href="{{ path('app_login') }}"
         class="btn-primary flex items-center gap-2"
-        aria-label="Se connecter ÃƒÆ’Ã‚Â  votre compte"
+        aria-label="Se connecter ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  votre compte"
       >
         <i class="fa fa-user" aria-hidden="true"></i>
         <span>Se connecter</span>
@@ -91,11 +91,11 @@
     </div>
   </div>
 
-  {# BARRE DES CATÃƒÆ’Ã¢â‚¬Â°GORIES visible uniquement sur certaines pages #}
+  {# BARRE DES CATÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â°GORIES visible uniquement sur certaines pages #}
   {% set current_route = app.request.attributes.get('_route') %}
   {% if current_route in ['app_home', 'app_search'] %}
     <nav
-      aria-label="CatÃƒÆ’Ã‚Â©gories"
+      aria-label="catÃ©gories"
       class="border-talenteko-orange-500 border-t bg-white py-3"
     >
       <div
@@ -103,9 +103,9 @@
       >
         {% set categories = [
           'Bricolage',
-          'Bien-ÃƒÆ’Ã‚Âªtre',
+          'Bien-ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âªtre',
           'Jardinage',
-          'ÃƒÆ’Ã¢â‚¬Â°ducation',
+          'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â°ducation',
           'Informatique',
           'Langues',
           'Art',
@@ -125,5 +125,10 @@
     </nav>
   {% endif %}
 </header>
+
+
+
+
+
 
 

@@ -1,4 +1,4 @@
-twig:
+﻿twig:
     file_name_pattern: '*.twig'
 
     # Ajout des chemins custom
@@ -8,5 +8,7 @@ twig:
 when@test:
     twig:
         strict_variables: true
+
+
 
 

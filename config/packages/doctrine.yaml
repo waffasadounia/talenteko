@@ -1,20 +1,20 @@
-# config/packages/doctrine.yaml
+﻿# config/packages/doctrine.yaml
 doctrine:
   dbal:
-    # DSN principal dÃƒÆ’Ã‚Â©fini dans .env / .env.local
+    # DSN principal dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©fini dans .env / .env.local
     url: '%env(resolve:DATABASE_URL)%'
 
-    # Forcer la version exacte de MariaDB (ÃƒÆ’Ã‚Â©vite erreurs Doctrine avec migrations)
+    # Forcer la version exacte de MariaDB (ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©vite erreurs Doctrine avec migrations)
     server_version: 'mariadb-10.4.32'
 
-    # Charset par dÃƒÆ’Ã‚Â©faut (UTF-8 full)
+    # Charset par dÃ©faut (UTF-8 full)
     charset: utf8mb4
     default_table_options:
       charset: utf8mb4
       collate: utf8mb4_unicode_ci
 
   orm:
-    # GÃƒÆ’Ã‚Â©nÃƒÆ’Ã‚Â©ration auto des proxies (utile en dev, dÃƒÆ’Ã‚Â©sactivÃƒÆ’Ã‚Â© en prod)
+    # gÃ©nÃ©rÃ©sactivÃ© en prod)
     auto_generate_proxy_classes: true
     enable_lazy_ghost_objects: true
 
@@ -32,7 +32,7 @@ doctrine:
 when@test:
   doctrine:
     dbal:
-      # DB dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©diÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e aux tests (purgÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  chaque run)
+      # DB dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©diÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e aux tests (purgÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  chaque run)
       url: '%env(resolve:DATABASE_URL_TEST)%'
     orm:
       auto_generate_proxy_classes: true
@@ -40,5 +40,7 @@ when@test:
 when@prod:
   doctrine:
     orm:
-      # En prod, les proxies sont gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©nÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©s au dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©ploiement ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ meilleures perfs
+      # En prod, les proxies sont gÃ©nÃ©rÃ©ploiement ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ meilleures perfs
       auto_generate_proxy_classes: false
+
+

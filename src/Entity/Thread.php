@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -98,5 +98,7 @@ class Thread
         return $this->createdAt;
     }
 }
+
+
 
 

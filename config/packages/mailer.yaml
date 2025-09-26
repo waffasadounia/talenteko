@@ -1,10 +1,12 @@
-# config/packages/mailer.yaml
+﻿# config/packages/mailer.yaml
 framework:
   mailer:
     dsn: '%env(MAILER_DSN)%'
 
-    # ExpÃƒÆ’Ã‚Â©diteur par dÃƒÆ’Ã‚Â©faut (variable d'environnement)
+    # expÃ©diteur par dÃ©faut (variable d'environnement)
     envelope:
       sender: '%env(APP_MAILER_FROM)%'
+
+
 
 

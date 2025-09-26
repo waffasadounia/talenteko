@@ -1,6 +1,6 @@
-# config/services.yaml
+﻿# config/services.yaml
 parameters:
-  # On force Symfony ÃƒÆ’Ã‚Â  interprÃƒÆ’Ã‚Â©ter APP_MAILER_FROM comme une string
+  # On force Symfony ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  interprÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ter APP_MAILER_FROM comme une string
   app.mailer_from: '%env(string:APP_MAILER_FROM)%'
 
 services:
@@ -19,5 +19,7 @@ services:
   App\Validator\ValidLocationValidator:
     arguments:
       $appEnv: '%kernel.environment%'
+
+
 
 

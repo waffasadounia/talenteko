@@ -1,4 +1,4 @@
-# config/packages/liip_imagine.yaml
+﻿# config/packages/liip_imagine.yaml
 liip_imagine:
   driver: 'gd'
 
@@ -16,7 +16,7 @@ liip_imagine:
           mode: outbound
           allow_upscale: false
 
-    # Grande image (page dÃƒÆ’Ã‚Â©tail)
+    # Grande image (page dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tail)
     listing_show:
       quality: 90
       filters:
@@ -33,5 +33,7 @@ liip_imagine:
           size: [100, 100]
           mode: outbound
           allow_upscale: false
+
+
 
 

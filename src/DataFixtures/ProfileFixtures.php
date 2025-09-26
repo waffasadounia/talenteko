@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -45,5 +45,7 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 }
+
+
 
 

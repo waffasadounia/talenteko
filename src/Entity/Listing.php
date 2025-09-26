@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -250,5 +250,7 @@ class Listing
         return $this->title ?? 'Annonce';
     }
 }
+
+
 
 

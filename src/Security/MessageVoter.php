@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -28,9 +28,11 @@ class MessageVoter extends Voter
         /** @var Message $message */
         $message = $subject;
 
-        // Autoriser seulement si l'utilisateur est expÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©diteur ou destinataire
+        // Autoriser seulement si l'utilisateur est expÃ©diteur ou destinataire
         return $message->getSender() === $user || $message->getRecipient() === $user;
     }
 }
+
+
 
 

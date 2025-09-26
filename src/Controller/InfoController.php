@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -40,5 +40,7 @@ final class InfoController extends AbstractController
         return $this->render('legal/cookies.html.twig');
     }
 }
+
+
 
 

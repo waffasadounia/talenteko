@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %}
+﻿{% extends 'base.html.twig' %}
 
 {% block title %}
-  Accueil | TalentÃƒÆ’Ã‚Â©ko
+  Accueil | TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko
 {% endblock %}
 
 {% block body %}
@@ -13,16 +13,21 @@
     listings: listings
   } %}
 
-  {# CATEGORIES (explorer par catÃƒÆ’Ã‚Â©gories) #}
+  {# CATEGORIES (explorer par catÃ©gories) #}
   {% include 'partials/_categories.html.twig' with {
     categories: categories
   } %}
 
-  {# COMMENT ÃƒÆ’Ã¢â‚¬Â¡A MARCHE #}
+  {# COMMENT ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¡A MARCHE #}
   {% include 'partials/_how_it_works.html.twig' %}
 
-  {# FLASH (messages systÃƒÆ’Ã‚Â¨me) #}
+  {# FLASH (messages systÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨me) #}
   {% include 'partials/_flash.html.twig' %}
 {% endblock %}
+
+
+
+
+
 
 

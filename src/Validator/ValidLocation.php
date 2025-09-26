@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -23,5 +23,7 @@ class ValidLocation extends Constraint
         parent::__construct($options, $groups, $payload);
     }
 }
+
+
 
 

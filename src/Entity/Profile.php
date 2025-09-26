@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 declare(strict_types=1);
 
@@ -83,5 +83,7 @@ class Profile
         return $this;
     }
 }
+
+
 
 
