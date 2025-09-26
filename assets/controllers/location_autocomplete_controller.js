@@ -1,19 +1,19 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Autocomplétion pour la localisation
- * - Utilise l’API Adresse officielle (BAN)
+ * AutocomplÃƒÂ©tion pour la localisation
+ * - Utilise lÃ¢â‚¬â„¢API Adresse officielle (BAN)
  * - Affiche une liste de suggestions sous le champ
  *
- * Accessibilité :
+ * AccessibilitÃƒÂ© :
  * - aria-expanded / aria-activedescendant
- * - aria-live="polite" pour retour écran lecteur
+ * - aria-live="polite" pour retour ÃƒÂ©cran lecteur
  */
 export default class extends Controller {
   static targets = ['input', 'list'];
 
   connect() {
-    this.activeIndex = -1; // index de l’élément sélectionné au clavier
+    this.activeIndex = -1; // index de lÃ¢â‚¬â„¢ÃƒÂ©lÃƒÂ©ment sÃƒÂ©lectionnÃƒÂ© au clavier
   }
 
   async search() {
@@ -65,7 +65,7 @@ export default class extends Controller {
     this.inputTarget.setAttribute('aria-expanded', 'true');
   }
 
-  // Gestion clavier : flèches, Entrée, Échap
+  // Gestion clavier : flÃƒÂ¨ches, EntrÃƒÂ©e, Ãƒâ€°chap
   keydown(event) {
     const items = this.listTarget.querySelectorAll('li');
     if (items.length === 0) return;

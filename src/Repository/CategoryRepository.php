@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// Repository = couche d'accès aux catégories (Category).
+// Repository = couche d'accÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨s aux catÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©gories (Category).
 
 namespace App\Repository;
 
@@ -17,3 +17,5 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 }
+
+

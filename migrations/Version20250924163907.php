@@ -33,3 +33,5 @@ final class Version20250924163907 extends AbstractMigration
         $this->addSql('DROP TABLE exchange');
     }
 }
+
+

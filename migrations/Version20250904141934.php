@@ -29,3 +29,5 @@ final class Version20250904141934 extends AbstractMigration
         $this->addSql('ALTER TABLE `user` ADD firstname VARCHAR(100) DEFAULT NULL, DROP pseudo, DROP bio, DROP skills_offered, DROP skills_wanted, CHANGE location city VARCHAR(120) DEFAULT NULL, CHANGE avatar_filename avatar_path VARCHAR(255) DEFAULT NULL');
     }
 }
+
+

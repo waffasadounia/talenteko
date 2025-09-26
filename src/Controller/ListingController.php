@@ -18,7 +18,7 @@ final class ListingController extends AbstractController
     public function new(): Response
     {
         return $this->render('listing/new.html.twig', [
-            'page_title' => 'Déposer une annonce',
+            'page_title' => 'DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©poser une annonce',
         ]);
     }
 
@@ -33,9 +33,11 @@ final class ListingController extends AbstractController
     public function show(
         #[MapEntity(expr: 'repository.findOneBy({slug: slug})')] Listing $listing,
     ): Response {
-        // On passe l'entité entière au template
+        // On passe l'entitÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© entiÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨re au template
         return $this->render('listing/show.html.twig', [
             'listing' => $listing,
         ]);
     }
 }
+
+

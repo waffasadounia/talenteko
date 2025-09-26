@@ -33,3 +33,5 @@ final class Version20250905131650 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_CB0048D42B36786B2D5B0234 ON listing (title, city)');
     }
 }
+
+

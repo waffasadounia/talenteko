@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "license": "UNLICENSED",
-  "description": "Plateforme TalentÉkô (Symfony + Twig + Tailwind + Stimulus + Turbo)",
+  "description": "Plateforme TalentÃƒÆ’Ã¢â‚¬Â°kÃƒÆ’Ã‚Â´ (Symfony + Twig + Tailwind + Stimulus + Turbo)",
   "repository": {
     "type": "git",
     "url": "https://github.com/waffasadounia/talenteko.git"
@@ -70,3 +70,5 @@
     ]
   }
 }
+
+

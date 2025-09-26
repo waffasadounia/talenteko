@@ -48,8 +48,10 @@ class FixImagePathsCommand extends Command
             $this->em->flush();
         }
 
-        $io->success("$count chemins d'images corrigés.");
+        $io->success("$count chemins d'images corrigÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©s.");
 
         return Command::SUCCESS;
     }
 }
+
+

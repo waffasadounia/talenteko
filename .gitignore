@@ -4,8 +4,10 @@
 .env.*.local
 .env.local.php
 
-/config/secrets/prod/prod.decrypt.private.php
+# Secrets de prod (clÃƒÂ© privÃƒÂ©e jamais versionnÃƒÂ©e)
+config/secrets/prod/prod.decrypt.private.php
 
+# Dossiers runtime
 /public/bundles/
 /var/
 /vendor/
@@ -23,22 +25,25 @@
 npm-debug.log*
 yarn-error.log
 yarn-debug.log*
+pnpm-debug.log*
 ###< symfony/webpack-encore-bundle ###
 
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
 
-# Uploads (keep dir, ignore files)
-/public/uploads/*
-!/public/uploads/.gitignore
+# Uploads utilisateur (on garde le dossier vide)
+public/uploads/*
+!public/uploads/.gitignore
 
-# Media runtime (keep dir, ignore files)
-/public/media/*
-!/public/media/.gitignore
+# Media runtime (idem, garder le dossier vide)
+public/media/*
+!public/media/.gitignore
 
 # Archives locales
 *.zip
+*.tar
+*.tar.gz
 
 # Husky internal
 .husky/_/
@@ -54,6 +59,8 @@ Thumbs.db
 # IDE / Editor configs
 .idea/
 .vscode/
+*.swp
+*.swo
 
 # Backup migration files
 /backup_migration/

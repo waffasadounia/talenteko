@@ -6,9 +6,9 @@ use FriendsOfTwig\Twigcs\Config\Config;
 use FriendsOfTwig\Twigcs\Ruleset\Official;
 
 // TwigCS = linter pour fichiers .twig
-// - Version de la grammaire : 3.0 (Symfony/Twig ≥ 3)
-// - Paths analysés : templates principaux + emails
-// - Ruleset "Official" = règles de la communauté Twig
+// - Version de la grammaire : 3.0 (Symfony/Twig ÃƒÂ¢Ã¢â‚¬Â°Ã‚Â¥ 3)
+// - Paths analysÃƒÆ’Ã‚Â©s : templates principaux + emails
+// - Ruleset "Official" = rÃƒÆ’Ã‚Â¨gles de la communautÃƒÆ’Ã‚Â© Twig
 //     (indentation, espaces, accolades, noms de blocs)
 
 $config = new Config(
@@ -21,3 +21,5 @@ $config = new Config(
 );
 
 return $config;
+
+

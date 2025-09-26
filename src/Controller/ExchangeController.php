@@ -26,20 +26,20 @@ final class ExchangeController extends AbstractController
         MessageBusInterface $bus,
         Security $security,
     ): Response {
-        // 1) Vérifier que l'utilisateur est connecté
+        // 1) VÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rifier que l'utilisateur est connectÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©
         /** @var User $user */
         $user = $security->getUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
-        // 2) Récupérer l'annonce
+        // 2) RÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©cupÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rer l'annonce
         $listing = $em->getRepository(Listing::class)->find($id);
         if (!$listing) {
             throw $this->createNotFoundException('Annonce introuvable.');
         }
 
-        // 3) Créer la proposition d'échange
+        // 3) CrÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©er la proposition d'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©change
         $exchange = new Exchange();
         $exchange->setListing($listing);
         $exchange->setRequester($user);           // celui qui propose
@@ -48,17 +48,19 @@ final class ExchangeController extends AbstractController
         $em->persist($exchange);
         $em->flush();
 
-        // 4) Préparer et dispatcher la notification email
+        // 4) PrÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©parer et dispatcher la notification email
         $bus->dispatch(new NewExchangeCreatedNotification(
             $listing->getAuthor()->getId(),   // destinataire = auteur de l'annonce
-            $user->getId(),                   // expéditeur = utilisateur actuel
-            $exchange->getId(),               // id de l'échange
+            $user->getId(),                   // expÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©diteur = utilisateur actuel
+            $exchange->getId(),               // id de l'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©change
             $listing->getId(),                 // id de l'annonce
         ));
 
         // 5) Feedback utilisateur
-        $this->addFlash('success', 'Votre proposition d\'échange a été envoyée !');
+        $this->addFlash('success', 'Votre proposition d\'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©change a ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© envoyÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e !');
 
         return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
     }
 }
+
+

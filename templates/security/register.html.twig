@@ -3,14 +3,14 @@
    ==========================#}
 {% extends 'base.html.twig' %}
 {% block title %}
-  Créer un compte | Talentéko
+  CrÃƒÆ’Ã‚Â©er un compte | TalentÃƒÆ’Ã‚Â©ko
 {% endblock %}
 
 {% block body %}
   <section class="bg-talenteko-peach-100 py-12">
     <div class="mx-auto max-w-md px-6">
       <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-        Créer un compte
+        CrÃƒÆ’Ã‚Â©er un compte
       </h1>
 
       {#- - Bandeau d'erreurs global - -#}
@@ -24,7 +24,7 @@
           <strong class="font-semibold">
             Le formulaire contient des erreurs.
           </strong>
-          <span class="ml-1">Merci de vérifier les champs en rouge.</span>
+          <span class="ml-1">Merci de vÃƒÆ’Ã‚Â©rifier les champs en rouge.</span>
         </div>
       {% endif %}
 
@@ -71,7 +71,7 @@
           autocomplete: 'nickname'
         } %}
 
-        {# LOCALISATION avec autocomplétion + gestion erreurs #}
+        {# LOCALISATION avec autocomplÃƒÆ’Ã‚Â©tion + gestion erreurs #}
         {% set loc_invalid = form_errors(form.location) is not empty %}
         {% set loc_errors_id = form.location.vars.id ~ '-errors' %}
         <div class="relative space-y-1" data-controller="location-autocomplete">
@@ -204,7 +204,7 @@
         {{ form_end(form) }}
 
         <p class="mt-6 text-center text-sm text-gray-600">
-          Déjà un compte ?
+          DÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  un compte ?
           <a href="{{ path('app_login') }}" class="btn-link">Se connecter</a>
         </p>
       </div>
@@ -218,3 +218,5 @@
     });
   </script>
 {% endblock %}
+
+

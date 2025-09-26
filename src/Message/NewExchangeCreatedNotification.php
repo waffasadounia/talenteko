@@ -6,15 +6,15 @@ namespace App\Message;
 
 /**
  * Message pour notifier un utilisateur
- * quand il reçoit une nouvelle proposition d'échange.
+ * quand il reÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â§oit une nouvelle proposition d'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©change.
  */
 class NewExchangeCreatedNotification
 {
     public function __construct(
         private int $recipientId,   // destinataire (auteur de l'annonce)
-        private int $senderId,      // utilisateur qui propose l'échange
-        private int $exchangeId,    // ID de l'échange
-        private int $listingId,     // ID de l'annonce concernée
+        private int $senderId,      // utilisateur qui propose l'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©change
+        private int $exchangeId,    // ID de l'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©change
+        private int $listingId,     // ID de l'annonce concernÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e
     ) {
     }
 
@@ -38,3 +38,5 @@ class NewExchangeCreatedNotification
         return $this->listingId;
     }
 }
+
+

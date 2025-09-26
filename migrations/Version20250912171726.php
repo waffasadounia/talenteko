@@ -29,3 +29,5 @@ final class Version20250912171726 extends AbstractMigration
         $this->addSql('ALTER TABLE `user` CHANGE location location VARCHAR(120) DEFAULT NULL');
     }
 }
+
+

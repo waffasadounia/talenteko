@@ -1,16 +1,16 @@
 # ================================================
-# .gitattributes — TalentÉkô
+# .gitattributes Ã¢â‚¬â€ TalentÃƒâ€°kÃƒÂ´
 # Objectif :
-# - Uniformiser les fins de ligne (LF) dans le dépôt
-# - Éviter les diffs parasites Windows/Linux/Mac
-# - Protéger les binaires
+# - Uniformiser les fins de ligne (LF) dans le dÃƒÂ©pÃƒÂ´t
+# - Ãƒâ€°viter les diffs parasites Windows/Linux/Mac
+# - ProtÃƒÂ©ger les binaires
 # - Forcer UTF-8 sans BOM pour le code
 # ================================================
 
-# Normaliser toutes les fins de ligne en LF dans le dépôt
+# Normaliser toutes les fins de ligne en LF dans le dÃƒÂ©pÃƒÂ´t
 * text=auto eol=lf
 
-# Scripts Windows (gardent CRLF côté working copy si besoin)
+# Scripts Windows (gardent CRLF cÃƒÂ´tÃƒÂ© working copy si besoin)
 *.bat  text eol=crlf
 *.cmd  text eol=crlf
 *.ps1  text eol=crlf
@@ -22,10 +22,10 @@
 *.md   text eol=lf
 .editorconfig text eol=lf
 
-# Fichiers d’environnement (important : pas de CRLF)
+# Fichiers dÃ¢â‚¬â„¢environnement (important : pas de CRLF)
 .env*  text eol=lf
 
-# Binaires (pas de normalisation → stockés tels quels)
+# Binaires (pas de normalisation Ã¢â€ â€™ stockÃƒÂ©s tels quels)
 *.png  binary
 *.jpg  binary
 *.jpeg binary
@@ -43,10 +43,13 @@
 # SVG : texto (diff lisible), on garde LF
 *.svg  text eol=lf
 
-# Lockfiles → forcer LF (éviter conflits Windows)
+# Lockfiles Ã¢â€ â€™ forcer LF (ÃƒÂ©viter conflits Windows)
 composer.lock     text eol=lf
 package-lock.json text eol=lf
 symfony.lock      text eol=lf
+.editorconfig text eol=lf
+prettier.config.js text eol=lf
+
 
 # Fichiers code (UTF-8 sans BOM + LF)
 *.php   text working-tree-encoding=UTF-8

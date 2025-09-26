@@ -29,3 +29,5 @@ final class Version20250915090908 extends AbstractMigration
         $this->addSql('ALTER TABLE `user` CHANGE pseudo pseudo VARCHAR(50) DEFAULT NULL');
     }
 }
+
+

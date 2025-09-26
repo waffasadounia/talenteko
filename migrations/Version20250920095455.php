@@ -31,3 +31,5 @@ final class Version20250920095455 extends AbstractMigration
         $this->addSql('DROP TABLE profile');
     }
 }
+
+

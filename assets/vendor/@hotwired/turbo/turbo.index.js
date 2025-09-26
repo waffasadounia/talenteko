@@ -3627,11 +3627,11 @@ class De extends HTMLElement {
             y`
         You are loading Turbo from a <script> element inside the <body> element. This is probably not what you meant to do!
 
-        Load your application’s JavaScript bundle inside the <head> element instead. <script> elements in <body> are evaluated with each page change.
+        Load your applicationâ€™s JavaScript bundle inside the <head> element instead. <script> elements in <body> are evaluated with each page change.
 
         For more information, see: https://turbo.hotwired.dev/handbook/building#working-with-script-elements
 
-        ——
+        â€”â€”
         Suppress this warning by adding a "data-turbo-suppress-warning" attribute to: %s
       `,
             e.outerHTML

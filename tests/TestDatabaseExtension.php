@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
 /**
- * Extension PHPUnit pour réinitialiser la BDD avant la suite de tests.
+ * Extension PHPUnit pour rÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©initialiser la BDD avant la suite de tests.
  */
 final class TestDatabaseExtension implements Extension
 {
@@ -47,3 +47,5 @@ final class TestDatabaseExtension implements Extension
         });
     }
 }
+
+

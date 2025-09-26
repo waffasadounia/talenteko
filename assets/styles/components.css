@@ -1,12 +1,12 @@
 /* ===========================================
-   COMPONENTS — Boutons & Navigation
+   COMPONENTS Ã¢â‚¬â€ Boutons & Navigation
    -------------------------------------------
-   → Classes réutilisables (CTA, nav-link)
-   → Définies une seule fois, utilisées partout
+   Ã¢â€ â€™ Classes rÃƒÂ©utilisables (CTA, nav-link)
+   Ã¢â€ â€™ DÃƒÂ©finies une seule fois, utilisÃƒÂ©es partout
    =========================================== */
 
 @layer components {
-  /* Boutons dimensionnés au contenu (par défaut) */
+  /* Boutons dimensionnÃƒÂ©s au contenu (par dÃƒÂ©faut) */
   .btn-primary {
     @apply bg-talenteko-orange-500 border-talenteko-orange-500 focus-visible:ring-talenteko-orange-500 inline-flex items-center gap-2 rounded-full border-2 px-4 py-2 font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
   }
@@ -23,7 +23,7 @@
     @apply text-talenteko-orange-500 focus-visible:ring-talenteko-orange-500 font-semibold transition hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
   }
 
-  /* Variante spéciale (formulaires) → bouton centré + large */
+  /* Variante spÃƒÂ©ciale (formulaires) Ã¢â€ â€™ bouton centrÃƒÂ© + large */
   .btn-block {
     @apply mx-auto flex w-full justify-center sm:w-64 lg:w-72;
   }

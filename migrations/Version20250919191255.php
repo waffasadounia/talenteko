@@ -43,3 +43,5 @@ final class Version20250919191255 extends AbstractMigration
         $this->addSql('DROP TABLE thread_participants');
     }
 }
+
+

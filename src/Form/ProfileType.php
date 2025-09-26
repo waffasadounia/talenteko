@@ -25,38 +25,38 @@ final class ProfileType extends AbstractType
                 'attr' => ['maxlength' => 50, 'autocomplete' => 'nickname'],
             ])
             // Ville / Localisation
-            // Champ obligatoire car central pour Talenteko (filtrage, présentiel/distanciel).
+            // Champ obligatoire car central pour Talenteko (filtrage, prÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sentiel/distanciel).
             // On ajoute une contrainte NotBlank pour imposer la saisie.
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
-                'required' => true, // côté Form (HTML5 + validation serveur)
+                'required' => true, // cÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â´tÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© Form (HTML5 + validation serveur)
                 'attr' => [
                     'maxlength' => 120,
-                    'autocomplete' => 'address-level2', // aide les navigateurs à suggérer la ville
+                    'autocomplete' => 'address-level2', // aide les navigateurs ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  suggÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rer la ville
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Merci d’indiquer votre ville.'), // validation serveur Symfony
+                    new Assert\NotBlank(message: 'Merci dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢indiquer votre ville.'), // validation serveur Symfony
                 ],
             ])
 
             // Courte bio (optionnel)
             ->add('bio', TextareaType::class, [
-                'label' => 'À propos de vous',
+                'label' => 'ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ propos de vous',
                 'required' => false,
                 'attr' => ['rows' => 4],
             ])
-            // Compétences proposées (JSON → array simple)
+            // CompÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tences proposÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©es (JSON ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ array simple)
             ->add('skillsOffered', CollectionType::class, [
-                'label' => 'Compétences proposées',
+                'label' => 'CompÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tences proposÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©es',
                 'required' => false,
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            // Compétences recherchées
+            // CompÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tences recherchÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©es
             ->add('skillsWanted', CollectionType::class, [
-                'label' => 'Compétences recherchées',
+                'label' => 'CompÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tences recherchÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©es',
                 'required' => false,
                 'entry_type' => TextType::class,
                 'allow_add' => true,
@@ -70,3 +70,5 @@ final class ProfileType extends AbstractType
         $r->setDefaults(['data_class' => User::class]);
     }
 }
+
+

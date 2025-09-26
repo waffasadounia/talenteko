@@ -1,6 +1,6 @@
 {# ================================
   partials/_listing_card.html.twig
-  Carte annonce Talentéko (V2 homogénéisée)
+  Carte annonce TalentÃƒÆ’Ã‚Â©ko (V2 homogÃƒÆ’Ã‚Â©nÃƒÆ’Ã‚Â©isÃƒÆ’Ã‚Â©e)
   ================================ #}
 
 <div
@@ -22,7 +22,7 @@
     </span>
   </button>
 
-  {# --- Image principale (réelle si connectée, sinon placeholder) --- #}
+  {# --- Image principale (rÃƒÆ’Ã‚Â©elle si connectÃƒÆ’Ã‚Â©e, sinon placeholder) --- #}
   <a
     href="{{
     path(
@@ -60,11 +60,11 @@
     </div>
     {# --- Contenu texte --- #}
     <div class="flex flex-col gap-2 p-4">
-      {# Catégorie (fallback si null) #}
+      {# CatÃƒÆ’Ã‚Â©gorie (fallback si null) #}
       <span
         class="text-talenteko-orange-500 inline-block text-xs font-semibold"
       >
-        {{ listing.category.name ?? 'Non classée' }}
+        {{ listing.category.name ?? 'Non classÃƒÆ’Ã‚Â©e' }}
       </span>
 
       {# Titre cliquable #}
@@ -84,7 +84,7 @@
         </a>
       </h3>
 
-      {# Description tronquée (2 lignes max) #}
+      {# Description tronquÃƒÆ’Ã‚Â©e (2 lignes max) #}
       <p class="text-talenteko-blue-600 line-clamp-2 text-sm">
         {{ listing.description }}
       </p>
@@ -120,3 +120,5 @@
     </div>
   </a>
 </div>
+
+

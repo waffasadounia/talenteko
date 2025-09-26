@@ -31,3 +31,5 @@ final class Version20250904145610 extends AbstractMigration
         $this->addSql('ALTER TABLE listing_image ADD CONSTRAINT FK_33D3DCD3D4619D1A FOREIGN KEY (listing_id) REFERENCES listing (id)');
     }
 }
+
+

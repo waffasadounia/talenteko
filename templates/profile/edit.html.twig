@@ -1,11 +1,11 @@
 {# ================================
   templates/profile/edit.html.twig
-  Page d'édition de profil
+  Page d'ÃƒÆ’Ã‚Â©dition de profil
   ================================ #}
 
 {% extends 'base.html.twig' %}
 {% block title %}
-  Modifier mon profil | Talentéko
+  Modifier mon profil | TalentÃƒÆ’Ã‚Â©ko
 {% endblock %}
 
 {% block body %}
@@ -115,10 +115,10 @@
             {{ form_errors(form.bio) }}
           </div>
 
-          {# ========== COMPÉTENCES PROPOSÉES ========== #}
+          {# ========== COMPÃƒÆ’Ã¢â‚¬Â°TENCES PROPOSÃƒÆ’Ã¢â‚¬Â°ES ========== #}
           <div>
             <label for="{{ form.skills_offered.vars.id }}" class="form-label">
-              Compétences proposées
+              CompÃƒÆ’Ã‚Â©tences proposÃƒÆ’Ã‚Â©es
             </label>
             {{
               form_widget(
@@ -133,10 +133,10 @@
             {{ form_errors(form.skills_offered) }}
           </div>
 
-          {# ========== COMPÉTENCES RECHERCHÉES ========== #}
+          {# ========== COMPÃƒÆ’Ã¢â‚¬Â°TENCES RECHERCHÃƒÆ’Ã¢â‚¬Â°ES ========== #}
           <div>
             <label for="{{ form.skills_wanted.vars.id }}" class="form-label">
-              Compétences recherchées
+              CompÃƒÆ’Ã‚Â©tences recherchÃƒÆ’Ã‚Â©es
             </label>
             {{
               form_widget(
@@ -184,3 +184,5 @@
     </div>
   </section>
 {% endblock %}
+
+

@@ -26,7 +26,7 @@ final class StyleguideController extends AbstractController
     }
 
     /**
-     * Page interne : styleguide des formulaires Talentékô.
+     * Page interne : styleguide des formulaires TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©kÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â´.
      * URL : /styleguide/forms
      * Name : app_styleguide_forms.
      */
@@ -43,7 +43,7 @@ final class StyleguideController extends AbstractController
     }
 
     /**
-     * Page interne : styleguide CTA Talentékô.
+     * Page interne : styleguide CTA TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©kÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â´.
      * URL : /styleguide/cta
      * Name : app_styleguide_cta.
      */
@@ -53,3 +53,5 @@ final class StyleguideController extends AbstractController
         return $this->render('styleguide/cta.html.twig');
     }
 }
+
+

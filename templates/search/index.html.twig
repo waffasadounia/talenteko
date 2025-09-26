@@ -1,29 +1,29 @@
 {#================================
   templates/search/index.html.twig
-  Page de recherche Talentéko
+  Page de recherche TalentÃƒÆ’Ã‚Â©ko
   Variables attendues :
-    - q       : requête saisie (string)
-    - results : tableau d'annonces (Listings)éko
+    - q       : requÃƒÆ’Ã‚Âªte saisie (string)
+    - results : tableau d'annonces (Listings)ÃƒÆ’Ã‚Â©ko
   ================================#}
 {% extends 'base.html.twig' %}
 
 {% block title %}
   Recherche{% if q %}
-    «
+    Ãƒâ€šÃ‚Â«
     {{ q }}
-    »
-  {% endif %}| Talentéko
+    Ãƒâ€šÃ‚Â»
+  {% endif %}| TalentÃƒÆ’Ã‚Â©ko
 {% endblock %}
 
 {% block body %}
-  {# ================== En-tête ================== #}
+  {# ================== En-tÃƒÆ’Ã‚Âªte ================== #}
   <section class="bg-talenteko-peach-100 py-10">
     <div class="mx-auto max-w-6xl px-4">
       <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-        Résultats{% if q %}
-          pour «
+        RÃƒÆ’Ã‚Â©sultats{% if q %}
+          pour Ãƒâ€šÃ‚Â«
           {{ q }}
-          »
+          Ãƒâ€šÃ‚Â»
         {% endif %}
       </h1>
 
@@ -37,7 +37,7 @@
           type="text"
           name="q"
           value="{{ q }}"
-          placeholder="Rechercher une compétence, une ville, une catégorie…"
+          placeholder="Rechercher une compÃƒÆ’Ã‚Â©tence, une ville, une catÃƒÆ’Ã‚Â©gorieÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
           class="focus:ring-talenteko-orange-300 w-2/3 rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:outline-none"
         />
         <button
@@ -50,7 +50,7 @@
     </div>
   </section>
 
-  {# ================== Résultats ================== #}
+  {# ================== RÃƒÆ’Ã‚Â©sultats ================== #}
   <section class="bg-white py-10">
     <div class="mx-auto max-w-6xl px-4">
       <div
@@ -63,9 +63,9 @@
         {% else %}
           <p class="col-span-full text-center text-gray-600">
             {% if q %}
-              Aucun résultat pour «
+              Aucun rÃƒÆ’Ã‚Â©sultat pour Ãƒâ€šÃ‚Â«
               {{ q }}
-              ».
+              Ãƒâ€šÃ‚Â».
             {% else %}
               Entrez un terme de recherche pour voir des annonces.
             {% endif %}
@@ -78,3 +78,5 @@
   {# ================== Messages flash ================== #}
   {% include 'partials/_flash.html.twig' %}
 {% endblock %}
+
+
