@@ -19,11 +19,11 @@ use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 /**
- * Authenticator de formulaire pour TalentÃƒÂ©k.
- * - Lit les champs "email" et "password" envoyÃƒÂ©s par le formulaire.
- * - VÃƒÂ©rifie le CSRF.
- * - GÃƒÂ¨re "Se souvenir de moi" si cochÃƒÂ© + activÃƒÂ© dans security.yaml.
- * - Redirige aprÃƒÂ¨s succÃƒÂ¨s vers la page demandÃƒÂ©e ou vers lÃ¢â‚¬â„¢accueil.
+ * Authenticator de formulaire pour Talentéko.
+ * - Lit les champs "email" et "password" envoyés par le formulaire.
+ * - Vérifie le CSRF.
+ * - Gère "Se souvenir de moi" si coché + activé dans security.yaml.
+ * - Redirige après succès vers la page demandée ou vers l’accueil.
  */
 final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -36,12 +36,12 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * Construit le "Passport" ÃƒÂ  partir de la requÃƒÂªte.
-     * Ici on rÃƒÂ©cupÃƒÂ¨re l'email, le mot de passe, le token CSRF et l'ÃƒÂ©tat du remember_me.
+     * Construit le "Passport" à partir de la requête.
+     * Ici on récupère l'email, le mot de passe, le token CSRF et l'état du remember_me.
      */
     public function authenticate(Request $request): Passport
     {
-        // RÃƒÂ©cupÃƒÂ¨re les champs postÃƒÂ©s depuis un formulaire HTML
+        // Récupère les champs postés depuis un formulaire HTML
         $email = $request->request->getString('email');
         $password = $request->request->getString('password');
         $csrf = $request->request->getString('_csrf_token');
@@ -62,13 +62,13 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * Redirection aprÃƒÂ¨s authentification rÃƒÂ©ussie.
-     * - Si l'utilisateur venait d'une page protÃƒÂ©gÃƒÂ©e, on y retourne (TargetPath).
-     * - Sinon on renvoie vers lÃ¢â‚¬â„¢accueil.
+     * Redirection après authentification réussie.
+     * - Si l'utilisateur venait d'une page protégée, on y retourne (TargetPath).
+     * - Sinon on renvoie vers l’accueil.
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // 1) Retour vers la page d'origine protÃƒÂ©gÃƒÂ©e (si prÃƒÂ©sente)
+        // 1) Retour vers la page d'origine protégée (si présente)
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
@@ -78,11 +78,10 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * URL de la page de login (utilisÃƒÂ©e par le framework si besoin).
+     * URL de la page de login (utilisée par le framework si besoin).
      */
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }
-

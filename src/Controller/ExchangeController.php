@@ -26,40 +26,39 @@ final class ExchangeController extends AbstractController
         MessageBusInterface $bus,
         Security $security,
     ): Response {
-        // 1) VÃƒÂ©rifier que l'utilisateur est connectÃƒÂ©
+        // 1) Vérifier que l'utilisateur est connecté
         /** @var User $user */
         $user = $security->getUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
-        // 2) RÃƒÂ©cupÃƒÂ©rer l'annonce
+        // 2) Récupérer l'annonce
         $listing = $em->getRepository(Listing::class)->find($id);
         if (!$listing) {
             throw $this->createNotFoundException('Annonce introuvable.');
         }
 
-        // 3) CrÃƒÂ©er la proposition dÃ¢â‚¬â„¢ÃƒÂ©change
+        // 3) Créer la proposition d'échange
         $exchange = new Exchange();
         $exchange->setListing($listing);
         $exchange->setRequester($user);           // celui qui propose
-        $exchange->setStatus('pending');          // en attente
+        $exchange->setStatus(ExchangeStatus::Pending);          // en attente
 
         $em->persist($exchange);
         $em->flush();
 
-        // 4) PrÃƒÂ©parer et dispatcher la notification email
+        // 4) Préparer et dispatcher la notification email
         $bus->dispatch(new NewExchangeCreatedNotification(
             $listing->getAuthor()->getId(),   // destinataire = auteur de l'annonce
-            $user->getId(),                   // expÃƒÂ©diteur = utilisateur actuel
-            $exchange->getId(),               // id de l'ÃƒÂ©change
+            $user->getId(),                   // expéditeur = utilisateur actuel
+            $exchange->getId(),               // id de l'échange
             $listing->getId(),                 // id de l'annonce
         ));
 
         // 5) Feedback utilisateur
-        $this->addFlash('success', 'Votre proposition dÃ¢â‚¬â„¢ÃƒÂ©change a ÃƒÂ©tÃƒÂ© envoyÃƒÂ©e !');
+        $this->addFlash('success', 'Votre proposition d\'échange a été envoyée !');
 
         return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
     }
 }
-

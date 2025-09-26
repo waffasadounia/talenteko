@@ -1,18 +1,18 @@
 {#================================
   templates/category/index.html.twig
-  Page "Toutes les catÃƒÆ’Ã‚Â©gories"
+  Page "Toutes les catégories"
   ================================#}
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Toutes les catÃƒÆ’Ã‚Â©gories | TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
+{% block title %}Toutes les catégories | Talentéko{% endblock %}
 {% endblock %}
 
 {% block body %}
 	<section class="py-16 bg-white">
 		<div class="max-w-6xl mx-auto px-4">
 			<h1 class="text-3xl font-bold mb-10 text-center text-talenteko-blue">
-				Toutes les catÃƒÆ’Ã‚Â©gories
+				Toutes les catégories
 			</h1>
 
 			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
@@ -20,11 +20,10 @@
 					{% include 'partials/_category_card.html.twig' with {category: category} %}
 				{% else %}
 					<p class="text-center col-span-full text-gray-500 italic">
-						Aucune catÃƒÆ’Ã‚Â©gorie disponible pour lÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢instant.
+						Aucune catégorie disponible pour l’instant.
 					</p>
 				{% endfor %}
 			</div>
 		</div>
 	</section>
 {% endblock %}
-

@@ -3,10 +3,11 @@
 echo "🔍 Vérification du code avec lint-staged..."
 npx lint-staged || exit 1
 
-echo "🧪 Vérification composer.json"
+echo "🧩 Vérification de composer.json..."
 composer validate --no-check-publish || exit 1
 
-echo "✅ Tests unitaires rapides"
-php bin/phpunit --testsuite=unit || exit 1
+echo "🧪 Lancement des tests unitaires..."
+php bin/phpunit --testsuite=unit --stop-on-failure || exit 1
 
-echo "✅ Pre-commit checks passed"
+echo "✅ Tous les checks sont passés, commit validé !"
+

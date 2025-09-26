@@ -12,13 +12,12 @@
    =========================================== */
 
 /* Import Tailwind v4 */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Polices Google (Montserrat, Catamaran, Chivo) */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
 
 /* Imports internes (organisés par rôle) */
-@import "./globals.css";    /* Reset, tokens (couleurs, polices) */
-@import "./components.css"; /* Boutons, navigation, helpers UI */
-@import "./forms.css";      /* Champs de formulaires et états */
-
+@import './globals.css'; /* Reset, tokens (couleurs, polices) */
+@import './components.css'; /* Boutons, navigation, helpers UI */
+@import './forms.css'; /* Champs de formulaires et états */

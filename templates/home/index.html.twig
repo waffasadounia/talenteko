@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil | TalentÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©kÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â´
+{% block title %}Accueil | Talentéko
 {% endblock %}
 
 {% block body %}
@@ -11,14 +11,13 @@
 	{#TENDANCES (derniers listings)#}
 	{% include 'partials/_tendances.html.twig' with {listings: listings} %}
 
-	{#CATEGORIES (explorer par catÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©gories)#}
+	{#CATEGORIES (explorer par catégories)#}
 	{% include 'partials/_categories.html.twig' with {categories: categories} %}
 
-	{#COMMENT ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡A MARCHE#}
+	{#COMMENT ÇA MARCHE#}
 	{% include 'partials/_how_it_works.html.twig' %}
 
-	{#FLASH (messages systÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨me)#}
+	{#FLASH (messages système)#}
 	{% include 'partials/_flash.html.twig' %}
 
 {% endblock %}
-

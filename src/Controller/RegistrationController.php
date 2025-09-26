@@ -27,7 +27,7 @@ final class RegistrationController extends AbstractController
         UserPasswordHasherInterface $hasher,
         Security $security,
     ): Response {
-        // DÃƒÂ©jÃƒÂ  connectÃƒÂ© Ã¢â€ â€™ pas dÃ¢â‚¬â„¢inscription
+        // Déjà connecté – pas d’inscription
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }
@@ -38,7 +38,7 @@ final class RegistrationController extends AbstractController
 
         // Honeypot anti-bot
         if ($form->isSubmitted() && '' !== trim((string) $request->request->get('website', ''))) {
-            $form->addError(new FormError('Validation anti-robot : merci de rÃƒÂ©essayer.'));
+            $form->addError(new FormError('Validation anti-robot : merci de réessayer.'));
 
             return $this->render('security/register.html.twig', [
                 'form' => $form->createView(),
@@ -54,7 +54,7 @@ final class RegistrationController extends AbstractController
             $em->flush();
 
             // Connexion auto (au lieu de rediriger vers /login)
-            $this->addFlash('success', 'Bienvenue sur TalentÃƒÂ©kÃƒÂ´ ! Votre compte a ÃƒÂ©tÃƒÂ© crÃƒÂ©ÃƒÂ©.');
+            $this->addFlash('success', 'Bienvenue sur Talentékô ! Votre compte a été créé.');
 
             return $security->login($user);
         }
@@ -68,4 +68,3 @@ final class RegistrationController extends AbstractController
         ], new Response('', $statusCode));
     }
 }
-

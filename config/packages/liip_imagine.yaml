@@ -1,35 +1,35 @@
 # config/packages/liip_imagine.yaml
 liip_imagine:
-    driver: "gd"
+  driver: 'gd'
 
-    resolvers:
-        default:
-            web_path: ~
+  resolvers:
+    default:
+      web_path: ~
 
-    filter_sets:
-        # Miniatures pour cartes listings
-        listing_card:
-            quality: 85
-            filters:
-                thumbnail:
-                    size: [400, 225] # format 16/9
-                    mode: outbound
-                    allow_upscale: false
+  filter_sets:
+    # Miniatures pour cartes listings
+    listing_card:
+      quality: 85
+      filters:
+        thumbnail:
+          size: [400, 225] # format 16/9
+          mode: outbound
+          allow_upscale: false
 
-        # Grande image (page dÃƒÂ©tail)
-        listing_show:
-            quality: 90
-            filters:
-                thumbnail:
-                    size: [900, 506]
-                    mode: outbound
-                    allow_upscale: false
+    # Grande image (page détail)
+    listing_show:
+      quality: 90
+      filters:
+        thumbnail:
+          size: [900, 506]
+          mode: outbound
+          allow_upscale: false
 
-        # Avatar utilisateur
-        avatar_thumb:
-            quality: 90
-            filters:
-                thumbnail:
-                    size: [100, 100]
-                    mode: outbound
-                    allow_upscale: false
+    # Avatar utilisateur
+    avatar_thumb:
+      quality: 90
+      filters:
+        thumbnail:
+          size: [100, 100]
+          mode: outbound
+          allow_upscale: false

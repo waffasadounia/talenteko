@@ -83,4 +83,3 @@ class Profile
         return $this;
     }
 }
-

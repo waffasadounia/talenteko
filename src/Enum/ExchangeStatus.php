@@ -12,16 +12,15 @@ enum ExchangeStatus: string
     case CANCELED = 'canceled';
 
     /**
-     * Retourne un libellÃƒÂ© lisible en franÃƒÂ§ais.
+     * Retourne un libellé lisible en français.
      */
     public function label(): string
     {
         return match ($this) {
             self::PENDING => 'En attente',
-            self::ACCEPTED => 'AcceptÃƒÂ©',
-            self::DECLINED => 'RefusÃƒÂ©',
-            self::CANCELED => 'AnnulÃƒÂ©',
+            self::ACCEPTED => 'Accepté',
+            self::DECLINED => 'Refusé',
+            self::CANCELED => 'Annulé',
         };
     }
 }
-

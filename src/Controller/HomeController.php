@@ -23,7 +23,7 @@ class HomeController extends AbstractController
         // Derniers 8 listings
         $listings = $listingRepository->findLatestWithJoins(8);
 
-        // 8 catÃƒÂ©gories populaires (ordre alphabÃƒÂ©tique pour lÃ¢â‚¬â„¢instant)
+        // 8 catégories populaires (ordre alphabétique pour l’instant)
         $categories = $categoryRepository->findBy([], ['name' => 'ASC'], 8);
 
         return $this->render('home/index.html.twig', [
@@ -32,4 +32,3 @@ class HomeController extends AbstractController
         ]);
     }
 }
-

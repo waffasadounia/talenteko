@@ -2,19 +2,19 @@
 <footer role="contentinfo" class="bg-talenteko-orange-500 text-white mt-12">
 	<div
 		class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-		{# Colonne gauche : Logo + slogan + rÃƒÆ’Ã‚Â©seaux sociaux #}
+		{# Colonne gauche : Logo + slogan + réseaux sociaux #}
 		<div class="flex flex-col items-center md:items-start">
 			<div class="flex flex-col items-center text-center">
-				<img src="{{ asset('images/talenteko_logo.png') }}" alt="Logo TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´" class="h-12 w-auto mb-2"/>
+				<img src="{{ asset('images/talenteko_logo.png') }}" alt="Logo Talentékod" class="h-12 w-auto mb-2"/>
 				<span class="text-base font-extrabold">
 					<span class="text-talenteko-blue-900">Talent</span>
-					<span class="text-talenteko-peach-300">ÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´</span>
+					<span class="text-talenteko-peach-300">ékod</span>
 				</span>
 			</div>
 
 			<div class="self-start mt-2">
 				<p class="text-sm text-gray-100 mb-4">
-					Plateforme de troc de compÃƒÆ’Ã‚Â©tences<br>entre particuliers
+					Plateforme de troc de compétences<br>entre particuliers
 				</p>
 				<ul class="flex gap-4 text-xl">
 					<li>
@@ -39,15 +39,15 @@
 			</div>
 		</div>
 
-		{# Colonne milieu : ÃƒÆ’Ã¢â€šÂ¬ propos #}
+		{# Colonne milieu : À propos #}
 		<div aria-labelledby="footer-about">
-			<h3 id="footer-about" class="font-bold mb-3 text-sm md:text-base">ÃƒÆ’Ã¢â€šÂ¬ propos</h3>
+			<h3 id="footer-about" class="font-bold mb-3 text-sm md:text-base">À propos</h3>
 			<ul class="space-y-2 text-sm">
 				<li>
 					<a href="{{ path('app_about') }}" class="hover:underline hover:text-talenteko-peach-300">Qui sommes-nous</a>
 				</li>
 				<li>
-					<a href="{{ path('app_how') }}" class="hover:underline hover:text-talenteko-peach-300">Comment ÃƒÆ’Ã‚Â§a marche</a>
+					<a href="{{ path('app_how') }}" class="hover:underline hover:text-talenteko-peach-300">Comment ça marche</a>
 				</li>
 				<li>
 					<a href="{{ path('app_faq') }}" class="hover:underline hover:text-talenteko-peach-300">Foire aux questions</a>
@@ -58,21 +58,21 @@
 			</ul>
 		</div>
 
-		{# Colonne droite : Informations lÃƒÆ’Ã‚Â©gales #}
+		{# Colonne droite : Informations légales #}
 		<div aria-labelledby="footer-legal">
-			<h3 id="footer-legal" class="font-bold mb-3 text-sm md:text-base">Informations lÃƒÆ’Ã‚Â©gales</h3>
+			<h3 id="footer-legal" class="font-bold mb-3 text-sm md:text-base">Informations légales</h3>
 			<ul class="space-y-2 text-sm">
 				<li>
-					<a href="{{ path('app_conditions') }}" class="hover:underline hover:text-talenteko-peach-300">Conditions gÃƒÆ’Ã‚Â©nÃƒÆ’Ã‚Â©rales</a>
+					<a href="{{ path('app_conditions') }}" class="hover:underline hover:text-talenteko-peach-300">Conditions générales</a>
 				</li>
 				<li>
-					<a href="{{ path('app_confidentialite') }}" class="hover:underline hover:text-talenteko-peach-300">Politique de confidentialitÃƒÆ’Ã‚Â©</a>
+					<a href="{{ path('app_confidentialite') }}" class="hover:underline hover:text-talenteko-peach-300">Politique de confidentialité</a>
 				</li>
 				<li>
 					<a href="{{ path('app_cookies') }}" class="hover:underline hover:text-talenteko-peach-300">Gestion des cookies</a>
 				</li>
 				<li>
-					<a href="{{ path('app_mentions_legales') }}" class="hover:underline hover:text-talenteko-peach-300">Mentions lÃƒÆ’Ã‚Â©gales</a>
+					<a href="{{ path('app_mentions_legales') }}" class="hover:underline hover:text-talenteko-peach-300">Mentions légales</a>
 				</li>
 			</ul>
 		</div>
@@ -82,8 +82,7 @@
 	<div class="border-t border-white/30 py-4 text-center text-xs text-talenteko-peach-300">
 		@
 		{{ "now"|date("Y") }}
-		TalentÃƒÆ’Ã¢â‚¬Â°kÃƒÆ’Ã‚Â´. Tous droits rÃƒÆ’Ã‚Â©servÃƒÆ’Ã‚Â©s.
+		Talentéko. Tous droits réservés.
 	</div>
 
 </footer>
-

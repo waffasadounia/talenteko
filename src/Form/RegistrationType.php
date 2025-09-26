@@ -20,16 +20,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Champs :
  * - email (identifiant unique de connexion)
- * - pseudo (nom public affichÃƒÂ©)
- * - location (ville avec autocomplÃƒÂ©tion BAN cÃƒÂ´tÃƒÂ© front + validation cÃƒÂ´tÃƒÂ© back)
+ * - pseudo (nom public affiché)
+ * - location (ville avec autocomplétion BAN côté front + validation côté back)
  * - plainPassword (saisi deux fois pour confirmation)
  * - agreeTerms (case obligatoire pour valider les CGU)
  *
  * Notes:
- * - Les rÃƒÂ¨gles mÃƒÂ©tier principales (unicitÃƒÂ© email, regex pseudo, validLocation, etc.)
- *   sont dÃƒÂ©finies **dans lÃ¢â‚¬â„¢entitÃƒÂ© User**.
+ * - Les règles métier principales (unicité email, regex pseudo, validLocation, etc.)
+ *   sont définies **dans l’entité User**.
  * - Ici, on se concentre uniquement sur la **structure du formulaire**.
- * - plainPassword : champ non persistÃƒÂ© Ã¢â€ â€™ hashÃƒÂ© avant enregistrement.
+ * - plainPassword : champ non persisté – hashé avant enregistrement.
  * - agreeTerms : champ virtuel (mapped=false), juste pour la validation.
  */
 final class RegistrationType extends AbstractType
@@ -60,8 +60,8 @@ final class RegistrationType extends AbstractType
                 'label' => 'Localisation',
                 'attr' => [
                     'autocomplete' => 'address-level2',
-                    'placeholder' => 'ex. Paris, LyonÃ¢â‚¬Â¦',
-                    // Stimulus branchÃƒÂ© cÃƒÂ´tÃƒÂ© template Ã¢â€ â€™ autocomplÃƒÂ©tion API BAN
+                    'placeholder' => 'ex. Paris, Lyon, Marseille',
+                    // Stimulus branchée côté template – autocomplétion API BAN
                 ],
             ])
 
@@ -74,29 +74,29 @@ final class RegistrationType extends AbstractType
                     'attr' => [
                         'autocomplete' => 'new-password',
                         'aria-describedby' => 'pwd-help', // zone d'aide force/feedback
-                        'placeholder' => 'Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢',
+                        'placeholder' => '• • • • • • • • •',
                     ],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'placeholder' => 'Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢',
+                        'placeholder' => '• • • • • • • • •',
                     ],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'placeholder' => 'Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢ Ã¢â‚¬Â¢',
+                        'placeholder' => '• • • • • • • • •',
                     ],
                 ],
             ])
 
             // === CGU ===
             ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false, // champ virtuel : pas dans lÃ¢â‚¬â„¢entitÃƒÂ©
-                'label' => 'JÃ¢â‚¬â„¢accepte les conditions dÃ¢â‚¬â„¢utilisation',
+                'mapped' => false, // champ virtuel : pas dans l'entité User
+                'label' => 'J’accepte les conditions d’utilisation',
                 'constraints' => [
                     new Assert\IsTrue([
                         'message' => 'Vous devez accepter nos conditions.',
@@ -112,4 +112,3 @@ final class RegistrationType extends AbstractType
         ]);
     }
 }
-

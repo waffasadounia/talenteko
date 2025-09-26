@@ -6,61 +6,57 @@
   .tk-form input,
   .tk-form select,
   .tk-form textarea {
-    @apply mt-1 w-full rounded-lg border border-gray-300 px-3 py-2
-           bg-white text-[#141C2E] placeholder:text-gray-400
-           focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500
-           transition;
+    @apply focus:ring-talenteko-orange-500 mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-[#141C2E] transition placeholder:text-gray-400 focus:ring-2 focus:outline-none;
   }
 
   /* Erreurs */
-  .tk-form [aria-invalid="true"],
+  .tk-form [aria-invalid='true'],
   .tk-form .is-invalid {
     @apply border-red-500 ring-1 ring-red-500 focus:border-red-600 focus:ring-red-600;
   }
-  
- .tk-form ul[role="listbox"] {
-    @apply border border-gray-200 rounded-lg bg-white shadow-sm;
+
+  .tk-form ul[role='listbox'] {
+    @apply rounded-lg border border-gray-200 bg-white shadow-sm;
   }
 
-  .tk-form ul[role="listbox"] li {
-    @apply px-3 py-2 text-sm cursor-pointer;
+  .tk-form ul[role='listbox'] li {
+    @apply cursor-pointer px-3 py-2 text-sm;
   }
 
-  .tk-form ul[role="listbox"] li:hover,
-  .tk-form ul[role="listbox"] li.bg-talenteko-peach-200 {
+  .tk-form ul[role='listbox'] li:hover,
+  .tk-form ul[role='listbox'] li.bg-talenteko-peach-200 {
     @apply bg-talenteko-peach-200;
   }
 
   /* Input générique */
   .form-input {
-    @apply border border-gray-300 rounded-lg px-3 py-2 text-base w-full;
+    @apply w-full rounded-lg border border-gray-300 px-3 py-2 text-base;
   }
 
   .form-input:focus-visible {
-    border: 1px solid #D6713C;
+    border: 1px solid #d6713c;
     outline: none;
   }
 
   .form-required {
-    color: #D6713C;
+    color: #d6713c;
     font-weight: bold;
   }
 
   /* ====== Custom Checkbox ====== */
-.form-checkbox-box {
-  @apply w-4 h-4 flex items-center justify-center rounded border border-gray-400 
-         bg-white transition-colors duration-200; /* boîte blanche par défaut */
-}
+  .form-checkbox-box {
+    @apply flex h-4 w-4 items-center justify-center rounded border border-gray-400 bg-white transition-colors duration-200; /* boîte blanche par défaut */
+  }
 
-.peer:checked + .form-checkbox-box {
-  @apply bg-talenteko-orange-500 border-talenteko-orange-500;
-}
+  .peer:checked + .form-checkbox-box {
+    @apply bg-talenteko-orange-500 border-talenteko-orange-500;
+  }
 
-.form-checkbox-icon {
-  @apply hidden w-3 h-3 text-white; /* caché par défaut */
-}
+  .form-checkbox-icon {
+    @apply hidden h-3 w-3 text-white; /* caché par défaut */
+  }
 
-.peer:checked + .form-checkbox-box .form-checkbox-icon {
-  @apply inline; /* icône visible quand coché */
+  .peer:checked + .form-checkbox-box .form-checkbox-icon {
+    @apply inline; /* icône visible quand coché */
+  }
 }
-} 

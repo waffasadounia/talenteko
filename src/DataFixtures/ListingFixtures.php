@@ -19,7 +19,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
     {
         $slugger = new AsciiSlugger();
 
-        // === Villes franÃƒÂ§aises rÃƒÂ©alistes ===
+        // === Villes françaises réalistes ===
         $cities = [
             'Paris',
             'Lyon',
@@ -38,112 +38,112 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
             'Tours',
             'Clermont-Ferrand',
             'Le Havre',
-            'Saint-Ãƒâ€°tienne',
+            'Saint-Étienne',
             'Metz',
-            'OrlÃƒÂ©ans',
+            'Orléans',
         ];
 
-        // === Textes par catÃƒÂ©gorie ===
+        // === Textes par catégorie ===
         $samples = [
             'Cuisine' => [
-                ['Cours de pÃƒÂ¢tisserie maison', 'JÃ¢â‚¬â„¢enseigne les bases de la pÃƒÂ¢tisserie franÃƒÂ§aise : tartes, ÃƒÂ©clairs et gÃƒÂ¢teaux.'],
-                ['Atelier cuisine italienne', 'Apprenez ÃƒÂ  prÃƒÂ©parer des pÃƒÂ¢tes fraÃƒÂ®ches et sauces authentiques.'],
-                ['Repas vÃƒÂ©gÃƒÂ©tarien ÃƒÂ©quilibrÃƒÂ©', 'Je propose de cuisiner des plats complets et savoureux sans viande.'],
-                ['Cours de sushi maison', 'Initiez-vous ÃƒÂ  lÃ¢â‚¬â„¢art du sushi et du maki japonais.'],
-                ['Batch cooking pour la semaine', 'Organisation et prÃƒÂ©paration de repas ÃƒÂ  lÃ¢â‚¬â„¢avance.'],
-                ['Initiation aux ÃƒÂ©pices', 'DÃƒÂ©couvrez comment utiliser les ÃƒÂ©pices dans vos plats quotidiens.'],
+                ['Cours de pâtisserie maison', 'J’enseigne les bases de la pâtisserie française : tartes, éclairs et gâteaux.'],
+                ['Atelier cuisine italienne', 'Apprenez à préparer des pâtes fraîches et sauces authentiques.'],
+                ['Repas végétarien équilibré', 'Je propose de cuisiner des plats complets et savoureux sans viande.'],
+                ['Cours de sushi maison', 'Initiez-vous à l’art du sushi et du maki japonais.'],
+                ['Batch cooking pour la semaine', 'Organisation et préparation de repas à l’avance.'],
+                ['Initiation aux épices', 'Découvrez comment utiliser les épices dans vos plats quotidiens.'],
             ],
             'Langues' => [
-                ['Cours dÃ¢â‚¬â„¢anglais dÃƒÂ©butant', 'Apprentissage de vocabulaire et conversations simples.'],
+                ['Cours d’anglais débutant', 'Apprentissage de vocabulaire et conversations simples.'],
                 ['Conversation espagnole', 'Pratique de la langue espagnole autour de discussions.'],
-                ['Initiation au japonais', 'Bases dÃ¢â‚¬â„¢ÃƒÂ©criture et prononciation japonaise.'],
-                ['FranÃƒÂ§ais pour ÃƒÂ©trangers', 'Aide ÃƒÂ  lÃ¢â‚¬â„¢apprentissage du franÃƒÂ§ais oral et ÃƒÂ©crit.'],
-                ['Cours dÃ¢â‚¬â„¢allemand pratique', 'Expression orale pour voyages et ÃƒÂ©changes.'],
-                ['PrÃƒÂ©paration TOEIC', 'Exercices pratiques et mÃƒÂ©thodologie pour lÃ¢â‚¬â„¢examen.'],
+                ['Initiation au japonais', 'Bases d’écriture et prononciation japonaise.'],
+                ['Français pour étrangers', 'Aide à l’apprentissage du français oral et écrit.'],
+                ['Cours d’allemand pratique', 'Expression orale pour voyages et échanges.'],
+                ['Préparation TOEIC', 'Exercices pratiques et méthodologie pour l’examen.'],
             ],
             'Informatique' => [
-                ['DÃƒÂ©pannage PC ÃƒÂ  domicile', 'RÃƒÂ©solution de problÃƒÂ¨mes Windows et installation logiciels.'],
-                ['Cours initiation Word/Excel', 'DÃƒÂ©couverte des outils bureautiques.'],
-                ['CrÃƒÂ©ation site web vitrine', 'Conception simple avec WordPress ou Symfony.'],
-                ['Installation rÃƒÂ©seau domestique', 'Configuration Wi-Fi et partage fichiers.'],
-                ['SÃƒÂ©curitÃƒÂ© informatique', 'Sensibilisation aux bonnes pratiques en ligne.'],
-                ['Apprentissage Python', 'Bases de la programmation Python pas ÃƒÂ  pas.'],
+                ['Dépannage PC à domicile', 'Résolution de problèmes Windows et installation logiciels.'],
+                ['Cours initiation Word/Excel', 'Découverte des outils bureautiques.'],
+                ['Création site web vitrine', 'Conception simple avec WordPress ou Symfony.'],
+                ['Installation réseau domestique', 'Configuration Wi-Fi et partage fichiers.'],
+                ['Sécurité informatique', 'Sensibilisation aux bonnes pratiques en ligne.'],
+                ['Apprentissage Python', 'Bases de la programmation Python pas à pas.'],
             ],
             'Bricolage' => [
                 ['Montage de meubles IKEA', 'Je monte vos meubles rapidement et proprement.'],
                 ['Peinture murale', 'Je repeins chambres et salons avec soin.'],
-                ['Petites rÃƒÂ©parations', 'Je rÃƒÂ¨gle portes qui grincent et ÃƒÂ©tagÃƒÂ¨res bancales.'],
-                ['Installation luminaire', 'Pose de lustres et spots ÃƒÂ©lectriques.'],
+                ['Petites réparations', 'Je règle portes qui grincent et étagères bancales.'],
+                ['Installation luminaire', 'Pose de lustres et spots électriques.'],
                 ['Pose tringles rideaux', 'Fixation rideaux et barres solides.'],
-                ['Assemblage ÃƒÂ©tagÃƒÂ¨res', 'Pose et fixation de bibliothÃƒÂ¨ques ou ÃƒÂ©tagÃƒÂ¨res.'],
+                ['Assemblage étagères', 'Pose et fixation de bibliothèques ou étagères.'],
             ],
             'Sport' => [
-                ['Cours de yoga dÃƒÂ©butant', 'Postures simples et respiration guidÃƒÂ©e.'],
-                ['EntraÃƒÂ®nement running', 'PrÃƒÂ©paration progressive ÃƒÂ  un 10 km.'],
-                ['Musculation ÃƒÂ  domicile', 'SÃƒÂ©ances adaptÃƒÂ©es sans matÃƒÂ©riel complexe.'],
-                ['Coaching fitness', 'Programme de remise en forme personnalisÃƒÂ©.'],
+                ['Cours de yoga débutant', 'Postures simples et respiration guidée.'],
+                ['Entraînement running', 'Préparation progressive à un 10 km.'],
+                ['Musculation à domicile', 'séances adaptées sans matériel complexe.'],
+                ['Coaching fitness', 'Programme de remise en forme personnalisé.'],
                 ['Initiation boxe', 'Bases techniques et cardio boxing.'],
-                ['Marche nordique', 'DÃƒÂ©couverte de la marche active en extÃƒÂ©rieur.'],
+                ['Marche nordique', 'Découverte de la marche active en extérieur.'],
             ],
             'Art' => [
                 ['Cours de dessin', 'Initiation aux techniques de croquis et ombrages.'],
                 ['Peinture acrylique', 'Apprentissage des bases de la peinture moderne.'],
                 ['Sculpture argile', 'Atelier pratique de modelage.'],
                 ['Guitare acoustique', 'Cours pour apprendre accords et rythmes.'],
-                ['Chant dÃƒÂ©butant', 'Exercices de respiration et diction.'],
-                ['Photographie smartphone', 'AmÃƒÂ©liorer vos clichÃƒÂ©s au quotidien.'],
+                ['Chant débutant', 'Exercices de respiration et diction.'],
+                ['Photographie smartphone', 'Améliorer vos clichés au quotidien.'],
             ],
             'Juridique' => [
                 ['Conseil en droit du travail', 'Informations sur contrats et licenciements.'],
-                ['Aide rÃƒÂ©daction bail', 'Assistance pour rÃƒÂ©diger un contrat de location.'],
+                ['Aide rédaction bail', 'Assistance pour rédiger un contrat de location.'],
                 ['Introduction au droit civil', 'Bases pour mieux comprendre ses droits.'],
-                ['Questions succession', 'Explication des dÃƒÂ©marches principales.'],
-                ['Droit de la consommation', 'Conseils sur litiges avec commerÃƒÂ§ants.'],
-                ['Consultation juridique gÃƒÂ©nÃƒÂ©rale', 'Ãƒâ€°claircissements sur vos droits du quotidien.'],
+                ['Questions succession', 'Explication des démarches principales.'],
+                ['Droit de la consommation', 'Conseils sur litiges avec commerçants.'],
+                ['Consultation juridique générale', 'Éclaircissements sur vos droits du quotidien.'],
             ],
             'Marketing' => [
-                ['StratÃƒÂ©gie rÃƒÂ©seaux sociaux', 'CrÃƒÂ©ation dÃ¢â‚¬â„¢un plan Instagram/Facebook.'],
-                ['SEO pour dÃƒÂ©butants', 'Optimisation dÃ¢â‚¬â„¢un site vitrine Google.'],
+                ['Stratégie réseaux sociaux', 'Création d’un plan Instagram/Facebook.'],
+                ['SEO pour débutants', 'Optimisation d’un site vitrine Google.'],
                 ['Branding personnel', 'Travailler son image de marque en ligne.'],
                 ['Email marketing', 'Introduction aux campagnes efficaces.'],
-                ['PublicitÃƒÂ© Facebook Ads', 'CrÃƒÂ©er et gÃƒÂ©rer une campagne ciblÃƒÂ©e.'],
-                ['Analyse Google Analytics', 'Suivi trafic et performances dÃ¢â‚¬â„¢un site.'],
+                ['Publicité Facebook Ads', 'Créer et gérer une campagne ciblée.'],
+                ['Analyse Google Analytics', 'Suivi trafic et performances d’un site.'],
             ],
-            'Bien-ÃƒÂªtre' => [
-                ['Massage relaxant', 'SÃƒÂ©ance dÃƒÂ©tente dÃ¢â‚¬â„¢1 heure pour relÃƒÂ¢cher le stress.'],
-                ['Initiation mÃƒÂ©ditation', 'Apprendre techniques simples de mÃƒÂ©ditation.'],
-                ['Sophrologie dÃƒÂ©couverte', 'Exercices pratiques de respiration guidÃƒÂ©e.'],
+            'Bien-être' => [
+                ['Massage relaxant', 'Séance détente d’1 heure pour relâcher le stress.'],
+                ['Initiation méditation', 'Apprendre techniques simples de méditation.'],
+                ['Sophrologie découverte', 'Exercices pratiques de respiration guidée.'],
                 ['Conseil sommeil', 'Techniques naturelles pour mieux dormir.'],
-                ['Gestion stress', 'Atelier pratique pour rÃƒÂ©duire anxiÃƒÂ©tÃƒÂ©.'],
-                ['Yoga doux', 'SÃƒÂ©ances accessibles pour tous les ÃƒÂ¢ges.'],
+                ['Gestion stress', 'Atelier pratique pour réduire anx.'],
+                ['Yoga doux', 'Séances accessibles pour tous les âges.'],
             ],
             'Jardinage' => [
-                ['Entretien pelouse', 'Je tonds, dÃƒÂ©sherbe et entretiens vos espaces verts.'],
+                ['Entretien pelouse', 'Je tonds, désherbe et entretiens vos espaces verts.'],
                 ['Taille haies', 'Je taille vos haies avec soin.'],
-                ['Plantation fleurs', 'Je vous aide ÃƒÂ  planter massifs et arbustes.'],
-                ['Arrosage plantes', 'Service dÃ¢â‚¬â„¢arrosage rÃƒÂ©gulier de vos plantes.'],
-                ['PrÃƒÂ©paration potager', 'Je prÃƒÂ©pare sol et semis pour lÃƒÂ©gumes.'],
-                ['Ãƒâ€°lagage lÃƒÂ©ger', 'Coupe de branches basses et entretien arbres.'],
+                ['Plantation fleurs', 'Je vous aide à planter massifs et arbustes.'],
+                ['Arrosage plantes', 'Service d’arrosage régulier de vos plantes.'],
+                ['Préparation potager', 'Je prépare sol et semis pour légumes.'],
+                ['Élagage léger', 'Coupe de branches basses et entretien arbres.'],
             ],
-            'Ãƒâ€°ducation' => [
-                ['Aide devoirs primaire', 'Soutien scolaire pour enfants en difficultÃƒÂ©.'],
-                ['Cours maths collÃƒÂ¨ge', 'Explications claires pour progresser en maths.'],
-                ['FranÃƒÂ§ais orthographe', 'AmÃƒÂ©liorer grammaire et orthographe.'],
-                ['Soutien bac philo', 'PrÃƒÂ©paration aux ÃƒÂ©preuves de philosophie.'],
-                ['Cours histoire-gÃƒÂ©o', 'RÃƒÂ©visions interactives et cartes mentales.'],
-                ['Anglais oral lycÃƒÂ©e', 'Pratique de conversation pour examens.'],
+            'Éducation' => [
+                ['Aide devoirs primaire', 'Soutien scolaire pour enfants en difficulté.'],
+                ['Cours maths collège', 'Explications claires pour progresser en maths.'],
+                ['Français orthographe', 'Améliorer grammaire et orthographe.'],
+                ['Soutien bac philo', 'Préparation aux épreuves de philosophie.'],
+                ['Cours histoire-géo', 'Révisions interactives et cartes mentales.'],
+                ['Anglais oral lycée', 'Pratique de conversation pour examens.'],
             ],
             'Administratif' => [
-                ['Aide dÃƒÂ©marches CAF', 'Je vous guide dans vos demandes en ligne.'],
+                ['Aide démarches CAF', 'Je vous guide dans vos demandes en ligne.'],
                 ['Remplissage formulaires', 'Accompagnement administratif simple.'],
-                ['CrÃƒÂ©ation CV moderne', 'Mise en page et conseils sur le fond.'],
-                ['PrÃƒÂ©paration entretien', 'Simulation dÃ¢â‚¬â„¢entretien dÃ¢â‚¬â„¢embauche.'],
-                ['DÃƒÂ©claration impÃƒÂ´ts', 'Accompagnement pour remplir en ligne.'],
-                ['Gestion courrier', 'Tri, rÃƒÂ©ponses et classement de papiers.'],
+                ['Création CV moderne', 'Mise en page et conseils sur le fond.'],
+                ['Préparation entretien', 'Simulation d’entretien d’embauche.'],
+                ['Déclaration impôts', 'Accompagnement pour remplir en ligne.'],
+                ['Gestion courrier', 'Tri, réponses et classement de papiers.'],
             ],
         ];
 
-        // === RÃƒÂ©cupÃƒÂ©rer Users et Categories ===
+        // === Récupérer Users et Categories ===
         $users = $manager->getRepository(User::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
 
@@ -155,20 +155,20 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
 
             $slug = $slugger->slug($catName)->lower()->toString();
 
-            // Associer toutes les images trouvÃƒÂ©es
+            // Associer toutes les images trouvées
             $imageFiles = glob(__DIR__ . "/../../public/uploads/listings/{$slug}/*.jpg");
 
             if (!$imageFiles) {
                 continue;
             }
 
-            // Associer chaque image ÃƒÂ  un titre/description de la catÃƒÂ©gorie
+            // Associer chaque image à un titre/description de la catégorie
             $samplePairs = $samples[$catName];
             $sampleCount = count($samplePairs);
             $idx = 0;
             foreach ($imageFiles as $file) {
                 $filename = basename($file);
-                // Utiliser un titre/description diffÃƒÂ©rent pour chaque image, ou boucler si plus d'images que de samples
+                // Utiliser un titre/description différent pour chaque image, ou boucler si plus d'images que de samples
                 list($title, $description) = $samplePairs[$idx % $sampleCount];
 
                 $listing = new Listing();
@@ -183,7 +183,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
 
                 $image = new ListingImage();
                 $image->setPath("{$slug}/{$filename}");
-                $image->setIsPrimary(true); // premiÃƒÂ¨re = image principale
+                $image->setIsPrimary(true); // première = image principale
                 $listing->addImage($image);
                 $manager->persist($image);
                 $manager->persist($listing);
@@ -192,9 +192,9 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
             }
         }
 
-        // Ã¢â‚¬Â¦ flush seulement aprÃƒÂ¨s TOUTES les boucles
+        // ... flush seulement après TOUTES les boucles
         $manager->flush();
-        echo "Ã¢Å“â€¦ 72 annonces gÃƒÂ©nÃƒÂ©rÃƒÂ©es avec titres, descriptions, villes et images rÃƒÂ©alistes.\n";
+        echo "… 72 annonces générées avec titres, descriptions, villes et images réalistes.\n";
     }
 
     public function getDependencies(): array
@@ -205,4 +205,3 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 }
-

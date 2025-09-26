@@ -1,16 +1,16 @@
 # config/packages/routing.yaml
 framework:
-    router:
-        utf8: true
-        default_uri: '%env(APP_BASE_URL)%'
-        # En dev/test Ã¢â€ â€™ garder localhost par dÃƒÂ©faut (pas besoin de l'activer ici).
-        # Pour les mails envoyÃƒÂ©s en prod, voir bloc ci-dessous.
+  router:
+    utf8: true
+    default_uri: '%env(APP_BASE_URL)%'
+    # En dev/test, garder localhost par défaut (pas besoin de l'activer ici).
+    # Pour les mails envoyés en prod, voir bloc ci-dessous.
 
 when@prod:
-    framework:
-        router:
-            utf8: true
-            # Domaine rÃƒÂ©el de mon app en prod
-            default_uri: '%env(APP_BASE_URL)%'
-            # Ãƒâ€°vite que des erreurs de param constraints cassent tout en prod
-            strict_requirements: null
+  framework:
+    router:
+      utf8: true
+      # Domaine réel de mon app en prod
+      default_uri: '%env(APP_BASE_URL)%'
+      # Évite que des erreurs de param constraints cassent tout en prod
+      strict_requirements: null

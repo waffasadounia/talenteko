@@ -1,1 +1,3 @@
 templates/partials/_password_field.html.twig
+# Dépendances JS locales (ne pas reformater)
+assets/vendor/

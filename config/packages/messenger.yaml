@@ -1,26 +1,26 @@
 framework:
-    messenger:
-        # Transport par dÃƒÂ©faut pour les messages ÃƒÂ©chouÃƒÂ©s
-        failure_transport: failed
+  messenger:
+    # Transport par défaut pour les messages échoués
+    failure_transport: failed
 
-        transports:
-            # Transport asynchrone principal (emails, notifications, jobs)
-            async:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    use_notify: true
-                    check_delayed_interval: 60000
-                retry_strategy:
-                    max_retries: 3
-                    multiplier: 2
+    transports:
+      # Transport asynchrone principal (emails, notifications, jobs)
+      async:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          use_notify: true
+          check_delayed_interval: 60000
+        retry_strategy:
+          max_retries: 3
+          multiplier: 2
 
-            # Transport dÃƒÂ©diÃƒÂ© aux messages ÃƒÂ©chouÃƒÂ©s
-            failed: 'doctrine://default?queue_name=failed'
+      # Transport dédié aux messages échoués
+      failed: 'doctrine://default?queue_name=failed'
 
-        routing:
-            # Routage Symfony natif (emails via Mailer)
-            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+    routing:
+      # Routage Symfony natif (emails via Mailer)
+      Symfony\Component\Mailer\Messenger\SendEmailMessage: async
 
-            # Routage pour les messages personnalisÃƒÂ©s TalentÃƒâ€°kÃƒÂ´
-            App\Message\NewMessageNotification: async
-            App\Message\NewExchangeNotification: async
+      # Routage pour les messages personnalisés Talentéko
+      App\Message\NewMessageNotification: async
+      App\Message\NewExchangeNotification: async

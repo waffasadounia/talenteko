@@ -15,7 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[AsCommand(
     name: 'app:fix-category-slugs',
-    description: 'Corrige automatiquement les slugs de catÃƒÂ©gories en recalculant depuis le nom (UTF-8, accents, etc.)',
+    description: 'Corrige automatiquement les slugs de catégories en recalculant depuis le nom (UTF-8, accents, etc.)',
 )]
 final class FixCategorySlugsCommand extends Command
 {
@@ -42,7 +42,7 @@ final class FixCategorySlugsCommand extends Command
 
             if ($category->getSlug() !== $correctSlug) {
                 $output->writeln(sprintf(
-                    'Ã°Å¸â€ºÂ Ã¯Â¸Â  CatÃƒÂ©gorie "%s" (id: %d) : slug "%s" Ã¢â€ â€™ corrigÃƒÂ© en "%s"',
+                    '🛠️  Catégorie "%s" (id: %d) : slug "%s" corrigé en "%s"',
                     $category->getName(),
                     $category->getId(),
                     $category->getSlug(),
@@ -57,12 +57,11 @@ final class FixCategorySlugsCommand extends Command
 
         if ($updated > 0) {
             $this->em->flush();
-            $output->writeln("Ã¢Å“â€Ã¯Â¸Â $updated slugs corrigÃƒÂ©s !");
+            $output->writeln("✅ $updated slugs corrigés !");
         } else {
-            $output->writeln('Ã°Å¸â€ â€” Aucun slug incorrect trouvÃƒÂ©.');
+            $output->writeln('❌ Aucun slug incorrect trouvé.');
         }
 
         return Command::SUCCESS;
     }
 }
-

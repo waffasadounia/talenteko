@@ -15,8 +15,8 @@ final class SearchController extends AbstractController
 {
     /**
      * Page de recherche.
-     * - Filtre sur titre / description / location / nom de catÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©gorie
-     * - PrÃƒÂ©charge auteur + catÃƒÂ©gorie pour ÃƒÂ©viter le N+1.
+     * - Filtre sur titre / description / location / nom de catégorie
+     * - Précharge auteur + catégorie pour éviter le N+1.
      */
     #[Route('/recherche', name: 'app_search', methods: ['GET'])]
     public function index(Request $request, ListingRepository $repo): Response
@@ -30,7 +30,7 @@ final class SearchController extends AbstractController
             ->setMaxResults(50);
 
         if ('' !== $q) {
-            // On utilise le champ d'entitÃƒÂ© "location" (plus "city")
+            // On utilise le champ d'entité "location" (plus "city")
             $qb->andWhere('l.title LIKE :q OR l.description LIKE :q OR l.location LIKE :q OR c.name LIKE :q')
                 ->setParameter('q', '%' . $q . '%');
         }
@@ -38,10 +38,10 @@ final class SearchController extends AbstractController
         /** @var list<Listing> $results */
         $results = $qb->getQuery()->getResult();
 
-        // Map des entitÃƒÂ©s vers un tableau simple pour le template
+        // Map des entités vers un tableau simple pour le template
         $cards = array_map(
             static function (Listing $l): array {
-                $categoryName = $l->getCategory() ? $l->getCategory()->getName() : 'Non classÃƒÂ©e';
+                $categoryName = $l->getCategory() ? $l->getCategory()->getName() : 'Non classée';
                 $author = $l->getAuthor();
                 $displayName = ($author && method_exists($author, 'getPseudo') && $author->getPseudo())
                     ? $author->getPseudo()
@@ -67,4 +67,3 @@ final class SearchController extends AbstractController
         ]);
     }
 }
-

@@ -22,19 +22,19 @@ class NewMessageNotificationHandler
 
     public function __invoke(NewMessageNotification $notification): void
     {
-        // RÃƒÂ©cupÃƒÂ©rer destinataire et expÃƒÂ©diteur
+        // Récupérer destinataire et expéditeur
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
         $sender = $this->em->getRepository(User::class)->find($notification->getSenderId());
 
         if (!$recipient || !$sender) {
-            return; // sÃƒÂ©curitÃƒÂ© : si lÃ¢â‚¬â„¢un nÃ¢â‚¬â„¢existe pas Ã¢â€ â€™ rien ÃƒÂ  faire
+            return; // sécurité : si l'un n'existe pas rien à faire
         }
 
-        // Construire lÃ¢â‚¬â„¢email
+        // Construire l'email
         $email = (new TemplatedEmail())
             ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
             ->to($recipient->getEmail())
-            ->subject('Nouveau message sur TalentÃƒÂ©kÃƒÂ´')
+            ->subject('Nouveau message sur Talentéko')
             ->htmlTemplate('@emails/new_message.html.twig') // namespace Twig
             ->context([
                 'sender' => $sender?->getPseudo() ?? 'Un utilisateur',
@@ -45,4 +45,3 @@ class NewMessageNotificationHandler
         $this->mailer->send($email);
     }
 }
-

@@ -28,8 +28,7 @@ class MessageVoter extends Voter
         /** @var Message $message */
         $message = $subject;
 
-        // Autoriser seulement si l'utilisateur est expÃƒÂ©diteur ou destinataire
+        // Autoriser seulement si l'utilisateur est expéditeur ou destinataire
         return $message->getSender() === $user || $message->getRecipient() === $user;
     }
 }
-

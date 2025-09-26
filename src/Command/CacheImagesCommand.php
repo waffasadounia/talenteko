@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: 'app:cache-images',
-    description: 'PrÃƒÂ©- gÃƒÂ©nÃƒÂ©rÃƒÂ© le cache LiipImagine pour toutes les images dans /uploads/listings.',
+    description: 'Pré-génère le cache LiipImagine pour toutes les images dans /uploads/listings.',
 )]
 class CacheImagesCommand extends Command
 {
@@ -35,29 +35,28 @@ class CacheImagesCommand extends Command
         $finder->files()->in($publicDir)->name('*.jpg');
 
         if (!$finder->hasResults()) {
-            $output->writeln("<comment>Aucune image trouvÃƒÂ©e dans $publicDir</comment>");
+            $output->writeln("<comment>Aucune image trouvée dans $publicDir</comment>");
 
             return Command::SUCCESS;
         }
 
         foreach ($finder as $file) {
-            // Chemin relatif ÃƒÂ  /public
+            // Chemin relatif à /public
             $relativePath = 'uploads/listings/' . $file->getRelativePathname();
 
             foreach ($filters as $filter) {
                 try {
-                    $this->cacheManager->remove($relativePath, $filter); // reset ÃƒÂ©ventuel
+                    $this->cacheManager->remove($relativePath, $filter); // reset éventuel
                     $this->cacheManager->getBrowserPath($relativePath, $filter);
-                    $output->writeln("Ã¢Å“â€ [$filter] gÃƒÂ©nÃƒÂ©rÃƒÂ© pour $relativePath");
+                    $output->writeln("✅ [$filter] généré pour $relativePath");
                 } catch (Exception $e) {
-                    $output->writeln("<error>Ã¢Å“â€“ [$filter] ÃƒÂ©chec sur $relativePath : {$e->getMessage()}</error>");
+                    $output->writeln("<error>❌ [$filter] échec sur $relativePath : {$e->getMessage()}</error>");
                 }
             }
         }
 
-        $output->writeln('<info>Ã¢Å“â€ Toutes les images ont ÃƒÂ©tÃƒÂ© traitÃƒÂ©es avec succÃƒÂ¨s.</info>');
+        $output->writeln('<info>✅ Toutes les images ont été traitées avec succès.</info>');
 
         return Command::SUCCESS;
     }
 }
-

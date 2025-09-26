@@ -1,32 +1,32 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    secret: '%env(APP_SECRET)%'
+  secret: '%env(APP_SECRET)%'
 
-    # dÃƒÂ©sactive totalement les annotations (routes, etc.)
-    annotations: false
+  # désactive totalement les annotations (routes, etc.)
+  annotations: false
 
-    # EmpÃƒÂªche les overrides HTTP type _method
-    http_method_override: false
+  # Empêche les overrides HTTP type _method
+  http_method_override: false
 
-    # Intercepte toutes les erreurs PHP (y compris fatales)
-    handle_all_throwables: true
+  # Intercepte toutes les erreurs PHP (y compris fatales)
+  handle_all_throwables: true
 
-    # Protection CSRF activÃƒÂ©e globalement (sÃƒÂ©curitÃƒÂ© des formulaires)
-    csrf_protection: true
+  # Protection CSRF activée globalement (sécurité des formulaires)
+  csrf_protection: true
 
-    # Sessions
-    session:
-        handler_id: null
-        cookie_secure: auto
-        cookie_samesite: lax
+  # Sessions
+  session:
+    handler_id: null
+    cookie_secure: auto
+    cookie_samesite: lax
 
-    # Journalisation des erreurs PHP
-    php_errors:
-        log: true
+  # Journalisation des erreurs PHP
+  php_errors:
+    log: true
 
-# Configuration spÃƒÂ©cifique ÃƒÂ  lÃ¢â‚¬â„¢environnement de test
+# Configuration spécifique à l’environnement de test
 when@test:
-    framework:
-        test: true
-        session:
-            storage_factory_id: session.storage.factory.mock_file
+  framework:
+    test: true
+    session:
+      storage_factory_id: session.storage.factory.mock_file

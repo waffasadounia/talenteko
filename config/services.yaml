@@ -1,23 +1,23 @@
 # config/services.yaml
-# Configuration des services TalentÃƒâ€°kÃƒÂ´
+# Configuration des services Talenteko.
 
-parameters: { }
+parameters: {}
 
 services:
-    _defaults:
-        autowire: true      # Injection automatique des dÃƒÂ©pendances
-        autoconfigure: true # Tags automatiques (Command, EventSubscriber, Voter, Handler, etc.)
+  _defaults:
+    autowire: true # Injection automatique des dépendances
+    autoconfigure: true # Tags automatiques (Command, EventSubscriber, Voter, Handler, etc.)
 
-    # Rend toutes les classes de src/ disponibles comme services
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
-            - '../src/Tests/'
+  # Rend toutes les classes de src/ disponibles comme services
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
+      - '../src/Tests/'
 
-    # Injection de l'environnement dans le ValidLocationValidator
-    App\Validator\ValidLocationValidator:
-        arguments:
-            $appEnv: '%kernel.environment%'
+  # Injection de l'environnement dans le ValidLocationValidator
+  App\Validator\ValidLocationValidator:
+    arguments:
+      $appEnv: '%kernel.environment%'

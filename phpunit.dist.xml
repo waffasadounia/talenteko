@@ -18,14 +18,20 @@
         <server name="APP_ENV" value="test" force="true" />
         <server name="APP_SECRET" value="testsecret123" />
         <server name="SHELL_VERBOSITY" value="-1" />
-        <server name="DATABASE_URL" value="mysql://root:@127.0.0.1:3306/talenteko?serverVersion=mariadb-10.4.32" />
+        <server name="DATABASE_URL" value="mysql://root:@127.0.0.1:3306/talenteko_test?serverVersion=mariadb-10.4.32" />
         <server name="MAILER_DSN" value="null://null" />
         <server name="MESSENGER_TRANSPORT_DSN" value="sync://"/>
     </php>
 
     <testsuites>
+        <!-- Tests unitaires purs : entités, services, helpers -->
         <testsuite name="unit">
-            <directory>tests</directory>
+            <directory>tests/Unit</directory>
+        </testsuite>
+
+        <!-- Tests fonctionnels Symfony : contrôleurs, formulaires, DB -->
+        <testsuite name="functional">
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
 

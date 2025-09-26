@@ -3,7 +3,7 @@
    ========================== #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Se connecter | TalentÃƒÆ’Ã‚Â©kÃƒÆ’Ã‚Â´
+{% block title %}Se connecter | Talentéko
 {% endblock %}
 
 {% block body %}
@@ -18,12 +18,12 @@
 				</div>
 			{% endif %}
 
-			{# --- DÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  connectÃƒÆ’Ã‚Â© --- #}
+			{# --- Déjà connecté --- #}
 			{% if app.user %}
 				<div class="mb-4 text-sm rounded-lg border border-green-200 bg-green-50 text-green-700 p-3" role="alert">
-					connectÃƒÆ’Ã‚Â© en tant que
+					connecté en tant que
 					<strong>{{ app.user.userIdentifier }}</strong>.
-					<a href="{{ path('app_logout') }}" class="btn-link">Se dÃƒÆ’Ã‚Â©connecter</a>
+					<a href="{{ path('app_logout') }}" class="btn-link">Se déconnecter</a>
 				</div>
 			{% endif %}
 
@@ -42,7 +42,7 @@
 						<input id="email" name="email" type="email" required autocomplete="email" value="{{ last_username|default('') }}" placeholder="ex. vous@exemple.fr" class="form-input{% if error %} is-invalid{% endif %}" aria-invalid="{{ error ? 'true' : 'false' }}" aria-describedby="{{ error ? email_errors_id : '' }}">
 						{% if error %}
 							<p id="{{ email_errors_id }}" class="form-error" role="alert">
-								VÃƒÆ’Ã‚Â©rifiez votre adresse email.
+								Vérifiez votre adresse email.
 							</p>
 						{% endif %}
 					</div>
@@ -57,7 +57,7 @@
 						<input id="password" name="password" type="password" required autocomplete="current-password" placeholder="Votre mot de passe" class="form-input{% if error %} is-invalid{% endif %}" aria-invalid="{{ error ? 'true' : 'false' }}" aria-describedby="{{ error ? pwd_errors_id : '' }}">
 						{% if error %}
 							<p id="{{ pwd_errors_id }}" class="form-error" role="alert">
-								VÃƒÆ’Ã‚Â©rifiez votre mot de passe.
+								Vérifiez votre mot de passe.
 							</p>
 						{% endif %}
 					</div>
@@ -66,13 +66,13 @@
 					<input
 					type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
 
-					{# Remember me + lien oubliÃƒÆ’Ã‚Â© #}
+					{# Remember me + lien oublié #}
 					<div class="flex items-center justify-between text-sm">
 						<label class="inline-flex items-center gap-2 text-gray-600">
 							<input type="checkbox" name="_remember_me" class="form-checkbox">
 							<span>Se souvenir de moi</span>
 						</label>
-						<a href="#" class="btn-link">Mot de passe oubliÃƒÆ’Ã‚Â© ?</a>
+						<a href="#" class="btn-link">Mot de passe oublié ?</a>
 					</div>
 
 					<button type="submit" class="btn-primary btn-block">Se connecter</button>
@@ -80,10 +80,9 @@
 
 				<p class="text-sm text-gray-600 mt-6 text-center">
 					Pas encore de compte ?
-					<a href="{{ path('app_register') }}" class="btn-link">CrÃƒÆ’Ã‚Â©er un compte</a>
+					<a href="{{ path('app_register') }}" class="btn-link">Créer un compte</a>
 				</p>
 			</div>
 		</div>
 	</section>
 {% endblock %}
-

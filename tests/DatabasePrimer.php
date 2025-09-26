@@ -9,11 +9,11 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
 /**
- * Utilitaire pour rÃƒÂ©initialiser la BDD de test.
+ * Utilitaire pour réinitialiser la BDD de test.
  *
  * Deux modes possibles :
- * - primeDatabase() appelÃƒÂ© dans setUpBeforeClass() Ã¢â€ â€™ reset global une seule fois.
- * - primeDatabase() appelÃƒÂ© dans setUp() Ã¢â€ â€™ reset avant chaque test.
+ * - primeDatabase() appelé dans setUpBeforeClass() – reset global une seule fois.
+ * - primeDatabase() appelé dans setUp() – reset avant chaque test.
  */
 trait DatabasePrimer
 {
