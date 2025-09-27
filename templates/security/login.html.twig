@@ -4,7 +4,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Se connecter | Talentéko
+  Se connecter | TalentÃ©ko
 {% endblock %}
 
 {% block body %}
@@ -25,15 +25,15 @@
         </div>
       {% endif %}
 
-      {# --- Détails de connexion --- #}
+      {# --- DÃ©tails de connexion --- #}
       {% if app.user %}
         <div
           class="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700"
           role="alert"
         >
-          Vous êtes connecté en tant que
+          Vous Ãªtes connectÃ© en tant que
           <strong>{{ app.user.userIdentifier }}</strong>.
-          <a href="{{ path('app_logout') }}" class="btn-link">Se déconnecter</a>
+          <a href="{{ path('app_logout') }}" class="btn-link">Se dÃ©connecter</a>
         </div>
       {% endif %}
 
@@ -76,7 +76,7 @@
             />
             {% if error %}
               <p id="{{ email_errors_id }}" class="form-error" role="alert">
-                Vérifiez votre adresse email.
+                VÃ©rifiez votre adresse email.
               </p>
             {% endif %}
           </div>
@@ -101,7 +101,7 @@
             />
             {% if error %}
               <p id="{{ pwd_errors_id }}" class="form-error" role="alert">
-                Vérifiez votre mot de passe.
+                VÃ©rifiez votre mot de passe.
               </p>
             {% endif %}
           </div>
@@ -113,7 +113,7 @@
             value="{{ csrf_token('authenticate') }}"
           />
 
-          {# Remember me + lien oublié mot de passe #}
+          {# Remember me + lien oubliÃ© mot de passe #}
           <div class="flex items-center justify-between text-sm">
             <label class="inline-flex items-center gap-2 text-gray-600">
               <input
@@ -123,7 +123,7 @@
               />
               <span>Se souvenir de moi</span>
             </label>
-            <a href="#" class="btn-link">Mot de passe oublié ?</a>
+            <a href="#" class="btn-link">Mot de passe oubliÃ© ?</a>
           </div>
 
           <button type="submit" class="btn-primary btn-block">
@@ -134,7 +134,7 @@
         <p class="mt-6 text-center text-sm text-gray-600">
           Pas encore de compte ?
           <a href="{{ path('app_register') }}" class="btn-link">
-            Créer un compte
+            CrÃ©er un compte
           </a>
         </p>
       </div>

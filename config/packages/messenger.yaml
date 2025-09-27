@@ -1,4 +1,4 @@
-﻿framework:
+framework:
   messenger:
     # Transport par défaut pour les messages échoués
     failure_transport: failed

@@ -1,6 +1,6 @@
 {# =============================
-   Layout principal Talentéko
-   - Sert de squelette global à toutes les pages
+   Layout principal TalentÃ©ko
+   - Sert de squelette global Ã  toutes les pages
    - Contient : <head>, header, footer, blocks Twig
    ============================= #}
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
     {# Balise <title> personnalisable par page #}
     <title>
       {% block title %}
-        Talentéko
+        TalentÃ©ko
       {% endblock %}
     </title>
 
@@ -43,7 +43,7 @@
     />
 
     {# =============================
-				       CSS principal (compilé via Webpack Encore)
+				       CSS principal (compilÃ© via Webpack Encore)
 				       ============================= #}
     {{ encore_entry_link_tags('app') }}
 
@@ -53,7 +53,7 @@
       rel="stylesheet"
     />
 
-    {# Font Awesome (icônes) #}
+    {# Font Awesome (icÃ´nes) #}
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -61,15 +61,15 @@
       referrerpolicy="no-referrer"
     />
 
-    {# Espace réservé pour CSS additionnel par page #}
+    {# Espace rÃ©servÃ© pour CSS additionnel par page #}
     {% block stylesheets %}
 
     {% endblock %}
 
     {# =============================
 				       JS principal (Webpack Encore)
-				       - Scripts compilés via Webpack Encore
-				       - Defer appliqués automatiquement
+				       - Scripts compilÃ©s via Webpack Encore
+				       - Defer appliquÃ©s automatiquement
 				       ============================= #}
     {{ encore_entry_script_tags('app') }}
   </head>
@@ -88,7 +88,7 @@
     {# Footer global #}
     {% include 'partials/_footer.html.twig' %}
 
-    {# Espace réservé pour JS additionnel par page #}
+    {# Espace rÃ©servÃ© pour JS additionnel par page #}
     {% block javascripts %}
 
     {% endblock %}

@@ -1,4 +1,4 @@
-﻿# config/packages/validator.yaml
+# config/packages/validator.yaml
 framework:
   validation:
     email_validation_mode: html5

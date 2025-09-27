@@ -1,4 +1,4 @@
-﻿# config/packages/liip_imagine.yaml
+# config/packages/liip_imagine.yaml
 liip_imagine:
   driver: 'gd'
 

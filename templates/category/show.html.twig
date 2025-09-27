@@ -1,13 +1,13 @@
 {#================================
   templates/category/show.html.twig
-  Page détaillée d'une catégorie
+  Page dÃ©taillÃ©e d'une catÃ©gorie
   ================================#}
 
 {% extends 'base.html.twig' %}
 
 {% block title %}
   {{ category.name }}
-  | Talentéko
+  | TalentÃ©ko
 {% endblock %}
 
 {% block body %}
@@ -17,7 +17,7 @@
         {{ category.name }}
       </h1>
 
-      {# Grille des listings liés à cette catégorie #}
+      {# Grille des listings liÃ©s Ã  cette catÃ©gorie #}
       <div
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       >
@@ -27,7 +27,7 @@
           } %}
         {% else %}
           <p class="col-span-full text-center text-gray-500 italic">
-            Aucun listing pour cette catégorie pour l'instant.
+            Aucun listing pour cette catÃ©gorie pour l'instant.
           </p>
         {% endfor %}
       </div>
@@ -35,7 +35,7 @@
       <div class="mt-8 text-center">
         <a href="{{ path('app_category_index') }}" class="btn-link">
           <i class="fa fa-arrow-left"></i>
-          <span>Retour aux catégories</span>
+          <span>Retour aux catÃ©gories</span>
         </a>
       </div>
     </div>

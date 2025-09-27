@@ -3,14 +3,14 @@
    ==========================#}
 {% extends 'base.html.twig' %}
 {% block title %}
-  Créer un compte | Talentéko
+  CrÃ©er un compte | TalentÃ©ko
 {% endblock %}
 
 {% block body %}
   <section class="bg-talenteko-peach-100 py-12">
     <div class="mx-auto max-w-md px-6">
       <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-        Créer un compte
+        CrÃ©er un compte
       </h1>
 
       {#- - Bandeau d'erreurs global - -#}
@@ -24,7 +24,7 @@
           <strong class="font-semibold">
             Le formulaire contient des erreurs.
           </strong>
-          <span class="ml-1">Merci de vérifier les champs en rouge.</span>
+          <span class="ml-1">Merci de vÃ©rifier les champs en rouge.</span>
         </div>
       {% endif %}
 
@@ -71,7 +71,7 @@
           autocomplete: 'nickname'
         } %}
 
-        {# LOCALISATION avec autocomplétion + gestion erreurs #}
+        {# LOCALISATION avec autocomplÃ©tion + gestion erreurs #}
         {% set loc_invalid = form_errors(form.location) is not empty %}
         {% set loc_errors_id = form.location.vars.id ~ '-errors' %}
         <div class="relative space-y-1" data-controller="location-autocomplete">
@@ -204,7 +204,7 @@
         {{ form_end(form) }}
 
         <p class="mt-6 text-center text-sm text-gray-600">
-          Détails de l'inscription
+          DÃ©tails de l'inscription
         </p>
       </div>
     </div>

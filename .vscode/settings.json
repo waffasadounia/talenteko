@@ -1,18 +1,18 @@
 {
-  // Désactive les faux warnings du validateur CSS intégré
+  // DÃ©sactive les faux warnings du validateur CSS intÃ©grÃ©
   "css.validate": false,
   "css.lint.unknownAtRules": "ignore",
   "scss.lint.unknownAtRules": "ignore",
   "less.lint.unknownAtRules": "ignore",
 
-  // Associe UNIQUEMENT tes CSS du dossier assets/styles à PostCSS
+  // Associe UNIQUEMENT tes CSS du dossier assets/styles Ã  PostCSS
   "files.associations": {
     "**/assets/styles/*.css": "postcss"
   },
 
   // Configuration des fichiers
   "files.encoding": "utf8",           // UTF-8 sans BOM
-  "files.autoGuessEncoding": false,   // Pas de détection auto (évite les bascules foireuses)
+  "files.autoGuessEncoding": false,   // Pas de dÃ©tection auto (Ã©vite les bascules foireuses)
   "files.eol": "\n",                  // Forcer LF pour tout le projet
 
   // Tailwind
@@ -24,7 +24,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
 
-  // Affichage des caractères invisibles (espaces, tabs, insécables)
+  // Affichage des caractÃ¨res invisibles (espaces, tabs, insÃ©cables)
   "editor.renderWhitespace": "all",
 
   // Formatters auto
@@ -45,6 +45,6 @@
     "editor.formatOnSave": true
   },
 
-  // Désactive les faux warnings d'Intelephense
+  // DÃ©sactive les faux warnings d'Intelephense
   "intelephense.diagnostics.undefinedTypes": false
 }

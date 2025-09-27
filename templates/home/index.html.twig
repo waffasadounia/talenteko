@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Accueil | Talentéko
+  Accueil | TalentÃ©ko
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
     listings: listings
   } %}
 
-  {# CATEGORIES (explorer par catégories) #}
+  {# CATEGORIES (explorer par catÃ©gories) #}
   {% include 'partials/_categories.html.twig' with {
     categories: categories
   } %}
@@ -21,6 +21,6 @@
   {# COMMENTAIRES (afficher les commentaires) #}
   {% include 'partials/_how_it_works.html.twig' %}
 
-  {# FLASH (messages système) #}
+  {# FLASH (messages systÃ¨me) #}
   {% include 'partials/_flash.html.twig' %}
 {% endblock %}

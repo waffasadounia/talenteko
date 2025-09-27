@@ -1,4 +1,4 @@
-﻿# config/packages/mailer.yaml
+# config/packages/mailer.yaml
 framework:
   mailer:
     dsn: '%env(MAILER_DSN)%'

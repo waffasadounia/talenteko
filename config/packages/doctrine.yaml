@@ -1,4 +1,4 @@
-﻿# config/packages/doctrine.yaml
+# config/packages/doctrine.yaml
 doctrine:
   dbal:
     # DSN principal défini dans .env / .env.local

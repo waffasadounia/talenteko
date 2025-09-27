@@ -1,4 +1,4 @@
-﻿# config/packages/translation.yaml
+# config/packages/translation.yaml
 framework:
   # Langue par dÃ©faut de l'application
   default_locale: fr

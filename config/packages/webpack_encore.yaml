@@ -1,4 +1,4 @@
-﻿# config/packages/webpack_encore.yaml
+# config/packages/webpack_encore.yaml
 webpack_encore:
   # répertoire où se trouvent les fichiers de traduction (.yaml, .xlf, .php)
   output_path: '%kernel.project_dir%/public/build'

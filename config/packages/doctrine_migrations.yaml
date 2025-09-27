@@ -1,4 +1,4 @@
-﻿# config/packages/doctrine_migrations.yaml
+# config/packages/doctrine_migrations.yaml
 doctrine_migrations:
   migrations_paths:
     # Namespace réservé aux migrations Doctrine (ne pas utiliser App\DoctrineMigrations)

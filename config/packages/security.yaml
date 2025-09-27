@@ -1,4 +1,4 @@
-﻿# config/packages/security.yaml
+# config/packages/security.yaml
 security:
   # --- Hashage des mots de passe ---
   password_hashers:
