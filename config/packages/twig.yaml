@@ -1,5 +1,7 @@
 twig:
+    default_path: '%kernel.project_dir%/templates'
     file_name_pattern: '*.twig'
+    charset: 'UTF-8'   # Forçage explicite
 
     # Ajout des chemins custom
     paths:
@@ -8,7 +10,3 @@ twig:
 when@test:
     twig:
         strict_variables: true
-
-
-
-

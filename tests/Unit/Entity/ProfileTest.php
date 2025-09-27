@@ -9,9 +9,9 @@ use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests unitaires de l'entitÃ© Profile
+ * Tests unitaires de l'entitÃƒÂ© Profile
  *
- * VÃ©rifie le bon fonctionnement des setters/getters
+ * VÃƒÂ©rifie le bon fonctionnement des setters/getters
  * et l'association avec User.
  */
 class ProfileTest extends TestCase
@@ -21,7 +21,7 @@ class ProfileTest extends TestCase
         $profile = new Profile();
         $profile->setFirstname('Alice');
 
-        $this->assertSame('Alice', $profile->getFirstname(), 'Le prÃ©nom devrait Ãªtre correctement dÃ©fini et rÃ©cupÃ©rÃ©');
+        $this->assertSame('Alice', $profile->getFirstname(), 'Le prÃƒÂ©nom devrait ÃƒÂªtre correctement dÃƒÂ©fini et rÃƒÂ©cupÃƒÂ©rÃƒÂ©');
     }
 
     public function testLastnameSetterGetter(): void
@@ -29,15 +29,15 @@ class ProfileTest extends TestCase
         $profile = new Profile();
         $profile->setLastname('Dupont');
 
-        $this->assertSame('Dupont', $profile->getLastname(), 'Le nom devrait Ãªtre correctement dÃ©fini et rÃ©cupÃ©rÃ©');
+        $this->assertSame('Dupont', $profile->getLastname(), 'Le nom devrait ÃƒÂªtre correctement dÃƒÂ©fini et rÃƒÂ©cupÃƒÂ©rÃƒÂ©');
     }
 
     public function testBioSetterGetter(): void
     {
         $profile = new Profile();
-        $profile->setBio('PassionnÃ©e de musique et dâ€™Ã©changes de savoirs.');
+        $profile->setBio('PassionnÃƒÂ©e de musique et dÃ¢â‚¬â„¢ÃƒÂ©changes de savoirs.');
 
-        $this->assertStringContainsString('musique', $profile->getBio(), 'La bio devrait contenir le texte dÃ©fini');
+        $this->assertStringContainsString('musique', $profile->getBio(), 'La bio devrait contenir le texte dÃƒÂ©fini');
     }
 
     public function testRelationWithUser(): void
@@ -48,7 +48,7 @@ class ProfileTest extends TestCase
         $profile = new Profile();
         $profile->setUser($user);
 
-        $this->assertSame($user, $profile->getUser(), 'Le profil doit Ãªtre associÃ© au bon utilisateur');
-        $this->assertEquals('profileuser@example.com', $profile->getUser()->getEmail(), 'L\'utilisateur liÃ© au profil devrait Ãªtre cohÃ©rent');
+        $this->assertSame($user, $profile->getUser(), 'Le profil doit ÃƒÂªtre associÃƒÂ© au bon utilisateur');
+        $this->assertEquals('profileuser@example.com', $profile->getUser()->getEmail(), 'L\'utilisateur liÃƒÂ© au profil devrait ÃƒÂªtre cohÃƒÂ©rent');
     }
 }

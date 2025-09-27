@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// Repository = couche d'accÃ¨s aux catÃ©gories (Category).
+// Repository = couche d'accÃƒÂ¨s aux catÃƒÂ©gories (Category).
 
 namespace App\Repository;
 

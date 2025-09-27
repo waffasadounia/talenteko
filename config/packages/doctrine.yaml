@@ -14,7 +14,7 @@ doctrine:
       collate: utf8mb4_unicode_ci
 
   orm:
-    # générés activé en prod)
+    # générés activés en prod
     auto_generate_proxy_classes: true
     enable_lazy_ghost_objects: true
 

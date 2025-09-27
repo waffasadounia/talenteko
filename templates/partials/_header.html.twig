@@ -7,16 +7,16 @@
     <a
       href="{{ path('app_home') }}"
       class="flex shrink-0 flex-col items-center text-center"
-      aria-label="Retour Ã  l'accueil TalentÃ©ko"
+      aria-label="Retour ÃƒÂ  l'accueil TalentÃƒÂ©ko"
     >
       <img
         src="{{ asset('images/talenteko_logo.png') }}"
-        alt="Logo TalentÃ©ko"
+        alt="Logo TalentÃƒÂ©ko"
         class="max-h-10 w-auto rounded-full object-contain"
       />
       <span class="text-xs leading-tight font-extrabold">
         <span class="text-talenteko-blue">Talent</span>
-        <span class="text-talenteko-orange-500">Ã©ko</span>
+        <span class="text-talenteko-orange-500">ÃƒÂ©ko</span>
       </span>
     </a>
 
@@ -25,14 +25,14 @@
       action="{{ path('app_search') }}"
       method="get"
       role="search"
-      aria-label="Recherche de compÃ©tences"
+      aria-label="Recherche de compÃƒÂ©tences"
       class="relative max-w-xl min-w-[220px] flex-1"
     >
       <input
         type="search"
         name="q"
-        placeholder="Rechercher une compÃ©tence"
-        aria-label="Rechercher une compÃ©tence"
+        placeholder="Rechercher une compÃƒÂ©tence"
+        aria-label="Rechercher une compÃƒÂ©tence"
         class="border-talenteko-orange-500 text-talenteko-blue focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500 w-full rounded-full border py-2 pr-4 pl-10 placeholder-gray-400 transition focus:ring-2 focus:outline-none"
       />
       <i
@@ -69,21 +69,21 @@
         </a>
       </nav>
 
-      {# CTA : DÃ©poser une annonce #}
+      {# CTA : DÃƒÂ©poser une annonce #}
       <a
         href="{{ path('app_listing_new') }}"
         class="btn-outline flex items-center gap-2"
-        aria-label="DÃ©poser une annonce"
+        aria-label="DÃƒÂ©poser une annonce"
       >
         <i class="fa fa-plus-circle" aria-hidden="true"></i>
-        <span>DÃ©poser une annonce</span>
+        <span>DÃƒÂ©poser une annonce</span>
       </a>
 
       {# CTA : Connexion #}
       <a
         href="{{ path('app_login') }}"
         class="btn-primary flex items-center gap-2"
-        aria-label="Se connecter Ã  votre compte"
+        aria-label="Se connecter ÃƒÂ  votre compte"
       >
         <i class="fa fa-user" aria-hidden="true"></i>
         <span>Se connecter</span>
@@ -91,11 +91,11 @@
     </div>
   </div>
 
-  {# BARRE DES CATÃ‰GORIES visible uniquement sur certaines pages #}
+  {# BARRE DES CATÃƒâ€°GORIES visible uniquement sur certaines pages #}
   {% set current_route = app.request.attributes.get('_route') %}
   {% if current_route in ['app_home', 'app_search'] %}
     <nav
-      aria-label="catÃ©gories"
+      aria-label="catÃƒÂ©gories"
       class="border-talenteko-orange-500 border-t bg-white py-3"
     >
       <div
@@ -103,9 +103,9 @@
       >
         {% set categories = [
           'Bricolage',
-          'Bien-Ãªtre',
+          'Bien-ÃƒÂªtre',
           'Jardinage',
-          'Ã‰ducation',
+          'Ãƒâ€°ducation',
           'Informatique',
           'Langues',
           'Art',

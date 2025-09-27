@@ -1,10 +1,9 @@
 # ================================================
-# .gitattributes — Talentéko
-# Objectif :
+# .gitattributes — TalentÉkô
+# Objectifs :
 # - Uniformiser les fins de ligne (LF) dans le dépôt
-# - éviter les diffs parasites Windows/Linux/Mac
+# - Éviter les diffs parasites Windows/Linux/Mac
 # - Protéger les binaires
-# - Forcer UTF-8 sans BOM pour le code
 # ================================================
 
 # Normaliser toutes les fins de ligne en LF dans le dépôt
@@ -25,6 +24,22 @@
 # Fichiers d'environnement (important : pas de CRLF)
 .env*  text eol=lf
 
+# Lockfiles – forcer LF (éviter conflits Windows)
+composer.lock      text eol=lf
+package-lock.json  text eol=lf
+symfony.lock       text eol=lf
+prettier.config.js text eol=lf
+
+# Fichiers code (toujours LF)
+*.php   text eol=lf
+*.twig  text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
+*.json  text eol=lf
+
+# SVG : texto (diff lisible), on garde LF
+*.svg  text eol=lf
+
 # Binaires (pas de normalisation – stockés tels quels)
 *.png  binary
 *.jpg  binary
@@ -39,21 +54,3 @@
 *.eot  binary
 *.mp4  binary
 *.mov  binary
-
-# SVG : texto (diff lisible), on garde LF
-*.svg  text eol=lf
-
-# Lockfiles – forcer LF (éviter conflits Windows)
-composer.lock     text eol=lf
-package-lock.json text eol=lf
-symfony.lock      text eol=lf
-.editorconfig text eol=lf
-prettier.config.js text eol=lf
-
-
-# Fichiers code (UTF-8 sans BOM + LF)
-*.php   text working-tree-encoding=UTF-8
-*.twig  text working-tree-encoding=UTF-8
-*.yaml  text working-tree-encoding=UTF-8
-*.yml   text working-tree-encoding=UTF-8
-*.json  text working-tree-encoding=UTF-8

@@ -11,7 +11,7 @@ framework:
   # Intercepte toutes les erreurs PHP (y compris fatales)
   handle_all_throwables: true
 
-  # Protection CSRF activÃ© des formulaires)
+  # Protection CSRF activée des formulaires
   csrf_protection: true
 
   # Sessions
