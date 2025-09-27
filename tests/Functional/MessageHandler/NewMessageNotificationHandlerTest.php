@@ -29,18 +29,18 @@ final class NewMessageNotificationHandlerTest extends TestCase
                 [2, $sender],
             ]);
 
-        // Mock EntityManager qui retournera le repo mockÃƒÂ©
+        // Mock EntityManager qui retournera le repo mocké
         $em = $this->createMock(EntityManagerInterface::class);
         $em->method('getRepository')->willReturn($userRepo);
 
-        // Mock Mailer qui vÃƒÂ©rifie l'envoi
+        // Mock Mailer qui vérifie l'envoi
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects($this->once())
             ->method('send')
             ->with(
                 $this->callback(function (Email $email) {
                     return $email->getTo()[0]->getAddress() === 'dest@test.com'
-                        && $email->getSubject() === 'Nouveau message sur TalentÃƒÂ©ko';
+                        && $email->getSubject() === 'Nouveau message sur TalentÉkô';
                 })
             );
 
@@ -61,7 +61,7 @@ final class NewMessageNotificationHandlerTest extends TestCase
         $em = $this->createMock(EntityManagerInterface::class);
         $em->method('getRepository')->willReturn($userRepo);
 
-        // Mock Mailer qui ne doit jamais ÃƒÂªtre appelÃƒÂ©
+        // Mock Mailer qui ne doit jamais être appelé
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects($this->never())->method('send');
 

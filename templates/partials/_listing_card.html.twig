@@ -1,6 +1,6 @@
 {# ================================
   partials/_listing_card.html.twig
-  Carte annonce TalentÃƒÂ©ko (V2 homogÃƒÂ©nÃƒÂ©isÃƒÂ©e)
+  Carte annonce Talentéko (V2 homogénéisée)
   ================================ #}
 
 <div
@@ -22,25 +22,15 @@
     </span>
   </button>
 
-  {# --- Image principale (rÃƒÂ©cupÃƒÂ©rÃƒÂ©e si connectÃƒÂ©e, sinon placeholder) --- #}
+  {# --- Image principale (récupérée si disponible, sinon placeholder) --- #}
   <a
-    href="{{
-    path(
-      'app_listing_show',
-      {
-        slug: listing.slug
-      }
-    )
-    }}"
+    href="{{ path('app_listing_show', { slug: listing.slug }) }}"
     class="focus-visible:ring-talenteko-orange-500 block rounded-t-xl focus:outline-none focus-visible:ring-2"
   >
     <div class="h-40 w-full overflow-hidden bg-white">
       {% if (listing.images|length) > 0 %}
         <img
-          src="{{ asset(
-            'uploads/listings/' ~ listing.category.slug ~ '/'
-              ~ listing.images|first.path
-          )|imagine_filter('listing_card') }}"
+          src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path)|imagine_filter('listing_card') }}"
           alt="Image du listing {{ listing.title|e }}"
           class="h-full w-full bg-gray-200 object-cover"
           loading="lazy"
@@ -58,33 +48,25 @@
         />
       {% endif %}
     </div>
+
     {# --- Contenu texte --- #}
     <div class="flex flex-col gap-2 p-4">
-      {# catÃƒÂ©gorie (fallback si null) #}
-      <span
-        class="text-talenteko-orange-500 inline-block text-xs font-semibold"
-      >
-        {{ listing.category.name ?? 'Non classÃƒÂ©e' }}
+      {# Catégorie (fallback si null) #}
+      <span class="text-talenteko-orange-500 inline-block text-xs font-semibold">
+        {{ listing.category.name ?? 'Non classée' }}
       </span>
 
       {# Titre cliquable #}
       <h3 class="text-talenteko-blue line-clamp-1 text-base font-bold">
         <a
-          href="{{
-          path(
-            'app_listing_show',
-            {
-              slug: listing.slug
-            }
-          )
-          }}"
+          href="{{ path('app_listing_show', { slug: listing.slug }) }}"
           class="focus-visible:ring-talenteko-orange-500 rounded hover:underline focus:outline-none focus-visible:ring-2"
         >
           {{ listing.title }}
         </a>
       </h3>
 
-      {# Description tronquÃƒÂ©e (2 lignes max) #}
+      {# Description tronquée (2 lignes max) #}
       <p class="text-talenteko-blue-600 line-clamp-2 text-sm">
         {{ listing.description }}
       </p>
@@ -110,9 +92,7 @@
             <i
               class="fa fa-map-marker-alt text-talenteko-orange-500"
               aria-hidden="true"
-            >
-
-            </i>
+            ></i>
             {{ listing.location }}
           </span>
         {% endif %}

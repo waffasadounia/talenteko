@@ -5,8 +5,8 @@
 // - Entrée principale : app.js (importe Tailwind via app.css)
 // - Stimulus/Turbo activés via controllers.json
 // - Source maps : inline en dev, désactivées en prod
-// - PostCSS activÃƒÂ© (Tailwind v4)
-// - Optimisations prod : cache-busting + intÃƒÂ©gritÃƒÂ© SRI
+// - PostCSS activé (Tailwind v4)
+// - Optimisations prod : cache-busting + integrity hashes + Terser sans .LICENSE.txt
 // ===============================================
 
 const Encore = require('@symfony/webpack-encore');

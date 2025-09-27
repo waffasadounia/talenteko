@@ -8,10 +8,10 @@ use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests unitaires de l'entitÃƒÂ© User
+ * Tests unitaires de l'entité User
  *
- * VÃƒÂ©rifie le bon fonctionnement des setters/getters
- * et la cohÃƒÂ©rence des donnÃƒÂ©es manipulÃƒÂ©es.
+ * Vérifie le bon fonctionnement des setters/getters
+ * et la cohérence des données manipulées.
  */
 class UserTest extends TestCase
 {
@@ -20,7 +20,11 @@ class UserTest extends TestCase
         $user = new User();
         $user->setEmail('test@example.com');
 
-        $this->assertSame('test@example.com', $user->getEmail(), 'L\'email devrait ÃƒÂªtre correctement dÃƒÂ©fini et rÃƒÂ©cupÃƒÂ©rÃƒÂ©');
+        $this->assertSame(
+            'test@example.com',
+            $user->getEmail(),
+            'L\'email devrait être correctement défini et récupéré'
+        );
     }
 
     public function testPseudoSetterGetter(): void
@@ -28,7 +32,11 @@ class UserTest extends TestCase
         $user = new User();
         $user->setPseudo('Talenteko#1234');
 
-        $this->assertSame('Talenteko#1234', $user->getPseudo(), 'Le pseudo devrait ÃƒÂªtre correctement dÃƒÂ©fini et rÃƒÂ©cupÃƒÂ©rÃƒÂ©');
+        $this->assertSame(
+            'Talenteko#1234',
+            $user->getPseudo(),
+            'Le pseudo devrait être correctement défini et récupéré'
+        );
     }
 
     public function testPasswordSetterGetter(): void
@@ -36,14 +44,25 @@ class UserTest extends TestCase
         $user = new User();
         $user->setPassword('hashedPassword');
 
-        $this->assertNotEmpty($user->getPassword(), 'Le mot de passe ne devrait pas ÃƒÂªtre vide aprÃƒÂ¨s setPassword()');
-        $this->assertSame('hashedPassword', $user->getPassword(), 'Le mot de passe dÃƒÂ©fini devrait ÃƒÂªtre identique ÃƒÂ  celui rÃƒÂ©cupÃƒÂ©rÃƒÂ©');
+        $this->assertNotEmpty(
+            $user->getPassword(),
+            'Le mot de passe ne devrait pas être vide après setPassword()'
+        );
+        $this->assertSame(
+            'hashedPassword',
+            $user->getPassword(),
+            'Le mot de passe défini devrait être identique à celui récupéré'
+        );
     }
 
     public function testRolesDefault(): void
     {
         $user = new User();
 
-        $this->assertContains('ROLE_USER', $user->getRoles(), 'Tout nouvel utilisateur doit avoir le rÃƒÂ´le ROLE_USER par dÃƒÂ©faut');
+        $this->assertContains(
+            'ROLE_USER',
+            $user->getRoles(),
+            'Tout nouvel utilisateur doit avoir le rôle ROLE_USER par défaut'
+        );
     }
 }

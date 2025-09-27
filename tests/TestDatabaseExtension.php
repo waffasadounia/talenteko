@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
 /**
- * Extension PHPUnit pour rÃƒÂ©initialiser la BDD avant la suite de tests.
+ * Extension PHPUnit pour réinitialiser la BDD avant la suite de tests.
  */
 final class TestDatabaseExtension implements Extension
 {
@@ -24,6 +24,7 @@ final class TestDatabaseExtension implements Extension
         $facade->registerSubscriber(new class () implements StartedSubscriber {
             public function notify(TestSuiteStarted $event): void
             {
+                // On n’exécute le reset BDD que pour la suite de tests principale
                 if ('Project Test Suite' !== $event->testSuite()->name()) {
                     return;
                 }

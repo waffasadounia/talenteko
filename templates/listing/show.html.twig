@@ -2,14 +2,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  {{ listing.title }}
-  | TalentÃƒÂ©ko
-{% endblock %}
-
+  {{ listing.title }} | TalentÉkô
 {% endblock %}
 
 {% block body %}
-  {# ===== Bandeau d'en-tÃƒÂªte ===== #}
+  {# ===== Bandeau d'en-tête ===== #}
   <section class="bg-talenteko-peach-100 py-8">
     <div class="mx-auto max-w-6xl px-4">
       <p class="mb-3 text-sm">
@@ -30,8 +27,8 @@
       <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
         {% if listing.category %}
           <span>
-            catÃƒÂ©gorie :
-            <strong>{{ listing.category.name ?? 'Non classÃƒÂ©e' }}</strong>
+            Catégorie :
+            <strong>{{ listing.category.name ?? 'Non classée' }}</strong>
           </span>
         {% endif %}
         {% if listing.location %}
@@ -49,16 +46,11 @@
     <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3">
       {# Colonne gauche : image + description #}
       <div class="space-y-6 md:col-span-2">
-        {# Image principale homogÃƒÂ¨ne (900x506 via LiipImagine) #}
-        <div
-          class="relative overflow-hidden rounded-xl border border-gray-200 bg-white"
-        >
+        {# Image principale homogène (900x506 via LiipImagine) #}
+        <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white">
           {% if (listing.images|length) > 0 %}
             <img
-              src="{{ asset(
-                'uploads/listings/' ~ listing.category.slug ~ '/'
-                  ~ listing.images|first.path
-              )|imagine_filter('listing_show') }}"
+              src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path)|imagine_filter('listing_show') }}"
               alt="{{ listing.title|e }}"
               class="w-full rounded-t-xl"
             />
@@ -85,13 +77,10 @@
             </span>
           </button>
         </div>
+
         <article class="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 class="text-talenteko-blue mb-3 text-xl font-bold">
-            Description
-          </h2>
-          <div
-            class="max-w-none leading-relaxed whitespace-pre-line text-gray-800"
-          >
+          <h2 class="text-talenteko-blue mb-3 text-xl font-bold">Description</h2>
+          <div class="max-w-none leading-relaxed whitespace-pre-line text-gray-800">
             {{ listing.description }}
           </div>
         </article>
@@ -101,7 +90,7 @@
       <aside class="space-y-6">
         <div class="rounded-xl border border-gray-200 bg-white p-6">
           <h3 class="text-talenteko-blue mb-4 text-lg font-semibold">
-            ProposÃƒÂ© par
+            Proposé par
           </h3>
           <div class="mb-3 flex items-center gap-3">
             <div
@@ -121,7 +110,7 @@
             </div>
           </div>
 
-          {# Ãƒâ€°toiles statiques pour l'instant #}
+          {# Étoiles statiques pour l'instant #}
           <div class="text-talenteko-orange-500 flex items-center text-sm">
             {% for i in 1..5 %}
               <i class="fa-{{ i <= 4 ? 'solid' : 'regular' }} fa-star"></i>
@@ -134,11 +123,12 @@
             href="{{ path('app_home') }}"
             class="text-talenteko-orange-500 block text-center hover:underline"
           >
-            Retour ÃƒÂ  l'accueil
+            Retour à l'accueil
           </a>
         </div>
       </aside>
     </div>
   </section>
+
   {% include 'partials/_flash.html.twig' %}
 {% endblock %}

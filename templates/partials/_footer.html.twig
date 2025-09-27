@@ -3,23 +3,23 @@
   <div
     class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-10 md:grid-cols-3"
   >
-    {# Colonne gauche : Logo + slogan + rÃƒÂ©seaux sociaux #}
+    {# Colonne gauche : Logo + slogan + réseaux sociaux #}
     <div class="flex flex-col items-center md:items-start">
       <div class="flex flex-col items-center text-center">
         <img
           src="{{ asset('images/talenteko_logo.png') }}"
-          alt="Logo TalentÃƒÂ©ko"
+          alt="Logo Talentéko"
           class="mb-2 h-12 w-auto"
         />
         <span class="text-base font-extrabold">
           <span class="text-talenteko-blue-900">Talent</span>
-          <span class="text-talenteko-peach-300">ÃƒÂ©ko</span>
+          <span class="text-talenteko-peach-300">éko</span>
         </span>
       </div>
 
       <div class="mt-2 self-start">
         <p class="mb-4 text-sm text-gray-100">
-          Plateforme de troc de compÃƒÂ©tences<br />entre particuliers
+          Plateforme de troc de compétences<br />entre particuliers
         </p>
         <ul class="flex gap-4 text-xl">
           <li>
@@ -56,10 +56,10 @@
       </div>
     </div>
 
-    {# Colonne milieu : Ãƒâ‚¬ propos #}
+    {# Colonne milieu : À propos #}
     <div aria-labelledby="footer-about">
       <h3 id="footer-about" class="mb-3 text-sm font-bold md:text-base">
-        Ãƒâ‚¬ propos
+        À propos
       </h3>
       <ul class="space-y-2 text-sm">
         <li>
@@ -75,7 +75,7 @@
             href="{{ path('app_how') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Comment ÃƒÂ§a marche
+            Comment ça marche
           </a>
         </li>
         <li>
@@ -97,10 +97,10 @@
       </ul>
     </div>
 
-    {# Colonne droite : Informations lÃƒÂ©gales #}
+    {# Colonne droite : Informations légales #}
     <div aria-labelledby="footer-legal">
       <h3 id="footer-legal" class="mb-3 text-sm font-bold md:text-base">
-        Informations lÃƒÂ©gales
+        Informations légales
       </h3>
       <ul class="space-y-2 text-sm">
         <li>
@@ -108,7 +108,7 @@
             href="{{ path('app_conditions') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Conditions gÃƒÂ©nÃƒÂ©rales
+            Conditions générales
           </a>
         </li>
         <li>
@@ -116,7 +116,7 @@
             href="{{ path('app_confidentialite') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Politique de confidentialitÃƒÂ©
+            Politique de confidentialité
           </a>
         </li>
         <li>
@@ -132,7 +132,7 @@
             href="{{ path('app_mentions_legales') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Mentions lÃƒÂ©gales
+            Mentions légales
           </a>
         </li>
       </ul>
@@ -143,8 +143,6 @@
   <div
     class="text-talenteko-peach-300 border-t border-white/30 py-4 text-center text-xs"
   >
-    @
-    {{ 'now'|date('Y') }}
-    Talenteko. Tous droits rÃƒÂ©servÃƒÂ©s.
+    © {{ 'now'|date('Y') }} Talentéko. Tous droits réservés.
   </div>
 </footer>

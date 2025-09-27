@@ -7,16 +7,16 @@
     <a
       href="{{ path('app_home') }}"
       class="flex shrink-0 flex-col items-center text-center"
-      aria-label="Retour ÃƒÂ  l'accueil TalentÃƒÂ©ko"
+      aria-label="Retour à l'accueil Talentéko"
     >
       <img
         src="{{ asset('images/talenteko_logo.png') }}"
-        alt="Logo TalentÃƒÂ©ko"
+        alt="Logo Talentéko"
         class="max-h-10 w-auto rounded-full object-contain"
       />
       <span class="text-xs leading-tight font-extrabold">
         <span class="text-talenteko-blue">Talent</span>
-        <span class="text-talenteko-orange-500">ÃƒÂ©ko</span>
+        <span class="text-talenteko-orange-500">éko</span>
       </span>
     </a>
 
@@ -25,22 +25,20 @@
       action="{{ path('app_search') }}"
       method="get"
       role="search"
-      aria-label="Recherche de compÃƒÂ©tences"
+      aria-label="Recherche de compétences"
       class="relative max-w-xl min-w-[220px] flex-1"
     >
       <input
         type="search"
         name="q"
-        placeholder="Rechercher une compÃƒÂ©tence"
-        aria-label="Rechercher une compÃƒÂ©tence"
+        placeholder="Rechercher une compétence"
+        aria-label="Rechercher une compétence"
         class="border-talenteko-orange-500 text-talenteko-blue focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500 w-full rounded-full border py-2 pr-4 pl-10 placeholder-gray-400 transition focus:ring-2 focus:outline-none"
       />
       <i
         class="fa fa-search text-talenteko-orange-500 absolute top-2.5 left-3"
         aria-hidden="true"
-      >
-
-      </i>
+      ></i>
     </form>
 
     {# 3) NAVIGATION + CTA #}
@@ -69,21 +67,21 @@
         </a>
       </nav>
 
-      {# CTA : DÃƒÂ©poser une annonce #}
+      {# CTA : Déposer une annonce #}
       <a
         href="{{ path('app_listing_new') }}"
         class="btn-outline flex items-center gap-2"
-        aria-label="DÃƒÂ©poser une annonce"
+        aria-label="Déposer une annonce"
       >
         <i class="fa fa-plus-circle" aria-hidden="true"></i>
-        <span>DÃƒÂ©poser une annonce</span>
+        <span>Déposer une annonce</span>
       </a>
 
       {# CTA : Connexion #}
       <a
         href="{{ path('app_login') }}"
         class="btn-primary flex items-center gap-2"
-        aria-label="Se connecter ÃƒÂ  votre compte"
+        aria-label="Se connecter à votre compte"
       >
         <i class="fa fa-user" aria-hidden="true"></i>
         <span>Se connecter</span>
@@ -91,11 +89,11 @@
     </div>
   </div>
 
-  {# BARRE DES CATÃƒâ€°GORIES visible uniquement sur certaines pages #}
+  {# BARRE DES CATÉGORIES visible uniquement sur certaines pages #}
   {% set current_route = app.request.attributes.get('_route') %}
   {% if current_route in ['app_home', 'app_search'] %}
     <nav
-      aria-label="catÃƒÂ©gories"
+      aria-label="Catégories"
       class="border-talenteko-orange-500 border-t bg-white py-3"
     >
       <div
@@ -103,9 +101,9 @@
       >
         {% set categories = [
           'Bricolage',
-          'Bien-ÃƒÂªtre',
+          'Bien-être',
           'Jardinage',
-          'Ãƒâ€°ducation',
+          'Éducation',
           'Informatique',
           'Langues',
           'Art',

@@ -12,7 +12,8 @@ class RegistrationControllerTest extends WebTestCase
     use DatabasePrimer;
 
     /**
-     * RÃƒÂ©cupÃƒÂ¨re les donnÃƒÂ©es de test et initialise la base de test UNE SEULE FOIS avant tous les tests de cette classe.
+     * Récupère les données de test et initialise la base de test
+     * UNE SEULE FOIS avant tous les tests de cette classe.
      */
     public static function setUpBeforeClass(): void
     {
@@ -24,7 +25,7 @@ class RegistrationControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/inscription');
 
-        // ... VÃƒÂ©rifie que la page se charge bien
+        // Vérifie que la page se charge bien
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('form');
     }
@@ -34,7 +35,7 @@ class RegistrationControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/inscription');
 
-        // ... Remplit et soumet le formulaire d'inscription
+        // Remplit et soumet le formulaire d'inscription
         $form = $crawler->selectButton("S'inscrire")->form([
             'registration[email]' => 'testuser_' . uniqid() . '@example.com',
             'registration[pseudo]' => 'TestUser' . uniqid(),
@@ -46,11 +47,11 @@ class RegistrationControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        // ... VÃƒÂ©rifie qu'il y a bien une redirection aprÃƒÂ¨s inscription
+        // Vérifie qu'il y a bien une redirection après inscription
         $this->assertResponseRedirects('/');
         $client->followRedirect();
 
-        // ... VÃƒÂ©rifie que l'utilisateur est redirigÃƒÂ© vers l'accueil et connectÃƒÂ©
+        // Vérifie que l'utilisateur est redirigé vers l'accueil et connecté
         $this->assertSelectorExists('header nav');
     }
 }

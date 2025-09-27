@@ -1,7 +1,7 @@
 {
   "type": "project",
   "name": "talenteko/project",
-  "description": "Talenteko Ã¢â‚¬â€œ plateforme d'ÃƒÂ©change de compÃƒÂ©tences (Symfony 6.4, Doctrine, Twig, Tailwind, Stimulus, Turbo). Projet RNCP DWWM.",
+  "description": "Talenteko – plateforme d'échange de compétences (Symfony 6.4, Doctrine, Twig, Tailwind, Stimulus, Turbo). Projet RNCP DWWM.",
   "keywords": [
     "symfony",
     "talenteko",

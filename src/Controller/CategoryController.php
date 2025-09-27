@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * catÃƒÂ©gories
+ * catégories
  */
 class CategoryController extends AbstractController
 {
@@ -33,7 +33,3 @@ class CategoryController extends AbstractController
         ]);
     }
 }
-
-
-
-

@@ -2,7 +2,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Styleguide Boutons | TalentÃƒÂ©ko
+  Styleguide Boutons | TalentÉkô
 {% endblock %}
 
 {% block body %}
@@ -11,10 +11,10 @@
   <main class="container mx-auto space-y-10 px-6 py-12">
     <header class="space-y-2">
       <h1 class="text-primary-color text-3xl font-bold">
-        Styleguide Boutons | TalentÃƒÂ©ko
+        Styleguide Boutons | TalentÉkô
       </h1>
       <p class="text-gray-600">
-        Page interne pour tester les composants UI TalentÃƒÂ©ko (boutons & liens).
+        Page interne pour tester les composants UI TalentÉkô (boutons & liens).
       </p>
     </header>
 
@@ -34,9 +34,7 @@
       <p class="text-sm text-gray-500">
         Normal : bg
         <code>talenteko-orange-500</code>
-        (sans lift) <code>talenteko-orange-500</code> (avec lift) <code>talenteko-orange-400</code>
-        <code>talenteko-orange-400</code>
-        (avec lift) <code>talenteko-orange-400</code> (sans lift) <code>talenteko-orange-500</code>
+        → sur hover <code>talenteko-orange-400</code>
       </p>
     </section>
 
@@ -50,7 +48,7 @@
           aria-label="Exemple bouton d'annonce"
         >
           <i class="fa fa-plus" aria-hidden="true"></i>
-          <span>DÃƒÂ©pÃƒÂ´t d'annonce</span>
+          <span>Dépôt d'annonce</span>
         </a>
         <a href="#" class="btn-outline" aria-label="Exemple bouton publier">
           <i class="fa fa-upload" aria-hidden="true"></i>
@@ -60,8 +58,7 @@
       <p class="text-sm text-gray-500">
         Normal : bordure + texte
         <code>talenteko-orange-500</code>
-        (sans lift) <code>talenteko-orange-500</code> (avec lift) <code>talenteko-orange-400</code>
-        (avec lift) <code>talenteko-orange-400</code> (sans lift) <code>talenteko-orange-500</code>
+        → sur hover <code>talenteko-orange-400</code>
       </p>
     </section>
 
@@ -71,7 +68,7 @@
       <div class="flex items-center gap-6">
         <a href="#" class="btn-link" aria-label="Lien retour accueil">
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          <span>Retour ÃƒÂ  l'accueil</span>
+          <span>Retour à l'accueil</span>
         </a>
         <a href="#" class="btn-link" aria-label="Lien voir plus">
           <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -79,8 +76,7 @@
         </a>
       </div>
       <p class="text-sm text-gray-500">
-        Texte orange 500 (sans lift) <code>talenteko-orange-500</code> (avec lift) <code>talenteko-orange-400</code>
-        (avec lift) <code>talenteko-orange-400</code> (sans lift) <code>talenteko-orange-500</code>
+        Texte orange 500 → hover <code>talenteko-orange-400</code>
       </p>
     </section>
 
@@ -88,7 +84,7 @@
     <section class="space-y-3">
       <h2 class="text-xl font-semibold">Navigation principale (liens)</h2>
       <nav aria-label="Navigation principale" class="flex items-center gap-6">
-        <a href="#" class="btn-link" aria-label="Aller ÃƒÂ  la recherche">
+        <a href="#" class="btn-link" aria-label="Aller à la recherche">
           <i class="fa fa-search" aria-hidden="true"></i>
           <span>Recherche</span>
         </a>
@@ -96,24 +92,20 @@
           <i class="fa fa-heart" aria-hidden="true"></i>
           <span>Favoris</span>
         </a>
-        <a href="#" class="btn-link" aria-label="AccÃƒÂ©der aux messages">
+        <a href="#" class="btn-link" aria-label="Accéder aux messages">
           <i class="fa fa-envelope" aria-hidden="true"></i>
           <span>Messages</span>
         </a>
       </nav>
     </section>
 
-    {# AccessibilitÃƒÂ© #}
+    {# Accessibilité #}
     <section class="space-y-3">
-      <h2 class="text-xl font-semibold">AccessibilitÃƒÂ©</h2>
+      <h2 class="text-xl font-semibold">Accessibilité</h2>
       <p class="text-gray-600">
-        Testez avec
-        <kbd>Tab</kbd>
-        : chaque bouton possÃƒÂ¨de un focus ring clair. Les icÃƒÂ´nes sont marquÃƒÂ©es
-        <code>aria-hidden="true"</code>
-        pour ne pas ÃƒÂªtre lues, et chaque bouton/lien a un
-        <code>aria-label</code>
-        descriptif.
+        Testez avec <kbd>Tab</kbd> : chaque bouton possède un focus ring clair.
+        Les icônes sont marquées <code>aria-hidden="true"</code> pour ne pas être
+        lues, et chaque bouton/lien a un <code>aria-label</code> descriptif.
       </p>
     </section>
   </main>
