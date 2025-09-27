@@ -1,33 +1,29 @@
 ﻿# config/packages/webpack_encore.yaml
 webpack_encore:
-  # rÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©pertoire oÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¹ Encore gÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©nÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨re les assets
+  # répertoire où se trouvent les fichiers de traduction (.yaml, .xlf, .php)
   output_path: '%kernel.project_dir%/public/build'
 
-  # Attributs appliquÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©s ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  toutes les balises <script>
+  # Attributs appliqués à toutes les balises <script>
   script_attributes:
     defer: true
-    # DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©commenter si je veux que Turbo recharge quand les assets changent
+    # À commenter si je veux que Turbo recharge quand les assets changent
     # 'data-turbo-track': reload
 
-  # Attributs appliquÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©s ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  toutes les balises <link>
+  # Attributs appliqués à toutes les balises <link>
   # link_attributes:
   #     'data-turbo-track': reload
 
 framework:
   assets:
-    # Manifest gÃ©nÃ©rÃ© par Webpack Encore
+    # Manifest généré par Webpack Encore
     json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
 
 when@prod:
   webpack_encore:
-    # Active le cache pour ne pas relire entrypoints.json ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  chaque requÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âªte
+    # Active le cache pour ne pas relire entrypoints.json à chaque requête
     cache: true
 
 when@test:
   webpack_encore:
-    # ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â°vite les erreurs si un entry manque pendant les tests
+    # Évite les erreurs si un entry manque pendant les tests
     strict_mode: false
-
-
-
-

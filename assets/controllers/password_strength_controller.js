@@ -1,38 +1,38 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * ContrÃƒÂ´leur Stimulus : vÃƒÂ©rification en direct du mot de passe
+ * Contrôleur Stimulus : vérification en direct du mot de passe
  *
  * - Affiche une checklist visuelle sous le champ de mot de passe.
- * - Chaque rÃƒÂ¨gle est validÃƒÂ©e/dÃƒÂ©sactivÃƒÂ©e en direct avec un feedback icÃƒÂ´ne + couleur.
- * - RÃƒÂ¨gles de sÃƒÂ©curitÃƒÂ© (recommandations ANSSI) :
- *    Ã¢â‚¬Â¢ Longueur Ã¢â€°Â¥ 10 caractÃƒÂ¨res
- *    Ã¢â‚¬Â¢ Au moins une majuscule
- *    Ã¢â‚¬Â¢ Au moins une minuscule
- *    Ã¢â‚¬Â¢ Au moins un chiffre
- *    Ã¢â‚¬Â¢ Au moins un caractÃƒÂ¨re spÃƒÂ©cial
+ * - Chaque règle est validée/désactivée en direct avec un feedback icône + couleur.
+ * - Règles de sécurité (recommandations ANSSI) :
+ *    • Longueur ≥ 10 caractères
+ *    • Au moins une majuscule
+ *    • Au moins une minuscule
+ *    • Au moins un chiffre
+ *    • Au moins un caractère spécial
  *
- * AccessibilitÃƒÂ© :
- * - aria-live="polite" : les changements sont lus par les lecteurs dÃ¢â‚¬â„¢ÃƒÂ©cran.
- * - LiÃƒÂ© via data-controller="password-strength" dans le formulaire.
- * - IcÃƒÂ´nes Font Awesome (fa-check-circle / fa-circle-xmark) pour cohÃƒÂ©rence visuelle avec le reste du site.
+ * Accessibilité :
+ * - aria-live="polite" : les changements sont lus par les lecteurs d’écran.
+ * - Lié via data-controller="password-strength" dans le formulaire.
+ * - Icônes Font Awesome (fa-check-circle / fa-circle-xmark) pour cohérence visuelle avec le reste du site.
  */
 export default class extends Controller {
   static targets = ['input', 'feedback'];
 
   connect() {
-    console.log('Ã¢Å“â€¦ PasswordStrength Stimulus controller connectÃƒÂ© !');
+    console.log('… PasswordStrength Stimulus controller connecté !');
 
-    // === DÃƒÂ©finition des rÃƒÂ¨gles ===
+    // === Définition des règles ===
     this.rules = [
-      { regex: /.{10,}/, text: 'Au moins 10 caractÃƒÂ¨res' },
+      { regex: /.{10,}/, text: 'Au moins 10 caractères' },
       { regex: /[A-Z]/, text: 'Au moins une majuscule' },
       { regex: /[a-z]/, text: 'Au moins une minuscule' },
       { regex: /\d/, text: 'Au moins un chiffre' },
-      { regex: /[\W_]/, text: 'Au moins un caractÃƒÂ¨re spÃƒÂ©cial' },
+      { regex: /[\W_]/, text: 'Au moins un caractère spécial' },
     ];
 
-    // === Construction de la liste UL (toutes Ã¢ÂÅ’ par dÃƒÂ©faut) ===
+    // === Construction de la liste UL (toutes cachées par défaut) ===
     this.list = document.createElement('ul');
     this.list.className = 'text-xs mt-2 space-y-1';
 
@@ -51,7 +51,7 @@ export default class extends Controller {
   check() {
     const value = this.inputTarget.value;
 
-    // === VÃƒÂ©rifie chaque rÃƒÂ¨gle en direct ===
+    // === Vérifie chaque règle en direct ===
     this.rules.forEach((rule, i) => {
       const li = this.list.querySelector(`[data-index="${i}"]`);
       if (rule.regex.test(value)) {

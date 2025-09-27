@@ -1,13 +1,15 @@
-ï»¿{# templates/listing/show.html.twig #}
+{# templates/listing/show.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
   {{ listing.title }}
-  | TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko
+  | Talentéko
+{% endblock %}
+
 {% endblock %}
 
 {% block body %}
-  {# ===== Bandeau d'en-tÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âªte ===== #}
+  {# ===== Bandeau d'en-tête ===== #}
   <section class="bg-talenteko-peach-100 py-8">
     <div class="mx-auto max-w-6xl px-4">
       <p class="mb-3 text-sm">
@@ -28,8 +30,8 @@
       <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
         {% if listing.category %}
           <span>
-            catÃƒÂ©gorie :
-            <strong>{{ listing.category.name ?? 'Non classÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e' }}</strong>
+            catégorie :
+            <strong>{{ listing.category.name ?? 'Non classée' }}</strong>
           </span>
         {% endif %}
         {% if listing.location %}
@@ -47,7 +49,7 @@
     <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3">
       {# Colonne gauche : image + description #}
       <div class="space-y-6 md:col-span-2">
-        {# Image principale homogÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨ne (900x506 via LiipImagine) #}
+        {# Image principale homogène (900x506 via LiipImagine) #}
         <div
           class="relative overflow-hidden rounded-xl border border-gray-200 bg-white"
         >
@@ -99,7 +101,7 @@
       <aside class="space-y-6">
         <div class="rounded-xl border border-gray-200 bg-white p-6">
           <h3 class="text-talenteko-blue mb-4 text-lg font-semibold">
-            ProposÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© par
+            Proposé par
           </h3>
           <div class="mb-3 flex items-center gap-3">
             <div
@@ -119,7 +121,7 @@
             </div>
           </div>
 
-          {# ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°toiles statiques pour l'instant #}
+          {# Étoiles statiques pour l'instant #}
           <div class="text-talenteko-orange-500 flex items-center text-sm">
             {% for i in 1..5 %}
               <i class="fa-{{ i <= 4 ? 'solid' : 'regular' }} fa-star"></i>
@@ -132,7 +134,7 @@
             href="{{ path('app_home') }}"
             class="text-talenteko-orange-500 block text-center hover:underline"
           >
-            Retour ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  l'accueil
+            Retour à l'accueil
           </a>
         </div>
       </aside>
@@ -140,16 +142,3 @@
   </section>
   {% include 'partials/_flash.html.twig' %}
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -24,15 +24,15 @@ security:
 
       logout:
         path: app_logout
-        target: / # Redirection aprÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨s dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©connexion
+        target: / # Redirection après déconnexion
 
       remember_me:
         secret: '%kernel.secret%'
         lifetime: 604800 # 1 semaine
         path: /
-        # always_remember_me: true activer seulement si souhaitÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©
+        # always_remember_me: true activer seulement si souhaité
 
-  # --- rÃ¨gles d'accÃ¨s (ordre ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©valuÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© de haut en bas) ---
+  # --- règles d'accès (ordre évalué de haut en bas) ---
   access_control:
     # Pages publiques
     - { path: ^/$, roles: PUBLIC_ACCESS }
@@ -51,10 +51,10 @@ security:
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/styleguide, roles: ROLE_ADMIN }
 
-    # Tout le reste nÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©cessite une authentification complÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨te
+    # Tout le reste nécessite une authentification complète
     - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
-# --- config spÃ©cifique
+# --- config spécifique
 when@test:
   security:
     password_hashers:
@@ -65,8 +65,4 @@ when@test:
         memory_cost: 10
     firewalls:
       main:
-        remember_me: false # DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sactivÃ© en test
-
-
-
-
+        remember_me: false # Désactivé en test

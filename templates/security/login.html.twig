@@ -1,10 +1,10 @@
-ï»¿{# ==========================
+{# ==========================
    templates/security/login.html.twig
    ========================== #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Se connecter | TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko
+  Se connecter | Talentéko
 {% endblock %}
 
 {% block body %}
@@ -25,17 +25,27 @@
         </div>
       {% endif %}
 
-      {# --- DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©jÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  connectÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© --- #}
+      {# --- Détails de connexion --- #}
       {% if app.user %}
         <div
           class="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700"
           role="alert"
         >
-          connectÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© en tant que
+          Vous êtes connecté en tant que
           <strong>{{ app.user.userIdentifier }}</strong>.
-          <a href="{{ path('app_logout') }}" class="btn-link">Se dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©connecter</a>
+          <a href="{{ path('app_logout') }}" class="btn-link">Se déconnecter</a>
         </div>
       {% endif %}
+
+      {# --- Formulaire connexion --- #}
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <form
+          method="post"
+          action="{{ path('app_login') }}"
+          class="space-y-5"
+          novalidate
+        >
+          {# ========== EMAIL ========== #}
 
       {# --- Formulaire connexion --- #}
       <div class="rounded-2xl border bg-white p-6 shadow-sm">
@@ -66,7 +76,7 @@
             />
             {% if error %}
               <p id="{{ email_errors_id }}" class="form-error" role="alert">
-                VÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rifiez votre adresse email.
+                Vérifiez votre adresse email.
               </p>
             {% endif %}
           </div>
@@ -91,7 +101,7 @@
             />
             {% if error %}
               <p id="{{ pwd_errors_id }}" class="form-error" role="alert">
-                VÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rifiez votre mot de passe.
+                Vérifiez votre mot de passe.
               </p>
             {% endif %}
           </div>
@@ -103,7 +113,7 @@
             value="{{ csrf_token('authenticate') }}"
           />
 
-          {# Remember me + lien oubliÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© #}
+          {# Remember me + lien oublié mot de passe #}
           <div class="flex items-center justify-between text-sm">
             <label class="inline-flex items-center gap-2 text-gray-600">
               <input
@@ -113,7 +123,7 @@
               />
               <span>Se souvenir de moi</span>
             </label>
-            <a href="#" class="btn-link">Mot de passe oubliÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© ?</a>
+            <a href="#" class="btn-link">Mot de passe oublié ?</a>
           </div>
 
           <button type="submit" class="btn-primary btn-block">
@@ -124,23 +134,10 @@
         <p class="mt-6 text-center text-sm text-gray-600">
           Pas encore de compte ?
           <a href="{{ path('app_register') }}" class="btn-link">
-            CrÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©er un compte
+            Créer un compte
           </a>
         </p>
       </div>
     </div>
   </section>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,10 +1,10 @@
 // prettier.config.js
-// Configuration Prettier pour TalentÃƒâ€°kÃƒÂ´
-// Objectif : lisibilitÃƒÂ©, cohÃƒÂ©rence, respect des standards modernes (RNCP DWWM, Symfony, Tailwind).
+// Configuration Prettier pour Talenteko
+// Objectif : lisibilité, cohérence, respect des standards modernes (RNCP DWWM, Symfony, Tailwind).
 
 module.exports = {
-  semi: true, // Toujours mettre ; en JS Ã¢â€ â€™ plus explicite et classique
-  singleQuote: true, // Utiliser des quotes simples (plus cohÃƒÂ©rent avec PHP/Twig)
+  semi: true, // Toujours mettre ; en JS – plus explicite et classique
+  singleQuote: true, // Utiliser des quotes simples (plus cohérent avec PHP/Twig)
   printWidth: 100, // Largeur max par ligne (100 = compromis moderne, plus lisible que 80)
   tabWidth: 2,
   useTabs: false,
@@ -24,5 +24,3 @@ module.exports = {
     }
   ]
 }
-
-

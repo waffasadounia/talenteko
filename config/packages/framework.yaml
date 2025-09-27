@@ -2,10 +2,10 @@
 framework:
   secret: '%env(APP_SECRET)%'
 
-  # dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sactive totalement les annotations (routes, etc.)
+  # désactive totalement les annotations (routes, etc.)
   annotations: false
 
-  # EmpÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âªche les overrides HTTP type _method
+  # Empêche les overrides HTTP type _method
   http_method_override: false
 
   # Intercepte toutes les erreurs PHP (y compris fatales)
@@ -24,13 +24,9 @@ framework:
   php_errors:
     log: true
 
-# Configuration spÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©cifique ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢environnement de test
+# Configuration spécifique à l'environnement de test
 when@test:
   framework:
     test: true
     session:
       storage_factory_id: session.storage.factory.mock_file
-
-
-
-

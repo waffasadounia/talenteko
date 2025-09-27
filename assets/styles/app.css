@@ -1,8 +1,8 @@
 /* ===========================================
-   app.css = point dÃ¢â‚¬â„¢entrÃƒÂ©e Tailwind/TalentÃƒâ€°kÃƒÂ´
+   app.css = point d'entrée Tailwind/Talentékô
    -------------------------------------------
-   Ã¢â€ â€™ RÃƒÂ´le : ne contient AUCUN style direct.
-   Ã¢â€ â€™ Sert uniquement ÃƒÂ  centraliser les imports :
+   Rôle : ne contient AUCUN style direct.
+   Sert uniquement à centraliser les imports :
       - Tailwind
       - Fonts
       - Styles globaux
@@ -17,7 +17,7 @@
 /* Polices Google (Montserrat, Catamaran, Chivo) */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
 
-/* Imports internes (organisÃƒÂ©s par rÃƒÂ´le) */
+/* Imports internes (organisés par rôle) */
 @import './globals.css'; /* Reset, tokens (couleurs, polices) */
 @import './components.css'; /* Boutons, navigation, helpers UI */
-@import './forms.css'; /* Champs de formulaires et ÃƒÂ©tats */
+@import './forms.css'; /* Champs de formulaires et états */

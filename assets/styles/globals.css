@@ -1,9 +1,9 @@
 /* ===========================================
-   THEME TALENTÃƒâ€°KÃƒâ€ Ã¢â‚¬â€ Tokens & Reset global
+   THEME TALENTÉKÔ — Tokens & Reset global
    -------------------------------------------
-   Ã¢â€ â€™ DÃƒÂ©clare les couleurs officielles (palette)
-   Ã¢â€ â€™ DÃƒÂ©clare les polices
-   Ã¢â€ â€™ Ajoute un reset minimal (text-size-adjust, img)
+    Déclare les couleurs officielles (palette)
+    Déclare les polices
+    Ajoute un reset minimal (text-size-adjust, img)
    =========================================== */
 
 @theme {
@@ -12,26 +12,26 @@
   --color-talenteko-blue-500: #434958;
   --color-talenteko-blue-400: #a1a4ab;
 
-  /* Oranges (ÃƒÂ©chelle de teintes) */
+  /* Oranges (échelle de teintes) */
   --color-talenteko-orange-400: #e8926a; /* clair: bordures, badges */
   --color-talenteko-orange-500: #d6713c; /* brand officiel */
   --color-talenteko-orange-600: #c46f45; /* + sombre */
   --color-talenteko-orange-700: #b35f3a; /* AA contrast avec texte blanc */
   --color-talenteko-orange-800: #994f2e; /* hover sombre */
 
-  /* PÃƒÂªches (fonds doux / surfaces) */
+  /* Pêches (fonds doux / surfaces) */
   --color-talenteko-peach-100: #fbf1ec;
   --color-talenteko-peach-200: #fdf5f1;
   --color-talenteko-peach-300: #fdfaf9;
 
-  /* Polices (charte officielle TalentÃƒâ€°kÃƒÂ´) */
+  /* Polices (charte officielle Talentékô) */
   --font-montserrat: 'Montserrat', sans-serif;
   --font-catamaran: 'Catamaran', sans-serif;
   --font-chivo: 'Chivo', sans-serif;
 }
 
 @layer base {
-  /* EmpÃƒÂªcher Safari/iOS et IE de modifier la taille des textes */
+  /* Empêcher Safari/iOS et IE de modifier la taille des textes */
   html {
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -42,6 +42,6 @@
   img {
     max-width: 100%;
     height: auto;
-    vertical-align: middle; /* ÃƒÂ©vite espace blanc inline */
+    vertical-align: middle; /* évite espace blanc inline */
   }
 }

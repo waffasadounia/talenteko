@@ -1,18 +1,18 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * ContrÃƒÂ´leur favoris (toggle UI)
- * - CÃ…â€œur vide -> CÃ…â€œur plein
- * - Change aria-label pour accessibilitÃƒÂ©
+ * Contrôleur favoris (toggle UI)
+ * - Cœur vide -> Cœur plein
+ * - Change aria-label pour accessibilité
  *
  * NB: Ici on ne fait que du front.
- * Plus tard, tu pourras connecter ce toggle ÃƒÂ  un backend via fetch().
+ * Plus tard, tu pourras connecter ce toggle à un backend via fetch().
  */
 export default class extends Controller {
   static targets = ['empty', 'filled'];
 
   connect() {
-    // Initialisation : sÃ¢â‚¬â„¢assurer que seul un ÃƒÂ©tat est visible
+    // Initialisation : s'assurer que seul un état est visible
     this.showEmpty();
   }
 

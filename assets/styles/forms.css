@@ -1,5 +1,5 @@
 /* ===========================================
-   FORMS Ã¢â‚¬â€ Champs et ÃƒÂ©tats
+   FORMS — Champs et états
    =========================================== */
 @layer components {
   /* Champs de base */
@@ -28,7 +28,7 @@
     @apply bg-talenteko-peach-200;
   }
 
-  /* Input gÃƒÂ©nÃƒÂ©rique */
+  /* Input générique */
   .form-input {
     @apply w-full rounded-lg border border-gray-300 px-3 py-2 text-base;
   }
@@ -45,7 +45,7 @@
 
   /* ====== Custom Checkbox ====== */
   .form-checkbox-box {
-    @apply flex h-4 w-4 items-center justify-center rounded border border-gray-400 bg-white transition-colors duration-200; /* boÃƒÂ®te blanche par dÃƒÂ©faut */
+    @apply flex h-4 w-4 items-center justify-center rounded border border-gray-400 bg-white transition-colors duration-200; /* boîte blanche par défaut */
   }
 
   .peer:checked + .form-checkbox-box {
@@ -53,10 +53,10 @@
   }
 
   .form-checkbox-icon {
-    @apply hidden h-3 w-3 text-white; /* cachÃƒÂ© par dÃƒÂ©faut */
+    @apply hidden h-3 w-3 text-white; /* cachée par défaut */
   }
 
   .peer:checked + .form-checkbox-box .form-checkbox-icon {
-    @apply inline; /* icÃƒÂ´ne visible quand cochÃƒÂ© */
+    @apply inline; /* icône visible quand cochée */
   }
 }

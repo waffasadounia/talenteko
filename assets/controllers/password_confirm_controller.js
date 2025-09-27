@@ -1,12 +1,12 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * ContrÃƒÂ´leur Stimulus : vÃƒÂ©rifie en direct
+ * Contrôleur Stimulus : vérifie en direct
  * que la confirmation du mot de passe correspond au premier.
  *
- * UX / AccessibilitÃƒÂ© :
- * - Feedback en direct avec icÃƒÂ´nes Font Awesome (Ã¢Å“â€Ã¯Â¸Â / Ã¢Å“â€“Ã¯Â¸Â).
- * - aria-live="polite" : le message est lu par les lecteurs dÃ¢â‚¬â„¢ÃƒÂ©cran.
+ * UX / Accessibilité :
+ * - Feedback en direct avec icônes Font Awesome (✔️ / ❌).
+ * - aria-live="polite" : le message est lu par les lecteurs d’écran.
  * - Utilisation de setCustomValidity pour bloquer la soumission
  *   tant que les deux mots de passe ne correspondent pas.
  */
@@ -18,20 +18,20 @@ export default class extends Controller {
     const confirm = this.confirmTarget.value;
 
     if (!confirm) {
-      // Champ vide Ã¢â€ â€™ on efface le feedback et on rÃƒÂ©initialise la validation
+      // Champ vide – on efface le feedback et on réinitialise la validation
       this.feedbackTarget.innerHTML = '';
       this.confirmTarget.setCustomValidity('');
       return;
     }
 
     if (pwd === confirm) {
-      // Ã¢Å“â€¦ Mots de passe identiques
+      // ✔️ Mots de passe identiques
       this.feedbackTarget.innerHTML = `<i class="fa-solid fa-check-circle text-green-500 mr-1"></i><span>Les mots de passe correspondent.</span>`;
       this.feedbackTarget.className =
         'flex items-center gap-1 text-green-600 text-xs mt-1';
       this.confirmTarget.setCustomValidity('');
     } else {
-      // Ã¢ÂÅ’ Mots de passe diffÃƒÂ©rents
+      // ❌ Mots de passe différents
       this.feedbackTarget.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i><span>Les mots de passe ne correspondent pas.</span>`;
       this.feedbackTarget.className =
         'flex items-center gap-1 text-red-600 text-xs mt-1';

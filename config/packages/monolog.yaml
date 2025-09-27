@@ -21,7 +21,7 @@ when@test:
       main:
         type: stream
         path: '%kernel.logs_dir%/%kernel.environment%.log'
-        level: error # rÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©duit pour ne pas spammer pendant les tests
+        level: error # réduit pour ne pas spammer pendant les tests
 
 when@prod:
   monolog:
@@ -49,7 +49,3 @@ when@prod:
         channels: [deprecation]
         path: 'php://stderr'
         formatter: monolog.formatter.json
-
-
-
-

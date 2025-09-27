@@ -4,7 +4,7 @@
 .env.*.local
 .env.local.php
 
-# Secrets de prod (clÃƒÂ© privÃƒÂ©e jamais versionnÃƒÂ©e)
+# Secrets de prod (clés privées jamais versionnées)
 config/secrets/prod/prod.decrypt.private.php
 
 # Dossiers runtime

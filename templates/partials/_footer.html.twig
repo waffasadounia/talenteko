@@ -1,25 +1,25 @@
-ï»¿{# templates/partials/_footer.html.twig #}
+{# templates/partials/_footer.html.twig #}
 <footer role="contentinfo" class="bg-talenteko-orange-500 mt-12 text-white">
   <div
     class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-10 md:grid-cols-3"
   >
-    {# Colonne gauche : Logo + slogan + rÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©seaux sociaux #}
+    {# Colonne gauche : Logo + slogan + réseaux sociaux #}
     <div class="flex flex-col items-center md:items-start">
       <div class="flex flex-col items-center text-center">
         <img
           src="{{ asset('images/talenteko_logo.png') }}"
-          alt="Logo TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©kod"
+          alt="Logo Talentéko"
           class="mb-2 h-12 w-auto"
         />
         <span class="text-base font-extrabold">
           <span class="text-talenteko-blue-900">Talent</span>
-          <span class="text-talenteko-peach-300">ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©kod</span>
+          <span class="text-talenteko-peach-300">éko</span>
         </span>
       </div>
 
       <div class="mt-2 self-start">
         <p class="mb-4 text-sm text-gray-100">
-          Plateforme de troc de compÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©tences<br />entre particuliers
+          Plateforme de troc de compétences<br />entre particuliers
         </p>
         <ul class="flex gap-4 text-xl">
           <li>
@@ -56,10 +56,10 @@
       </div>
     </div>
 
-    {# Colonne milieu : ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ propos #}
+    {# Colonne milieu : À propos #}
     <div aria-labelledby="footer-about">
       <h3 id="footer-about" class="mb-3 text-sm font-bold md:text-base">
-        ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ propos
+        À propos
       </h3>
       <ul class="space-y-2 text-sm">
         <li>
@@ -75,7 +75,7 @@
             href="{{ path('app_how') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Comment ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â§a marche
+            Comment ça marche
           </a>
         </li>
         <li>
@@ -97,10 +97,10 @@
       </ul>
     </div>
 
-    {# Colonne droite : Informations lÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©gales #}
+    {# Colonne droite : Informations légales #}
     <div aria-labelledby="footer-legal">
       <h3 id="footer-legal" class="mb-3 text-sm font-bold md:text-base">
-        Informations lÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©gales
+        Informations légales
       </h3>
       <ul class="space-y-2 text-sm">
         <li>
@@ -108,7 +108,7 @@
             href="{{ path('app_conditions') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Conditions gÃƒÂ©nÃƒÂ©rÃƒÂ©rales
+            Conditions générales
           </a>
         </li>
         <li>
@@ -116,7 +116,7 @@
             href="{{ path('app_confidentialite') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Politique de confidentialitÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©
+            Politique de confidentialité
           </a>
         </li>
         <li>
@@ -132,7 +132,7 @@
             href="{{ path('app_mentions_legales') }}"
             class="hover:text-talenteko-peach-300 hover:underline"
           >
-            Mentions lÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©gales
+            Mentions légales
           </a>
         </li>
       </ul>
@@ -145,19 +145,6 @@
   >
     @
     {{ 'now'|date('Y') }}
-    TalentÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©ko. Tous droits rÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©servÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©s.
+    Talenteko. Tous droits réservés.
   </div>
 </footer>
-
-
-
-
-
-
-
-
-
-
-
-
-

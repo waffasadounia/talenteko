@@ -1,18 +1,18 @@
 /**
  * ==========================================
- * Tailwind Config (v4) Ã¢â‚¬â€ TalentÃƒâ€°kÃƒÂ´
+ * Tailwind Config (v4) – Talenteko
  * ------------------------------------------
- * - Palette officielle TalentÃƒâ€°kÃƒÂ´ (alignÃƒÂ©e avec globals.css).
- * - Polices Google importÃƒÂ©es (Montserrat, Catamaran, Chivo).
- * - Safelist : uniquement les classes gÃƒÂ©nÃƒÂ©rÃƒÂ©es dynamiquement
- *   (utile avec Twig/Turbo quand Tailwind nÃ¢â‚¬â„¢analyse pas tout).
+ * - Palette officielle Talenteko (alignée avec globals.css).
+ * - Polices Google importées (Montserrat, Catamaran, Chivo).
+ * - Safelist : uniquement les classes générées dynamiquement
+ *   (utile avec Twig/Turbo quand Tailwind n’analyse pas tout).
  * ==========================================
  */
 module.exports = {
   content: [
     "./templates/**/*.html.twig",   // tous les templates Twig
-    "./assets/**/*.js",             // JS (Stimulus, TurboÃ¢â‚¬Â¦)
-    "./assets/styles/**/*.css",     // nos fichiers CSS organisÃƒÂ©s
+    "./assets/**/*.js",             // JS (Stimulus, Turbo…)
+    "./assets/styles/**/*.css",     // nos fichiers CSS organisés
   ],
 
   safelist: [
@@ -29,7 +29,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Palette officielle TalentÃƒâ€°kÃƒÂ´
+        // Palette officielle Talenteko
         talenteko: {
           blue: {
             900:"#141C2E",  // Bleu principal
@@ -48,9 +48,9 @@ module.exports = {
           },
 
           peach: {
-            100: "#FBF1EC", // Fond trÃƒÂ¨s clair
+            100: "#FBF1EC", // Fond très clair
             200: "#FDF5F1", // Fond alternatif
-            300: "#FDFAF9", // Fond crÃƒÂ¨me
+            300: "#FDFAF9", // Fond crème
           },
         },
       },
