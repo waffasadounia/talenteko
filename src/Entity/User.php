@@ -98,7 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
-    // === Reset password ===
+    // === Reset password (legacy fields) ===
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $resetToken = null;
@@ -108,14 +108,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     // === Relations ===
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Listing::class)]
+    #[ORM\OneToMany(
+        mappedBy: 'author',
+        targetEntity: Listing::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     private Collection $listings;
 
-    #[ORM\OneToMany(mappedBy: 'requester', targetEntity: Exchange::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(
+        mappedBy: 'requester',
+        targetEntity: Exchange::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     private Collection $exchanges;
 
-    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Profile::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(
+        mappedBy: 'user',
+        targetEntity: Profile::class,
+        cascade: ['persist', 'remove']
+    )]
     private ?Profile $profile = null;
+
+    #[ORM\OneToMany(
+        mappedBy: 'user',
+        targetEntity: PasswordResetToken::class,
+        cascade: ['remove'],
+        orphanRemoval: true
+    )]
+    private Collection $passwordResetTokens;
 
     // === Constructeur ===
 
@@ -125,6 +147,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new DateTimeImmutable();
         $this->listings = new ArrayCollection();
         $this->exchanges = new ArrayCollection();
+        $this->passwordResetTokens = new ArrayCollection();
 
         // Génération auto du tag à 4 chiffres
         $this->tag = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
@@ -145,7 +168,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = mb_strtolower($email);
-
         return $this;
     }
 
@@ -160,14 +182,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!in_array('ROLE_USER', $roles, true)) {
             $roles[] = 'ROLE_USER';
         }
-
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -179,7 +199,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -191,7 +210,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(?string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
-
         return $this;
     }
 
@@ -210,7 +228,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
-
         return $this;
     }
 
@@ -222,7 +239,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTag(string $tag): static
     {
         $this->tag = $tag;
-
         return $this;
     }
 
@@ -231,7 +247,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->pseudo && $this->tag) {
             return $this->pseudo . '#' . $this->tag;
         }
-
         return $this->pseudo ?: mb_substr(explode('@', $this->email)[0] ?? 'membre', 0, 4) . '****';
     }
 
@@ -245,7 +260,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLocation(string $location): static
     {
         $this->location = $location;
-
         return $this;
     }
 
@@ -257,7 +271,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBio(?string $bio): static
     {
         $this->bio = $bio;
-
         return $this;
     }
 
@@ -271,7 +284,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkillsOffered(?array $skills): static
     {
         $this->skills_offered = $skills;
-
         return $this;
     }
 
@@ -283,7 +295,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkillsWanted(?array $skills): static
     {
         $this->skills_wanted = $skills;
-
         return $this;
     }
 
@@ -297,7 +308,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatarFilename(?string $fn): static
     {
         $this->avatarFilename = $fn;
-
         return $this;
     }
 
@@ -311,7 +321,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRatingAvg(float $ratingAvg): static
     {
         $this->ratingAvg = $ratingAvg;
-
         return $this;
     }
 
@@ -323,7 +332,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRatingCount(int $ratingCount): static
     {
         $this->ratingCount = $ratingCount;
-
         return $this;
     }
 
@@ -334,7 +342,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    // === Reset password ===
+    // === Reset password (legacy fields) ===
 
     public function getResetToken(): ?string
     {
@@ -344,7 +352,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken(?string $token): static
     {
         $this->resetToken = $token;
-
         return $this;
     }
 
@@ -356,7 +363,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetRequestedAt(?DateTimeImmutable $date): static
     {
         $this->resetRequestedAt = $date;
-
         return $this;
     }
 
@@ -374,14 +380,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->listings->add($listing);
             $listing->setAuthor($this);
         }
-
         return $this;
     }
 
     public function removeListing(Listing $listing): static
     {
         $this->listings->removeElement($listing);
-
         return $this;
     }
 
@@ -397,7 +401,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->exchanges->add($exchange);
             $exchange->setRequester($this);
         }
-
         return $this;
     }
 
@@ -406,7 +409,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->exchanges->removeElement($exchange) && $exchange->getRequester() === $this) {
             $exchange->setRequester(null);
         }
-
         return $this;
     }
 
@@ -421,7 +423,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $profile->setUser($this);
         }
         $this->profile = $profile;
+        return $this;
+    }
 
+    /** @return Collection<int, PasswordResetToken> */
+    public function getPasswordResetTokens(): Collection
+    {
+        return $this->passwordResetTokens;
+    }
+
+    public function addPasswordResetToken(PasswordResetToken $token): static
+    {
+        if (!$this->passwordResetTokens->contains($token)) {
+            $this->passwordResetTokens->add($token);
+            $token->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removePasswordResetToken(PasswordResetToken $token): static
+    {
+        if ($this->passwordResetTokens->removeElement($token)) {
+            if ($token->getUser() === $this) {
+                $token->setUser(null);
+            }
+        }
         return $this;
     }
 

@@ -15,38 +15,67 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class ProfileType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $b, array $o): void
+    public function buildForm(FormBuilderInterface $b, array $options): void
     {
         $b
-            // Pseudonyme public (optionnel)
+            // === Pseudonyme (optionnel) ===
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudonyme',
                 'required' => false,
-                'attr' => ['maxlength' => 50, 'autocomplete' => 'nickname'],
-            ])
-            // Ville / Localisation
-            // Champ obligatoire car central pour TalentÉkô (filtrage, présentiel/distanciel)
-            // On ajoute une contrainte NotBlank pour imposer la saisie.
-            ->add('location', TextType::class, [
-                'label' => 'Localisation',
-                'required' => true, // champ obligatoire
                 'attr' => [
-                    'maxlength' => 120,
-                    'autocomplete' => 'address-level2', // aide les navigateurs à suggérer la ville
+                    'maxlength' => 50,
+                    'autocomplete' => 'nickname',
+                    'placeholder' => 'ex. BricoMan42',
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Merci d’indiquer votre ville.'),
+                    new Assert\Length([
+                        'min' => 3,
+                        'max' => 30,
+                        'minMessage' => 'Le pseudo doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Le pseudo ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^[a-zA-Z0-9_.\- ]+$/u',
+                        'message' => 'Le pseudo ne peut contenir que lettres, chiffres, espaces et . _ -',
+                    ]),
                 ],
             ])
 
-            // Courte bio (optionnel)
+            // === Localisation ===
+            ->add('location', TextType::class, [
+                'label' => 'Localisation',
+                'required' => true,
+                'attr' => [
+                    'maxlength' => 120,
+                    'autocomplete' => 'address-level2',
+                    'placeholder' => 'ex. Paris, Lyon, Marseille',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci d’indiquer votre ville.']),
+                    new Assert\Length([
+                        'min' => 2,
+                        'max' => 120,
+                        'minMessage' => 'La ville doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'La ville ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^[\p{L}\s\'\-]+$/u',
+                        'message' => 'La localisation ne peut contenir que des lettres, espaces, apostrophes ou tirets.',
+                    ]),
+                ],
+            ])
+
+            // === Courte bio ===
             ->add('bio', TextareaType::class, [
                 'label' => 'À propos de vous',
                 'required' => false,
-                'attr' => ['rows' => 4],
+                'attr' => [
+                    'rows' => 4,
+                    'placeholder' => 'Décrivez vos passions, expériences, ou vos motivations…',
+                ],
             ])
 
-            // Compétences proposées (array simple)
+            // === Compétences proposées ===
             ->add('skillsOffered', CollectionType::class, [
                 'label' => 'Compétences proposées',
                 'required' => false,
@@ -54,9 +83,12 @@ final class ProfileType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'attr' => [
+                    'class' => 'skills-offered',
+                ],
             ])
 
-            // Compétences recherchées (array simple)
+            // === Compétences recherchées ===
             ->add('skillsWanted', CollectionType::class, [
                 'label' => 'Compétences recherchées',
                 'required' => false,
@@ -64,11 +96,16 @@ final class ProfileType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'attr' => [
+                    'class' => 'skills-wanted',
+                ],
             ]);
     }
 
-    public function configureOptions(OptionsResolver $r): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $r->setDefaults(['data_class' => User::class]);
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
     }
 }

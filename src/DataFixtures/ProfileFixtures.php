@@ -10,6 +10,10 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
 
+/**
+ * Génère des profils enrichis pour les utilisateurs.
+ * ⚠️ L’admin n’est pas enrichi (pas de bio Faker, pas de skills, pas d’avatar).
+ */
 final class ProfileFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $em): void
@@ -19,18 +23,29 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
         $users = $em->getRepository(User::class)->findAll();
 
         foreach ($users as $user) {
+            // Exclure l’admin des enrichissements
+            if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+                continue;
+            }
+
             $user
                 ->setBio($faker->paragraph(3))
-                ->setSkillsOffered($faker->randomElements(
-                    ['guitare', 'anglais', 'montage pc', 'coaching', 'soutien scolaire', 'dessin'],
-                    random_int(1, 3),
-                ))
-                ->setSkillsWanted($faker->randomElements(
-                    ['espagnol', 'yoga', 'cuisine', 'marketing', 'excel'],
-                    random_int(1, 2),
-                ))
+                ->setSkillsOffered(
+                    $faker->randomElements(
+                        ['guitare', 'anglais', 'montage pc', 'coaching', 'soutien scolaire', 'dessin'],
+                        random_int(1, 3)
+                    )
+                )
+                ->setSkillsWanted(
+                    $faker->randomElements(
+                        ['espagnol', 'yoga', 'cuisine', 'marketing', 'excel'],
+                        random_int(1, 2)
+                    )
+                )
                 // 70% des users ont un avatar, 30% non
-                ->setAvatarFilename($faker->boolean(70) ? $faker->imageUrl(128, 128, 'people') : null);
+                ->setAvatarFilename(
+                    $faker->boolean(70) ? $faker->imageUrl(128, 128, 'people') : null
+                );
 
             $em->persist($user);
         }

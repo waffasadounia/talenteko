@@ -11,7 +11,8 @@ use Faker\Factory as FakerFactory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Génère des utilisateurs de test + un compte admin.
+ * Génère des utilisateurs de test + un compte administrateur.
+ * L’admin est présent en base mais n’a pas d’annonces associées.
  */
 final class UserFixtures extends Fixture
 {
@@ -23,7 +24,7 @@ final class UserFixtures extends Fixture
     {
         $faker = FakerFactory::create('fr_FR');
 
-        // Création de 10 utilisateurs fictifs
+        // --- Création de 10 utilisateurs classiques ---
         for ($i = 1; $i <= 10; ++$i) {
             $user = new User();
 
@@ -39,12 +40,13 @@ final class UserFixtures extends Fixture
                 ->setLocation($faker->city())
                 ->setPassword(
                     $this->hasher->hashPassword($user, 'Password123!'),
-                );
+                )
+                ->setBio($faker->sentence(10));
 
             $em->persist($user);
         }
 
-        // Création d’un administrateur
+        // --- Création d’un compte administrateur ---
         $admin = new User();
         $admin
             ->setEmail('admin@talenteko.test')
@@ -53,10 +55,13 @@ final class UserFixtures extends Fixture
             ->setLocation('Paris')
             ->setPassword(
                 $this->hasher->hashPassword($admin, 'Admin!2025'),
-            );
+            )
+            ->setBio('Compte administrateur. Pas d’annonces, pas d’échanges.');
 
+        // On persiste l’admin mais il sera exclu des annonces dans ListingFixtures
         $em->persist($admin);
 
+        // --- Flush global ---
         $em->flush();
     }
 }

@@ -17,7 +17,7 @@ class Category
     #[ORM\Column(length: 120, unique: true)]
     private string $name;
 
-    #[ORM\Column(length: 120, unique: true)]
+    #[ORM\Column(length: 150, unique: true)]
     private string $slug;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Listing::class)]
@@ -29,6 +29,7 @@ class Category
     }
 
     // === Getters / Setters ===
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,7 +43,6 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -54,7 +54,6 @@ class Category
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -64,12 +63,25 @@ class Category
         return $this->listings;
     }
 
-    // === Astuce Symfony/Twig ===
-    // Quand Twig essaie d'afficher {{ category }},
-    // il utilise automatiquement __toString().
-    // Ici on renvoie le nom, ce qui évite l'erreur de conversion.
+    public function addListing(Listing $listing): self
+    {
+        if (!$this->listings->contains($listing)) {
+            $this->listings->add($listing);
+            $listing->setCategory($this);
+        }
+        return $this;
+    }
+
+    public function removeListing(Listing $listing): self
+    {
+        if ($this->listings->removeElement($listing)) {
+            // ⚠️ on NE met PAS $listing->setCategory(null) car category est NOT NULL
+        }
+        return $this;
+    }
+
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? 'Catégorie';
     }
 }

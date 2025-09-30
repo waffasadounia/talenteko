@@ -11,31 +11,33 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class Exchange
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
     private ?int $id = null;
-
-    // Statut typé avec l'Enum ExchangeStatus
-    #[ORM\Column(enumType: ExchangeStatus::class)]
-    private ExchangeStatus $status = ExchangeStatus::PENDING;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $createdAt;
-
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?DateTimeImmutable $updatedAt = null;
 
     // === Relations ===
 
     #[ORM\ManyToOne(inversedBy: 'exchanges')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Listing $listing = null;
-
-    #[ORM\ManyToOne(inversedBy: 'exchanges')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $requester = null;
 
+    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Listing $listing = null;
+
+    // === Statut ===
+
+    #[ORM\Column(enumType: ExchangeStatus::class, options: ['default' => 'pending'])]
+    private ExchangeStatus $status = ExchangeStatus::PENDING;
+
+    // === Dates ===
+
+    #[ORM\Column]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\Column(nullable: true)]
+    private ?DateTimeImmutable $updatedAt = null;
+
+    // === Constructeur ===
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -48,6 +50,28 @@ class Exchange
         return $this->id;
     }
 
+    public function getRequester(): ?User
+    {
+        return $this->requester;
+    }
+
+    public function setRequester(?User $user): self
+    {
+        $this->requester = $user;
+        return $this;
+    }
+
+    public function getListing(): ?Listing
+    {
+        return $this->listing;
+    }
+
+    public function setListing(?Listing $listing): self
+    {
+        $this->listing = $listing;
+        return $this;
+    }
+
     public function getStatus(): ExchangeStatus
     {
         return $this->status;
@@ -56,8 +80,6 @@ class Exchange
     public function setStatus(ExchangeStatus $status): self
     {
         $this->status = $status;
-        $this->updatedAt = new DateTimeImmutable();
-
         return $this;
     }
 
@@ -71,41 +93,18 @@ class Exchange
         return $this->updatedAt;
     }
 
-    public function getListing(): ?Listing
+    public function setUpdatedAt(?DateTimeImmutable $date): self
     {
-        return $this->listing;
-    }
-
-    public function setListing(?Listing $listing): self
-    {
-        $this->listing = $listing;
-
+        $this->updatedAt = $date;
         return $this;
     }
-
-    public function getRequester(): ?User
-    {
-        return $this->requester;
-    }
-
-    public function setRequester(?User $requester): self
-    {
-        $this->requester = $requester;
-
-        return $this;
-    }
-
-    // === Helpers ===
 
     public function __toString(): string
     {
-        $listingTitle = $this->listing?->getTitle() ?? 'Annonce inconnue';
-
         return sprintf(
-            'Échange #%d (%s) - %s',
+            'Échange #%d [%s]',
             $this->id ?? 0,
-            $this->status->label(),
-            $listingTitle,
+            $this->status->value
         );
     }
 }

@@ -20,9 +20,10 @@ class ListingImage
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private Listing $listing;
+    private ?Listing $listing = null; // ✅ nullable pour removeImage()
 
     // === Getters / Setters ===
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,7 +37,6 @@ class ListingImage
     public function setPath(string $path): self
     {
         $this->path = $path;
-
         return $this;
     }
 
@@ -48,19 +48,25 @@ class ListingImage
     public function setIsPrimary(bool $isPrimary): self
     {
         $this->isPrimary = $isPrimary;
-
         return $this;
     }
 
-    public function getListing(): Listing
+    public function getListing(): ?Listing
     {
         return $this->listing;
     }
 
-    public function setListing(Listing $listing): self
+    /**
+     * On accepte `null` pour gérer correctement $listing->removeImage($image)
+     */
+    public function setListing(?Listing $listing): self
     {
         $this->listing = $listing;
-
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->path ?? 'Image';
     }
 }

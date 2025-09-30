@@ -16,16 +16,19 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    // Expéditeur du message
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'sentMessages')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $sender = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    // Destinataire du message
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'receivedMessages')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $recipient = null;
 
+    // Thread parent
     #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Thread $thread = null;
 
     #[ORM\Column(type: 'text')]
@@ -39,59 +42,61 @@ class Message
         $this->createdAt = new DateTimeImmutable();
     }
 
+    // === ID ===
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // === Sender ===
     public function getSender(): ?User
     {
         return $this->sender;
     }
 
-    public function setSender(User $user): static
+    public function setSender(?User $sender): self
     {
-        $this->sender = $user;
-
+        $this->sender = $sender;
         return $this;
     }
 
+    // === Recipient ===
     public function getRecipient(): ?User
     {
         return $this->recipient;
     }
 
-    public function setRecipient(User $user): static
+    public function setRecipient(?User $recipient): self
     {
-        $this->recipient = $user;
-
+        $this->recipient = $recipient;
         return $this;
     }
 
+    // === Thread ===
     public function getThread(): ?Thread
     {
         return $this->thread;
     }
 
-    public function setThread(Thread $thread): static
+    public function setThread(?Thread $thread): self
     {
         $this->thread = $thread;
-
         return $this;
     }
 
+    // === Content ===
     public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): static
+    public function setContent(string $content): self
     {
         $this->content = $content;
-
         return $this;
     }
 
+    // === CreatedAt ===
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;

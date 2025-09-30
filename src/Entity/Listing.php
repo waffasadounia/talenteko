@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Enum\ListingStatus;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -32,9 +33,8 @@ class Listing
     #[ORM\Column(name: 'location', length: 120)]
     private string $location;
 
-    // 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
-    #[ORM\Column(length: 12, options: ['default' => 'PUBLISHED'])]
-    private string $status = 'PUBLISHED';
+    #[ORM\Column(enumType: ListingStatus::class, options: ['default' => 'draft'])]
+    private ListingStatus $status = ListingStatus::DRAFT;
 
     #[ORM\Column]
     private DateTimeImmutable $createdAt;
@@ -43,14 +43,14 @@ class Listing
     private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'listings')]
-    #[ORM\JoinColumn(nullable: false)]
-    private User $author;
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $author = null;
 
     #[ORM\ManyToOne(inversedBy: 'listings')]
     #[ORM\JoinColumn(nullable: false)]
     private Category $category;
 
-    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: ListingImage::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: ListingImage::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $images;
 
     #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Exchange::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -78,7 +78,6 @@ class Listing
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -90,7 +89,6 @@ class Listing
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -102,7 +100,6 @@ class Listing
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -114,7 +111,6 @@ class Listing
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -126,7 +122,6 @@ class Listing
     public function setLocation(string $location): self
     {
         $this->location = $location;
-
         return $this;
     }
 
@@ -142,15 +137,14 @@ class Listing
         return $this->setLocation($city);
     }
 
-    public function getStatus(): string
+    public function getStatus(): ListingStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(ListingStatus $status): self
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -162,7 +156,6 @@ class Listing
     public function setUpdatedAt(?DateTimeImmutable $date): self
     {
         $this->updatedAt = $date;
-
         return $this;
     }
 
@@ -171,15 +164,14 @@ class Listing
         return $this->updatedAt;
     }
 
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(User $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
         return $this;
     }
 
@@ -191,7 +183,6 @@ class Listing
     public function setCategory(Category $category): self
     {
         $this->category = $category;
-
         return $this;
     }
 
@@ -207,14 +198,14 @@ class Listing
             $this->images->add($image);
             $image->setListing($this);
         }
-
         return $this;
     }
 
     public function removeImage(ListingImage $image): self
     {
-        $this->images->removeElement($image);
-
+        if ($this->images->removeElement($image) && $image->getListing() === $this) {
+            $image->setListing(null);
+        }
         return $this;
     }
 
@@ -230,18 +221,14 @@ class Listing
             $this->exchanges->add($exchange);
             $exchange->setListing($this);
         }
-
         return $this;
     }
 
     public function removeExchange(Exchange $exchange): self
     {
-        if ($this->exchanges->removeElement($exchange)) {
-            if ($exchange->getListing() === $this) {
-                $exchange->setListing(null);
-            }
+        if ($this->exchanges->removeElement($exchange) && $exchange->getListing() === $this) {
+            $exchange->setListing(null);
         }
-
         return $this;
     }
 

@@ -8,6 +8,7 @@ use App\Entity\Category;
 use App\Entity\Listing;
 use App\Entity\ListingImage;
 use App\Entity\User;
+use App\Enum\ListingStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -129,6 +130,12 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
         $users = $manager->getRepository(User::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
 
+        // On filtre pour exclure l’admin (ROLE_ADMIN)
+        $regularUsers = array_filter(
+            $users,
+            fn(User $u) => !in_array('ROLE_ADMIN', $u->getRoles(), true)
+        );
+
         foreach ($categories as $category) {
             $catName = $category->getName();
 
@@ -141,13 +148,12 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                     $listing->setDescription($description);
                     $listing->setType($faker->randomElement(['OFFER', 'REQUEST']));
                     $listing->setLocation($faker->city());
-                    $listing->setStatus('PUBLISHED');
+                    $listing->setStatus(ListingStatus::PUBLISHED);
                     $listing->setSlug((string) $slugger->slug($title . '-' . uniqid()));
-                    $listing->setAuthor($faker->randomElement($users));
+                    $listing->setAuthor($faker->randomElement($regularUsers));
                     $listing->setCategory($category);
 
                     $image = new ListingImage();
-                    // Images locales nommées img1.jpg … img6.jpg
                     $imgIndex = min($i, 6);
                     $image->setPath($category->getSlug() . "/{$imgIndex}.jpg");
                     $image->setIsPrimary(true);
@@ -168,17 +174,15 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                 $listing->setDescription($faker->paragraph());
                 $listing->setType($faker->randomElement(['OFFER', 'REQUEST']));
                 $listing->setLocation($faker->city());
-                $listing->setStatus('PUBLISHED');
+                $listing->setStatus(ListingStatus::PUBLISHED);
                 $listing->setSlug((string) $slugger->slug($title . '-' . uniqid()));
-                $listing->setAuthor($faker->randomElement($users));
+                $listing->setAuthor($faker->randomElement($regularUsers));
                 $listing->setCategory($category);
 
                 $image = new ListingImage();
                 if ($faker->boolean(50)) {
-                    // Placeholder local
-                    $image->setPath('placeholderTE.png'); // correspond à /uploads/listings/placeholderTE.png
+                    $image->setPath('placeholderTE.png');
                 } else {
-                    // Image externe Picsum
                     $seed = uniqid();
                     $image->setPath("https://picsum.photos/seed/$seed/400/225");
                 }

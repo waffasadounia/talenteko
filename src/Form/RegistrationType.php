@@ -26,6 +26,10 @@ final class RegistrationType extends AbstractType
             // === Email ===
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de saisir un email.']),
+                    new Assert\Email(['message' => 'Format d’email invalide.']),
+                ],
                 'attr' => [
                     'autocomplete' => 'email',
                     'placeholder' => 'ex. vous@exemple.fr',
@@ -35,6 +39,15 @@ final class RegistrationType extends AbstractType
             // === Pseudo ===
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudonyme',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de choisir un pseudo.']),
+                    new Assert\Length([
+                        'min' => 3,
+                        'max' => 30,
+                        'minMessage' => 'Le pseudo doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Le pseudo ne peut pas dépasser {{ limit }} caractères.',
+                    ]),
+                ],
                 'attr' => [
                     'autocomplete' => 'nickname',
                     'placeholder' => 'ex. BricoMan42',
@@ -44,6 +57,9 @@ final class RegistrationType extends AbstractType
             // === Localisation ===
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci d’indiquer votre ville.']),
+                ],
                 'attr' => [
                     'autocomplete' => 'address-level2',
                     'placeholder' => 'ex. Paris, Lyon, Marseille',
@@ -70,6 +86,17 @@ final class RegistrationType extends AbstractType
                         'placeholder' => 'Répétez le mot de passe',
                     ],
                 ],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de saisir un mot de passe.']),
+                    new Assert\Length([
+                        'min' => 10,
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/",
+                        'message' => 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.',
+                    ]),
+                ],
             ])
 
             // === CGU ===
@@ -80,6 +107,17 @@ final class RegistrationType extends AbstractType
                     new Assert\IsTrue([
                         'message' => 'Vous devez accepter nos conditions.',
                     ]),
+                ],
+            ])
+
+            // === Honeypot anti-bot ===
+            ->add('website', TextType::class, [
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'hidden',
+                    'tabindex' => '-1',
+                    'autocomplete' => 'off',
                 ],
             ]);
     }
