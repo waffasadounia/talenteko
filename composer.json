@@ -89,7 +89,8 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "php-cs-fixer": "php -d memory_limit=512M vendor/bin/php-cs-fixer"
     },
     "post-install-cmd": [
       "@auto-scripts"

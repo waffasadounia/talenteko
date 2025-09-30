@@ -36,6 +36,8 @@ prettier.config.js text eol=lf
 *.yaml  text eol=lf
 *.yml   text eol=lf
 *.json  text eol=lf
+*.css   text eol=lf
+*.scss  text eol=lf
 
 # SVG : texto (diff lisible), on garde LF
 *.svg  text eol=lf

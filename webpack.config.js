@@ -1,9 +1,9 @@
 // webpack.config.js
 // ===============================================
-// Config Webpack Encore pour Talenteko
+// Config Webpack Encore (CommonJS) — TalentÉkô
 // -----------------------------------------------
 // - Entrée principale : app.js (importe Tailwind via app.css)
-// - Stimulus/Turbo activés via controllers.json
+// - Stimulus/Turbo activés via controllers.json (require.context)
 // - Source maps : inline en dev, désactivées en prod
 // - PostCSS activé (Tailwind v4)
 // - Optimisations prod : cache-busting + integrity hashes + Terser sans .LICENSE.txt
@@ -11,7 +11,7 @@
 
 const Encore = require('@symfony/webpack-encore');
 
-// Configuration de l'environnement si non déjà fait
+// Configuration de l’environnement si non déjà fait
 if (!Encore.isRuntimeEnvironmentConfigured()) {
   Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
@@ -20,28 +20,27 @@ Encore
   // ================= Sortie =================
   .setOutputPath('public/build/')
   .setPublicPath('/build')
-  // Préfixe manifest (utile si déploiement en sous-dossier/CDN)
   .setManifestKeyPrefix('build/')
 
   // ================= Entrées =================
   .addEntry('app', './assets/app.js')
 
-  // Découpage des chunks (optimisation)
+  // Découpage des chunks
   .splitEntryChunks()
 
-  // Stimulus Bridge (auto-enregistrement des controllers)
+  // Stimulus Bridge (auto-enregistrement des contrôleurs)
   .enableStimulusBridge('./assets/controllers.json')
 
-  // Runtime séparé (runtime.js généré)
+  // Runtime séparé
   .enableSingleRuntimeChunk()
 
-  // Nettoyage du dossier /build avant chaque build
+  // Nettoyage du dossier build/
   .cleanupOutputBeforeBuild()
 
   // ================= Source maps =================
   .enableSourceMaps(!Encore.isProduction(), 'cheap-module-source-map')
 
-  // Hash des fichiers en production (cache-busting)
+  // Cache-busting
   .enableVersioning(Encore.isProduction())
 
   // ================= Babel =================
@@ -54,9 +53,9 @@ Encore
   .enablePostCssLoader()
 
   // ================= Optimisations PROD =================
-  .enableIntegrityHashes(Encore.isProduction()) // SRI (sécurité intégrité des assets)
+  .enableIntegrityHashes(Encore.isProduction())
   .configureTerserPlugin((options) => {
-    options.extractComments = false; // pas de .LICENSE.txt parasites
+    options.extractComments = false;
   })
 
   // ================= Watch =================
@@ -64,5 +63,4 @@ Encore
     watchOptions.ignored = ['**/node_modules/**', '**/public/build/**'];
   });
 
-// Export de la config
 module.exports = Encore.getWebpackConfig();

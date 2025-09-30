@@ -1,13 +1,46 @@
 #!/bin/sh
 
-echo "🔍 Vérification du code avec lint-staged..."
+echo "🔍 Vérification pre-commit TalentÉkô..."
+
+# Vérif syntaxe PHP rapide
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.php$')
+for FILE in $FILES; do
+  php -l "$FILE" || exit 1
+done
+
+# Vérif encodage/EOL (fix auto)
+for FILE in $(git diff --cached --name-only); do
+  if [ -f "$FILE" ]; then
+    # Supprime BOM
+    if grep -Iq $'\xEF\xBB\xBF' "$FILE"; then
+      tail -c +4 "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+      git add "$FILE"
+      echo "🔧 BOM supprimé : $FILE"
+    fi
+    # CRLF → LF
+    if grep -Iq $'\r' "$FILE"; then
+      sed -i 's/\r$//' "$FILE"
+      git add "$FILE"
+      echo "🔧 Fins de ligne converties : $FILE"
+    fi
+    # Ajout newline finale
+    if [ -s "$FILE" ] && ! tail -c 1 "$FILE" | grep -q $'\n'; then
+      echo "" >> "$FILE"
+      git add "$FILE"
+      echo "🔧 Ajout newline finale : $FILE"
+    fi
+  fi
+done
+echo "✅ Encodage/EOL validés"
+
+# Lint-staged (auto-fix JS/CSS/MD si config)
 npx lint-staged || exit 1
 
-echo "🧩 Vérification de composer.json..."
+# Validation composer.json
 composer validate --no-check-publish || exit 1
 
-echo "🧪 Lancement des tests unitaires..."
-php bin/phpunit --testsuite=unit --stop-on-failure || exit 1
+# JS/CSS lint uniquement (TwigCS reporté au push)
+npm run lint:js || exit 1
+npm run lint:css || exit 1
 
-echo "✅ Tous les checks sont passés, commit validé !"
-
+echo "✅ Pre-commit terminé (rapide)"

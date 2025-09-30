@@ -30,7 +30,7 @@ security:
         secret: '%kernel.secret%'
         lifetime: 604800 # 1 semaine
         path: /
-        # always_remember_me: true activer seulement si souhaité
+        # always_remember_me: true # à activer seulement si souhaité
 
   # --- règles d'accès (ordre évalué de haut en bas) ---
   access_control:
@@ -39,7 +39,7 @@ security:
     - { path: ^/login$, roles: PUBLIC_ACCESS }
     - { path: ^/logout$, roles: PUBLIC_ACCESS }
     - { path: ^/inscription$, roles: PUBLIC_ACCESS }
-    - { path: ^/uploads/listings, roles: PUBLIC_ACCESS } #
+    - { path: ^/uploads/listings, roles: PUBLIC_ACCESS }
 
     # Pages statiques
     - { path: ^/faq, roles: PUBLIC_ACCESS }
@@ -51,10 +51,10 @@ security:
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/styleguide, roles: ROLE_ADMIN }
 
-    # Tout le reste nécessite une authentification complète
-    - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+    # Tout le reste accessible aux connectés (y compris remember_me)
+    - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
 
-# --- config spécifique
+# --- config spécifique test ---
 when@test:
   security:
     password_hashers:

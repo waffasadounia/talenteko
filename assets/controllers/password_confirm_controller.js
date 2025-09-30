@@ -26,13 +26,13 @@ export default class extends Controller {
 
     if (pwd === confirm) {
       // ✔️ Mots de passe identiques
-      this.feedbackTarget.innerHTML = `<i class="fa-solid fa-check-circle text-green-500 mr-1"></i><span>Les mots de passe correspondent.</span>`;
+      this.feedbackTarget.innerHTML = '<i class="fa-solid fa-check-circle text-green-500 mr-1"></i><span>Les mots de passe correspondent.</span>';
       this.feedbackTarget.className =
         'flex items-center gap-1 text-green-600 text-xs mt-1';
       this.confirmTarget.setCustomValidity('');
     } else {
       // ❌ Mots de passe différents
-      this.feedbackTarget.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i><span>Les mots de passe ne correspondent pas.</span>`;
+      this.feedbackTarget.innerHTML = '<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i><span>Les mots de passe ne correspondent pas.</span>';
       this.feedbackTarget.className =
         'flex items-center gap-1 text-red-600 text-xs mt-1';
       this.confirmTarget.setCustomValidity(

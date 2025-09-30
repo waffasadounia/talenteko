@@ -1,12 +1,14 @@
 # config/packages/liip_imagine.yaml
 liip_imagine:
-  driver: 'gd'
+  driver: "gd"
 
   resolvers:
     default:
       web_path: ~
 
   filter_sets:
+    cache: ~ # nécessaire pour éviter l’erreur si aucun cache n’est défini
+
     # Miniatures pour cartes listings
     listing_card:
       quality: 85

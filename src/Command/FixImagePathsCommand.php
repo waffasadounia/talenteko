@@ -12,14 +12,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * Corrige les chemins d’images en ne gardant que le nom de fichier.
+ * Exemple : "uploads/listings/cuisine/img1.jpg" → "img1.jpg"
+ */
 #[AsCommand(
     name: 'app:fix-image-paths',
     description: 'Nettoie les chemins des images pour ne garder que le nom du fichier (ex: 1.jpg).',
 )]
-class FixImagePathsCommand extends Command
+final class FixImagePathsCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ) {
         parent::__construct();
     }
 
@@ -34,24 +39,24 @@ class FixImagePathsCommand extends Command
         foreach ($images as $image) {
             $path = $image->getPath();
 
-            // Si le path contient un "/", on garde seulement le dernier segment
             if (str_contains($path, '/')) {
                 $parts = explode('/', $path);
                 $filename = end($parts);
 
                 $image->setPath($filename);
                 ++$count;
+
+                $io->writeln("➡️ Corrigé : $path → $filename");
             }
         }
 
         if ($count > 0) {
             $this->em->flush();
+            $io->success("$count chemins d'images corrigés.");
+        } else {
+            $io->success("Aucun chemin d’image à corriger.");
         }
-
-        $io->success("$count chemins d'images corrigés.");
 
         return Command::SUCCESS;
     }
 }
-
-//php bin/console app:fix-image-paths

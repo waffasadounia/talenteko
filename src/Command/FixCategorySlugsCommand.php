@@ -11,11 +11,16 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * Corrige automatiquement les slugs des catégories
+ * en les recalculant à partir de leur nom (accents, espaces, etc.).
+ */
 #[AsCommand(
     name: 'app:fix-category-slugs',
-    description: 'Corrige automatiquement les slugs de catégories en les recalculant depuis le nom (UTF-8, accents, etc.)',
+    description: 'Corrige automatiquement les slugs des catégories depuis leur nom.'
 )]
 final class FixCategorySlugsCommand extends Command
 {
@@ -29,24 +34,27 @@ final class FixCategorySlugsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
         $categories = $this->categoryRepository->findAll();
         $updated = 0;
+
+        $io->section('Vérification des slugs de catégories');
 
         foreach ($categories as $category) {
             if (!$category instanceof Category) {
                 continue;
             }
 
-            // Recalcule le slug depuis le nom
+            // Recalcul du slug correct depuis le nom
             $correctSlug = strtolower((string) $this->slugger->slug($category->getName()));
 
             if ($category->getSlug() !== $correctSlug) {
-                $output->writeln(sprintf(
-                    '⚠️ Catégorie "%s" (id: %d) : slug "%s" corrigé en "%s"',
+                $io->warning(sprintf(
+                    '⚠️ Catégorie "%s" (id %d) : slug corrigé "%s" → "%s"',
                     $category->getName(),
                     $category->getId(),
                     $category->getSlug(),
-                    $correctSlug,
+                    $correctSlug
                 ));
 
                 $category->setSlug($correctSlug);
@@ -56,9 +64,9 @@ final class FixCategorySlugsCommand extends Command
 
         if ($updated > 0) {
             $this->em->flush();
-            $output->writeln("✅ $updated slugs corrigés !");
+            $io->success("✅ $updated slugs corrigés !");
         } else {
-            $output->writeln('👌 Aucun slug incorrect trouvé.');
+            $io->success("👌 Tous les slugs sont déjà corrects.");
         }
 
         return Command::SUCCESS;

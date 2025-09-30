@@ -20,7 +20,7 @@
         <span class="text-gray-600">Annonce</span>
       </p>
 
-      <h1 class="text-talenteko-blue text-3xl font-extrabold md:text-4xl">
+      <h1 class="text-talenteko-blue-900 text-3xl font-extrabold md:text-4xl">
         {{ listing.title }}
       </h1>
 
@@ -64,7 +64,7 @@
 
           {# Bouton Favoris #}
           <button
-            class="text-talenteko-orange-500 hover:bg-talenteko-orange-100 absolute top-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow transition"
+            class="text-talenteko-orange-500 hover:bg-talenteko-peach-200 absolute top-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow transition"
             aria-label="Ajouter aux favoris"
             data-controller="favorite-toggle"
             data-action="click->favorite-toggle#toggle"
@@ -79,7 +79,7 @@
         </div>
 
         <article class="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 class="text-talenteko-blue mb-3 text-xl font-bold">Description</h2>
+          <h2 class="text-talenteko-blue-900 mb-3 text-xl font-bold">Description</h2>
           <div class="max-w-none leading-relaxed whitespace-pre-line text-gray-800">
             {{ listing.description }}
           </div>
@@ -89,7 +89,7 @@
       {# Colonne droite : auteur #}
       <aside class="space-y-6">
         <div class="rounded-xl border border-gray-200 bg-white p-6">
-          <h3 class="text-talenteko-blue mb-4 text-lg font-semibold">
+          <h3 class="text-talenteko-blue-900 mb-4 text-lg font-semibold">
             Proposé par
           </h3>
           <div class="mb-3 flex items-center gap-3">
@@ -99,7 +99,7 @@
               {{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
             </div>
             <div>
-              <div class="text-talenteko-blue font-semibold">
+              <div class="text-talenteko-blue-900 font-semibold">
                 {{ listing.author.pseudo ?? 'Membre' }}
               </div>
               {% if listing.location %}

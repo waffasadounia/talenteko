@@ -1,3 +1,22 @@
-templates/partials/_password_field.html.twig
-# Dépendances JS locales (ne pas reformater)
+# === Vendor & build ===
+/vendor/
+/node_modules/
+/public/build/
+/coverage/
+
+# === Dépendances JS locales (ne pas reformater) ===
 assets/vendor/
+
+# === Templates sensibles (ne pas reformater automatiquement) ===
+templates/partials/_password_field.html.twig
+
+# === Logs et caches ===
+npm-debug.log*
+yarn-error.log
+yarn-debug.log*
+pnpm-debug.log*
+
+# === Archives locales ===
+*.zip
+*.tar
+*.tar.gz

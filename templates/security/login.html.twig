@@ -1,133 +1,106 @@
-{# ==========================
+{# ================================
    templates/security/login.html.twig
-   ========================== #}
+   Formulaire de connexion TalentÉkô
+   ================================ #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Se connecter | TalentÉkô
+	Se connecter | TalentÉkô
 {% endblock %}
 
 {% block body %}
-  <section class="bg-talenteko-peach-100 py-16">
-    <div class="mx-auto max-w-md px-6">
-      <h1 class="text-primary-color mb-6 text-center text-3xl font-bold">
-        Se connecter
-      </h1>
+	<section class="bg-talenteko-peach-100 py-16">
+		<div class="mx-auto max-w-md px-6">
+			<h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
+				Se connecter
+			</h1>
 
-      {# --- Erreur globale --- #}
-      {% if error %}
-        <div
-          class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700"
-          role="alert"
-          aria-live="polite"
-        >
-          {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-      {% endif %}
+			{# --- Erreur globale (ex: identifiants invalides) --- #}
+			{% if error %}
+				{% include 'partials/_alert.html.twig' with {
+          type: 'error',
+          message: error.messageKey|trans(error.messageData, 'security'),
+          id: 'login-global-error'
+        } %}
+			{% endif %}
 
-      {# --- Déjà connecté --- #}
-      {% if app.user %}
-        <div
-          class="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700"
-          role="alert"
-        >
-          Vous êtes connecté en tant que
-          <strong>{{ app.user.userIdentifier }}</strong>.
-          <a href="{{ path('app_logout') }}" class="btn-link">Se déconnecter</a>
-        </div>
-      {% endif %}
+			{# --- Déjà connecté --- #}
+			{% if app.user %}
+				{% include 'partials/_alert.html.twig' with {
+          type: 'info',
+          message: 'Vous êtes connecté en tant que <strong>' ~ app.user.userIdentifier ~ '</strong>. <a href="' ~ path('app_logout') ~ '" class="btn-link">Se déconnecter</a>'
+        } %}
+			{% endif %}
 
-      {# --- Formulaire connexion --- #}
-      <div class="rounded-2xl border bg-white p-6 shadow-sm">
-        <form
-          method="post"
-          action="{{ path('app_login') }}"
-          class="space-y-5"
-          novalidate
-        >
-          {# ========== EMAIL ========== #}
-          {% set email_errors_id = 'login-email-errors' %}
-          <div class="space-y-1">
-            <label for="email" class="form-label">
-              Adresse email
-              <span class="form-required" aria-hidden="true">*</span>
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autocomplete="email"
-              value="{{ last_username|default('') }}"
-              placeholder="ex. vous@exemple.fr"
-              class="form-input{% if error %} is-invalid{% endif %}"
-              aria-invalid="{{ error ? 'true' : 'false' }}"
-              aria-describedby="{{ error ? email_errors_id : '' }}"
-            />
-            {% if error %}
-              <p id="{{ email_errors_id }}" class="form-error" role="alert">
-                Vérifiez votre adresse email.
-              </p>
-            {% endif %}
-          </div>
+			{# --- Formulaire de connexion --- #}
+			<div class="rounded-2xl bg-white p-6 shadow-sm">
+				<form
+					method="post" action="{{ path('app_login') }}" class="tk-form space-y-5" novalidate>
+					{# ========== EMAIL ========== #}
+					{% set email_errors_id = 'login-email-errors' %}
+					<div class="space-y-1">
+						<label for="email" class="form-label">
+							Adresse email
+							<span class="form-required" aria-hidden="true">*</span>
+						</label>
+						<input id="email" name="email" type="email" required autocomplete="email" value="{{ last_username|default('') }}" placeholder="ex. vous@exemple.fr" class="form-input{% if error %} is-invalid{% endif %}" aria-invalid="{{ error ? 'true' : 'false' }}" aria-describedby="{{ error ? email_errors_id : '' }}"/>
+						{% if error %}
+							<p id="{{ email_errors_id }}" class="form-error" role="alert">
+								Vérifiez votre adresse email.
+							</p>
+						{% endif %}
+					</div>
 
-          {# ========== MOT DE PASSE ========== #}
-          {% set pwd_errors_id = 'login-password-errors' %}
-          <div class="space-y-1">
-            <label for="password" class="form-label">
-              Mot de passe
-              <span class="form-required" aria-hidden="true">*</span>
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              autocomplete="current-password"
-              placeholder="Votre mot de passe"
-              class="form-input{% if error %} is-invalid{% endif %}"
-              aria-invalid="{{ error ? 'true' : 'false' }}"
-              aria-describedby="{{ error ? pwd_errors_id : '' }}"
-            />
-            {% if error %}
-              <p id="{{ pwd_errors_id }}" class="form-error" role="alert">
-                Vérifiez votre mot de passe.
-              </p>
-            {% endif %}
-          </div>
+					{# ========== MOT DE PASSE ========== #}
+					{% set pwd_errors_id = 'login-password-errors' %}
+					<div class="space-y-1">
+						<label for="password" class="form-label">
+							Mot de passe
+							<span class="form-required" aria-hidden="true">*</span>
+						</label>
+						<input id="password" name="password" type="password" required autocomplete="current-password" placeholder="Votre mot de passe" class="form-input{% if error %} is-invalid{% endif %}" aria-invalid="{{ error ? 'true' : 'false' }}" aria-describedby="{{ error ? pwd_errors_id : '' }}"/>
+						{% if error %}
+							<p id="{{ pwd_errors_id }}" class="form-error" role="alert">
+								Vérifiez votre mot de passe.
+							</p>
+						{% endif %}
+					</div>
 
-          {# Token CSRF #}
-          <input
-            type="hidden"
-            name="_csrf_token"
-            value="{{ csrf_token('authenticate') }}"
-          />
+					{# Token CSRF obligatoire #}
+					<input
+					type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
 
-          {# Remember me + lien oublié mot de passe #}
-          <div class="flex items-center justify-between text-sm">
-            <label class="inline-flex items-center gap-2 text-gray-600">
-              <input
-                type="checkbox"
-                name="_remember_me"
-                class="form-checkbox"
-              />
-              <span>Se souvenir de moi</span>
-            </label>
-            <a href="#" class="btn-link">Mot de passe oublié ?</a>
-          </div>
+					{# Remember me + lien "mot de passe oublié" #}
+					<div class="flex items-center justify-between text-sm">
+						<label class="inline-flex items-center gap-2 cursor-pointer">
+							<input type="checkbox" name="_remember_me" class="peer hidden" id="remember-me"/>
+							<span class="form-checkbox-box">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" class="form-checkbox-icon">
+									<path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z" clip-rule="evenodd"/>
+								</svg>
+							</span>
+							<span class="text-gray-700">Se souvenir de moi</span>
+						</label>
 
-          <button type="submit" class="btn-primary btn-block">
-            Se connecter
-          </button>
-        </form>
+						<a href="{{ path('app_forgot_password') }}" class="btn-link">
+							Mot de passe oublié ?
+						</a>
+					</div>
 
-        <p class="mt-6 text-center text-sm text-gray-600">
-          Pas encore de compte ?
-          <a href="{{ path('app_register') }}" class="btn-link">
-            Créer un compte
-          </a>
-        </p>
-      </div>
-    </div>
-  </section>
+					<button type="submit" class="btn-primary btn-block mt-4">
+						Se connecter
+					</button>
+				</form>
+
+				{# --- Création de compte --- #}
+				<div class="mt-6 flex justify-between items-center text-sm text-gray-600">
+					<span>Pas encore de compte ?</span>
+					<a href="{{ path('app_register') }}" class="btn-link pr-8">
+						Créer un compte
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</section>
 {% endblock %}

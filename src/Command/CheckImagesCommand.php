@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Repository\CategoryRepository;
 use App\Repository\ListingRepository;
+use App\Utils\ImageFilters;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,14 +15,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Commande Symfony pour vérifier la présence des images
- * liées aux catégories et aux listings.
+ * Vérifie la présence des images (catégories + listings)
+ * et signale les manquantes ou remplacées par des fallbacks.
  */
 #[AsCommand(
     name: 'app:check-images',
     description: 'Vérifie la présence des images pour les catégories et listings',
 )]
-class CheckImagesCommand extends Command
+final class CheckImagesCommand extends Command
 {
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
@@ -44,7 +45,9 @@ class CheckImagesCommand extends Command
         foreach ($this->categoryRepository->findAll() as $category) {
             $expected = $publicPath . '/images/categories/' . $category->getSlug() . '.png';
             if (!$fs->exists($expected)) {
-                $errors[] = "Catégorie {$category->getSlug()} manquante, fallback utilisé.";
+                $errors[] = "❌ Catégorie {$category->getSlug()} manquante.";
+            } else {
+                $io->writeln("✔ {$category->getSlug()} OK");
             }
         }
 
@@ -52,17 +55,16 @@ class CheckImagesCommand extends Command
         $io->section('Listings');
         foreach ($this->listingRepository->findAll() as $listing) {
             if ($listing->getImages()->isEmpty()) {
-                $io->note("Listing {$listing->getId()} ({$listing->getTitle()}) n'a pas d'image, placeholder utilisé.");
+                $io->note("Listing {$listing->getId()} ({$listing->getTitle()}) sans image → placeholder utilisé.");
                 continue;
             }
 
             foreach ($listing->getImages() as $image) {
                 $expected = $publicPath . '/uploads/listings/' . $listing->getCategory()->getSlug() . '/' . $image->getPath();
-                if (!$fs->exists($expected)) {
-                    $errors[] = "Image manquante pour listing {$listing->getId()} : {$expected}";
-                    $io->error("Image manquante : {$expected}");
+                if (!$fs->exists($expected) && !str_starts_with($image->getPath(), 'http')) {
+                    $errors[] = "❌ Listing {$listing->getId()} image manquante : {$expected}";
                 } else {
-                    $io->success("Image OK : {$image->getPath()}");
+                    $io->writeln("✔ Listing {$listing->getId()} → {$image->getPath()}");
                 }
             }
         }
@@ -74,13 +76,10 @@ class CheckImagesCommand extends Command
             return Command::SUCCESS;
         }
 
-        $io->error('Problèmes détectés :');
         foreach ($errors as $err) {
-            $io->writeln("- $err");
+            $io->error($err);
         }
 
         return Command::FAILURE;
     }
 }
-
-// Utilisation : php bin/console app:check-images

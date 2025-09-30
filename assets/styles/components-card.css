@@ -1,0 +1,81 @@
+/* ================================
+   components.card.css
+   Styles des cartes TalentÉkô
+   ================================ */
+
+/* Conteneur principal */
+.card-listing {
+  @apply relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md;
+}
+
+/* Bouton favoris */
+.card-favorite {
+  @apply text-talenteko-orange-400 hover:bg-talenteko-peach-200 hover:text-talenteko-orange-500
+         absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow transition;
+}
+
+/* Lien image */
+.card-image-link {
+  @apply block rounded-t-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500;
+}
+
+/* Wrapper image */
+.card-image-wrapper {
+  @apply h-40 w-full overflow-hidden bg-white;
+}
+
+/* Image */
+.card-image {
+  @apply h-full w-full bg-gray-200 object-cover;
+}
+
+/* Contenu */
+.card-content {
+  @apply flex flex-col gap-2 p-4;
+}
+
+/* Catégorie */
+.card-category {
+  @apply text-talenteko-orange-500 inline-block text-xs font-semibold;
+}
+
+/* Titre */
+.card-title {
+  @apply text-talenteko-blue-900 line-clamp-1 text-base font-bold;
+}
+
+.card-title-link {
+  @apply hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded;
+}
+
+/* Texte */
+.card-text {
+  @apply text-talenteko-blue-600 line-clamp-2 text-sm;
+}
+
+/* Footer */
+.card-footer {
+  @apply mt-3 flex items-center justify-between text-sm;
+}
+
+/* Auteur */
+.card-author {
+  @apply flex items-center gap-2;
+}
+
+.card-avatar {
+  @apply bg-talenteko-peach-200 text-talenteko-orange-500 flex h-8 w-8 items-center justify-center rounded-full font-bold;
+}
+
+.card-author-name {
+  @apply text-talenteko-blue-900 text-sm font-medium;
+}
+
+/* Localisation */
+.card-location {
+  @apply text-talenteko-blue-400 flex max-w-[100px] items-center gap-1 truncate text-xs;
+}
+
+.card-location-icon {
+  @apply text-talenteko-orange-500;
+}

@@ -4,59 +4,65 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Utils\ImageFilters;
 use Exception;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Commande Symfony pour rafraîchir le cache LiipImagine
+ * sur toutes les images présentes dans /public/uploads/listings.
+ */
 #[AsCommand(
     name: 'app:cache-images',
     description: 'Rafraîchir le cache LiipImagine pour toutes les images dans /uploads/listings.',
 )]
-class CacheImagesCommand extends Command
+final class CacheImagesCommand extends Command
 {
-    private CacheManager $cacheManager;
-
-    public function __construct(CacheManager $cacheManager)
-    {
+    public function __construct(
+        private readonly CacheManager $cacheManager,
+    ) {
         parent::__construct();
-        $this->cacheManager = $cacheManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         $publicDir = __DIR__ . '/../../public/uploads/listings';
-        $filters = ['listing_card', 'listing_show', 'avatar_thumb'];
 
         $finder = new Finder();
-        $finder->files()->in($publicDir)->name('*.jpg');
+        $finder->files()
+            ->in($publicDir)
+            ->name('*.{jpg,jpeg,png}');
 
         if (!$finder->hasResults()) {
-            $output->writeln("<comment>Aucune image trouvée dans $publicDir</comment>");
-
+            $io->warning("Aucune image trouvée dans $publicDir");
             return Command::SUCCESS;
         }
 
+        $io->section('Rafraîchissement du cache LiipImagine');
         foreach ($finder as $file) {
-            // Chemin relatif vers le fichier dans le répertoire public
-            $relativePath = 'uploads/listings/' . $file->getRelativePathname();
+            $relativePath = 'uploads/listings/' . str_replace('\\', '/', $file->getRelativePathname());
+            $io->text("➡️ $relativePath");
 
-            foreach ($filters as $filter) {
+            foreach (ImageFilters::LIST as $filter) {
                 try {
-                    $this->cacheManager->remove($relativePath, $filter); // reset cache for $relativePath
+                    $this->cacheManager->remove($relativePath, $filter); // reset cache
                     $this->cacheManager->getBrowserPath($relativePath, $filter);
-                    $output->writeln("Généré pour $relativePath");
+                    $io->writeln("   <info>✔ $filter régénéré</info>");
                 } catch (Exception $e) {
-                    $output->writeln("<error>Échec sur $relativePath : {$e->getMessage()}</error>");
+                    $io->error("   ❌ $filter échoué : " . $e->getMessage());
                 }
             }
         }
 
-        $output->writeln('<info>All images have been successfully processed.</info>');
-
+        $io->success('Cache images régénéré pour toutes les variantes.');
         return Command::SUCCESS;
     }
 }

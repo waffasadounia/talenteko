@@ -11,10 +11,14 @@ use App\Entity\ListingImage;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
- * Génère des annonces fictives pour toutes les catégories.
+ * Génère des annonces fictives :
+ * - 6 annonces "manuelles" par catégorie (avec vraies images locales)
+ * - 10 annonces Faker supplémentaires par catégorie
+ * - Images Faker : mix placeholderTE.png + Picsum
  */
 final class ListingFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -119,47 +123,75 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create('fr_FR');
         $slugger = new AsciiSlugger();
+
         $users = $manager->getRepository(User::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
-        $cities = ['Paris', 'Lyon', 'Marseille', 'Bordeaux', 'Toulouse'];
 
         foreach ($categories as $category) {
             $catName = $category->getName();
-            if (!isset(self::SAMPLES[$catName])) {
-                continue;
+
+            // --- 1. Annonces "manuelles" avec images locales ---
+            if (isset(self::SAMPLES[$catName])) {
+                $i = 1;
+                foreach (self::SAMPLES[$catName] as [$title, $description]) {
+                    $listing = new Listing();
+                    $listing->setTitle($title);
+                    $listing->setDescription($description);
+                    $listing->setType($faker->randomElement(['OFFER', 'REQUEST']));
+                    $listing->setLocation($faker->city());
+                    $listing->setStatus('PUBLISHED');
+                    $listing->setSlug((string) $slugger->slug($title . '-' . uniqid()));
+                    $listing->setAuthor($faker->randomElement($users));
+                    $listing->setCategory($category);
+
+                    $image = new ListingImage();
+                    // Images locales nommées img1.jpg … img6.jpg
+                    $imgIndex = min($i, 6);
+                    $image->setPath($category->getSlug() . "/{$imgIndex}.jpg");
+                    $image->setIsPrimary(true);
+
+                    $listing->addImage($image);
+                    $manager->persist($image);
+                    $manager->persist($listing);
+                    $i++;
+                }
             }
 
-            $slug = $slugger->slug($catName)->lower()->toString();
-            $samplePairs = self::SAMPLES[$catName];
-            $sampleCount = count($samplePairs);
+            // --- 2. Annonces Faker ---
+            for ($i = 0; $i < 10; $i++) {
+                $title = $faker->sentence(3);
 
-            $idx = 0;
-            foreach ($samplePairs as [$title, $description]) {
                 $listing = new Listing();
                 $listing->setTitle($title);
-                $listing->setDescription($description);
-                $listing->setType(0 === $idx % 2 ? 'OFFER' : 'REQUEST');
-                $listing->setLocation($cities[array_rand($cities)]);
+                $listing->setDescription($faker->paragraph());
+                $listing->setType($faker->randomElement(['OFFER', 'REQUEST']));
+                $listing->setLocation($faker->city());
                 $listing->setStatus('PUBLISHED');
                 $listing->setSlug((string) $slugger->slug($title . '-' . uniqid()));
-                $listing->setAuthor($users[array_rand($users)]);
+                $listing->setAuthor($faker->randomElement($users));
                 $listing->setCategory($category);
 
                 $image = new ListingImage();
-                $image->setPath("{$slug}/placeholder.jpg");
+                if ($faker->boolean(50)) {
+                    // Placeholder local
+                    $image->setPath("placeholderTE.png"); // correspond à /uploads/listings/placeholderTE.png
+                } else {
+                    // Image externe Picsum
+                    $seed = uniqid();
+                    $image->setPath("https://picsum.photos/seed/$seed/400/225");
+                }
                 $image->setIsPrimary(true);
-                $listing->addImage($image);
 
+                $listing->addImage($image);
                 $manager->persist($image);
                 $manager->persist($listing);
-
-                ++$idx;
             }
         }
 
         $manager->flush();
-        echo "✔ Annonces générées pour 12 catégories.\n";
+        echo "✔ Annonces générées avec images locales + Faker.\n";
     }
 
     public function getDependencies(): array

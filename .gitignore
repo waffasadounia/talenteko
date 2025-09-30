@@ -66,14 +66,6 @@ Thumbs.db
 /backup_migration/
 
 
-# Scripts de correction locaux
-fix-encoding.ps1
-fix-replace.ps1
-normalize-encoding.sh
-normalize-eol.ps1
-organize-tests.ps1
-replacements.txt
-
 ###> Talenteko migration/maintenance scripts ###
 tools/*
 !tools/README.md

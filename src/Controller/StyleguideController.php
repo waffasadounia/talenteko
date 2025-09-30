@@ -17,7 +17,7 @@ final class StyleguideController extends AbstractController
     /**
      * Page interne : styleguide des boutons TalentÉkô
      * URL : /styleguide/buttons
-     * Name : app_styleguide_buttons.
+     * Name : app_styleguide_buttons
      */
     #[Route('/styleguide/buttons', name: 'app_styleguide_buttons', methods: ['GET'])]
     public function buttons(): Response
@@ -28,7 +28,7 @@ final class StyleguideController extends AbstractController
     /**
      * Page interne : styleguide des formulaires TalentÉkô
      * URL : /styleguide/forms
-     * Name : app_styleguide_forms.
+     * Name : app_styleguide_forms
      */
     #[Route('/styleguide/forms', name: 'app_styleguide_forms', methods: ['GET'])]
     public function forms(): Response
@@ -39,7 +39,7 @@ final class StyleguideController extends AbstractController
     /**
      * Page interne : styleguide typographie TalentÉkô
      * URL : /styleguide/typography
-     * Name : app_styleguide_typography.
+     * Name : app_styleguide_typography
      */
     #[Route('/styleguide/typography', name: 'app_styleguide_typography', methods: ['GET'])]
     public function typography(): Response
@@ -50,11 +50,22 @@ final class StyleguideController extends AbstractController
     /**
      * Page interne : styleguide CTA TalentÉkô
      * URL : /styleguide/cta
-     * Name : app_styleguide_cta.
+     * Name : app_styleguide_cta
      */
     #[Route('/styleguide/cta', name: 'app_styleguide_cta', methods: ['GET'])]
     public function cta(): Response
     {
         return $this->render('styleguide/cta.html.twig');
+    }
+
+    /**
+     * Page interne : styleguide des cartes TalentÉkô
+     * URL : /styleguide/cards
+     * Name : app_styleguide_cards
+     */
+    #[Route('/styleguide/cards', name: 'app_styleguide_cards', methods: ['GET'])]
+    public function cards(): Response
+    {
+        return $this->render('styleguide/cards.html.twig');
     }
 }

@@ -1,47 +1,58 @@
 /* ===========================================
    THEME TALENTÉKÔ — Tokens & Reset global
    -------------------------------------------
-    Déclare les couleurs officielles (palette)
-    Déclare les polices
-    Ajoute un reset minimal (text-size-adjust, img)
+   - Déclare la palette officielle
+   - Déclare les polices
+   - Ajoute un reset minimal
    =========================================== */
 
 @theme {
+  /* === Couleurs === */
   --color-talenteko-blue-900: #141c2e;
   --color-talenteko-blue-600: #2b3343;
   --color-talenteko-blue-500: #434958;
   --color-talenteko-blue-400: #a1a4ab;
 
-  /* Oranges (échelle de teintes) */
-  --color-talenteko-orange-400: #e8926a; /* clair: bordures, badges */
-  --color-talenteko-orange-500: #d6713c; /* brand officiel */
-  --color-talenteko-orange-600: #c46f45; /* + sombre */
-  --color-talenteko-orange-700: #b35f3a; /* AA contrast avec texte blanc */
-  --color-talenteko-orange-800: #994f2e; /* hover sombre */
+  --color-talenteko-orange-400: #e8926a;
+  --color-talenteko-orange-500: #d6713c;
+  --color-talenteko-orange-600: #c46f45;
+  --color-talenteko-orange-700: #b35f3a;
+  --color-talenteko-orange-800: #994f2e;
 
-  /* Pêches (fonds doux / surfaces) */
   --color-talenteko-peach-100: #fbf1ec;
   --color-talenteko-peach-200: #fdf5f1;
   --color-talenteko-peach-300: #fdfaf9;
 
-  /* Polices (charte officielle Talentékô) */
+  /* === Polices === */
   --font-montserrat: 'Montserrat', sans-serif;
   --font-catamaran: 'Catamaran', sans-serif;
   --font-chivo: 'Chivo', sans-serif;
+
+  /* === Typo globale === */
+  --text-base: 1rem;       /* 16px */
+  --leading-base: 1.5;     /* 150% */
 }
 
 @layer base {
-  /* Empêcher Safari/iOS et IE de modifier la taille des textes */
+  /* Reset global */
   html {
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
   }
 
-  /* Images toujours responsives */
+  body {
+    margin: 0;
+    font-family: var(--font-montserrat);
+    font-size: var(--text-base);
+    line-height: var(--leading-base);
+    color: var(--color-talenteko-blue-900);
+    background-color: var(--color-talenteko-peach-100);
+  }
+
   img {
     max-width: 100%;
     height: auto;
-    vertical-align: middle; /* évite espace blanc inline */
+    vertical-align: middle;
   }
 }

@@ -1,8 +1,7 @@
-{# templates/styleguide/cta.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Styleguide CTA | TalentÉkô
+  Styleguide Cards | TalentÉkô
 {% endblock %}
 
 {% block body %}
@@ -10,97 +9,66 @@
 
   <main class="container mx-auto space-y-12 px-6 py-12">
     <header class="space-y-2">
-      <h1 class="text-primary-color text-3xl font-bold">Styleguide CTA | TalentÉkô</h1>
+      <h1 class="text-primary-color text-3xl font-bold">Styleguide Cards | TalentÉkô</h1>
       <p class="text-gray-600">
-        Variantes réutilisables : primary, outline, link, tailles, états.
-        Focus et hover accessibles respectent les normes d’accessibilité.
+        Variantes de cartes réutilisables (base, hover, listing).
+        Accessibilité incluse : alt images, aria-label sur actions.
       </p>
     </header>
 
-    {# Variantes #}
+    {# Carte générique #}
     <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Variantes</h2>
-      <div class="flex flex-wrap items-center gap-4">
-        <a href="#" class="btn-primary" aria-label="CTA principal">
-          <i class="fa fa-user" aria-hidden="true"></i>
-          <span>Primary</span>
-        </a>
-        <a href="#" class="btn-outline" aria-label="CTA secondaire">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          <span>Outline</span>
-        </a>
-        <a href="#" class="btn-link" aria-label="CTA texte">Lien (tertiaire)</a>
+      <h2 class="text-xl font-semibold">Carte générique</h2>
+      <div class="card w-80">
+        <img src="/uploads/listings/placeholder.png" alt="Image de démonstration" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Titre de la carte</h3>
+          <p class="card-text">Exemple de contenu court pour la carte générique.</p>
+        </div>
       </div>
       <p class="text-sm text-gray-500">
-        Primary = CTA fort → hover <code>talenteko-orange-400</code>
-        Outline = bordure + texte orange
+        Classe <code>.card</code> = base (fond blanc, arrondi, ombre).
+        Contient <code>.card-image</code> + <code>.card-content</code>.
       </p>
     </section>
 
-    {# Tailles #}
+    {# Carte Listing #}
     <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Tailles</h2>
-      <div class="flex flex-wrap items-center gap-4">
-        <a class="btn-primary btn-sm" href="#" aria-label="CTA petit">Primary .btn-sm</a>
-        <a class="btn-primary" href="#" aria-label="CTA normal">Primary</a>
-        <a class="btn-primary btn-lg" href="#" aria-label="CTA grand">Primary .btn-lg</a>
-      </div>
-      <div class="flex flex-wrap items-center gap-4">
-        <a class="btn-outline btn-sm" href="#" aria-label="CTA secondaire petit">Outline .btn-sm</a>
-        <a class="btn-outline" href="#" aria-label="CTA secondaire normal">Outline</a>
-        <a class="btn-outline btn-lg" href="#" aria-label="CTA secondaire grand">Outline .btn-lg</a>
-      </div>
-    </section>
-
-    {# Icônes seules + block #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Icônes seules + block</h2>
-      <div class="flex flex-wrap items-center gap-4">
-        <button class="btn-icon bg-talenteko-orange-500 text-white" aria-label="Ouvrir le menu">
-          <i class="fa fa-bars" aria-hidden="true"></i>
-        </button>
-        <button class="btn-icon border border-talenteko-orange-500 text-talenteko-orange-500" aria-label="Ajouter aux favoris">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-        </button>
-      </div>
-      <div class="max-w-md">
-        <a class="btn-primary btn-block" href="#" aria-label="CTA pleine largeur">
-          <i class="fa fa-rocket" aria-hidden="true"></i>
-          <span>Lancer l’action</span>
-        </a>
+      <h2 class="text-xl font-semibold">Carte Listing (annonce)</h2>
+      <div class="card card-listing w-96">
+        <img src="/uploads/listings/placeholder.png" alt="Cours de guitare" class="card-image">
+        <div class="card-content">
+          <h3 class="card-title">Cours de guitare</h3>
+          <p class="card-text">Apprenez les bases ou perfectionnez-vous avec un musicien passionné.</p>
+          <div class="card-actions">
+            <a href="#" class="btn-outline" aria-label="Voir détails annonce">Voir plus</a>
+            <button class="btn-primary" aria-label="Contacter l’annonceur">Contacter</button>
+          </div>
+        </div>
       </div>
       <p class="text-sm text-gray-500">
-        `.btn-icon` = bouton icône seule ; `.btn-block` = largeur 100 %
+        Variante <code>.card-listing</code> avec actions (<code>.card-actions</code>).
+        Ajout de <code>.card-hover</code> pour un effet interactif.
       </p>
-    </section>
-
-    {# États #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">États</h2>
-      <div class="flex flex-wrap items-center gap-4">
-        <button class="btn-primary is-disabled" disabled aria-disabled="true">Primary (disabled)</button>
-        <button class="btn-outline is-disabled" disabled aria-disabled="true">Outline (disabled)</button>
-        <button class="btn-primary btn-loading" type="button" aria-busy="true">
-          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
-          <span>Chargement...</span>
-        </button>
-      </div>
-      <p class="text-sm text-gray-500">`.is-disabled` désactive les interactions.</p>
     </section>
 
     {# Exemples concrets #}
     <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Exemples d’usage</h2>
-      <div class="flex flex-wrap items-center gap-4">
-        <a href="{{ path('app_listing_new') }}" class="btn-primary" aria-label="Déposer une annonce">
-          + Déposer une annonce
-        </a>
-        <a href="#tendances" class="btn-outline" aria-label="Découvrir les talents">
-          + Découvrir les talents
-        </a>
-        <a href="{{ path('app_search') }}" class="btn-link" aria-label="Voir toutes les annonces">
-          Voir toutes les annonces
-        </a>
+      <h2 class="text-xl font-semibold">Exemples concrets</h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {% for i in 1..3 %}
+          <div class="card card-listing">
+            <img src="/uploads/listings/placeholder.png" alt="Annonce {{ i }}" class="card-image">
+            <div class="card-content">
+              <h3 class="card-title">Annonce {{ i }}</h3>
+              <p class="card-text">Description de l’annonce numéro {{ i }}. Exemple de texte court.</p>
+              <div class="card-actions">
+                <a href="#" class="btn-outline" aria-label="Voir détails annonce {{ i }}">Voir plus</a>
+                <button class="btn-primary" aria-label="Contacter l’annonceur {{ i }}">Contacter</button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
       </div>
     </section>
 
@@ -108,10 +76,9 @@
     <section class="space-y-3">
       <h2 class="text-xl font-semibold">Accessibilité</h2>
       <ul class="list-disc space-y-1 pl-6 text-gray-800">
-        <li>Un seul <strong>CTA fort</strong> par zone.</li>
-        <li>Focus visible sur tous les CTA (classes utilitaires incluses).</li>
-        <li>Icônes décoratives avec <code>aria-hidden="true"</code>.</li>
-        <li>Animations discrètes ; respect de <code>prefers-reduced-motion</code>.</li>
+        <li>Les images ont un attribut <code>alt</code> descriptif.</li>
+        <li>Les actions (boutons/CTA) ont des <code>aria-label</code> explicites.</li>
+        <li>Le focus clavier est visible grâce aux classes Tailwind <code>focus-visible:ring-2</code>.</li>
       </ul>
     </section>
   </main>

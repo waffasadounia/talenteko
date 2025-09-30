@@ -1,4 +1,4 @@
-root = true
+root = true # Fichier de rÃ©fÃ©rence, encodÃ© en UTF-8
 
 [*]
 charset = utf-8
@@ -10,5 +10,3 @@ indent_size = 2
 
 [*.php]
 indent_size = 4
-
-
