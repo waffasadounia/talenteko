@@ -11,4 +11,3 @@ echo "➡️ PHPUnit..."
 php bin/phpunit --stop-on-failure || exit 1
 
 echo "✅ Pre-push terminé, push autorisé !"
-

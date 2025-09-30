@@ -85,7 +85,7 @@
           {{ form_widget(form.agreeTerms, {attr: {class: 'mt-1'}}) }}
           <label for="{{ form.agreeTerms.vars.id }}" class="text-sm text-gray-700">
             J’accepte les
-            <a href="{{ path('app_legal_conditions') }}" class="btn-link">conditions d’utilisation</a>.
+            <a href="{{ path('app_conditions') }}" class="btn-link">conditions d’utilisation</a>.
           </label>
         </div>
         {{ form_errors(form.agreeTerms) }}
