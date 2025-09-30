@@ -46,8 +46,6 @@ final class SecurityController extends AbstractController
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
-        throw new LogicException(
-            'Cette méthode est vide : la déconnexion est gérée par le firewall (security.yaml).'
-        );
+        throw new LogicException('Cette méthode est vide : la déconnexion est gérée par le firewall (security.yaml).');
     }
 }

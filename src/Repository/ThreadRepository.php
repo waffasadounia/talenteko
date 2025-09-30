@@ -15,7 +15,3 @@ class ThreadRepository extends ServiceEntityRepository
         parent::__construct($registry, Thread::class);
     }
 }
-
-
-
-

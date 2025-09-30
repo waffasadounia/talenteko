@@ -3,7 +3,7 @@
 // -----------------------------------------------
 // Configuration ESLint moderne (ESM, ESLint v9)
 // - assets/ : code front (Stimulus, Tailwind, etc.)
-// - webpack.config.js : config Node (CommonJS)
+// - webpack.config.js / tailwind.config.js / prettier.config.cjs : configs Node
 // ===============================================
 
 import js from "@eslint/js";
@@ -35,7 +35,7 @@ export default [
       },
     },
     rules: {
-      "no-console": "off", // on autorise console.log en dev
+      "no-console": "off", // autoriser console.log en dev
       quotes: ["error", "single"],
     },
   },
@@ -48,9 +48,13 @@ export default [
     },
   },
 
-  // Fichier webpack (Node.js CommonJS)
+  // Fichiers de config Node (CommonJS)
   {
-    files: ["webpack.config.js"],
+    files: [
+      "webpack.config.js",
+      "tailwind.config.js",
+      "prettier.config.cjs"
+    ],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -61,23 +65,7 @@ export default [
       },
     },
     rules: {
-      "no-undef": "off", // désactive le warning sur process/require
+      "no-undef": "off", // évite le warning sur module/require/process
     },
   },
-
-  // Fichier Tailwind (Node.js CommonJS)
-{
-  files: ["tailwind.config.js"],
-  languageOptions: {
-    globals: {
-      ...globals.node,
-      module: "readonly",
-      require: "readonly",
-    },
-  },
-  rules: {
-    "no-undef": "off", // évite le warning sur module/require
-  },
-},
-
 ];

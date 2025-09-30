@@ -11,12 +11,11 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ForgotPasswordController extends AbstractController
 {
@@ -24,7 +23,7 @@ final class ForgotPasswordController extends AbstractController
     public function request(
         Request $request,
         EntityManagerInterface $em,
-        MailerInterface $mailer
+        MailerInterface $mailer,
     ): Response {
         if ($request->isMethod('POST')) {
             $email = trim($request->request->getString('email'));
@@ -59,11 +58,13 @@ final class ForgotPasswordController extends AbstractController
                 $mailer->send($emailMessage);
 
                 $this->addFlash('success', 'Un email vous a été envoyé avec un lien de réinitialisation.');
+
                 return $this->redirectToRoute('app_login');
             }
 
             // Même message pour éviter fuite d’info si email inconnu
             $this->addFlash('info', 'Si un compte existe avec cet email, un message a été envoyé.');
+
             return $this->redirectToRoute('app_login');
         }
 
@@ -75,13 +76,14 @@ final class ForgotPasswordController extends AbstractController
         string $token,
         Request $request,
         EntityManagerInterface $em,
-        UserPasswordHasherInterface $hasher
+        UserPasswordHasherInterface $hasher,
     ): Response {
         /** @var ?User $user */
         $user = $em->getRepository(User::class)->findOneBy(['resetToken' => $token]);
 
         if (!$user) {
             $this->addFlash('error', 'Lien de réinitialisation invalide ou expiré.');
+
             return $this->redirectToRoute('app_forgot_password');
         }
 
@@ -91,11 +93,13 @@ final class ForgotPasswordController extends AbstractController
 
             if ($plainPassword !== $confirmPassword) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
+
                 return $this->redirectToRoute('app_reset_password', ['token' => $token]);
             }
 
             if (strlen($plainPassword) < 8) {
                 $this->addFlash('error', 'Le mot de passe doit contenir au moins 8 caractères.');
+
                 return $this->redirectToRoute('app_reset_password', ['token' => $token]);
             }
 
@@ -106,6 +110,7 @@ final class ForgotPasswordController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Votre mot de passe a été réinitialisé avec succès. Vous pouvez vous connecter.');
+
             return $this->redirectToRoute('app_login');
         }
 

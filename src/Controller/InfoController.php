@@ -40,7 +40,3 @@ final class InfoController extends AbstractController
         return $this->render('legal/cookies.html.twig');
     }
 }
-
-
-
-

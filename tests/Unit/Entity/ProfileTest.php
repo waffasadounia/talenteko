@@ -24,7 +24,7 @@ class ProfileTest extends TestCase
         $this->assertSame(
             'Alice',
             $profile->getFirstname(),
-            'Le prénom devrait être correctement défini et récupéré'
+            'Le prénom devrait être correctement défini et récupéré',
         );
     }
 
@@ -36,7 +36,7 @@ class ProfileTest extends TestCase
         $this->assertSame(
             'Dupont',
             $profile->getLastname(),
-            'Le nom devrait être correctement défini et récupéré'
+            'Le nom devrait être correctement défini et récupéré',
         );
     }
 
@@ -48,7 +48,7 @@ class ProfileTest extends TestCase
         $this->assertStringContainsString(
             'musique',
             $profile->getBio(),
-            'La bio devrait contenir le texte défini'
+            'La bio devrait contenir le texte défini',
         );
     }
 
@@ -63,12 +63,12 @@ class ProfileTest extends TestCase
         $this->assertSame(
             $user,
             $profile->getUser(),
-            'Le profil doit être associé au bon utilisateur'
+            'Le profil doit être associé au bon utilisateur',
         );
         $this->assertEquals(
             'profileuser@example.com',
             $profile->getUser()->getEmail(),
-            'L\'utilisateur lié au profil devrait être cohérent'
+            'L\'utilisateur lié au profil devrait être cohérent',
         );
     }
 }

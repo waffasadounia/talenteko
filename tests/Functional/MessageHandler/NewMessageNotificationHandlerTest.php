@@ -19,7 +19,7 @@ final class NewMessageNotificationHandlerTest extends TestCase
     {
         // Arrange : faux utilisateurs
         $recipient = (new User())->setEmail('dest@test.com')->setPseudo('Alice');
-        $sender    = (new User())->setEmail('src@test.com')->setPseudo('Bob');
+        $sender = (new User())->setEmail('src@test.com')->setPseudo('Bob');
 
         // Mock du repository User
         $userRepo = $this->createMock(EntityRepository::class);
@@ -41,7 +41,7 @@ final class NewMessageNotificationHandlerTest extends TestCase
                 $this->callback(function (Email $email) {
                     return $email->getTo()[0]->getAddress() === 'dest@test.com'
                         && $email->getSubject() === 'Nouveau message sur TalentÉkô';
-                })
+                }),
             );
 
         $handler = new NewMessageNotificationHandler($mailer, $em);

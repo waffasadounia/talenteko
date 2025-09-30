@@ -64,7 +64,3 @@ class ListingImage
         return $this;
     }
 }
-
-
-
-

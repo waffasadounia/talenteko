@@ -55,22 +55,24 @@
         <strong>TalentÉkô</strong>.
       </p>
 
-      <p>
-        Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :
-      </p>
+      <p>Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :</p>
 
-      <p style="text-align:center;">
+      <p style="text-align: center;">
         <a href="{{ resetUrl }}" class="btn">Réinitialiser mon mot de passe</a>
       </p>
 
       <p>
         Ce lien expirera dans
-        <strong>{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}</strong>.
+        <strong>
+          {{ resetToken.expirationMessageKey|trans(
+            resetToken.expirationMessageData,
+            'ResetPasswordBundle'
+          ) }}
+        </strong>.
       </p>
 
       <p>
-        Si vous n’êtes pas à l’origine de cette demande, ignorez simplement cet
-        email.
+        Si vous n’êtes pas à l’origine de cette demande, ignorez simplement cet email.
       </p>
 
       <p class="footer">

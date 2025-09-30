@@ -43,11 +43,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Merci de saisir un mot de passe.')]
     #[Assert\Length(
         min: 10,
-        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères.'
+        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
     )]
     #[Assert\Regex(
         pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/",
-        message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.'
+        message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.',
     )]
     private ?string $plainPassword = null;
 
@@ -58,7 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 3, max: 30)]
     #[Assert\Regex(
         pattern: '/^[a-zA-Z0-9_.\- ]+$/u',
-        message: 'Le pseudo ne peut contenir que lettres, chiffres, espaces et . _ -'
+        message: 'Le pseudo ne peut contenir que lettres, chiffres, espaces et . _ -',
     )]
     private ?string $pseudo = null;
 
@@ -72,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, max: 120)]
     #[Assert\Regex(
         pattern: '/^[\p{L}\s\'\-]+$/u',
-        message: 'La localisation ne peut contenir que des lettres, espaces, apostrophes ou tirets.'
+        message: 'La localisation ne peut contenir que des lettres, espaces, apostrophes ou tirets.',
     )]
     #[ValidLocation]
     private ?string $location = null;
@@ -132,17 +132,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     // === Getters / Setters principaux ===
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getEmail(): ?string { return $this->email; }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
     public function setEmail(string $email): static
     {
         $this->email = mb_strtolower($email);
+
         return $this;
     }
 
-    public function getUserIdentifier(): string { return (string) $this->email; }
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
 
     public function getRoles(): array
     {
@@ -150,48 +160,69 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!in_array('ROLE_USER', $roles, true)) {
             $roles[] = 'ROLE_USER';
         }
+
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
+
         return $this;
     }
 
-    public function getPassword(): string { return $this->password; }
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
         return $this;
     }
 
-    public function getPlainPassword(): ?string { return $this->plainPassword; }
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
 
     public function setPlainPassword(?string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
+
         return $this;
     }
 
-    public function eraseCredentials(): void { $this->plainPassword = null; }
+    public function eraseCredentials(): void
+    {
+        $this->plainPassword = null;
+    }
 
     // === Pseudo & Tag ===
 
-    public function getPseudo(): ?string { return $this->pseudo; }
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
 
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
+
         return $this;
     }
 
-    public function getTag(): ?string { return $this->tag; }
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
 
     public function setTag(string $tag): static
     {
         $this->tag = $tag;
+
         return $this;
     }
 
@@ -200,99 +231,142 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->pseudo && $this->tag) {
             return $this->pseudo . '#' . $this->tag;
         }
+
         return $this->pseudo ?: mb_substr(explode('@', $this->email)[0] ?? 'membre', 0, 4) . '****';
     }
 
     // === Localisation & Bio ===
 
-    public function getLocation(): ?string { return $this->location; }
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
 
     public function setLocation(string $location): static
     {
         $this->location = $location;
+
         return $this;
     }
 
-    public function getBio(): ?string { return $this->bio; }
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
 
     public function setBio(?string $bio): static
     {
         $this->bio = $bio;
+
         return $this;
     }
 
     // === Compétences ===
 
-    public function getSkillsOffered(): ?array { return $this->skills_offered; }
+    public function getSkillsOffered(): ?array
+    {
+        return $this->skills_offered;
+    }
 
     public function setSkillsOffered(?array $skills): static
     {
         $this->skills_offered = $skills;
+
         return $this;
     }
 
-    public function getSkillsWanted(): ?array { return $this->skills_wanted; }
+    public function getSkillsWanted(): ?array
+    {
+        return $this->skills_wanted;
+    }
 
     public function setSkillsWanted(?array $skills): static
     {
         $this->skills_wanted = $skills;
+
         return $this;
     }
 
     // === Avatar ===
 
-    public function getAvatarFilename(): ?string { return $this->avatarFilename; }
+    public function getAvatarFilename(): ?string
+    {
+        return $this->avatarFilename;
+    }
 
     public function setAvatarFilename(?string $fn): static
     {
         $this->avatarFilename = $fn;
+
         return $this;
     }
 
     // === Notation ===
 
-    public function getRatingAvg(): float { return $this->ratingAvg; }
+    public function getRatingAvg(): float
+    {
+        return $this->ratingAvg;
+    }
 
     public function setRatingAvg(float $ratingAvg): static
     {
         $this->ratingAvg = $ratingAvg;
+
         return $this;
     }
 
-    public function getRatingCount(): int { return $this->ratingCount; }
+    public function getRatingCount(): int
+    {
+        return $this->ratingCount;
+    }
 
     public function setRatingCount(int $ratingCount): static
     {
         $this->ratingCount = $ratingCount;
+
         return $this;
     }
 
     // === Dates ===
 
-    public function getCreatedAt(): DateTimeImmutable { return $this->createdAt; }
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
 
     // === Reset password ===
 
-    public function getResetToken(): ?string { return $this->resetToken; }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
 
     public function setResetToken(?string $token): static
     {
         $this->resetToken = $token;
+
         return $this;
     }
 
-    public function getResetRequestedAt(): ?DateTimeImmutable { return $this->resetRequestedAt; }
+    public function getResetRequestedAt(): ?DateTimeImmutable
+    {
+        return $this->resetRequestedAt;
+    }
 
     public function setResetRequestedAt(?DateTimeImmutable $date): static
     {
         $this->resetRequestedAt = $date;
+
         return $this;
     }
 
     // === Relations ===
 
     /** @return Collection<int, Listing> */
-    public function getListings(): Collection { return $this->listings; }
+    public function getListings(): Collection
+    {
+        return $this->listings;
+    }
 
     public function addListing(Listing $listing): static
     {
@@ -300,17 +374,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->listings->add($listing);
             $listing->setAuthor($this);
         }
+
         return $this;
     }
 
     public function removeListing(Listing $listing): static
     {
         $this->listings->removeElement($listing);
+
         return $this;
     }
 
     /** @return Collection<int, Exchange> */
-    public function getExchanges(): Collection { return $this->exchanges; }
+    public function getExchanges(): Collection
+    {
+        return $this->exchanges;
+    }
 
     public function addExchange(Exchange $exchange): static
     {
@@ -318,6 +397,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->exchanges->add($exchange);
             $exchange->setRequester($this);
         }
+
         return $this;
     }
 
@@ -326,10 +406,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->exchanges->removeElement($exchange) && $exchange->getRequester() === $this) {
             $exchange->setRequester(null);
         }
+
         return $this;
     }
 
-    public function getProfile(): ?Profile { return $this->profile; }
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
 
     public function setProfile(Profile $profile): static
     {
@@ -337,10 +421,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $profile->setUser($this);
         }
         $this->profile = $profile;
+
         return $this;
     }
 
     // === Divers ===
 
-    public function __toString(): string { return $this->getDisplayName(); }
+    public function __toString(): string
+    {
+        return $this->getDisplayName();
+    }
 }

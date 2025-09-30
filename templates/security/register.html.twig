@@ -36,7 +36,11 @@
       {# --- Formulaire d'inscription --- #}
       <div class="rounded-2xl bg-white p-6 shadow-sm">
         {{ form_start(form, {
-          attr: { novalidate: 'novalidate', id: 'register-form', class: 'tk-form space-y-5' }
+          attr: {
+            novalidate: 'novalidate',
+            id: 'register-form',
+            class: 'tk-form space-y-5'
+          }
         }) }}
 
         {# EMAIL #}
@@ -56,17 +60,40 @@
         } %}
 
         {# LOCALISATION #}
-        ... (inchangé)
+        {% include 'partials/_form_field.html.twig' with {
+          field: form.location,
+          label: 'Localisation',
+          placeholder: 'ex. Paris, Lyon, Marseille',
+          autocomplete: 'address-level2'
+        } %}
 
         {# MOT DE PASSE #}
-        ... (inchangé)
+        {% include 'partials/_password_field.html.twig' with {
+          field: form.plainPassword.first,
+          label: 'Mot de passe',
+          target: 'original'
+        } %}
+
+        {% include 'partials/_password_field.html.twig' with {
+          field: form.plainPassword.second,
+          label: 'Confirmer le mot de passe',
+          target: 'confirm'
+        } %}
 
         {# CONDITIONS D'UTILISATION #}
-        ... (inchangé)
+        <div class="flex items-start gap-2">
+          {{ form_widget(form.agreeTerms, {attr: {class: 'mt-1'}}) }}
+          <label for="{{ form.agreeTerms.vars.id }}" class="text-sm text-gray-700">
+            J’accepte les
+            <a href="{{ path('app_legal_conditions') }}" class="btn-link">conditions d’utilisation</a>.
+          </label>
+        </div>
+        {{ form_errors(form.agreeTerms) }}
 
         <button id="submit-btn" type="submit" class="btn-primary btn-block mt-6">
           S'inscrire
         </button>
+
         {{ form_end(form) }}
 
         <p class="mt-6 text-center text-sm text-gray-600">
@@ -80,7 +107,9 @@
   <script>
     document.addEventListener('turbo:before-cache', () => {
       const el = document.getElementById('form-global-errors');
-      if (el) el.remove();
+      if (el) {
+        el.remove();
+      }
     });
   </script>
 {% endblock %}

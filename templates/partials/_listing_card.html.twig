@@ -21,14 +21,14 @@
   </button>
 
   {# --- Image principale --- #}
-  <a href="{{ path('app_listing_show', { slug: listing.slug }) }}" class="card-image-link">
+  <a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="card-image-link">
     <div class="card-image-wrapper">
-      {% if listing.images|length > 0 %}
-        {% set imgPath = listing.images|first.path %}
-        {% if imgPath starts with 'http' %}
+      {% if (listing.images|length) > 0 %}
+        {% set img_path = listing.images|first.path %}
+        {% if img_path starts with 'http' %}
           {# Cas image externe (Picsum, etc.) #}
           <img
-            src="{{ imgPath }}"
+            src="{{ img_path }}"
             alt="Image du listing {{ listing.title|e }}"
             class="card-image"
             loading="lazy"
@@ -38,7 +38,7 @@
         {% else %}
           {# Cas image locale : /uploads/listings/<slug>/<filename> #}
           <img
-            src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ imgPath)|imagine_filter('listing_card') }}"
+            src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ img_path)|imagine_filter('listing_card') }}"
             alt="Image du listing {{ listing.title|e }}"
             class="card-image"
             loading="lazy"
@@ -66,12 +66,14 @@
       </span>
 
       <h3 class="card-title">
-        <a href="{{ path('app_listing_show', { slug: listing.slug }) }}" class="card-title-link">
+        <a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="card-title-link">
           {{ listing.title }}
         </a>
       </h3>
 
-      <p class="card-text">{{ listing.description }}</p>
+      <p class="card-text">
+        {{ listing.description }}
+      </p>
 
       <div class="card-footer">
         <div class="card-author">

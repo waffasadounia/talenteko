@@ -20,7 +20,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
  */
 #[AsCommand(
     name: 'app:fix-category-slugs',
-    description: 'Corrige automatiquement les slugs des catégories depuis leur nom.'
+    description: 'Corrige automatiquement les slugs des catégories depuis leur nom.',
 )]
 final class FixCategorySlugsCommand extends Command
 {
@@ -54,7 +54,7 @@ final class FixCategorySlugsCommand extends Command
                     $category->getName(),
                     $category->getId(),
                     $category->getSlug(),
-                    $correctSlug
+                    $correctSlug,
                 ));
 
                 $category->setSlug($correctSlug);
@@ -66,7 +66,7 @@ final class FixCategorySlugsCommand extends Command
             $this->em->flush();
             $io->success("✅ $updated slugs corrigés !");
         } else {
-            $io->success("👌 Tous les slugs sont déjà corrects.");
+            $io->success('👌 Tous les slugs sont déjà corrects.');
         }
 
         return Command::SUCCESS;

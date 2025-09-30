@@ -23,7 +23,7 @@ class UserTest extends TestCase
         $this->assertSame(
             'test@example.com',
             $user->getEmail(),
-            'L\'email devrait être correctement défini et récupéré'
+            'L\'email devrait être correctement défini et récupéré',
         );
     }
 
@@ -35,7 +35,7 @@ class UserTest extends TestCase
         $this->assertSame(
             'Talenteko#1234',
             $user->getPseudo(),
-            'Le pseudo devrait être correctement défini et récupéré'
+            'Le pseudo devrait être correctement défini et récupéré',
         );
     }
 
@@ -46,12 +46,12 @@ class UserTest extends TestCase
 
         $this->assertNotEmpty(
             $user->getPassword(),
-            'Le mot de passe ne devrait pas être vide après setPassword()'
+            'Le mot de passe ne devrait pas être vide après setPassword()',
         );
         $this->assertSame(
             'hashedPassword',
             $user->getPassword(),
-            'Le mot de passe défini devrait être identique à celui récupéré'
+            'Le mot de passe défini devrait être identique à celui récupéré',
         );
     }
 
@@ -62,7 +62,7 @@ class UserTest extends TestCase
         $this->assertContains(
             'ROLE_USER',
             $user->getRoles(),
-            'Tout nouvel utilisateur doit avoir le rôle ROLE_USER par défaut'
+            'Tout nouvel utilisateur doit avoir le rôle ROLE_USER par défaut',
         );
     }
 }

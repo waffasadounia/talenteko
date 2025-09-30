@@ -18,20 +18,15 @@
     <span class="form-required" aria-hidden="true">*</span>
   </label>
 
-  {{
-    form_widget(
-      field,
-      {
-        attr: {
-          placeholder: placeholder|default(''),
-          class: 'form-input' ~ (is_invalid ? ' is-invalid' : ''),
-          'aria-invalid': is_invalid ? 'true' : 'false',
-          'aria-describedby': is_invalid ? errors_id : null,
-          autocomplete: autocomplete|default('off')
-        }
-      }
-    )
-  }}
+  {{ form_widget(field, {
+    attr: {
+      placeholder: placeholder|default(''),
+      class: 'form-input' ~ (is_invalid ? ' is-invalid' : ''),
+      'aria-invalid': is_invalid ? 'true' : 'false',
+      'aria-describedby': is_invalid ? errors_id : null,
+      autocomplete: autocomplete|default('off')
+    }
+  }) }}
 
   {% if is_invalid %}
     <p id="{{ errors_id }}" class="form-error" role="alert">

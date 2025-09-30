@@ -32,7 +32,3 @@ class ThreadVoter extends Voter
         return $thread->getParticipants()->contains($user);
     }
 }
-
-
-
-

@@ -8,7 +8,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Recherche{% if q %} pour {{ q }}{% endif %} | TalentÉkô
+  Recherche{% if q %}
+    pour {{ q }}
+  {% endif %}| TalentÉkô
 {% endblock %}
 
 {% block body %}
@@ -16,7 +18,9 @@
   <section class="bg-talenteko-peach-100 py-10">
     <div class="mx-auto max-w-6xl px-4">
       <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-        Résultats{% if q %} pour {{ q }}{% endif %}
+        Résultats{% if q %}
+          pour {{ q }}
+        {% endif %}
       </h1>
 
       {# Formulaire de recherche rapide #}
@@ -45,9 +49,13 @@
   {# ================== Résultats ================== #}
   <section class="bg-white py-10">
     <div class="mx-auto max-w-6xl px-4">
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
         {% for listing in results %}
-          {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
+          {% include 'partials/_listing_card.html.twig' with {
+            listing: listing
+          } %}
         {% else %}
           <p class="col-span-full text-center text-gray-600">
             {% if q %}

@@ -1,13 +1,18 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+
+$finder = Finder::create()
     ->in([__DIR__ . '/src', __DIR__ . '/tests'])
     ->exclude(['var', 'vendor', 'migrations'])
     ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return (new PhpCsFixer\Config())
+return (new Config())
+    ->setParallelConfig(ParallelConfigFactory::detect()) // ← bien appliqué
     ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,

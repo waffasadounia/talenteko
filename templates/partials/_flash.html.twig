@@ -1,12 +1,12 @@
-{# ================================
-  partials/_flash.html.twig
-  Messages flash (succès, erreurs, etc.)
-  ================================ #}
+{# ======================================
+   Partiel : Messages flash
+   ====================================== #}
 
 {% for label, messages in app.flashes %}
   {% for message in messages %}
+    {# type = success, error, warning, info #}
     {% include 'partials/_alert.html.twig' with {
-      type: label,    # ex: success, error, warning, info
+      type: label,
       message: message
     } only %}
   {% endfor %}

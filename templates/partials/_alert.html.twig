@@ -1,13 +1,28 @@
-{# ================================
-   templates/partials/_alert.html.twig
-   Alerte générique TalentÉkô
-   ================================ #}
+{# ======================================
+   Partiel : Alerte (success / error / info)
+   ====================================== #}
 
 {% set colors = {
-  success: { border: 'border-green-200',  bg: 'bg-green-50',  text: 'text-green-700' },
-  error:   { border: 'border-red-300',    bg: 'bg-red-50',    text: 'text-red-700' },
-  warning: { border: 'border-yellow-300', bg: 'bg-yellow-50', text: 'text-yellow-700' },
-  info:    { border: 'border-blue-200',   bg: 'bg-blue-50',   text: 'text-blue-700' }
+  success: {
+    border: 'border-green-200',
+    bg: 'bg-green-50',
+    text: 'text-green-700'
+  },
+  error: {
+    border: 'border-red-300',
+    bg: 'bg-red-50',
+    text: 'text-red-700'
+  },
+  warning: {
+    border: 'border-yellow-300',
+    bg: 'bg-yellow-50',
+    text: 'text-yellow-700'
+  },
+  info: {
+    border: 'border-blue-200',
+    bg: 'bg-blue-50',
+    text: 'text-blue-700'
+  }
 } %}
 
 {# fallback = info si type inconnu ou absent #}

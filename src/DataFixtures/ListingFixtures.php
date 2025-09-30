@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\Listing;
 use App\Entity\ListingImage;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -155,12 +155,12 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                     $listing->addImage($image);
                     $manager->persist($image);
                     $manager->persist($listing);
-                    $i++;
+                    ++$i;
                 }
             }
 
             // --- 2. Annonces Faker ---
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 0; $i < 10; ++$i) {
                 $title = $faker->sentence(3);
 
                 $listing = new Listing();
@@ -176,7 +176,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                 $image = new ListingImage();
                 if ($faker->boolean(50)) {
                     // Placeholder local
-                    $image->setPath("placeholderTE.png"); // correspond à /uploads/listings/placeholderTE.png
+                    $image->setPath('placeholderTE.png'); // correspond à /uploads/listings/placeholderTE.png
                 } else {
                     // Image externe Picsum
                     $seed = uniqid();

@@ -38,7 +38,7 @@ final class UserFixtures extends Fixture
                 ->setPseudo($faker->firstName()) // pseudo généré aléatoirement
                 ->setLocation($faker->city())
                 ->setPassword(
-                    $this->hasher->hashPassword($user, 'Password123!')
+                    $this->hasher->hashPassword($user, 'Password123!'),
                 );
 
             $em->persist($user);
@@ -52,7 +52,7 @@ final class UserFixtures extends Fixture
             ->setPseudo('Admin')
             ->setLocation('Paris')
             ->setPassword(
-                $this->hasher->hashPassword($admin, 'Admin!2025')
+                $this->hasher->hashPassword($admin, 'Admin!2025'),
             );
 
         $em->persist($admin);

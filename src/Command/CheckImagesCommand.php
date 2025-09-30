@@ -6,7 +6,6 @@ namespace App\Command;
 
 use App\Repository\CategoryRepository;
 use App\Repository\ListingRepository;
-use App\Utils\ImageFilters;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -72,7 +71,8 @@ final class CheckImagesCommand extends Command
         // 3) Résumé
         $io->section('Résumé');
         if (empty($errors)) {
-            $io->success("Toutes les images sont présentes ou un fallback est disponible.");
+            $io->success('Toutes les images sont présentes ou un fallback est disponible.');
+
             return Command::SUCCESS;
         }
 

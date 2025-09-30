@@ -21,6 +21,7 @@ final class PasswordResetTokenRepository extends ServiceEntityRepository
         if (!$reset || $reset->isExpired()) {
             return null;
         }
+
         return $reset;
     }
 }

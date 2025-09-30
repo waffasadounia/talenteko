@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Entity\PasswordResetToken;
 use App\Entity\User;
-use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -21,11 +20,11 @@ use Symfony\Component\Uid\Uuid;
 #[Route('/reset-password')]
 final class ResetPasswordController extends AbstractController
 {
-    #[Route('/request', name: 'app_forgot_password', methods: ['GET','POST'])]
+    #[Route('/request', name: 'app_forgot_password', methods: ['GET', 'POST'])]
     public function request(
         Request $request,
         EntityManagerInterface $em,
-        MailerInterface $mailer
+        MailerInterface $mailer,
     ): Response {
         if ($request->isMethod('POST')) {
             $email = trim((string) $request->request->get('email'));
@@ -54,7 +53,7 @@ final class ResetPasswordController extends AbstractController
                         'resetUrl' => $this->generateUrl(
                             'app_reset_password',
                             ['token' => $token],
-                            \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL
+                            \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL,
                         ),
                     ]);
 
@@ -62,32 +61,35 @@ final class ResetPasswordController extends AbstractController
             }
 
             $this->addFlash('info', 'Si un compte existe avec cet email, un lien de réinitialisation a été envoyé.');
+
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/reset_request.html.twig');
     }
 
-    #[Route('/{token}', name: 'app_reset_password', methods: ['GET','POST'])]
+    #[Route('/{token}', name: 'app_reset_password', methods: ['GET', 'POST'])]
     public function reset(
         string $token,
         Request $request,
         EntityManagerInterface $em,
-        UserPasswordHasherInterface $hasher
+        UserPasswordHasherInterface $hasher,
     ): Response {
         $reset = $em->getRepository(PasswordResetToken::class)->findOneBy(['token' => $token]);
 
         if (!$reset || $reset->isExpired()) {
             $this->addFlash('error', 'Ce lien n’est pas valide ou a expiré.');
+
             return $this->redirectToRoute('app_forgot_password');
         }
 
         if ($request->isMethod('POST')) {
             $password = $request->request->get('password');
-            $confirm  = $request->request->get('confirm');
+            $confirm = $request->request->get('confirm');
 
             if ($password !== $confirm) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
+
                 return $this->redirectToRoute('app_reset_password', ['token' => $token]);
             }
 
@@ -98,6 +100,7 @@ final class ResetPasswordController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('success', 'Mot de passe mis à jour ! Vous pouvez vous connecter.');
+
                 return $this->redirectToRoute('app_login');
             }
         }

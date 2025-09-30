@@ -24,7 +24,7 @@ class NewMessageNotificationHandler
     {
         // Récupérer destinataire et expéditeur
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
-        $sender    = $this->em->getRepository(User::class)->find($notification->getSenderId());
+        $sender = $this->em->getRepository(User::class)->find($notification->getSenderId());
 
         if (!$recipient || !$sender) {
             return; // sécurité
@@ -37,7 +37,7 @@ class NewMessageNotificationHandler
             ->subject('Nouveau message sur TalentÉkô')
             ->htmlTemplate('@emails/new_message.html.twig')
             ->context([
-                'sender'  => $sender?->getPseudo() ?? 'Un utilisateur',
+                'sender' => $sender?->getPseudo() ?? 'Un utilisateur',
                 'content' => $notification->getContent(),
             ]);
 

@@ -39,8 +39,8 @@ class NewExchangeNotificationHandler
             ->subject('Mise à jour d’un échange sur TalentÉkô')
             ->htmlTemplate('@emails/exchange_status.html.twig')
             ->context([
-                'exchangeId'   => $notification->getExchangeId(),
-                'status'       => $notification->getStatus(),
+                'exchangeId' => $notification->getExchangeId(),
+                'status' => $notification->getStatus(),
                 'listingTitle' => $listing?->getTitle() ?? 'Annonce inconnue',
             ]);
 

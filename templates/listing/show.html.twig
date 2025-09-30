@@ -10,10 +10,7 @@
   <section class="bg-talenteko-peach-100 py-8">
     <div class="mx-auto max-w-6xl px-4">
       <p class="mb-3 text-sm">
-        <a
-          href="{{ path('app_home') }}"
-          class="text-talenteko-orange-500 hover:underline"
-        >
+        <a href="{{ path('app_home') }}" class="text-talenteko-orange-500 hover:underline">
           Accueil
         </a>
         <span class="text-gray-400">/</span>
@@ -48,7 +45,7 @@
       <div class="space-y-6 md:col-span-2">
         {# Image principale homogène (900x506 via LiipImagine) #}
         <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white">
-          {% if (listing.images|length) > 0 %}
+          {% if listing.images|length > 0 %}
             <img
               src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ listing.images|first.path)|imagine_filter('listing_show') }}"
               alt="{{ listing.title|e }}"
@@ -79,8 +76,10 @@
         </div>
 
         <article class="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 class="text-talenteko-blue-900 mb-3 text-xl font-bold">Description</h2>
-          <div class="max-w-none leading-relaxed whitespace-pre-line text-gray-800">
+          <h2 class="text-talenteko-blue-900 mb-3 text-xl font-bold">
+            Description
+          </h2>
+          <div class="max-w-none whitespace-pre-line leading-relaxed text-gray-800">
             {{ listing.description }}
           </div>
         </article>
@@ -93,9 +92,7 @@
             Proposé par
           </h3>
           <div class="mb-3 flex items-center gap-3">
-            <div
-              class="bg-talenteko-peach-200 text-talenteko-orange-500 flex h-10 w-10 items-center justify-center rounded-full font-bold"
-            >
+            <div class="bg-talenteko-peach-200 text-talenteko-orange-500 flex h-10 w-10 items-center justify-center rounded-full font-bold">
               {{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
             </div>
             <div>
@@ -119,10 +116,7 @@
         </div>
 
         <div class="rounded-xl border border-gray-200 bg-white p-6">
-          <a
-            href="{{ path('app_home') }}"
-            class="text-talenteko-orange-500 block text-center hover:underline"
-          >
+          <a href="{{ path('app_home') }}" class="text-talenteko-orange-500 block text-center hover:underline">
             Retour à l'accueil
           </a>
         </div>

@@ -13,11 +13,12 @@
         Styleguide Cards | TalentÉkô
       </h1>
       <p class="text-gray-600">
-        Page interne pour tester les composants UI TalentÉkô (cartes génériques et listings réels).
+        Page interne pour tester les composants UI TalentÉkô (cartes génériques
+        et listings réels).
       </p>
     </header>
 
-    {# Exemple unique de carte listing (markup identique au partial) #}
+    {#Exemple unique de carte listing (markup identique au partial)#}
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Carte Listing (fidèle au partial)</h2>
       <div class="w-80">
@@ -26,16 +27,21 @@
             slug: 'cours-guitare',
             title: 'Cours de guitare',
             description: 'Apprenez les bases ou perfectionnez-vous avec un musicien passionné.',
-            category: { name: 'Musique', slug: 'musique' },
+            category: {
+              name: 'Musique',
+              slug: 'musique'
+            },
             images: [],
-            author: { pseudo: 'Alice' },
+            author: {
+              pseudo: 'Alice'
+            },
             location: 'Paris'
           }
         } %}
       </div>
     </section>
 
-    {# Exemple avec image fournie #}
+    {#Exemple avec image fournie#}
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Carte Listing avec image</h2>
       <div class="w-80">
@@ -44,49 +50,60 @@
             slug: 'cours-photo',
             title: 'Cours de photo',
             description: 'Initiez-vous à la photo avec un passionné.',
-            category: { name: 'Photo', slug: 'photo' },
-            images: [{ path: 'placeholder.png' }],
-            author: { pseudo: 'Bob' },
+            category: {
+              name: 'Photo',
+              slug: 'photo'
+            },
+            images: [
+              {
+                path: 'placeholder.png'
+              }
+            ],
+            author: {
+              pseudo: 'Bob'
+            },
             location: 'Marseille'
           }
         } %}
       </div>
     </section>
 
-    {# Exemple avec favoris activé (statique) #}
+    {#Exemple avec favoris activé (statique)#}
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Carte Listing avec favoris activé</h2>
-      <div class="w-80 card card-listing">
+      <div class="card card-listing w-80">
         <div
           class="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
         >
-          {# --- Bouton Favoris (forcé en état actif) --- #}
+          {#--- Bouton Favoris (forcé en état actif) ---#}
           <button
             type="button"
             class="text-talenteko-orange-500 hover:bg-talenteko-peach-200 absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow transition"
             aria-label="Retirer des favoris"
           >
-            <span>
-              <i class="fa-solid fa-heart" aria-hidden="true"></i>
-            </span>
+            <span><i class="fa-solid fa-heart" aria-hidden="true"></i></span>
           </button>
 
-          {# --- Image placeholder --- #}
+          {#--- Image placeholder ---#}
           <img
             src="{{ asset('images/placeholders/placeholder.png') }}"
             alt="Annonce favoris activé"
-            class="h-40 w-full object-cover bg-gray-200"
+            class="h-40 w-full bg-gray-200 object-cover"
             loading="lazy"
             width="400"
             height="225"
           />
 
-          {# --- Contenu texte --- #}
-          <div class="p-4 flex flex-col gap-2">
-            <span class="text-talenteko-orange-500 inline-block text-xs font-semibold">
+          {#--- Contenu texte ---#}
+          <div class="flex flex-col gap-2 p-4">
+            <span
+              class="text-talenteko-orange-500 inline-block text-xs font-semibold"
+            >
               Art
             </span>
-            <h3 class="text-talenteko-blue-900 line-clamp-1 text-base font-bold">
+            <h3
+              class="text-talenteko-blue-900 line-clamp-1 text-base font-bold"
+            >
               Atelier peinture
             </h3>
             <p class="text-talenteko-blue-600 line-clamp-2 text-sm">
@@ -100,12 +117,19 @@
                 >
                   C
                 </div>
-                <span class="text-talenteko-blue-900 text-sm font-medium">Claire</span>
+                <span class="text-talenteko-blue-900 text-sm font-medium">
+                  Claire
+                </span>
               </div>
               <span
-                class="text-talenteko-blue-400 flex items-center gap-1 text-xs truncate max-w-[100px]"
+                class="text-talenteko-blue-400 flex max-w-[100px] items-center gap-1 truncate text-xs"
               >
-                <i class="fa fa-map-marker-alt text-talenteko-orange-500" aria-hidden="true"></i>
+                <i
+                  class="fa fa-map-marker-alt text-talenteko-orange-500"
+                  aria-hidden="true"
+                >
+
+                </i>
                 Bordeaux
               </span>
             </div>
@@ -113,11 +137,12 @@
         </div>
       </div>
       <p class="text-sm text-gray-500">
-        Ici, le bouton favoris est affiché comme <strong>actif</strong> (cœur plein, état visuel forcé).
+        Ici, le bouton favoris est affiché comme <strong>actif</strong> (cœur plein,
+        état visuel forcé).
       </p>
     </section>
 
-    {# Grille de plusieurs cartes pour tester la responsivité #}
+    {#Grille de plusieurs cartes pour tester la responsivité#}
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Grille de listings</h2>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -128,9 +153,14 @@
                 slug: 'annonce-' ~ i,
                 title: 'Annonce ' ~ i,
                 description: 'Description fictive pour l’annonce numéro ' ~ i,
-                category: { name: 'Divers', slug: 'divers' },
+                category: {
+                  name: 'Divers',
+                  slug: 'divers'
+                },
                 images: [],
-                author: { pseudo: 'Membre' ~ i },
+                author: {
+                  pseudo: 'Membre' ~ i
+                },
                 location: 'Lyon'
               }
             } %}

@@ -21,4 +21,4 @@
 @import './globals.css'; /* Reset, tokens (couleurs, polices) */
 @import './components.css'; /* Boutons, navigation, helpers UI */
 @import './forms.css'; /* Champs de formulaires et états */
-@import "./components-card.css"; /* Cartes */
+@import './components-card.css'; /* Cartes */

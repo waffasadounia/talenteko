@@ -54,7 +54,7 @@ final class FixImagePathsCommand extends Command
             $this->em->flush();
             $io->success("$count chemins d'images corrigés.");
         } else {
-            $io->success("Aucun chemin d’image à corriger.");
+            $io->success('Aucun chemin d’image à corriger.');
         }
 
         return Command::SUCCESS;

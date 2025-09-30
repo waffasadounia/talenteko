@@ -14,7 +14,7 @@ class NewExchangeCreatedNotification
         private int $recipientId, // destinataire (auteur de l'annonce)
         private int $senderId,    // utilisateur qui propose l'échange
         private int $exchangeId,  // ID de l'échange
-        private int $listingId    // ID de l'annonce concernée
+        private int $listingId,    // ID de l'annonce concernée
     ) {
     }
 

@@ -86,36 +86,43 @@
     "symfony/polyfill-php80": "*",
     "symfony/polyfill-php81": "*"
   },
-  "scripts": {
-    "auto-scripts": {
-      "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd",
-      "php-cs-fixer": "php -d memory_limit=512M vendor/bin/php-cs-fixer"
-    },
-    "post-install-cmd": [
-      "@auto-scripts"
-    ],
-    "post-update-cmd": [
-      "@auto-scripts"
-    ],
-    "lint:php": "php-cs-fixer fix --dry-run --diff --allow-risky=yes",
-    "lint:php:fix": "php-cs-fixer fix --allow-risky=yes",
-    "lint:twig": "twigcs templates/",
-    "lint": [
-      "@lint:php",
-      "@lint:twig"
-    ],
-    "test:unit": "phpunit --testsuite=unit --stop-on-failure",
-    "test:all": "phpunit --stop-on-failure",
-    "test": "@test:all",
-    "check": [
-      "@lint",
-      "@test:unit"
-    ],
-    "fix": [
-      "@lint:php:fix"
-    ]
+ "scripts": {
+  "auto-scripts": {
+    "cache:clear": "symfony-cmd",
+    "assets:install %PUBLIC_DIR%": "symfony-cmd"
   },
+  "post-install-cmd": [
+    "@auto-scripts"
+  ],
+  "post-update-cmd": [
+    "@auto-scripts"
+  ],
+
+  "fix:php": "php -d memory_limit=512M vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
+  "fix:all": [
+    "@fix:php",
+    "npm run fix:js",
+    "npm run fix:css",
+    "npm run fix:twig"
+  ],
+  "lint:php": "php vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+  "lint:php:fix": "php vendor/bin/php-cs-fixer fix --allow-risky=yes",
+  "lint:twig": "twigcs templates/",
+  "lint": [
+    "@lint:php",
+    "@lint:twig"
+  ],
+  "test:unit": "phpunit --testsuite=unit --stop-on-failure",
+  "test:all": "phpunit --stop-on-failure",
+  "test": "@test:all",
+  "check": [
+    "@lint",
+    "@test:unit"
+  ],
+  "fix": [
+    "@fix:all"
+  ]
+},
   "conflict": {
     "symfony/symfony": "*"
   },

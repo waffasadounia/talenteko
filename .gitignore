@@ -70,3 +70,4 @@ Thumbs.db
 tools/*
 !tools/README.md
 ###< Talenteko migration/maintenance scripts ###
+.editorconfig.bak

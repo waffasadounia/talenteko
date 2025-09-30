@@ -29,8 +29,8 @@
   --font-chivo: 'Chivo', sans-serif;
 
   /* === Typo globale === */
-  --text-base: 1rem;       /* 16px */
-  --leading-base: 1.5;     /* 150% */
+  --text-base: 1rem; /* 16px */
+  --leading-base: 1.5; /* 150% */
 }
 
 @layer base {

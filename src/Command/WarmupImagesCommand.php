@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
+use Throwable;
 
 /**
  * Commande Symfony pour préchauffer toutes les variantes LiipImagine
@@ -42,6 +43,7 @@ final class WarmupImagesCommand extends Command
 
         if (!$finder->hasResults()) {
             $io->warning("Aucune image trouvée dans $uploadDir");
+
             return Command::SUCCESS;
         }
 
@@ -55,13 +57,14 @@ final class WarmupImagesCommand extends Command
                 try {
                     $this->cacheManager->generateUrl($relativePath, $filter);
                     $io->writeln("   <info>✔ $filter OK</info>");
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $io->error("   ❌ $filter échoué : " . $e->getMessage());
                 }
             }
         }
 
         $io->success('Warmup terminé ! Toutes les variantes d’images ont été générées.');
+
         return Command::SUCCESS;
     }
 }

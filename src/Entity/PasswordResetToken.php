@@ -39,6 +39,7 @@ class PasswordResetToken
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -50,6 +51,7 @@ class PasswordResetToken
     public function setToken(string $token): self
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -61,6 +63,7 @@ class PasswordResetToken
     public function setExpiresAt(DateTimeImmutable $expiresAt): self
     {
         $this->expiresAt = $expiresAt;
+
         return $this;
     }
 

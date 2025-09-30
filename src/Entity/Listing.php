@@ -250,7 +250,3 @@ class Listing
         return $this->title ?? 'Annonce';
     }
 }
-
-
-
-

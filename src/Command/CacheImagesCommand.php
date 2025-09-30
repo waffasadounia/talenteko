@@ -43,6 +43,7 @@ final class CacheImagesCommand extends Command
 
         if (!$finder->hasResults()) {
             $io->warning("Aucune image trouvée dans $publicDir");
+
             return Command::SUCCESS;
         }
 
@@ -63,6 +64,7 @@ final class CacheImagesCommand extends Command
         }
 
         $io->success('Cache images régénéré pour toutes les variantes.');
+
         return Command::SUCCESS;
     }
 }

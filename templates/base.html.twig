@@ -10,7 +10,9 @@
 
     {# Balise <title> personnalisable par page #}
     <title>
-      {% block title %}TalentÉkô{% endblock %}
+      {% block title %}
+        TalentÉkô
+      {% endblock %}
     </title>
 
     {# Responsive mobile #}
@@ -24,9 +26,21 @@
     {# =============================
        Favicons (multi-format)
        ============================= #}
-    <link rel="icon" type="image/png" href="{{ asset('images/faviconTalenteko.png') }}" />
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/faviconTalenteko.svg') }}" />
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/faviconTalenteko.ico') }}" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ asset('images/faviconTalenteko.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ asset('images/faviconTalenteko.svg') }}"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ asset('images/faviconTalenteko.ico') }}"
+    />
 
     {# =============================
        CSS principal (compilé via Webpack Encore)
@@ -48,7 +62,9 @@
     />
 
     {# Espace réservé pour CSS additionnel par page #}
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+
+    {% endblock %}
 
     {# =============================
        JS principal (Webpack Encore)
@@ -67,13 +83,17 @@
 
     {# Zone principale de contenu #}
     <main class="container mx-auto mt-8 min-h-[80vh]">
-      {% block body %}{% endblock %}
+      {% block body %}
+
+      {% endblock %}
     </main>
 
     {# Footer global #}
     {% include 'partials/_footer.html.twig' %}
 
     {# Espace réservé pour JS additionnel par page #}
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+
+    {% endblock %}
   </body>
 </html>
