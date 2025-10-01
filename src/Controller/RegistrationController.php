@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Inscription utilisateur.
+ * Contrôleur d'inscription utilisateur.
  */
 final class RegistrationController extends AbstractController
 {
@@ -27,7 +27,7 @@ final class RegistrationController extends AbstractController
         UserPasswordHasherInterface $hasher,
         Security $security,
     ): Response {
-        // Déjà connecté → pas d’inscription
+        // 🚫 Si déjà connecté → on redirige vers l'accueil
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }
@@ -36,9 +36,9 @@ final class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        // Honeypot anti-bot
+        // 🛡️ Vérification honeypot anti-bot
         if ($form->isSubmitted() && '' !== trim((string) $request->request->get('website', ''))) {
-            $form->addError(new FormError('Validation anti-robot : merci de réessayer.'));
+            $form->addError(new FormError('Validation anti-robot échouée, merci de réessayer.'));
 
             return $this->render('security/register.html.twig', [
                 'form' => $form->createView(),
@@ -46,19 +46,20 @@ final class RegistrationController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Hash du mot de passe
+            // 🔑 Hash du mot de passe sécurisé
             $hashed = $hasher->hashPassword($user, (string) $user->getPlainPassword());
             $user->setPassword($hashed);
 
             $em->persist($user);
             $em->flush();
 
-            // Connexion auto (au lieu de rediriger vers /login)
-            $this->addFlash('success', 'Bienvenue sur TalentÉkô ! Votre compte a été créé.');
+            // 🎉 Connexion auto après inscription
+            $this->addFlash('success', 'Bienvenue sur TalentÉkô 🎉 Votre compte a été créé avec succès.');
 
-            return $security->login($user);
+            return $security->login($user); // ⚡ disponible depuis Symfony 6.3
         }
 
+        // Retourner le formulaire avec code HTTP adapté
         $statusCode = $form->isSubmitted()
             ? Response::HTTP_UNPROCESSABLE_ENTITY
             : Response::HTTP_OK;

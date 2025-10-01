@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <h1 class="text-xl font-bold mb-4">
+    Conversation avec {{ thread.getOtherParticipant(app.user).displayName }}
+  </h1>
+
+  <div class="space-y-3 mb-6">
+    {% for message in messages %}
+      <div class="p-3 rounded-lg {% if message.sender == app.user %}bg-talenteko-orange-500 text-white self-end{% else %}bg-gray-100{% endif %}">
+        <div class="text-sm font-semibold">{{ message.sender.displayName }}</div>
+        <div>{{ message.content }}</div>
+        <div class="text-xs opacity-70">{{ message.createdAt|date('d/m/Y H:i') }}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {{ form_start(form) }}
+    {{ form_row(form.content) }}
+    <button class="btn-primary mt-2">Envoyer</button>
+  {{ form_end(form) }}
+{% endblock %}

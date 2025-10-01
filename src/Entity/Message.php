@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Message
 {
     #[ORM\Id]
@@ -37,9 +38,19 @@ class Message
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $updatedAt = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+    }
+
+    // === Lifecycle ===
+    #[ORM\PreUpdate]
+    public function updateTimestamp(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     // === ID ===
@@ -100,5 +111,17 @@ class Message
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    // === UpdatedAt ===
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    // === Divers ===
+    public function __toString(): string
+    {
+        return sprintf('Message #%d', $this->id ?? 0);
     }
 }

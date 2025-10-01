@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
+#[ORM\Index(fields: ['slug'])] // optimisation recherche par slug
 class Category
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
@@ -17,10 +18,10 @@ class Category
     #[ORM\Column(length: 120, unique: true)]
     private string $name;
 
-    #[ORM\Column(length: 150, unique: true)]
+    #[ORM\Column(length: 220, unique: true)]
     private string $slug;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Listing::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Listing::class, cascade: ['persist'], orphanRemoval: false)]
     private Collection $listings;
 
     public function __construct()
@@ -75,10 +76,12 @@ class Category
     public function removeListing(Listing $listing): self
     {
         if ($this->listings->removeElement($listing)) {
-            // ⚠️ on NE met PAS $listing->setCategory(null) car category est NOT NULL
+            // pas de $listing->setCategory(null), car JoinColumn nullable=false
         }
         return $this;
     }
+
+    // === Divers ===
 
     public function __toString(): string
     {

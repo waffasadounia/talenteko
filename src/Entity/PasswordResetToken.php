@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PasswordResetTokenRepository::class)]
+#[ORM\Index(fields: ['expiresAt'])] // optimisation pour purge automatique
 class PasswordResetToken
 {
     #[ORM\Id]
@@ -16,28 +17,25 @@ class PasswordResetToken
     #[ORM\Column]
     private ?int $id = null;
 
-    // Relation avec l'utilisateur
+    // --- Relation avec l'utilisateur ---
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'passwordResetTokens')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
-    // Jeton unique
+    // --- Jeton unique ---
     #[ORM\Column(length: 255, unique: true)]
-    private string $token;
+    private string $token = '';
 
-    // Date d'expiration
+    // --- Date d'expiration ---
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $expiresAt;
 
-    // Date de création
+    // --- Date de création ---
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
-    public function __construct(User $user, string $token, DateTimeImmutable $expiresAt)
+    public function __construct()
     {
-        $this->user = $user;
-        $this->token = $token;
-        $this->expiresAt = $expiresAt;
         $this->createdAt = new DateTimeImmutable();
     }
 
@@ -85,12 +83,19 @@ class PasswordResetToken
 
     public function isExpired(): bool
     {
-        return $this->expiresAt <= new DateTimeImmutable();
+        // ✅ plus clair : true uniquement si "maintenant" est strictement après expiresAt
+        return new DateTimeImmutable() > $this->expiresAt;
     }
 
     // === CreatedAt ===
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    // === Divers ===
+    public function __toString(): string
+    {
+        return sprintf('ResetToken #%d', $this->id ?? 0);
     }
 }

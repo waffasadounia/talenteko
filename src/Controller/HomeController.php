@@ -11,22 +11,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Page d'accueil
+ * Contrôleur de la page d'accueil.
  */
-class HomeController extends AbstractController
+final class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(
         ListingRepository $listingRepository,
         CategoryRepository $categoryRepository,
     ): Response {
-        // Derniers 8 listings
+        // Récupère les 8 derniers listings publiés avec jointures utiles (ex: auteur, images, catégorie)
         $listings = $listingRepository->findLatestWithJoins(8);
 
-        // 8 catégories populaires (ordre alphabétique pour l’instant)
+        // Récupère les 8 catégories populaires (ordre alphabétique provisoire)
         $categories = $categoryRepository->findBy([], ['name' => 'ASC'], 8);
 
         return $this->render('home/index.html.twig', [
+            'page_title' => 'Bienvenue sur TalentÉkô',
             'listings' => $listings,
             'categories' => $categories,
         ]);

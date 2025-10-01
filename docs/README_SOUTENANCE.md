@@ -1,5 +1,9 @@
 # 📝 Notes de soutenance TalentÉkô
 
+- [📘 Module Administration](README_ADMIN.md)
+
+
+
 ## 📑 Sommaire
 - [📸 Preuves de conformité](#-preuves-de-conformité)
   - [✅ Tests unitaires & fonctionnels](#-tests-unitaires--fonctionnels)

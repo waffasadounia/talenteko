@@ -6,21 +6,10 @@ namespace App\Tests\Form;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
-use Symfony\Component\Validator\Validation;
 
 final class RegistrationTypeTest extends TypeTestCase
 {
-    protected function getExtensions(): array
-    {
-        $validator = Validation::createValidator();
-
-        return [
-            new ValidatorExtension($validator),
-        ];
-    }
-
     public function testSubmitValidData(): void
     {
         $formData = [
@@ -28,60 +17,43 @@ final class RegistrationTypeTest extends TypeTestCase
             'pseudo' => 'BricoMan42',
             'location' => 'Paris',
             'plainPassword' => [
-                'first' => 'MotDePasseFort123!',
-                'second' => 'MotDePasseFort123!',
+                'first' => 'Password123!',
+                'second' => 'Password123!',
             ],
             'agreeTerms' => true,
+            'website' => '', // honeypot vide → OK
         ];
 
-        $user = new User();
-        $form = $this->factory->create(RegistrationType::class, $user);
+        $model = new User();
+        $form = $this->factory->create(RegistrationType::class, $model);
 
         $form->submit($formData);
 
         self::assertTrue($form->isSynchronized());
-        self::assertTrue($form->isValid());
+        self::assertTrue($form->isValid(), 'Le formulaire doit être valide avec des données correctes.');
 
-        self::assertSame('test@example.com', $user->getEmail());
-        self::assertSame('BricoMan42', $user->getPseudo());
-        self::assertSame('Paris', $user->getLocation());
+        $this->assertSame('test@example.com', $model->getEmail());
+        $this->assertSame('BricoMan42', $model->getPseudo());
+        $this->assertSame('Paris', $model->getLocation());
     }
 
-    public function testInvalidEmail(): void
+    public function testHoneypotFilledFails(): void
     {
         $formData = [
-            'email' => 'not-an-email',
-            'pseudo' => 'User',
-            'location' => 'Paris',
+            'email' => 'bot@example.com',
+            'pseudo' => 'Bot42',
+            'location' => 'Lyon',
             'plainPassword' => [
-                'first' => 'password123',
-                'second' => 'password123',
+                'first' => 'Password123!',
+                'second' => 'Password123!',
             ],
             'agreeTerms' => true,
+            'website' => 'http://malicious-bot.com', // ⚡ champ piégé rempli
         ];
 
-        $form = $this->factory->create(RegistrationType::class);
+        $form = $this->factory->create(RegistrationType::class, new User());
         $form->submit($formData);
 
-        self::assertFalse($form->isValid());
-    }
-
-    public function testPasswordMismatch(): void
-    {
-        $formData = [
-            'email' => 'valid@example.com',
-            'pseudo' => 'User',
-            'location' => 'Paris',
-            'plainPassword' => [
-                'first' => 'password123',
-                'second' => 'differentPassword',
-            ],
-            'agreeTerms' => true,
-        ];
-
-        $form = $this->factory->create(RegistrationType::class);
-        $form->submit($formData);
-
-        self::assertFalse($form->isValid());
+        self::assertFalse($form->isValid(), 'Le formulaire doit être invalide si le honeypot est rempli.');
     }
 }

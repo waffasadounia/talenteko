@@ -20,7 +20,7 @@ class ListingImage
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private ?Listing $listing = null; // ✅ nullable pour removeImage()
+    private ?Listing $listing = null;
 
     // === Getters / Setters ===
 
@@ -56,17 +56,15 @@ class ListingImage
         return $this->listing;
     }
 
-    /**
-     * On accepte `null` pour gérer correctement $listing->removeImage($image)
-     */
     public function setListing(?Listing $listing): self
     {
         $this->listing = $listing;
         return $this;
     }
 
+    // === Divers ===
     public function __toString(): string
     {
-        return $this->path ?? 'Image';
+        return $this->path ?: 'Image';
     }
 }

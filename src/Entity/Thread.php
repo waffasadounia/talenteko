@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: ThreadRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Thread
 {
     #[ORM\Id]
@@ -18,20 +19,19 @@ class Thread
     #[ORM\Column]
     private ?int $id = null;
 
-    // === Participants (Users) ===
-    // Un thread peut contenir plusieurs utilisateurs (ex: 2 pour une conversation privée)
+    // === Participants ===
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[ORM\JoinTable(name: 'thread_participants')]
     private Collection $participants;
 
     // === Messages ===
-    // Un thread contient plusieurs messages
     #[ORM\OneToMany(
         mappedBy: 'thread',
         targetEntity: Message::class,
-        cascade: ['persist', 'remove'], // Persiste/supprime automatiquement les messages
-        orphanRemoval: true              // Supprime les messages orphelins si détachés du thread
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
     )]
+    #[ORM\OrderBy(['createdAt' => 'ASC'])] // garantit l'ordre chronologique
     private Collection $messages;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -55,9 +55,7 @@ class Thread
     }
 
     // === Participants ===
-    /**
-     * @return Collection<int, User>
-     */
+    /** @return Collection<int, User> */
     public function getParticipants(): Collection
     {
         return $this->participants;
@@ -77,10 +75,27 @@ class Thread
         return $this;
     }
 
-    // === Messages ===
+    public function isParticipant(User $user): bool
+    {
+        return $this->participants->contains($user);
+    }
+
     /**
-     * @return Collection<int, Message>
+     * Retourne l’autre participant dans un thread 1-to-1.
+     * Retourne null si thread de groupe ou si l'utilisateur est seul.
      */
+    public function getOtherParticipant(User $user): ?User
+    {
+        foreach ($this->participants as $participant) {
+            if ($participant !== $user) {
+                return $participant;
+            }
+        }
+        return null;
+    }
+
+    // === Messages ===
+    /** @return Collection<int, Message> */
     public function getMessages(): Collection
     {
         return $this->messages;
@@ -90,7 +105,8 @@ class Thread
     {
         if (!$this->messages->contains($message)) {
             $this->messages->add($message);
-            $message->setThread($this); // assure la cohérence côté Message
+            $message->setThread($this);
+            $this->touch();
         }
         return $this;
     }
@@ -98,12 +114,15 @@ class Thread
     public function removeMessage(Message $message): self
     {
         if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getThread() === $this) {
-                $message->setThread(null);
-            }
+            // orphanRemoval=true → Doctrine supprimera automatiquement le message
+            $this->touch();
         }
         return $this;
+    }
+
+    public function getLastMessage(): ?Message
+    {
+        return $this->messages->last() ?: null;
     }
 
     // === Timestamps ===
@@ -117,8 +136,15 @@ class Thread
         return $this->updatedAt;
     }
 
+    #[ORM\PreUpdate]
     public function touch(): void
     {
         $this->updatedAt = new DateTimeImmutable();
+    }
+
+    // === Divers ===
+    public function __toString(): string
+    {
+        return sprintf('Thread #%d', $this->id ?? 0);
     }
 }

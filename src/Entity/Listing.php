@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Index(fields: ['title', 'location'])]
+#[ORM\HasLifecycleCallbacks]
 class Listing
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
@@ -26,11 +27,11 @@ class Listing
     #[ORM\Column(type: 'text')]
     private string $description;
 
-    // 'OFFER' | 'REQUEST'
+    // OFFER | REQUEST
     #[ORM\Column(length: 10)]
     private string $type;
 
-    #[ORM\Column(name: 'location', length: 120)]
+    #[ORM\Column(length: 120)]
     private string $location;
 
     #[ORM\Column(enumType: ListingStatus::class, options: ['default' => 'draft'])]
@@ -53,156 +54,69 @@ class Listing
     #[ORM\OneToMany(mappedBy: 'listing', targetEntity: ListingImage::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $images;
 
-    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Exchange::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Exchange::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $exchanges;
+
+    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Favorite::class, cascade: ['remove'], orphanRemoval: true)]
+    private Collection $favorites;
 
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->exchanges = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
+    }
+
+    #[ORM\PreUpdate]
+    public function updateTimestamp(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     // === Getters / Setters ===
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): ?int { return $this->id; }
 
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
+    public function getTitle(): string { return $this->title; }
+    public function setTitle(string $title): self { $this->title = $title; return $this; }
 
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-        return $this;
-    }
+    public function getSlug(): string { return $this->slug; }
+    public function setSlug(string $slug): self { $this->slug = $slug; return $this; }
 
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
+    public function getDescription(): string { return $this->description; }
+    public function setDescription(string $description): self { $this->description = $description; return $this; }
 
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-        return $this;
-    }
+    public function getType(): string { return $this->type; }
+    public function setType(string $type): self { $this->type = $type; return $this; }
 
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
+    public function getLocation(): string { return $this->location; }
+    public function setLocation(string $location): self { $this->location = $location; return $this; }
 
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-        return $this;
-    }
+    public function getStatus(): ListingStatus { return $this->status; }
+    public function setStatus(ListingStatus $status): self { $this->status = $status; return $this; }
 
-    public function getType(): string
-    {
-        return $this->type;
-    }
+    public function getCreatedAt(): DateTimeImmutable { return $this->createdAt; }
 
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-        return $this;
-    }
+    public function getUpdatedAt(): ?DateTimeImmutable { return $this->updatedAt; }
+    public function setUpdatedAt(?DateTimeImmutable $updatedAt): self { $this->updatedAt = $updatedAt; return $this; }
 
-    public function getLocation(): string
-    {
-        return $this->location;
-    }
+    public function getAuthor(): ?User { return $this->author; }
+    public function setAuthor(?User $author): self { $this->author = $author; return $this; }
 
-    public function setLocation(string $location): self
-    {
-        $this->location = $location;
-        return $this;
-    }
-
-    /** @deprecated Utilise getLocation() */
-    public function getCity(): string
-    {
-        return $this->getLocation();
-    }
-
-    /** @deprecated Utilise setLocation() */
-    public function setCity(string $city): self
-    {
-        return $this->setLocation($city);
-    }
-
-    public function getStatus(): ListingStatus
-    {
-        return $this->status;
-    }
-
-    public function setStatus(ListingStatus $status): self
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setUpdatedAt(?DateTimeImmutable $date): self
-    {
-        $this->updatedAt = $date;
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?User $author): self
-    {
-        $this->author = $author;
-        return $this;
-    }
-
-    public function getCategory(): Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(Category $category): self
-    {
-        $this->category = $category;
-        return $this;
-    }
+    public function getCategory(): Category { return $this->category; }
+    public function setCategory(Category $category): self { $this->category = $category; return $this; }
 
     /** @return Collection<int, ListingImage> */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(ListingImage $image): self
-    {
+    public function getImages(): Collection { return $this->images; }
+    public function addImage(ListingImage $image): self {
         if (!$this->images->contains($image)) {
             $this->images->add($image);
             $image->setListing($this);
         }
         return $this;
     }
-
-    public function removeImage(ListingImage $image): self
-    {
+    public function removeImage(ListingImage $image): self {
         if ($this->images->removeElement($image) && $image->getListing() === $this) {
             $image->setListing(null);
         }
@@ -210,30 +124,38 @@ class Listing
     }
 
     /** @return Collection<int, Exchange> */
-    public function getExchanges(): Collection
-    {
-        return $this->exchanges;
-    }
-
-    public function addExchange(Exchange $exchange): self
-    {
+    public function getExchanges(): Collection { return $this->exchanges; }
+    public function addExchange(Exchange $exchange): self {
         if (!$this->exchanges->contains($exchange)) {
             $this->exchanges->add($exchange);
             $exchange->setListing($this);
         }
         return $this;
     }
-
-    public function removeExchange(Exchange $exchange): self
-    {
+    public function removeExchange(Exchange $exchange): self {
         if ($this->exchanges->removeElement($exchange) && $exchange->getListing() === $this) {
             $exchange->setListing(null);
         }
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->title ?? 'Annonce';
+    /** @return Collection<int, Favorite> */
+    public function getFavorites(): Collection { return $this->favorites; }
+    public function addFavorite(Favorite $favorite): self {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->setListing($this);
+        }
+        return $this;
     }
+    public function removeFavorite(Favorite $favorite): self { $this->favorites->removeElement($favorite); return $this; }
+
+    public function isFavoritedBy(User $user): bool {
+        foreach ($this->favorites as $fav) {
+            if ($fav->getUser() === $user) return true;
+        }
+        return false;
+    }
+
+    public function __toString(): string { return $this->title ?? 'Annonce'; }
 }

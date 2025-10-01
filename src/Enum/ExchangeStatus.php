@@ -4,23 +4,36 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
+/**
+ * États possibles d’un échange (proposition entre utilisateurs).
+ */
 enum ExchangeStatus: string
 {
-    case PENDING = 'pending';
-    case ACCEPTED = 'accepted';
-    case DECLINED = 'declined';
-    case CANCELED = 'canceled';
+    case PENDING = 'pending';     // En attente de réponse
+    case ACCEPTED = 'accepted';   // Accepté
+    case REJECTED = 'rejected';   // Refusé
+    case COMPLETED = 'completed'; // Échange terminé
+    case CANCELED = 'canceled';   // Annulé par une des parties
 
     /**
-     * Retourne un libellé lisible en français.
+     * Labels lisibles pour l’UI (Twig, back-office, API).
      */
     public function label(): string
     {
         return match ($this) {
-            self::PENDING => 'En attente',
-            self::ACCEPTED => 'Accepté',
-            self::DECLINED => 'Refusé',
-            self::CANCELED => 'Annulé',
+            self::PENDING   => 'En attente',
+            self::ACCEPTED  => 'Accepté',
+            self::REJECTED  => 'Refusé',
+            self::COMPLETED => 'Terminé',
+            self::CANCELED  => 'Annulé',
         };
+    }
+
+    /**
+     * Liste des statuts finaux (qui closent un échange).
+     */
+    public static function finals(): array
+    {
+        return [self::COMPLETED, self::CANCELED];
     }
 }

@@ -29,24 +29,25 @@ final class ResetPasswordController extends AbstractController
         if ($request->isMethod('POST')) {
             $email = trim((string) $request->request->get('email'));
 
-            // Vérifier si un user existe
+            /** @var ?User $user */
             $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
+
             if ($user) {
-                // Générer un token unique + expiration
+                // 🎟️ Générer un token unique + expiration
                 $token = Uuid::v4()->toRfc4122();
 
                 $reset = new PasswordResetToken();
-                $reset->setEmail($email);
+                $reset->setUser($user);
                 $reset->setToken($token);
                 $reset->setExpiresAt(new DateTimeImmutable('+1 hour'));
 
                 $em->persist($reset);
                 $em->flush();
 
-                // Envoyer email
+                // 📩 Envoi de l’email
                 $mail = (new TemplatedEmail())
                     ->from($this->getParameter('app.mailer_from'))
-                    ->to($email)
+                    ->to($user->getEmail())
                     ->subject('Réinitialisation de mot de passe')
                     ->htmlTemplate('security/reset_email.html.twig')
                     ->context([
@@ -60,6 +61,7 @@ final class ResetPasswordController extends AbstractController
                 $mailer->send($mail);
             }
 
+            // Même message dans tous les cas (anti brute-force & anti-leak)
             $this->addFlash('info', 'Si un compte existe avec cet email, un lien de réinitialisation a été envoyé.');
 
             return $this->redirectToRoute('app_login');
@@ -79,30 +81,32 @@ final class ResetPasswordController extends AbstractController
 
         if (!$reset || $reset->isExpired()) {
             $this->addFlash('error', 'Ce lien n’est pas valide ou a expiré.');
-
             return $this->redirectToRoute('app_forgot_password');
         }
 
         if ($request->isMethod('POST')) {
-            $password = $request->request->get('password');
-            $confirm = $request->request->get('confirm');
+            $password = (string) $request->request->get('password');
+            $confirm = (string) $request->request->get('confirm');
 
             if ($password !== $confirm) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
-
                 return $this->redirectToRoute('app_reset_password', ['token' => $token]);
             }
 
-            $user = $em->getRepository(User::class)->findOneBy(['email' => $reset->getEmail()]);
-            if ($user) {
-                $user->setPassword($hasher->hashPassword($user, $password));
-                $em->remove($reset); // On supprime le token
-                $em->flush();
-
-                $this->addFlash('success', 'Mot de passe mis à jour ! Vous pouvez vous connecter.');
-
-                return $this->redirectToRoute('app_login');
+            if (strlen($password) < 10) {
+                $this->addFlash('error', 'Le mot de passe doit contenir au moins 10 caractères.');
+                return $this->redirectToRoute('app_reset_password', ['token' => $token]);
             }
+
+            $user = $reset->getUser();
+            $user->setPassword($hasher->hashPassword($user, $password));
+
+            // 🗑️ Supprime le token (usage unique)
+            $em->remove($reset);
+            $em->flush();
+
+            $this->addFlash('success', 'Mot de passe mis à jour ✅ Vous pouvez vous connecter.');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/reset_password.html.twig', [

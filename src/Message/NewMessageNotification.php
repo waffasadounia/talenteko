@@ -5,30 +5,19 @@ declare(strict_types=1);
 namespace App\Message;
 
 /**
- * Message pour notifier un utilisateur
- * quand il reçoit un nouveau message privé.
+ * Notification quand un utilisateur reçoit un nouveau message privé.
+ * Bonne pratique : on ne transporte que l’ID,
+ * le handler ira chercher l’entité en base.
  */
-class NewMessageNotification
+final class NewMessageNotification
 {
     public function __construct(
-        private int $recipientId, // ID de l’utilisateur destinataire
-        private int $senderId,    // ID de l’expéditeur
-        private string $content,  // Contenu du message
+        private int $messageId // ID du message créé
     ) {
     }
 
-    public function getRecipientId(): int
+    public function getMessageId(): int
     {
-        return $this->recipientId;
-    }
-
-    public function getSenderId(): int
-    {
-        return $this->senderId;
-    }
-
-    public function getContent(): string
-    {
-        return $this->content;
+        return $this->messageId;
     }
 }

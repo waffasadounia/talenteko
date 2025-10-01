@@ -114,10 +114,17 @@ final class RegistrationType extends AbstractType
             ->add('website', TextType::class, [
                 'mapped' => false,
                 'required' => false,
+                'label' => false, // pas d’étiquette visible
                 'attr' => [
                     'class' => 'hidden',
                     'tabindex' => '-1',
                     'autocomplete' => 'off',
+                    'aria-hidden' => 'true',
+                ],
+                'constraints' => [
+                    new Assert\Blank([
+                        'message' => 'Détection bot : ce champ doit rester vide.',
+                    ]),
                 ],
             ]);
     }

@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
+#[ORM\HasLifecycleCallbacks] // pour gérer updatedAt automatiquement
 class Exchange
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
@@ -16,11 +17,11 @@ class Exchange
 
     // === Relations ===
 
-    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    #[ORM\ManyToOne(inversedBy: 'exchanges')] // côté User → getExchanges()
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $requester = null;
 
-    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    #[ORM\ManyToOne(inversedBy: 'exchanges')] // côté Listing → getExchanges()
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Listing $listing = null;
 
@@ -41,6 +42,13 @@ class Exchange
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+    }
+
+    // === Lifecycle ===
+    #[ORM\PreUpdate]
+    public function updateTimestamp(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     // === Getters / Setters ===
@@ -98,6 +106,8 @@ class Exchange
         $this->updatedAt = $date;
         return $this;
     }
+
+    // === Divers ===
 
     public function __toString(): string
     {

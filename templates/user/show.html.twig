@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <section class="max-w-4xl mx-auto p-6">
+    <h1 class="text-2xl font-bold text-talenteko-blue mb-4">
+      Profil de {{ user_profile.pseudo ?? 'Utilisateur' }}
+    </h1>
+
+    <div class="mb-6">
+      {% if user_profile.location %}
+        <p class="text-gray-600">
+          📍 {{ user_profile.location }}
+        </p>
+      {% endif %}
+
+      {% if user_profile.bio %}
+        <p class="mt-2 text-gray-700 italic">
+          {{ user_profile.bio }}
+        </p>
+      {% endif %}
+    </div>
+
+    <hr class="my-6 border-t border-gray-200" />
+
+    <h2 class="text-xl font-semibold mb-4">Annonces publiées</h2>
+
+    {% if listings is not empty %}
+      <div class="grid gap-6 sm:grid-cols-2">
+        {% for listing in listings %}
+          <a href="{{ path('app_listing_show', {slug: listing.slug}) }}"
+             class="block p-4 rounded-xl shadow hover:shadow-md transition bg-white">
+            <h3 class="font-bold text-talenteko-blue mb-2">
+              {{ listing.title }}
+            </h3>
+            <p class="text-gray-600 text-sm line-clamp-2">
+              {{ listing.description|u.truncate(120, '…') }}
+            </p>
+            <p class="mt-2 text-sm text-gray-500">
+              Publié le {{ listing.createdAt|date('d/m/Y') }}
+            </p>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-500">Cet utilisateur n’a pas encore publié d’annonce.</p>
+    {% endif %}
+  </section>
+{% endblock %}

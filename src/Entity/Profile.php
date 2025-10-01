@@ -24,7 +24,7 @@ class Profile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatarFilename = null;
 
-    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
@@ -86,9 +86,15 @@ class Profile
 
     public function setUser(?User $user): self
     {
+        // 🔄 sécurité : on met à jour l’autre côté de la relation si besoin
+        if ($user !== null && $user->getProfile() !== $this) {
+            $user->setProfile($this);
+        }
         $this->user = $user;
         return $this;
     }
+
+    // === Divers ===
 
     public function __toString(): string
     {

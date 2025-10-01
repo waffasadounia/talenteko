@@ -28,7 +28,7 @@ class NewExchangeCreatedNotificationHandler
         $sender = $this->em->getRepository(User::class)->find($notification->getSenderId());
         $listing = $this->em->getRepository(Listing::class)->find($notification->getListingId());
 
-        if (!$recipient || !$sender) {
+        if (!$recipient || !$sender || !$listing) {
             return; // sécurité
         }
 
@@ -37,11 +37,11 @@ class NewExchangeCreatedNotificationHandler
             ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
             ->to($recipient->getEmail())
             ->subject('Nouvelle proposition d’échange sur TalentÉkô')
-            ->htmlTemplate('@emails/new_exchange.html.twig')
+            ->htmlTemplate('emails/new_exchange.html.twig') // 🔄 chemin corrigé
             ->context([
                 'sender' => $sender->getPseudo(),
-                'listingTitle' => $listing?->getTitle() ?? 'Annonce inconnue',
-                'exchangeId' => $notification->getExchangeId(),
+                'listingTitle' => $listing->getTitle(),
+                'listingSlug' => $listing->getSlug(), // 🔄 remplacé exchangeId
             ]);
 
         // Envoyer

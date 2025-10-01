@@ -21,6 +21,7 @@ framework:
       # Routage Symfony natif (emails via Mailer)
       Symfony\Component\Mailer\Messenger\SendEmailMessage: async
 
-      # Routage pour les messages personnalisés Talentéko
+      # Routage pour les messages personnalisés TalentÉkô
       App\Message\NewMessageNotification: async
-      App\Message\NewExchangeNotification: async
+      App\Message\NewExchangeCreatedNotification: async
+      App\Message\ExchangeStatusChangedNotification: async
