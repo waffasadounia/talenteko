@@ -10,25 +10,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Contrôleur de sécurité (login / logout).
+ *
+ * ⚡ Ce contrôleur est lié à l'authenticator personnalisé :
+ * App\Security\LoginFormAuthenticator
+ *
+ * - /login : formulaire de connexion (géré côté POST par l'authenticator).
+ * - /logout : route interceptée automatiquement par le firewall.
+ */
 final class SecurityController extends AbstractController
 {
-    /**
-     * Page de connexion.
-     * GET  : affiche le formulaire
-     * POST : laissé à l’authenticator personnalisé
-     *        (App\Security\LoginFormAuthenticator) qui intercepte la
-     *        requête POST sur cette même route.
-     */
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
     {
-        // Si l’utilisateur est FULLY authentifié → on le redirige
+        // Déjà connecté complètement → on redirige vers l'accueil
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }
 
-        // IMPORTANT : si l’utilisateur est seulement "remembered",
-        // il doit quand même voir le formulaire pour se "sur-authentifier".
+        // Important : si utilisateur est seulement "remembered",
+        // il doit voir le formulaire pour confirmer ses identifiants.
         $error = $auth->getLastAuthenticationError();
         $lastUsername = $auth->getLastUsername();
 
@@ -38,14 +40,10 @@ final class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * Déconnexion :
-     * Cette action ne s’exécute jamais : elle est interceptée
-     * par la config "logout" du firewall (security.yaml).
-     */
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
-        throw new LogicException('Cette méthode est vide : la déconnexion est gérée par le firewall (security.yaml).');
+        // Jamais exécuté → géré par le firewall (security.yaml)
+        throw new LogicException('La déconnexion est gérée par le firewall (security.yaml).');
     }
 }
