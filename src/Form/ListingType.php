@@ -6,8 +6,10 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Listing;
+// ⚡ à créer si pas encore fait (OFFER / REQUEST)
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -32,9 +34,7 @@ final class ListingType extends AbstractType
                         'maxMessage' => 'Le titre ne peut pas dépasser {{ limit }} caractères.',
                     ]),
                 ],
-                'attr' => [
-                    'placeholder' => 'ex. Cours de guitare débutant',
-                ],
+                'attr' => ['placeholder' => 'ex. Cours de guitare débutant'],
             ])
 
             // === Description ===
@@ -51,6 +51,19 @@ final class ListingType extends AbstractType
                     'rows' => 6,
                     'placeholder' => 'Décrivez votre annonce en détail…',
                 ],
+            ])
+
+            // === Type d’annonce ===
+            ->add('type', ChoiceType::class, [
+                'label' => 'Type d’annonce',
+                'choices' => [
+                    'Je propose une compétence' => 'OFFER',
+                    'Je recherche une compétence' => 'REQUEST',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de sélectionner un type.']),
+                ],
+                'expanded' => true, // affichage en boutons radio
             ])
 
             // === Localisation ===
@@ -79,7 +92,7 @@ final class ListingType extends AbstractType
             // === Images ===
             ->add('images', FileType::class, [
                 'label' => 'Images',
-                'mapped' => false, // géré côté contrôleur
+                'mapped' => false,
                 'required' => false,
                 'multiple' => true,
                 'constraints' => [
@@ -90,9 +103,7 @@ final class ListingType extends AbstractType
                         ]),
                     ]),
                 ],
-                'attr' => [
-                    'accept' => 'image/*',
-                ],
+                'attr' => ['accept' => 'image/*'],
             ]);
     }
 

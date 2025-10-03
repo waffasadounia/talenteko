@@ -6,11 +6,11 @@ namespace App\Controller;
 
 use App\Entity\Exchange;
 use App\Entity\Listing;
-use App\Entity\User;
 use App\Entity\Notification;
+use App\Entity\User;
 use App\Enum\ExchangeStatus;
-use App\Message\NewExchangeCreatedNotification;
 use App\Message\ExchangeStatusChangedNotification;
+use App\Message\NewExchangeCreatedNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ final class ExchangeController extends AbstractController
         '/exchange/new/{slug}',
         name: 'app_exchange_new',
         methods: ['POST'],
-        requirements: ['slug' => '(?!nouvelle$)(?!\d+$)[A-Za-z0-9][A-Za-z0-9\-]*']
+        requirements: ['slug' => '(?!nouvelle$)(?!\d+$)[a-z0-9][a-z0-9\-]*']
     )]
     public function new(
         #[MapEntity(expr: 'repository.findOneBy({slug: slug})')] Listing $listing,
@@ -40,17 +40,19 @@ final class ExchangeController extends AbstractController
 
         if ($listing->getAuthor() === $user) {
             $this->addFlash('error', 'Vous ne pouvez pas proposer un échange sur votre propre annonce.');
+
             return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
         }
 
         $existing = $em->getRepository(Exchange::class)->findOneBy([
-            'listing'   => $listing,
+            'listing' => $listing,
             'requester' => $user,
-            'status'    => ExchangeStatus::PENDING,
+            'status' => ExchangeStatus::PENDING,
         ]);
 
         if ($existing) {
             $this->addFlash('warning', 'Vous avez déjà une demande en attente pour cette annonce.');
+
             return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
         }
 
@@ -61,12 +63,12 @@ final class ExchangeController extends AbstractController
 
         $em->persist($exchange);
 
-        // 📌 Notification DB
-        $notif = new Notification();
-        $notif->setUser($listing->getAuthor());
-        $notif->setType('exchange.new');
-        $notif->setContent(sprintf('%s a proposé un échange sur votre annonce "%s".', $user->getDisplayName(), $listing->getTitle()));
-        $em->persist($notif);
+        $this->createNotification(
+            $em,
+            $listing->getAuthor(),
+            'exchange.new',
+            \sprintf('%s a proposé un échange sur votre annonce "%s".', $user->getDisplayName(), $listing->getTitle())
+        );
 
         $em->flush();
 
@@ -78,6 +80,7 @@ final class ExchangeController extends AbstractController
         ));
 
         $this->addFlash('success', 'Votre proposition d’échange a été envoyée !');
+
         return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
     }
 
@@ -92,10 +95,10 @@ final class ExchangeController extends AbstractController
         }
 
         return $this->render('exchange/show.html.twig', [
-            'exchange'  => $exchange,
-            'listing'   => $exchange->getListing(),
+            'exchange' => $exchange,
+            'listing' => $exchange->getListing(),
             'requester' => $exchange->getRequester(),
-            'status'    => $exchange->getStatus(),
+            'status' => $exchange->getStatus(),
         ]);
     }
 
@@ -109,14 +112,15 @@ final class ExchangeController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
+        if (ExchangeStatus::PENDING !== $exchange->getStatus()) {
+            $this->addFlash('warning', 'Cet échange n’est plus en attente.');
+
+            return $this->redirectToRoute('app_exchange_show', ['id' => $exchange->getId()]);
+        }
+
         $exchange->setStatus(ExchangeStatus::ACCEPTED);
 
-        $notif = new Notification();
-        $notif->setUser($exchange->getRequester());
-        $notif->setType('exchange.accepted');
-        $notif->setContent('Votre demande d’échange a été acceptée.');
-        $em->persist($notif);
-
+        $this->createNotification($em, $exchange->getRequester(), 'exchange.accepted', 'Votre demande d’échange a été acceptée.');
         $em->flush();
 
         $bus->dispatch(new ExchangeStatusChangedNotification(
@@ -127,6 +131,7 @@ final class ExchangeController extends AbstractController
         ));
 
         $this->addFlash('success', 'Vous avez accepté la demande d’échange.');
+
         return $this->redirectToRoute('app_exchange_show', ['id' => $exchange->getId()]);
     }
 
@@ -140,14 +145,15 @@ final class ExchangeController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
+        if (ExchangeStatus::PENDING !== $exchange->getStatus()) {
+            $this->addFlash('warning', 'Cet échange n’est plus en attente.');
+
+            return $this->redirectToRoute('app_exchange_show', ['id' => $exchange->getId()]);
+        }
+
         $exchange->setStatus(ExchangeStatus::DECLINED);
 
-        $notif = new Notification();
-        $notif->setUser($exchange->getRequester());
-        $notif->setType('exchange.declined');
-        $notif->setContent('Votre demande d’échange a été refusée.');
-        $em->persist($notif);
-
+        $this->createNotification($em, $exchange->getRequester(), 'exchange.declined', 'Votre demande d’échange a été refusée.');
         $em->flush();
 
         $bus->dispatch(new ExchangeStatusChangedNotification(
@@ -158,6 +164,7 @@ final class ExchangeController extends AbstractController
         ));
 
         $this->addFlash('info', 'Vous avez refusé la demande d’échange.');
+
         return $this->redirectToRoute('app_exchange_show', ['id' => $exchange->getId()]);
     }
 
@@ -171,14 +178,20 @@ final class ExchangeController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
+        if (!\in_array($exchange->getStatus(), [ExchangeStatus::PENDING, ExchangeStatus::ACCEPTED], true)) {
+            $this->addFlash('warning', 'Vous ne pouvez plus annuler cet échange.');
+
+            return $this->redirectToRoute('app_exchange_show', ['id' => $exchange->getId()]);
+        }
+
         $exchange->setStatus(ExchangeStatus::CANCELED);
 
-        $notif = new Notification();
-        $notif->setUser($exchange->getListing()->getAuthor());
-        $notif->setType('exchange.canceled');
-        $notif->setContent(sprintf('%s a annulé sa demande d’échange.', $user->getDisplayName()));
-        $em->persist($notif);
-
+        $this->createNotification(
+            $em,
+            $exchange->getListing()->getAuthor(),
+            'exchange.canceled',
+            \sprintf('%s a annulé sa demande d’échange.', $user->getDisplayName())
+        );
         $em->flush();
 
         $bus->dispatch(new ExchangeStatusChangedNotification(
@@ -189,6 +202,17 @@ final class ExchangeController extends AbstractController
         ));
 
         $this->addFlash('warning', 'Vous avez annulé votre demande d’échange.');
+
         return $this->redirectToRoute('app_listing_show', ['slug' => $exchange->getListing()->getSlug()]);
+    }
+
+    // === Helper privé pour DRY notifications ===
+    private function createNotification(EntityManagerInterface $em, User $user, string $type, string $content): void
+    {
+        $notif = new Notification();
+        $notif->setUser($user);
+        $notif->setType($type);
+        $notif->setContent($content);
+        $em->persist($notif);
     }
 }
