@@ -11,7 +11,7 @@
                 <li class="p-3 rounded-lg shadow-sm bg-white hover:bg-gray-50">
                     <a href="{{ path('app_message_thread', {id: thread.id}) }}"class="block">
                         <div class="font-semibold">
-                            Conversation avec {{ thread.getOtherParticipant(app.user).displayName }}
+                            Conversation avec {{ thread.getOtherParticipant( app.user ).displayName }}
                         </div>
                         <div class="text-sm text-gray-500">
                             Dernier message :
