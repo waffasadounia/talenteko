@@ -5,24 +5,29 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'favorite')]
-#[ORM\UniqueConstraint(name: 'uniq_user_listing', columns: ['user_id', 'listing_id'])]
+#[ORM\UniqueConstraint(name: 'uniq_user_listing', columns: ['user_id', 'listing_id'])] // empêche doublons
+#[ORM\Index(columns: ['user_id'])]
+#[ORM\Index(columns: ['listing_id'])]
 class Favorite
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Un favori doit appartenir à un utilisateur.')]
     #[ORM\ManyToOne(inversedBy: 'favorites')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
+    #[Assert\NotNull(message: 'Un favori doit cibler une annonce.')]
     #[ORM\ManyToOne(inversedBy: 'favorites')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Listing $listing = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', updatable: false)]
     private \DateTimeImmutable $createdAt;
 
     public function __construct()
@@ -31,7 +36,6 @@ class Favorite
     }
 
     // === Getters / Setters ===
-
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +49,7 @@ class Favorite
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -56,6 +61,7 @@ class Favorite
     public function setListing(?Listing $listing): self
     {
         $this->listing = $listing;
+
         return $this;
     }
 
@@ -67,7 +73,7 @@ class Favorite
     // === Divers ===
     public function __toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'Favori: %s par %s',
             $this->listing?->getTitle() ?? 'Annonce',
             $this->user?->getDisplayName() ?? 'Utilisateur'

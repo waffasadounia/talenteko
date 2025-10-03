@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class Profile
@@ -12,6 +13,10 @@ class Profile
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(
+        max: 1000,
+        maxMessage: 'La bio ne peut pas dépasser {{ limit }} caractères.'
+    )]
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $bio = null;
 
@@ -21,10 +26,14 @@ class Profile
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $skillsWanted = null;
 
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom de fichier de l’avatar ne peut pas dépasser {{ limit }} caractères.'
+    )]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatarFilename = null;
 
-    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist'])]
+    #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
@@ -42,10 +51,13 @@ class Profile
 
     public function setBio(?string $bio): self
     {
-        $this->bio = $bio;
+        // 🛡️ sécurité : supprime le HTML pour éviter XSS
+        $this->bio = $bio ? strip_tags($bio) : null;
+
         return $this;
     }
 
+    /** @return ?array Liste des compétences offertes */
     public function getSkillsOffered(): ?array
     {
         return $this->skillsOffered;
@@ -54,9 +66,11 @@ class Profile
     public function setSkillsOffered(?array $skills): self
     {
         $this->skillsOffered = $skills;
+
         return $this;
     }
 
+    /** @return ?array Liste des compétences recherchées */
     public function getSkillsWanted(): ?array
     {
         return $this->skillsWanted;
@@ -65,6 +79,7 @@ class Profile
     public function setSkillsWanted(?array $skills): self
     {
         $this->skillsWanted = $skills;
+
         return $this;
     }
 
@@ -75,7 +90,9 @@ class Profile
 
     public function setAvatarFilename(?string $filename): self
     {
-        $this->avatarFilename = $filename;
+        // on normalise le nom de fichier
+        $this->avatarFilename = $filename ? mb_strtolower($filename) : null;
+
         return $this;
     }
 
@@ -86,11 +103,11 @@ class Profile
 
     public function setUser(?User $user): self
     {
-        // 🔄 sécurité : on met à jour l’autre côté de la relation si besoin
-        if ($user !== null && $user->getProfile() !== $this) {
+        if (null !== $user && $user->getProfile() !== $this) {
             $user->setProfile($this);
         }
         $this->user = $user;
+
         return $this;
     }
 
@@ -98,6 +115,6 @@ class Profile
 
     public function __toString(): string
     {
-        return $this->bio ? mb_substr($this->bio, 0, 30) . '…' : 'Profil';
+        return $this->bio ? mb_substr($this->bio, 0, 30).'…' : 'Profil';
     }
 }

@@ -8,7 +8,7 @@ use App\Repository\ThreadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeImmutable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ThreadRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -20,6 +20,10 @@ class Thread
     private ?int $id = null;
 
     // === Participants ===
+    #[Assert\Count(
+        min: 2,
+        minMessage: 'Un thread doit contenir au moins 2 participants.'
+    )]
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[ORM\JoinTable(name: 'thread_participants')]
     private Collection $participants;
@@ -34,18 +38,20 @@ class Thread
     #[ORM\OrderBy(['createdAt' => 'ASC'])] // garantit l'ordre chronologique
     private Collection $messages;
 
+    #[Assert\NotNull]
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
+    #[Assert\NotNull]
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $updatedAt;
+    private \DateTimeImmutable $updatedAt;
 
     public function __construct()
     {
         $this->participants = new ArrayCollection();
         $this->messages = new ArrayCollection();
-        $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     // === ID ===
@@ -66,12 +72,14 @@ class Thread
         if (!$this->participants->contains($user)) {
             $this->participants->add($user);
         }
+
         return $this;
     }
 
     public function removeParticipant(User $user): self
     {
         $this->participants->removeElement($user);
+
         return $this;
     }
 
@@ -91,6 +99,7 @@ class Thread
                 return $participant;
             }
         }
+
         return null;
     }
 
@@ -108,6 +117,7 @@ class Thread
             $message->setThread($this);
             $this->touch();
         }
+
         return $this;
     }
 
@@ -117,6 +127,7 @@ class Thread
             // orphanRemoval=true → Doctrine supprimera automatiquement le message
             $this->touch();
         }
+
         return $this;
     }
 
@@ -126,12 +137,12 @@ class Thread
     }
 
     // === Timestamps ===
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): DateTimeImmutable
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -139,12 +150,12 @@ class Thread
     #[ORM\PreUpdate]
     public function touch(): void
     {
-        $this->updatedAt = new DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     // === Divers ===
     public function __toString(): string
     {
-        return sprintf('Thread #%d', $this->id ?? 0);
+        return \sprintf('Thread #%d', $this->id ?? 0);
     }
 }

@@ -43,16 +43,19 @@ class ProfileRepository extends ServiceEntityRepository
     }
 
     /**
-     * Exemple de méthode personnalisée (optionnelle) :
-     * Récupérer tous les profils par prénom.
+     * Recherche de profils par prénom (partiel, insensible à la casse).
      */
-    public function findByFirstname(string $firstname): array
+    public function searchByFirstname(?string $firstname, int $limit = 20): array
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.firstname = :firstname')
-            ->setParameter('firstname', $firstname)
+        $qb = $this->createQueryBuilder('p')
             ->orderBy('p.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->setMaxResults($limit);
+
+        if ($firstname) {
+            $qb->andWhere('LOWER(p.firstname) LIKE :firstname')
+               ->setParameter('firstname', '%'.strtolower($firstname).'%');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\Table(
+    name: 'message',
+    indexes: [
+        new ORM\Index(name: 'idx_message_thread_created_at', columns: ['thread_id', 'created_at']),
+    ]
+)]
 #[ORM\HasLifecycleCallbacks]
 class Message
 {
@@ -17,40 +23,56 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    // Expéditeur du message
+    // === Relations ===
+
+    // Expéditeur
+    #[Assert\NotNull(message: 'Un message doit avoir un expéditeur.')]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'sentMessages')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $sender = null;
 
-    // Destinataire du message
+    // Destinataire
+    #[Assert\NotNull(message: 'Un message doit avoir un destinataire.')]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'receivedMessages')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $recipient = null;
 
     // Thread parent
+    #[Assert\NotNull(message: 'Un message doit être lié à une conversation.')]
     #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Thread $thread = null;
 
+    // === Contenu ===
+
+    #[Assert\NotBlank(message: 'Le contenu du message est obligatoire.')]
+    #[Assert\Length(
+        min: 1,
+        max: 2000,
+        minMessage: 'Le message doit contenir au moins {{ limit }} caractère.',
+        maxMessage: 'Le message ne peut pas dépasser {{ limit }} caractères.'
+    )]
     #[ORM\Column(type: 'text')]
     private string $content = '';
 
+    // === Dates ===
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     // === Lifecycle ===
     #[ORM\PreUpdate]
     public function updateTimestamp(): void
     {
-        $this->updatedAt = new DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     // === ID ===
@@ -68,6 +90,7 @@ class Message
     public function setSender(?User $sender): self
     {
         $this->sender = $sender;
+
         return $this;
     }
 
@@ -80,6 +103,7 @@ class Message
     public function setRecipient(?User $recipient): self
     {
         $this->recipient = $recipient;
+
         return $this;
     }
 
@@ -92,6 +116,7 @@ class Message
     public function setThread(?Thread $thread): self
     {
         $this->thread = $thread;
+
         return $this;
     }
 
@@ -103,25 +128,33 @@ class Message
 
     public function setContent(string $content): self
     {
-        $this->content = $content;
+        // ⚡ Sécurité XSS : suppression de tout HTML
+        $this->content = strip_tags($content);
+
         return $this;
     }
 
-    // === CreatedAt ===
-    public function getCreatedAt(): DateTimeImmutable
+    // === Dates ===
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    // === UpdatedAt ===
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     // === Divers ===
     public function __toString(): string
     {
-        return sprintf('Message #%d', $this->id ?? 0);
+        return \sprintf('Message #%d', $this->id ?? 0);
     }
 }

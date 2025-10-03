@@ -5,21 +5,29 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'notification')]
-#[ORM\Index(fields: ['isRead'])] // ⚡ optimisation pour filtrer rapidement non-lus
+#[ORM\Table(
+    name: 'notification',
+    indexes: [
+        new ORM\Index(name: 'idx_notification_is_read', fields: ['isRead']),
+    ]
+)]
 class Notification
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Une notification doit être liée à un utilisateur.')]
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
+    #[Assert\NotBlank(message: 'Le type de notification est obligatoire.')]
+    #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
-    private string $type; // ex: "exchange.accepted", "message.received"
+    private string $type;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $content = null;
@@ -50,6 +58,7 @@ class Notification
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -61,7 +70,8 @@ class Notification
 
     public function setType(string $type): self
     {
-        $this->type = $type;
+        $this->type = mb_strtolower($type);
+
         return $this;
     }
 
@@ -73,7 +83,9 @@ class Notification
 
     public function setContent(?string $content): self
     {
-        $this->content = $content;
+        // strip_tags pour éviter une injection XSS si affichage brut
+        $this->content = $content ? strip_tags($content) : null;
+
         return $this;
     }
 
@@ -86,6 +98,7 @@ class Notification
     public function markAsRead(): self
     {
         $this->isRead = true;
+
         return $this;
     }
 
@@ -98,7 +111,7 @@ class Notification
     // === Divers ===
     public function __toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'Notification [%s] pour %s',
             $this->type,
             $this->user?->getDisplayName() ?? 'Utilisateur'
