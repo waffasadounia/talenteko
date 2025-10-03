@@ -1,58 +1,45 @@
 /* ===========================================
    THEME TALENTÉKÔ — Tokens & Reset global
-   -------------------------------------------
-   - Déclare la palette officielle
-   - Déclare les polices
-   - Ajoute un reset minimal
+   Compatible Tailwind v3
    =========================================== */
 
-@theme {
-  /* === Couleurs === */
-  --color-talenteko-blue-900: #141c2e;
-  --color-talenteko-blue-600: #2b3343;
-  --color-talenteko-blue-500: #434958;
-  --color-talenteko-blue-400: #a1a4ab;
-
-  --color-talenteko-orange-400: #e8926a;
-  --color-talenteko-orange-500: #d6713c;
-  --color-talenteko-orange-600: #c46f45;
-  --color-talenteko-orange-700: #b35f3a;
-  --color-talenteko-orange-800: #994f2e;
-
-  --color-talenteko-peach-100: #fbf1ec;
-  --color-talenteko-peach-200: #fdf5f1;
-  --color-talenteko-peach-300: #fdfaf9;
-
-  /* === Polices === */
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-catamaran: 'Catamaran', sans-serif;
-  --font-chivo: 'Chivo', sans-serif;
-
-  /* === Typo globale === */
-  --text-base: 1rem; /* 16px */
-  --leading-base: 1.5; /* 150% */
+/* Styles de base */
+html {
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
-@layer base {
-  /* Reset global */
-  html {
-    text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-  }
+body {
+  margin: 0;
+  font-family: theme('fontFamily.sans'); /* <- "sans" inclut Montserrat */
+  font-size: theme('fontSize.base');
+  line-height: theme('lineHeight.relaxed'); /* remplace base -> relaxed = 1.625 */
+  color: theme('colors.talenteko.blue.900');
+  background-color: theme('colors.talenteko.peach.100');
+}
 
-  body {
-    margin: 0;
-    font-family: var(--font-montserrat);
-    font-size: var(--text-base);
-    line-height: var(--leading-base);
-    color: var(--color-talenteko-blue-900);
-    background-color: var(--color-talenteko-peach-100);
-  }
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
 
-  img {
-    max-width: 100%;
-    height: auto;
-    vertical-align: middle;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid theme('colors.talenteko.orange.500');
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
   }
 }

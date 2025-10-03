@@ -1,0 +1,17 @@
+/* ===========================================
+   app.css — Point d’entrée Tailwind/TalentÉkô
+   Compatible Tailwind v3 (stable)
+   =========================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Polices Google (Montserrat, Catamaran, Chivo) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
+
+/* Styles internes (organisés par rôle) */
+@import './styles/globals.css'; /* Reset, tokens (couleurs, polices) */
+@import './styles/components.css'; /* Boutons, navigation, helpers UI */
+@import './styles/forms.css'; /* Champs de formulaires et états */
+@import './styles/components-card.css'; /* Cartes listings */

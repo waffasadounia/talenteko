@@ -1,62 +1,68 @@
 /* ===========================================
-   FORMS — Champs et états
+   FORMS — Champs et états (unifié v3)
+   TalentÉkô — formulaires accessibles
    =========================================== */
-@layer components {
-  /* Champs de base */
-  .tk-form input,
-  .tk-form select,
-  .tk-form textarea {
-    @apply focus:ring-talenteko-orange-500 mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-[#141C2E] transition placeholder:text-gray-400 focus:ring-2 focus:outline-none;
-  }
 
-  /* Erreurs */
-  .tk-form [aria-invalid='true'],
-  .tk-form .is-invalid {
-    @apply border-red-500 ring-1 ring-red-500 focus:border-red-600 focus:ring-red-600;
-  }
+/* Champs de base */
+.tk-form input,
+.tk-form select,
+.tk-form textarea {
+  @apply mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-talenteko-blue-900 transition placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500;
+}
 
-  .tk-form ul[role='listbox'] {
-    @apply rounded-lg border border-gray-200 bg-white shadow-sm;
-  }
+/* Désactivés */
+.tk-form input:disabled,
+.tk-form select:disabled,
+.tk-form textarea:disabled {
+  @apply cursor-not-allowed bg-gray-100 text-gray-500;
+}
 
-  .tk-form ul[role='listbox'] li {
-    @apply cursor-pointer px-3 py-2 text-sm;
-  }
+/* Labels */
+.form-label {
+  @apply block text-sm font-semibold text-talenteko-blue-900;
+}
 
-  .tk-form ul[role='listbox'] li:hover,
-  .tk-form ul[role='listbox'] li.bg-talenteko-peach-200 {
-    @apply bg-talenteko-peach-200;
-  }
+.form-required {
+  @apply font-bold text-talenteko-orange-500;
+}
 
-  /* Input générique */
-  .form-input {
-    @apply w-full rounded-lg border border-gray-300 px-3 py-2 text-base;
-  }
+/* Erreurs (champ invalide) */
+.tk-form [aria-invalid='true'],
+.tk-form .is-invalid {
+  @apply border-red-500 ring-1 ring-red-500 focus:border-red-600 focus:ring-red-600;
+}
 
-  .form-input:focus-visible {
-    border: 1px solid #d6713c;
-    outline: none;
-  }
+.form-error {
+  @apply mt-1 text-sm text-red-600;
+}
 
-  .form-required {
-    color: #d6713c;
-    font-weight: bold;
-  }
+/* Autocomplete (BAN API) */
+.tk-form ul[role='listbox'] {
+  @apply rounded-lg border border-gray-200 bg-white shadow-sm;
+}
 
-  /* ====== Custom Checkbox ====== */
-  .form-checkbox-box {
-    @apply flex h-4 w-4 items-center justify-center rounded border border-gray-400 bg-white transition-colors duration-200; /* boîte blanche par défaut */
-  }
+.tk-form ul[role='listbox'] li {
+  @apply cursor-pointer px-3 py-2 text-sm;
+}
 
-  .peer:checked + .form-checkbox-box {
-    @apply bg-talenteko-orange-500 border-talenteko-orange-500;
-  }
+.tk-form ul[role='listbox'] li:hover,
+.tk-form ul[role='listbox'] li.bg-talenteko-peach-200 {
+  background-color: theme('colors.talenteko.peach.200');
+}
 
-  .form-checkbox-icon {
-    @apply hidden h-3 w-3 text-white; /* cachée par défaut */
-  }
+/* ====== Custom Checkbox ====== */
+.form-checkbox-box {
+  @apply flex h-4 w-4 items-center justify-center rounded border border-gray-400 bg-white transition-colors duration-200;
+}
 
-  .peer:checked + .form-checkbox-box .form-checkbox-icon {
-    @apply inline; /* icône visible quand cochée */
-  }
+.peer:checked + .form-checkbox-box {
+  @apply border-talenteko-orange-500 bg-talenteko-orange-500;
+}
+
+.form-checkbox-icon {
+  @apply hidden h-3 w-3 text-white;
+}
+
+.peer:checked + .form-checkbox-box .form-checkbox-icon {
+  @apply inline;
 }

@@ -1,9 +1,14 @@
-import './bootstrap.js';
+// ===========================================
+// Point d'entrée JS — TalentÉkô
+// -------------------------------------------
+// - Charge Stimulus & Turbo (config Symfony Encore)
+// - Importe TailwindCSS via app.css
+// ===========================================
 
-// Import indispensable pour que Webpack Encore prenne en compte Tailwind
-import './styles/app.css';
+import './app.css'; // Tailwind CSS
+import './bootstrap.js'; // Stimulus/Turbo + config
 
-// ... mon JS éventuel
-// - Je pourrai ajouter Stimulus ou mon JS métier plus tard
-// - Ici, mon log de test
-console.log('Ceci provient de assets/app.js - bienvenue sur AssetMapper ! 😊');
+/* global process */
+if (process.env.NODE_ENV === 'development') {
+  console.log('✅ TalentÉkô — assets/app.js chargé avec succès');
+}
