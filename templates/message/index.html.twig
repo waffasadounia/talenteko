@@ -9,12 +9,14 @@
         <ul class="space-y-2">
             {% for thread in threads %}
                 <li class="p-3 rounded-lg shadow-sm bg-white hover:bg-gray-50">
-                    <a href="{{ path('app_message_thread', {id: thread.id}) }}"class="block">
+                    <a href="{{ path('app_message_thread', { id: thread.id }) }}" class="block">
                         <div class="font-semibold">
-                            Conversation avec {{ thread.getOtherParticipant(app.user).displayName }}</div>
+                            Conversation avec {{ thread.getOtherParticipant(app.user).displayName }}
+                        </div>
                         <div class="text-sm text-gray-500">
                             Dernier message :
-                            {{ thread.getLastMessage() ? thread.getLastMessage().content|u.truncate(50, '…') }}</div>
+                            {{ thread.getLastMessage() ? thread.getLastMessage().content|u.truncate(50, '…') }}
+                        </div>
                     </a>
                 </li>
             {% endfor %}
