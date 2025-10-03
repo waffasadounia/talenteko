@@ -154,7 +154,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
 
                     $image = new ListingImage();
                     $imgIndex = min($i, 6);
-                    $image->setPath("uploads/listings/{$category->getSlug()}/{$imgIndex}.jpg");
+                    $image->setPath("{$imgIndex}.jpg");
                     $image->setIsPrimary(true);
 
                     $listing->addImage($image);
@@ -179,7 +179,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                 $listing->setCategory($category);
 
                 $image = new ListingImage();
-                $image->setPath('uploads/listings/placeholderTE.png');
+                $image->setPath('placeholderTE.png');
                 $image->setIsPrimary(true);
 
                 $listing->addImage($image);

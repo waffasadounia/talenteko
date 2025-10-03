@@ -6,20 +6,75 @@
 {% endblock %}
 
 {% block body %}
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="mb-6 text-3xl font-bold">{{ page_title }}</h1>
+  <main class="min-h-screen bg-talenteko-peach-200 flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
 
-    <p class="mb-6">
-      Ici viendra le formulaire de création d'annonce (MVP : AnnonceType,
-      validation, CSRF, etc.).
-    </p>
+      {# --- En-tête --- #}
+      <h1 class="text-3xl font-extrabold text-center text-talenteko-blue-900 mb-2">
+        Déposer une annonce
+      </h1>
+      <p class="text-gray-500 mb-8 text-center">
+        Partagez vos compétences, trouvez l’aide dont vous avez besoin
+      </p>
 
-    <a
-      href="{{ path('app_home') }}"
-      class="border-talenteko-orange-500 text-talenteko-orange-500 hover:bg-talenteko-peach-200 hover:text-talenteko-orange-500 focus-visible:ring-talenteko-orange-500 rounded-full border px-4 py-2 font-semibold transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-      aria-label="Revenir à l'accueil"
-    >
-      Retour à l'accueil
-    </a>
+      {# --- Formulaire --- #}
+      {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+        {# Titre #}
+        <div>
+          {{ form_label(form.title, 'Titre de l’annonce', {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
+          {{ form_errors(form.title) }}
+        </div>
+
+        {# Description #}
+        <div>
+          {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.description, {'attr': {'class': 'form-input'}}) }}
+          {{ form_errors(form.description) }}
+        </div>
+
+        {# Type d’annonce #}
+        <div>
+          {{ form_label(form.type, 'Type d’annonce', {'label_attr': {'class': 'form-label'}}) }}
+          <div class="flex gap-6">
+            {{ form_widget(form.type, {'attr': {'class': 'form-radio'}}) }}
+          </div>
+          {{ form_errors(form.type) }}
+        </div>
+
+        {# Catégorie #}
+        <div>
+          {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.category, {'attr': {'class': 'form-input'}}) }}
+          {{ form_errors(form.category) }}
+        </div>
+
+        {# Localisation #}
+        <div>
+          {{ form_label(form.location, 'Localisation', {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.location, {'attr': {'class': 'form-input'}}) }}
+          {{ form_errors(form.location) }}
+        </div>
+
+        {# Upload images #}
+        <div>
+          {{ form_label(form.images, 'Images', {'label_attr': {'class': 'form-label'}}) }}
+          <label class="w-full h-36 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:border-talenteko-orange-500 transition cursor-pointer">
+            <i class="fa-solid fa-cloud-arrow-up text-2xl mb-1"></i>
+            <span>Cliquez ou déposez vos images</span>
+            {{ form_widget(form.images, {'attr': {'class': 'absolute inset-0 opacity-0 cursor-pointer'}}) }}
+          </label>
+          {{ form_errors(form.images) }}
+        </div>
+
+        {# Boutons #}
+        <div class="flex justify-between pt-4">
+          <a href="{{ path('app_home') }}" class="btn-outline">Annuler</a>
+          <button type="submit" class="btn-primary">Publier l’annonce</button>
+        </div>
+
+      {{ form_end(form) }}
+    </div>
   </main>
 {% endblock %}

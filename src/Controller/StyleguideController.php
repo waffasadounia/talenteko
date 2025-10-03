@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-// src/Controller/StyleguideController.php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +12,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 final class StyleguideController extends AbstractController
 {
+    /**
+     * Page d’accueil du styleguide TalentÉkô
+     * URL : /styleguide
+     * Name : app_styleguide_index
+     */
+    #[Route('/styleguide', name: 'app_styleguide_index', methods: ['GET'])]
+    public function index(): Response
+    {
+        return $this->render('styleguide/index.html.twig', [
+            'page_title' => 'Styleguide TalentÉkô',
+        ]);
+    }
+
     /**
      * Page interne : styleguide des boutons TalentÉkô
      * URL : /styleguide/buttons

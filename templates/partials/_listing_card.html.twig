@@ -1,6 +1,6 @@
 {# ================================
   partials/_listing_card.html.twig
-  Carte annonce TalentÉkô (design V2, factorisée)
+  Carte annonce TalentÉkô (design V2, clean — Solution B)
   ================================ #}
 
 <div class="card-listing">
@@ -23,20 +23,21 @@
   {# --- Image principale --- #}
   <a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="card-image-link">
     <div class="card-image-wrapper">
-      {% if (listing.images|length) > 0 %}
+      {% if listing.images|length > 0 %}
         {% set img_path = listing.images|first.path %}
-        {% if img_path starts with 'http' %}
-          {# Cas image externe (Picsum, etc.) #}
+
+        {% if img_path == 'placeholderTE.png' %}
+          {# Cas placeholder global #}
           <img
-            src="{{ img_path }}"
-            alt="Image du listing {{ listing.title|e }}"
+            src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_card') }}"
+            alt="Image non disponible"
             class="card-image"
             loading="lazy"
             width="400"
             height="225"
           />
         {% else %}
-          {# Cas image locale : /uploads/listings/<slug>/<filename> #}
+          {# Cas image locale (dans le sous-dossier de catégorie) #}
           <img
             src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ img_path)|imagine_filter('listing_card') }}"
             alt="Image du listing {{ listing.title|e }}"

@@ -40,9 +40,8 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
                         random_int(1, 2)
                     )
                 )
-                ->setAvatarFilename(
-                    $faker->boolean(70) ? 'uploads/listings/placeholderTE.png' : null
-                )
+                ->setAvatarFilename(null) // MVP : toujours lettre pseudo, pas d'image
+                
                 ->setUser($user);
 
             $em->persist($profile);

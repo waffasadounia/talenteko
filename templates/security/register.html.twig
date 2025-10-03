@@ -10,9 +10,6 @@
 {% block body %}
   <section class="bg-talenteko-peach-100 py-12">
     <div class="mx-auto max-w-md px-6">
-      <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-        Créer un compte
-      </h1>
 
       {# --- Bandeau d'erreurs global --- #}
       {% if not form.vars.valid and form.vars.submitted %}
@@ -35,6 +32,9 @@
 
       {# --- Formulaire d'inscription --- #}
       <div class="rounded-2xl bg-white p-6 shadow-sm">
+      <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
+        Créer un compte
+      </h1>
         {{ form_start(form, {
           attr: {
             novalidate: 'novalidate',
