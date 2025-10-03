@@ -36,20 +36,22 @@ final class FixCategorySlugsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $categories = $this->categoryRepository->findAll();
-        $updated = 0;
 
-        $io->section('Vérification des slugs de catégories');
+        $updated = 0;
+        $total = \count($categories);
+
+        $io->section("Vérification des slugs de catégories ($total trouvées)");
 
         foreach ($categories as $category) {
             if (!$category instanceof Category) {
                 continue;
             }
 
-            // Recalcul du slug correct depuis le nom
-            $correctSlug = strtolower((string) $this->slugger->slug($category->getName()));
+            // Recalcul du slug correct depuis le nom (trim + slug)
+            $correctSlug = strtolower((string) $this->slugger->slug(trim($category->getName())));
 
             if ($category->getSlug() !== $correctSlug) {
-                $io->warning(sprintf(
+                $io->warning(\sprintf(
                     '⚠️ Catégorie "%s" (id %d) : slug corrigé "%s" → "%s"',
                     $category->getName(),
                     $category->getId(),
@@ -59,14 +61,16 @@ final class FixCategorySlugsCommand extends Command
 
                 $category->setSlug($correctSlug);
                 ++$updated;
+            } else {
+                $io->writeln("✔ {$category->getName()} ({$category->getSlug()}) OK");
             }
         }
 
         if ($updated > 0) {
             $this->em->flush();
-            $io->success("✅ $updated slugs corrigés !");
+            $io->success("✅ $updated slugs corrigés sur $total catégories.");
         } else {
-            $io->success('👌 Tous les slugs sont déjà corrects.');
+            $io->success("👌 Tous les slugs sont déjà corrects ($total vérifiées).");
         }
 
         return Command::SUCCESS;

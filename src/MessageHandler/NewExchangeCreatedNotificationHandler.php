@@ -8,43 +8,63 @@ use App\Entity\Listing;
 use App\Entity\User;
 use App\Message\NewExchangeCreatedNotification;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class NewExchangeCreatedNotificationHandler
+final class NewExchangeCreatedNotificationHandler
 {
     public function __construct(
-        private MailerInterface $mailer,
-        private EntityManagerInterface $em,
+        private readonly MailerInterface $mailer,
+        private readonly EntityManagerInterface $em,
+        private readonly LoggerInterface $logger,
+        private readonly string $mailerFrom = 'no-reply@talenteko.test',
     ) {
     }
 
     public function __invoke(NewExchangeCreatedNotification $notification): void
     {
-        // Récupérer destinataire, expéditeur et annonce
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
         $sender = $this->em->getRepository(User::class)->find($notification->getSenderId());
         $listing = $this->em->getRepository(Listing::class)->find($notification->getListingId());
 
         if (!$recipient || !$sender || !$listing) {
-            return; // sécurité
-        }
-
-        // Construire l'email
-        $email = (new TemplatedEmail())
-            ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
-            ->to($recipient->getEmail())
-            ->subject('Nouvelle proposition d’échange sur TalentÉkô')
-            ->htmlTemplate('emails/new_exchange.html.twig') // 🔄 chemin corrigé
-            ->context([
-                'sender' => $sender->getPseudo(),
-                'listingTitle' => $listing->getTitle(),
-                'listingSlug' => $listing->getSlug(), // 🔄 remplacé exchangeId
+            $this->logger->warning('Notification NewExchange ignorée : données manquantes.', [
+                'recipientId' => $notification->getRecipientId(),
+                'senderId' => $notification->getSenderId(),
+                'listingId' => $notification->getListingId(),
             ]);
 
-        // Envoyer
-        $this->mailer->send($email);
+            return;
+        }
+
+        $email = (new TemplatedEmail())
+            ->from($this->mailerFrom)
+            ->to($recipient->getEmail())
+            ->subject('Nouvelle proposition d’échange sur TalentÉkô')
+            ->htmlTemplate('emails/new_exchange.html.twig')
+            ->context([
+                'recipient' => $recipient,
+                'sender' => $sender->getPseudo(),
+                'listingTitle' => $listing->getTitle(),
+                'listingSlug' => $listing->getSlug(),
+            ]);
+
+        try {
+            $this->mailer->send($email);
+            $this->logger->info('Notification NewExchange envoyée.', [
+                'exchangeId' => $notification->getExchangeId(),
+                'recipient' => $recipient->getEmail(),
+                'sender' => $sender->getPseudo(),
+            ]);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error('Échec envoi email NewExchange.', [
+                'error' => $e->getMessage(),
+                'recipient' => $recipient->getEmail(),
+            ]);
+        }
     }
 }

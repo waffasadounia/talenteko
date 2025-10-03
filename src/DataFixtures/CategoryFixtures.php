@@ -9,9 +9,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-/**
- * Crée les catégories de base.
- */
 final class CategoryFixtures extends Fixture
 {
     public const CATEGORIES = [
@@ -40,6 +37,9 @@ final class CategoryFixtures extends Fixture
                 ->setSlug((string) $slugger->slug($name)->lower());
 
             $em->persist($category);
+
+            // Référence pour ListingFixtures
+            $this->addReference('cat_'.$i, $category);
         }
 
         $em->flush();

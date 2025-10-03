@@ -9,7 +9,9 @@ use App\Entity\Listing;
 use App\Entity\User;
 use App\Message\ExchangeStatusChangedNotification;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -19,33 +21,54 @@ final class ExchangeStatusChangedNotificationHandler
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly EntityManagerInterface $em,
+        private readonly LoggerInterface $logger,
+        private readonly string $mailerFrom = 'no-reply@talenteko.test',
     ) {
     }
 
     public function __invoke(ExchangeStatusChangedNotification $notification): void
     {
-        // Charger les entités
+        // Charger les entités nécessaires
         $exchange = $this->em->getRepository(Exchange::class)->find($notification->getExchangeId());
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
         $listing = $this->em->getRepository(Listing::class)->find($notification->getListingId());
 
         if (!$exchange || !$recipient) {
-            return; // sécurité minimale : pas d’email si données manquantes
+            $this->logger->warning('Notification ExchangeStatus ignorée : données manquantes.', [
+                'exchangeId' => $notification->getExchangeId(),
+                'recipientId' => $notification->getRecipientId(),
+                'listingId' => $notification->getListingId(),
+            ]);
+
+            return; // Pas d’envoi si données invalides
         }
 
         // Construire le mail
         $email = (new TemplatedEmail())
-            ->from($_ENV['APP_MAILER_FROM'] ?? 'no-reply@talenteko.test')
+            ->from($this->mailerFrom)
             ->to($recipient->getEmail())
             ->subject('Mise à jour de votre échange sur TalentÉkô')
             ->htmlTemplate('emails/exchange_status.html.twig')
             ->context([
+                'recipient' => $recipient,
                 'listingTitle' => $listing?->getTitle() ?? 'Annonce inconnue',
-                'status'      => $notification->getStatus(),
-                'exchangeId'  => $exchange->getId(),
+                'status' => $notification->getStatus(),
+                'exchangeId' => $exchange->getId(),
             ]);
 
-        // Envoyer
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+            $this->logger->info('Notification ExchangeStatus envoyée.', [
+                'exchangeId' => $exchange->getId(),
+                'recipient' => $recipient->getEmail(),
+                'status' => $notification->getStatus()->value,
+            ]);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error('Échec envoi email ExchangeStatus.', [
+                'error' => $e->getMessage(),
+                'exchangeId' => $exchange->getId(),
+                'recipient' => $recipient->getEmail(),
+            ]);
+        }
     }
 }

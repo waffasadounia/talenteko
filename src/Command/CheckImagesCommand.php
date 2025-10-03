@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -19,13 +20,14 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 #[AsCommand(
     name: 'app:check-images',
-    description: 'Vérifie la présence des images pour les catégories et listings',
+    description: 'Vérifie la présence des images pour les catégories et listings.',
 )]
 final class CheckImagesCommand extends Command
 {
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
         private readonly ListingRepository $listingRepository,
+        #[Autowire(param: 'kernel.project_dir')] private readonly string $projectDir,
     ) {
         parent::__construct();
     }
@@ -35,15 +37,18 @@ final class CheckImagesCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $fs = new Filesystem();
 
-        $publicPath = __DIR__ . '/../../public';
+        $publicPath = $this->projectDir.'/public';
 
         $errors = [];
 
         // 1) Vérifier les catégories
         $io->section('Catégories');
         foreach ($this->categoryRepository->findAll() as $category) {
-            $expected = $publicPath . '/images/categories/' . $category->getSlug() . '.png';
-            if (!$fs->exists($expected)) {
+            $base = $publicPath.'/images/categories/'.$category->getSlug();
+            $expectedPng = $base.'.png';
+            $expectedWebp = $base.'.webp';
+
+            if (!$fs->exists($expectedPng) && !$fs->exists($expectedWebp)) {
                 $errors[] = "❌ Catégorie {$category->getSlug()} manquante.";
             } else {
                 $io->writeln("✔ {$category->getSlug()} OK");
@@ -59,7 +64,8 @@ final class CheckImagesCommand extends Command
             }
 
             foreach ($listing->getImages() as $image) {
-                $expected = $publicPath . '/uploads/listings/' . $listing->getCategory()->getSlug() . '/' . $image->getPath();
+                $expected = $publicPath.'/uploads/listings/'.$listing->getCategory()->getSlug().'/'.$image->getPath();
+
                 if (!$fs->exists($expected) && !str_starts_with($image->getPath(), 'http')) {
                     $errors[] = "❌ Listing {$listing->getId()} image manquante : {$expected}";
                 } else {
@@ -76,9 +82,7 @@ final class CheckImagesCommand extends Command
             return Command::SUCCESS;
         }
 
-        foreach ($errors as $err) {
-            $io->error($err);
-        }
+        $io->error("Images manquantes détectées :\n".implode("\n", $errors));
 
         return Command::FAILURE;
     }

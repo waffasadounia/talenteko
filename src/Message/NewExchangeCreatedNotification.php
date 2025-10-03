@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace App\Message;
 
 /**
- * Message pour notifier un utilisateur
- * quand il reçoit une nouvelle proposition d’échange.
+ * Notification quand un utilisateur reçoit
+ * une nouvelle proposition d’échange.
+ *
+ * On transporte uniquement les IDs :
+ * - destinataire (auteur de l’annonce)
+ * - expéditeur (celui qui propose l’échange)
+ * - échange et annonce concernés
  */
-class NewExchangeCreatedNotification
+final class NewExchangeCreatedNotification
 {
     public function __construct(
-        private int $recipientId, // destinataire (auteur de l'annonce)
-        private int $senderId,    // utilisateur qui propose l'échange
-        private int $exchangeId,  // ID de l'échange
-        private int $listingId,    // ID de l'annonce concernée
+        private int $recipientId,
+        private int $senderId,
+        private int $exchangeId,
+        private int $listingId,
     ) {
     }
 

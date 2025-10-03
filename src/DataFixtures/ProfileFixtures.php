@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
 
-/**
- * Génère des profils enrichis pour les utilisateurs.
- * ⚠️ L’admin n’est pas enrichi (pas de bio Faker, pas de skills, pas d’avatar).
- */
 final class ProfileFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $em): void
@@ -23,12 +20,13 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
         $users = $em->getRepository(User::class)->findAll();
 
         foreach ($users as $user) {
-            // Exclure l’admin des enrichissements
-            if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            // Exclure l’admin
+            if (\in_array('ROLE_ADMIN', $user->getRoles(), true)) {
                 continue;
             }
 
-            $user
+            $profile = new Profile();
+            $profile
                 ->setBio($faker->paragraph(3))
                 ->setSkillsOffered(
                     $faker->randomElements(
@@ -42,12 +40,12 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
                         random_int(1, 2)
                     )
                 )
-                // 70% des users ont un avatar, 30% non
                 ->setAvatarFilename(
-                    $faker->boolean(70) ? $faker->imageUrl(128, 128, 'people') : null
-                );
+                    $faker->boolean(70) ? 'uploads/listings/placeholderTE.png' : null
+                )
+                ->setUser($user);
 
-            $em->persist($user);
+            $em->persist($profile);
         }
 
         $em->flush();

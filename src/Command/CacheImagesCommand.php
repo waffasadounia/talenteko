@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Utils\ImageFilters;
-use Exception;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -33,13 +32,12 @@ final class CacheImagesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $publicDir = __DIR__ . '/../../public/uploads/listings';
+        $publicDir = __DIR__.'/../../public/uploads/listings';
 
         $finder = new Finder();
         $finder->files()
             ->in($publicDir)
-            ->name('*.{jpg,jpeg,png}');
+            ->name('*.{jpg,jpeg,png,webp}');
 
         if (!$finder->hasResults()) {
             $io->warning("Aucune image trouvée dans $publicDir");
@@ -49,21 +47,21 @@ final class CacheImagesCommand extends Command
 
         $io->section('Rafraîchissement du cache LiipImagine');
         foreach ($finder as $file) {
-            $relativePath = 'uploads/listings/' . str_replace('\\', '/', $file->getRelativePathname());
+            $relativePath = 'uploads/listings/'.str_replace('\\', '/', $file->getRelativePathname());
             $io->text("➡️ $relativePath");
 
-            foreach (ImageFilters::LIST as $filter) {
+            foreach (ImageFilters::ALL as $filter) {
                 try {
-                    $this->cacheManager->remove($relativePath, $filter); // reset cache
+                    $this->cacheManager->remove($relativePath, $filter); // force reset cache
                     $this->cacheManager->getBrowserPath($relativePath, $filter);
                     $io->writeln("   <info>✔ $filter régénéré</info>");
-                } catch (Exception $e) {
-                    $io->error("   ❌ $filter échoué : " . $e->getMessage());
+                } catch (\Exception $e) {
+                    $io->error("   ❌ $filter échoué : ".$e->getMessage());
                 }
             }
         }
 
-        $io->success('Cache images régénéré pour toutes les variantes.');
+        $io->success('✅ Cache images régénéré pour toutes les variantes.');
 
         return Command::SUCCESS;
     }

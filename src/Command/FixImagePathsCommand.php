@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Corrige les chemins d’images en ne gardant que le nom de fichier.
- * Exemple : "uploads/listings/cuisine/img1.jpg" → "img1.jpg"
+ * Exemple : "uploads/listings/cuisine/img1.jpg" → "img1.jpg".
  */
 #[AsCommand(
     name: 'app:fix-image-paths',
@@ -34,27 +34,31 @@ final class FixImagePathsCommand extends Command
         $repo = $this->em->getRepository(ListingImage::class);
 
         $images = $repo->findAll();
-        $count = 0;
+        $total = \count($images);
+        $corrected = 0;
+
+        $io->section("Analyse de $total images");
 
         foreach ($images as $image) {
-            $path = $image->getPath();
+            $path = trim(str_replace('\\', '/', (string) $image->getPath()));
 
             if (str_contains($path, '/')) {
                 $parts = explode('/', $path);
                 $filename = end($parts);
 
-                $image->setPath($filename);
-                ++$count;
-
-                $io->writeln("➡️ Corrigé : $path → $filename");
+                if ($filename !== $path) {
+                    $image->setPath($filename);
+                    ++$corrected;
+                    $io->writeln("➡️ Corrigé : $path → $filename");
+                }
             }
         }
 
-        if ($count > 0) {
+        if ($corrected > 0) {
             $this->em->flush();
-            $io->success("$count chemins d'images corrigés.");
+            $io->success("✅ $corrected chemins corrigés sur $total images analysées.");
         } else {
-            $io->success('Aucun chemin d’image à corriger.');
+            $io->success("👌 Aucun chemin d’image à corriger sur $total images analysées.");
         }
 
         return Command::SUCCESS;

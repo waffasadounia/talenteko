@@ -17,9 +17,8 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Génère des annonces fictives :
- * - 6 annonces "manuelles" par catégorie (avec vraies images locales)
- * - 10 annonces Faker supplémentaires par catégorie
- * - Images Faker : mix placeholderTE.png + Picsum
+ * - 6 annonces vitrines par catégorie (avec images locales)
+ * - 10 annonces de démonstration par catégorie (titre simple + placeholder)
  */
 final class ListingFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -130,16 +129,16 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
         $users = $manager->getRepository(User::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
 
-        // On filtre pour exclure l’admin (ROLE_ADMIN)
+        // Exclure l’admin
         $regularUsers = array_filter(
             $users,
-            fn(User $u) => !in_array('ROLE_ADMIN', $u->getRoles(), true)
+            fn (User $u) => !\in_array('ROLE_ADMIN', $u->getRoles(), true)
         );
 
         foreach ($categories as $category) {
             $catName = $category->getName();
 
-            // --- 1. Annonces "manuelles" avec images locales ---
+            // --- 1. Annonces vitrines avec images locales ---
             if (isset(self::SAMPLES[$catName])) {
                 $i = 1;
                 foreach (self::SAMPLES[$catName] as [$title, $description]) {
@@ -149,13 +148,13 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                     $listing->setType($faker->randomElement(['OFFER', 'REQUEST']));
                     $listing->setLocation($faker->city());
                     $listing->setStatus(ListingStatus::PUBLISHED);
-                    $listing->setSlug((string) $slugger->slug($title . '-' . uniqid()));
+                    $listing->setSlug((string) $slugger->slug($title.'-'.uniqid()));
                     $listing->setAuthor($faker->randomElement($regularUsers));
                     $listing->setCategory($category);
 
                     $image = new ListingImage();
                     $imgIndex = min($i, 6);
-                    $image->setPath($category->getSlug() . "/{$imgIndex}.jpg");
+                    $image->setPath("uploads/listings/{$category->getSlug()}/{$imgIndex}.jpg");
                     $image->setIsPrimary(true);
 
                     $listing->addImage($image);
@@ -165,27 +164,22 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                 }
             }
 
-            // --- 2. Annonces Faker ---
+            // --- 2. Annonces de démonstration (~10 par catégorie) ---
             for ($i = 0; $i < 10; ++$i) {
-                $title = $faker->sentence(3);
+                $title = 'Annonce démo #'.uniqid();
 
                 $listing = new Listing();
                 $listing->setTitle($title);
-                $listing->setDescription($faker->paragraph());
+                $listing->setDescription('Ceci est une annonce générée automatiquement pour démonstration.');
                 $listing->setType($faker->randomElement(['OFFER', 'REQUEST']));
                 $listing->setLocation($faker->city());
                 $listing->setStatus(ListingStatus::PUBLISHED);
-                $listing->setSlug((string) $slugger->slug($title . '-' . uniqid()));
+                $listing->setSlug((string) $slugger->slug($title.'-'.uniqid()));
                 $listing->setAuthor($faker->randomElement($regularUsers));
                 $listing->setCategory($category);
 
                 $image = new ListingImage();
-                if ($faker->boolean(50)) {
-                    $image->setPath('placeholderTE.png');
-                } else {
-                    $seed = uniqid();
-                    $image->setPath("https://picsum.photos/seed/$seed/400/225");
-                }
+                $image->setPath('uploads/listings/placeholderTE.png');
                 $image->setIsPrimary(true);
 
                 $listing->addImage($image);
@@ -195,7 +189,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
-        echo "✔ Annonces générées avec images locales + Faker.\n";
+        echo "✔ Annonces générées avec images locales + dataset de démonstration.\n";
     }
 
     public function getDependencies(): array
