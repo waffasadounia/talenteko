@@ -11,7 +11,6 @@
 
 const Encore = require('@symfony/webpack-encore');
 
-// Configuration de l’environnement si non déjà fait
 if (!Encore.isRuntimeEnvironmentConfigured()) {
   Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
@@ -63,4 +62,14 @@ Encore
     watchOptions.ignored = ['**/node_modules/**', '**/public/build/**'];
   });
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+config.stats = {
+  all: false, // désactive tout le reste
+  errors: true, // affiche les erreurs
+  warnings: true, // (optionnel) affiche les warnings
+  errorDetails: true, // détail des erreurs
+};
+config.infrastructureLogging = {
+  level: 'error', // n’affiche que les erreurs critiques
+};
+module.exports = config;

@@ -5,19 +5,25 @@ declare(strict_types=1);
 use FriendsOfTwig\Twigcs\Config\Config;
 use FriendsOfTwig\Twigcs\Ruleset\Official;
 
-// TwigCS = linter pour fichiers .twig
-// - Version de la grammaire : 3.0 (Symfony/Twig 3)
-// - Paths analys : templates principaux + emails
-// - Ruleset "Official" = règles de la communauté Twig
-//     (indentation, espaces, accolades, noms de blocs)
-
+/**
+ * Configuration TwigCS — TalentÉkô
+ * ---------------------------------
+ * - Linter pour fichiers .twig
+ * - Version de la grammaire : 3.0 (Twig 3.x / Symfony 6.4)
+ * - Dossiers analysés : templates/ + templates/emails/
+ * - Ruleset "Official" : respect du standard Twig (indentation, espaces, blocs)
+ * - Intégré à lint-staged & npm run lint:twig.
+ */
 $config = new Config(
     '3.0',
     [
-        __DIR__ . '/templates',
-        __DIR__ . '/templates/emails',
+        __DIR__.'/templates',
+        __DIR__.'/templates/emails',
     ],
     Official::class,
 );
+
+// Exclusions possibles (exemple)
+// $config->addExcludedPath(__DIR__ . '/var');
 
 return $config;

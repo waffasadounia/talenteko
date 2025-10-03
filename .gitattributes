@@ -18,8 +18,11 @@
 *.sh   text eol=lf
 
 # Fichiers texte/documentation (toujours LF)
-*.md   text eol=lf
-.editorconfig text eol=lf
+*.md            text eol=lf
+.editorconfig   text eol=lf
+.gitattributes  text eol=lf
+.gitignore      text eol=lf
+*.patch         text eol=lf
 
 # Fichiers d'environnement (important : pas de CRLF)
 .env*  text eol=lf
@@ -28,7 +31,6 @@
 composer.lock      text eol=lf
 package-lock.json  text eol=lf
 symfony.lock       text eol=lf
-prettier.config.js text eol=lf
 
 # Fichiers code (toujours LF)
 *.php   text eol=lf

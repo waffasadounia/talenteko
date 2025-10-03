@@ -16,7 +16,7 @@
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production --progress",
+    "build": "encore prod",
     "prepare": "husky install",
     "lint:php": "php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php",
     "fix:php": "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
@@ -28,34 +28,35 @@
     "fix:css": "prettier --write \"assets/**/*.css\"",
     "lint": "npm run lint:php && npm run lint:js && npm run lint:css && npm run lint:twig",
     "fix": "npm run fix:php && npm run fix:js && npm run fix:css && npm run fix:twig",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "preview": "npm run build && symfony serve"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/preset-env": "^7.16.0",
-    "@hotwired/stimulus": "^3.0.0",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.0",
     "@symfony/stimulus-bridge": "^4.0.0",
     "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
     "@symfony/webpack-encore": "^5.2.0",
-    "@tailwindcss/postcss": "^4.1.13",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@zackad/prettier-plugin-twig": "^0.16.0",
     "autoprefixer": "^10.4.21",
     "core-js": "^3.38.0",
     "css-loader": "^7.1.2",
-    "eslint": "^9.36.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0",
+    "eslint": "^9.6.0",
+    "eslint-config-prettier": "^10.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.0",
-    "postcss": "^8.5.6",
+    "postcss": "^8.4.39",
     "postcss-loader": "^8.1.1",
-    "prettier": "^3.6.2",
+    "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "regenerator-runtime": "^0.13.9",
-    "sass": "^1.91.0",
+    "sass": "^1.77.0",
     "style-loader": "^4.0.0",
-    "tailwindcss": "^4.1.12",
+    "tailwindcss": "^3.4.14",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.0"
   },
@@ -67,16 +68,12 @@
       "prettier --write"
     ],
     "*.twig": [
+      "prettier --write",
       "php vendor/bin/twigcs --severity error"
     ],
     "*.html.twig": [
+      "prettier --write",
       "php vendor/bin/twigcs --severity error"
-    ]
-  },
-  "prettier": {
-    "plugins": [
-      "@zackad/prettier-plugin-twig",
-      "prettier-plugin-tailwindcss"
     ]
   }
 }

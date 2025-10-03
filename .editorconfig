@@ -1,4 +1,7 @@
-root = true # Fichier de rÃ©fÃ©rence, encodÃ© en UTF-8
+# .editorconfig — TalentÉkô
+# Fichier de référence, encodé en UTF-8
+
+root = true
 
 [*]
 charset = utf-8
@@ -10,3 +13,9 @@ indent_size = 2
 
 [*.php]
 indent_size = 4
+
+[*.{twig,html}]
+indent_size = 2
+
+[*.{yml,yaml,json,md,css,scss}]
+indent_size = 2

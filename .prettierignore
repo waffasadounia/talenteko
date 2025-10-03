@@ -4,6 +4,13 @@
 /public/build/
 /coverage/
 
+# === Symfony ===
+/var/
+/.env.local
+/.env.local.php
+/.env.*.local
+/.phpunit.result.cache
+
 # === Dépendances JS locales (ne pas reformater) ===
 assets/vendor/
 
@@ -20,3 +27,12 @@ pnpm-debug.log*
 *.zip
 *.tar
 *.tar.gz
+
+# === IDE/OS ===
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# === Husky backups (à nettoyer en fin de projet) ===
+.husky/*.bak

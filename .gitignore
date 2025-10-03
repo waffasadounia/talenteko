@@ -3,6 +3,7 @@
 .env.local
 .env.*.local
 .env.local.php
+.env.test.local
 
 # Secrets de prod (clés privées jamais versionnées)
 config/secrets/prod/prod.decrypt.private.php
@@ -17,6 +18,8 @@ config/secrets/prod/prod.decrypt.private.php
 /phpunit.xml
 /.phpunit.cache/
 /coverage/
+/coverage.xml
+/.phpunit.result.cache
 ###< phpunit/phpunit ###
 
 ###> symfony/webpack-encore-bundle ###
@@ -65,9 +68,15 @@ Thumbs.db
 # Backup migration files
 /backup_migration/
 
-
 ###> Talenteko migration/maintenance scripts ###
 tools/*
 !tools/README.md
+!tools/patches/**
 ###< Talenteko migration/maintenance scripts ###
-.editorconfig.bak
+
+# Backup / merge artefacts
+*.orig
+*.rej
+
+# Temp files
+*.bak

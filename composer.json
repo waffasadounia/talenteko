@@ -50,8 +50,8 @@
     "symfony/web-link": "6.4.*",
     "symfony/webpack-encore-bundle": "^2.2",
     "symfony/yaml": "6.4.*",
-    "twig/extra-bundle": "^2.12|^3.0",
-    "twig/twig": "^2.12|^3.0",
+    "twig/extra-bundle": "^3.0",
+    "twig/twig": "^3.0",
     "ext-ctype": "*",
     "ext-iconv": "*"
   },
@@ -86,43 +86,36 @@
     "symfony/polyfill-php80": "*",
     "symfony/polyfill-php81": "*"
   },
- "scripts": {
-  "auto-scripts": {
-    "cache:clear": "symfony-cmd",
-    "assets:install %PUBLIC_DIR%": "symfony-cmd"
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ],
+    "fix:php": "php -d memory_limit=512M vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
+    "lint:php": "php vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+    "lint:twig": "twigcs templates/",
+    "lint": [
+      "@lint:php",
+      "@lint:twig"
+    ],
+    "test:unit": "phpunit --testsuite=unit --stop-on-failure",
+    "test:all": "phpunit --stop-on-failure",
+    "test": "@test:all",
+    "check": [
+      "@lint",
+      "@test:unit"
+    ],
+    "fix": [
+      "@fix:php"
+    ],
+    "migrate": "php bin/console doctrine:migrations:migrate --no-interaction"
   },
-  "post-install-cmd": [
-    "@auto-scripts"
-  ],
-  "post-update-cmd": [
-    "@auto-scripts"
-  ],
-
-  "fix:php": "php -d memory_limit=512M vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
-  "fix:all": [
-    "@fix:php",
-    "npm run fix:js",
-    "npm run fix:css",
-    "npm run fix:twig"
-  ],
-  "lint:php": "php vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes",
-  "lint:php:fix": "php vendor/bin/php-cs-fixer fix --allow-risky=yes",
-  "lint:twig": "twigcs templates/",
-  "lint": [
-    "@lint:php",
-    "@lint:twig"
-  ],
-  "test:unit": "phpunit --testsuite=unit --stop-on-failure",
-  "test:all": "phpunit --stop-on-failure",
-  "test": "@test:all",
-  "check": [
-    "@lint",
-    "@test:unit"
-  ],
-  "fix": [
-    "@fix:all"
-  ]
-},
   "conflict": {
     "symfony/symfony": "*"
   },

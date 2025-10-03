@@ -3,69 +3,66 @@
 // -----------------------------------------------
 // Configuration ESLint moderne (ESM, ESLint v9)
 // - assets/ : code front (Stimulus, Tailwind, etc.)
-// - webpack.config.js / tailwind.config.js / prettier.config.cjs : configs Node
+// - webpack.config.js / tailwind.config.js / postcss.config.js / prettier.config.cjs
+//   : configs Node (CommonJS)
 // ===============================================
 
-import js from "@eslint/js";
-import globals from "globals";
+import js from '@eslint/js';
+import globals from 'globals';
 
 export default [
   // Ignorer les répertoires générés
   {
-    ignores: ["node_modules/**", "public/build/**"],
+    ignores: ['node_modules/**', 'public/build/**'],
   },
 
   // Config de base
   {
     ...js.configs.recommended,
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
     },
   },
 
   // Code applicatif (front)
   {
-    files: ["assets/**/*.{js,jsx}"],
+    files: ['assets/**/*.{js,jsx}'],
     languageOptions: {
       globals: {
         ...globals.browser,
-        console: "readonly",
-        fetch: "readonly",
+        console: 'readonly',
+        fetch: 'readonly',
       },
     },
     rules: {
-      "no-console": "off", // autoriser console.log en dev
-      quotes: ["error", "single"],
+      'no-console': 'off', // autoriser console.log en dev
+      quotes: ['error', 'single'],
     },
   },
 
   // Bootstrap Stimulus (Webpack)
   {
-    files: ["assets/bootstrap.js"],
+    files: ['assets/bootstrap.js'],
     rules: {
-      "no-undef": "off", // require.context est défini par Webpack
+      'no-undef': 'off', // require.context est défini par Webpack
     },
   },
 
   // Fichiers de config Node (CommonJS)
   {
-    files: [
-      "webpack.config.js",
-      "tailwind.config.js",
-      "prettier.config.cjs"
-    ],
+    files: ['webpack.config.js', 'tailwind.config.js', 'postcss.config.js', 'prettier.config.cjs'],
     languageOptions: {
       globals: {
         ...globals.node,
-        process: "readonly",
-        __dirname: "readonly",
-        module: "readonly",
-        require: "readonly",
+        process: 'readonly',
+        __dirname: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
       },
     },
     rules: {
-      "no-undef": "off", // évite le warning sur module/require/process
+      'no-undef': 'off', // évite le warning sur module/require/process
     },
   },
 ];

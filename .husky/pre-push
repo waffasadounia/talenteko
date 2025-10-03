@@ -1,13 +1,28 @@
 #!/bin/sh
+# .husky/pre-push
+# ======================================================
+# Hook Git — TalentÉkô
+# ------------------------------------------------------
+# Objectif :
+# - Vérifier la qualité du code avant un git push
+# - Bloquer le push en cas d'erreurs Twig ou tests échoués
+# ======================================================
 
 echo "🚀 Vérifications pre-push TalentÉkô..."
 
-# TwigCS strict
-echo "➡️ TwigCS strict..."
-php vendor/bin/twigcs templates/ --severity error || exit 1
+# 1) TwigCS strict (erreurs bloquantes)
+echo "➡️ Vérification TwigCS..."
+composer exec twigcs -- templates/ --severity error || {
+  echo "❌ Erreurs Twig détectées — corrige avant de push."
+  exit 1
+}
 
-# Tests unitaires et fonctionnels
-echo "➡️ PHPUnit..."
-php bin/phpunit --stop-on-failure || exit 1
+# 2) Tests PHPUnit (unitaires + fonctionnels)
+echo "➡️ Tests PHPUnit..."
+composer exec phpunit -- --stop-on-failure || {
+  echo "❌ Tests échoués — corrige avant de push."
+  exit 1
+}
 
 echo "✅ Pre-push terminé, push autorisé !"
+

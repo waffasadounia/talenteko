@@ -17,6 +17,10 @@
 
   // Tailwind
   "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.classRegex": [
+    ["class:\\s*\"([^\"]*)\"", 1],
+    ["class(Name)?=\\\"([^\\\"]*)\\\"", 2]
+  ],
   "editor.quickSuggestions": { "strings": true },
 
   // Nettoyage automatique
@@ -43,6 +47,14 @@
   },
   "[twig]": {
     "editor.defaultFormatter": "mblode.twig-language-2",
+    "editor.formatOnSave": true
+  },
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
 

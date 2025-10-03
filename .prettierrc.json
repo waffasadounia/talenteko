@@ -4,5 +4,15 @@
   "trailingComma": "es5",
   "printWidth": 100,
   "tabWidth": 2,
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "plugins": ["@zackad/prettier-plugin-twig", "prettier-plugin-tailwindcss"],
+  "overrides": [
+    {
+      "files": ["*.twig", "*.html.twig"],
+      "options": {
+        "parser": "twig",
+        "endOfLine": "lf"
+      }
+    }
+  ]
 }

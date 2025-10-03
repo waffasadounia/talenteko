@@ -1,0 +1,112 @@
+diff --git a/composer.json b/composer.json
+index f5ce6be..c17a54d 100644
+--- a/composer.json
++++ b/composer.json
+@@ -86,36 +86,31 @@
+     "symfony/polyfill-php80": "*",
+     "symfony/polyfill-php81": "*"
+   },
+- "scripts": {
+-  "auto-scripts": {
+-    "cache:clear": "symfony-cmd",
+-    "assets:install %PUBLIC_DIR%": "symfony-cmd"
+-  },
+-  "post-install-cmd": [
+-    "@auto-scripts"
+-  ],
+-  "post-update-cmd": [
+-    "@auto-scripts"
+-  ],
+-
+-  "fix:php": "php -d memory_limit=512M vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
+-  "fix:all": [
+-    "@fix:php",
+-    "npm run fix:js",
+-    "npm run fix:css",
+-    "npm run fix:twig"
+-  ],
+-  "lint:php": "php vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+-  "lint:php:fix": "php vendor/bin/php-cs-fixer fix --allow-risky=yes",
+-  "lint:twig": "twigcs templates/",
+-  "lint": [
+-    "@lint:php",
+-    "@lint:twig"
+-  ],
+-  "test:unit": "phpunit --testsuite=unit --stop-on-failure",
+-  "test:all": "phpunit --stop-on-failure",
+-  "test": "@test:all",
+-  "check": [
+-    "@lint",
+-    "@test:unit"
+-  ],
+-  "fix": [
+-    "@fix:php"
+-  ]
+-},
++  "scripts": {
++    "auto-scripts": {
++      "cache:clear": "symfony-cmd",
++      "assets:install %PUBLIC_DIR%": "symfony-cmd"
++    },
++    "post-install-cmd": [
++      "@auto-scripts"
++    ],
++    "post-update-cmd": [
++      "@auto-scripts"
++    ],
++
++    "fix:php": "php -d memory_limit=512M vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
++    "lint:php": "php vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes",
++    "lint:php:fix": "php vendor/bin/php-cs-fixer fix --allow-risky=yes",
++    "lint:twig": "twigcs templates/",
++    "lint": [
++      "@lint:php",
++      "@lint:twig"
++    ],
++    "test:unit": "phpunit --testsuite=unit --stop-on-failure",
++    "test:all": "phpunit --stop-on-failure",
++    "test": "@test:all",
++    "check": [
++      "@lint",
++      "@test:unit"
++    ],
++    "fix": [
++      "@fix:php"
++    ]
++  },
+   "conflict": {
+     "symfony/symfony": "*"
+   },
+diff --git a/package.json b/package.json
+index d1fe342..e1a92ac 100644
+--- a/package.json
++++ b/package.json
+@@ -61,13 +61,18 @@
+   "lint-staged": {
+     "*.php": [
+       "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes --using-cache=no --quiet"
+     ],
+     "*.{js,jsx,ts,tsx,vue,css,scss,json,md,yml,yaml}": [
+       "prettier --write"
+     ],
+-    "*.twig": [
+-      "php vendor/bin/twigcs --severity error"
+-    ],
+-    "*.html.twig": [
+-      "php vendor/bin/twigcs --severity error"
+-    ]
++    "*.twig": [
++      "prettier --write",
++      "php vendor/bin/twigcs --severity error"
++    ],
++    "*.html.twig": [
++      "prettier --write",
++      "php vendor/bin/twigcs --severity error"
++    ]
+   },
+   "prettier": {
+     "plugins": [
+       "@zackad/prettier-plugin-twig",
+       "prettier-plugin-tailwindcss"
+     ]
+   }
