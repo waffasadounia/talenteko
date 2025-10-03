@@ -16,7 +16,7 @@
 						</div>
 						<div class="text-sm text-gray-500">
 							Dernier message :
-							{{ thread.getLastMessage()?.content|u.truncate(50, '…') }}
+							{{ thread.getLastMessage() ? thread.getLastMessage().content|u.truncate(50, '…') }}
 						</div>
 					</a>
 				</li>
