@@ -1,4 +1,3 @@
-# config/services.yaml
 parameters:
   # On force Symfony à interpréter APP_MAILER_FROM comme une string
   app.mailer_from: '%env(string:APP_MAILER_FROM)%'
@@ -16,6 +15,20 @@ services:
       - '../src/Kernel.php'
       - '../src/Tests/'
 
+  # Injection spécifique pour le validateur custom
   App\Validator\ValidLocationValidator:
     arguments:
       $appEnv: '%kernel.environment%'
+
+  # Injection propre de l'expéditeur dans les handlers
+  App\MessageHandler\ExchangeStatusChangedNotificationHandler:
+    arguments:
+      $mailerFrom: '%app.mailer_from%'
+
+  App\MessageHandler\NewExchangeCreatedNotificationHandler:
+    arguments:
+      $mailerFrom: '%app.mailer_from%'
+
+  App\MessageHandler\NewMessageNotificationHandler:
+    arguments:
+      $mailerFrom: '%app.mailer_from%'
