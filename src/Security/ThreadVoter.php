@@ -5,30 +5,55 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Entity\Thread;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class ThreadVoter extends Voter
+final class ThreadVoter extends Voter
 {
     public const VIEW = 'THREAD_VIEW';
+    public const REPLY = 'THREAD_REPLY';
+    public const DELETE = 'THREAD_DELETE'; // ou LEAVE
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return self::VIEW === $attribute && $subject instanceof Thread;
+        return \in_array($attribute, [self::VIEW, self::REPLY, self::DELETE], true)
+            && $subject instanceof Thread;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
-
-        if (!$user || !is_object($user)) {
+        if (!$user instanceof User) {
             return false;
         }
 
         /** @var Thread $thread */
         $thread = $subject;
 
-        // Autoriser seulement si l'utilisateur est un participant de la conversation
+        return match ($attribute) {
+            self::VIEW => $this->canView($thread, $user),
+            self::REPLY => $this->canReply($thread, $user),
+            self::DELETE => $this->canDelete($thread, $user),
+            default => false,
+        };
+    }
+
+    private function canView(Thread $thread, User $user): bool
+    {
+        // Seuls les participants peuvent voir
+        return $thread->getParticipants()->contains($user);
+    }
+
+    private function canReply(Thread $thread, User $user): bool
+    {
+        // Seuls les participants peuvent répondre
+        return $thread->getParticipants()->contains($user);
+    }
+
+    private function canDelete(Thread $thread, User $user): bool
+    {
+        // Autoriser un participant à quitter le thread
         return $thread->getParticipants()->contains($user);
     }
 }
