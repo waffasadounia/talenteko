@@ -1,24 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <h1 class="text-xl font-bold mb-4">Vos conversations</h1>
+	<h1 class="text-xl font-bold mb-4">Vos conversations</h1>
 
-  {% if threads is empty %}
-    <p class="text-gray-600">Vous n’avez aucune conversation pour le moment.</p>
-  {% else %}
-    <ul class="space-y-2">
-      {% for thread in threads %}
-        <li class="p-3 rounded-lg shadow-sm bg-white hover:bg-gray-50">
-          <a href="{{ path('app_message_thread', {id: thread.id}) }}" class="block">
-            <div class="font-semibold">
-              Conversation avec {{ thread.getOtherParticipant(app.user).displayName }}
-            </div>
-            <div class="text-sm text-gray-500">
-              Dernier message : {{ thread.getLastMessage()?.content|u.truncate(50, '…') }}
-            </div>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+	{% if threads is empty %}
+		<p class="text-gray-600">Vous n’avez aucune conversation pour le moment.</p>
+	{% else %}
+		<ul class="space-y-2">
+			{% for thread in threads %}
+				<li class="p-3 rounded-lg shadow-sm bg-white hover:bg-gray-50">
+					<a href="{{ path('app_message_thread', {id: thread.id}) }}" class="block">
+						<div class="font-semibold">
+							Conversation avec
+							{{ thread.getOtherParticipant(app.user).displayName }}
+						</div>
+						<div class="text-sm text-gray-500">
+							Dernier message :
+							{{ thread.getLastMessage() ? .content|u.truncate(50, '…') }}
+						</div>
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
 {% endblock %}
