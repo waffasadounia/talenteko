@@ -68,13 +68,12 @@
 .form-checkbox {
   width: 1rem !important;
   height: 1rem !important;
-  appearance: none;
-  appearance: none !important;
+  appearance: none !important; /* doublon supprimé */
 }
 
 .form-checkbox:checked {
   @apply bg-talenteko-orange-500 border-talenteko-orange-500;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 1rem;
@@ -87,7 +86,6 @@
 
 /* ==========================================================
    FIX GLOBAL DÉFINITIF — BATS TOUT TAILWIND
-   (ordre de cascade + !important)
    ========================================================== */
 
 .tk-form input[type="checkbox"],
@@ -109,13 +107,14 @@ input[type="checkbox"].form-checkbox {
   cursor: pointer !important;
 }
 
+/* === SUPPRESSION DU DOUBLON === */
+/* (l’ancien .form-checkbox:checked supprimé) */
+
 .tk-form input[type="checkbox"]:checked,
 input[type="checkbox"].form-checkbox:checked {
   background-color: var(--talenteko-orange-500) !important;
   border-color: var(--talenteko-orange-500) !important;
-
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E") !important;
-
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: 1rem !important;

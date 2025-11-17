@@ -11,30 +11,34 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Formulaire de saisie du nouveau mot de passe (après lien reçu par email).
- */
 final class PasswordResetConfirmType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $b, array $options): void
     {
         $b->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
+            'mapped' => false,  // ⛔ indispensable
+            'required' => true,
             'invalid_message' => 'Les mots de passe doivent correspondre.',
+
             'first_options' => [
                 'label' => 'Nouveau mot de passe',
                 'attr' => [
                     'autocomplete' => 'new-password',
                     'placeholder' => 'Mot de passe fort requis',
+                    'class' => 'form-input',
                 ],
             ],
+
             'second_options' => [
                 'label' => 'Confirmer le mot de passe',
                 'attr' => [
                     'autocomplete' => 'new-password',
                     'placeholder' => 'Répétez le mot de passe',
+                    'class' => 'form-input',
                 ],
             ],
+
             'constraints' => [
                 new Assert\NotBlank(['message' => 'Merci de saisir un mot de passe.']),
                 new Assert\Length([

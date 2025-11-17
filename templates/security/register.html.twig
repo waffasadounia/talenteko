@@ -82,12 +82,12 @@
 				</div>
 				{# MOT DE PASSE + CONFIRMATION #}
 				<div class="mt-4">
-				{% include 'partials/_password_fields.html.twig' with {
+					{% include 'partials/_password_fields.html.twig' with {
     field_first: form.plainPassword.first,
     field_second: form.plainPassword.second,
     label_first: 'Mot de passe',
     label_second: 'Confirmer le mot de passe'} %}
-</div>
+				</div>
 
 				{# Conditions d'utilisation #}
 				<div class="flex items-center gap-3 mt-4">
@@ -100,16 +100,19 @@
 				</div>
 				{{ form_errors(form.agreeTerms) }}
 
+				{# Champ CSRF caché #}
+				{{ form_widget(form._token) }}
+
 				{# Bouton de validation — centré #}
 				<div class="flex justify-center mt-6">
 					<button type="submit" class="btn-primary px-10">
 						S'inscrire
 					</button>
 				</div>
-
+				{{ form_end(form, { render_rest: false }) }}
 
 				{# Déjà inscrit ? Lien espacé proprement #}
-				<p class="mt-6 text-center text-sm text-gray-600 flex items-center justify-center gap-2">
+				<p class="mt-6 flex justify-between items-center text-sm text-gray-600">
 					<span>Déjà inscrit ?</span>
 					<a href="{{ path('app_login') }}" class="btn-link px-2">Se connecter</a>
 				</p>
@@ -122,7 +125,6 @@
 const el = document.getElementById('form-global-errors');
 if (el)
 el.remove();
-
 
 
 });

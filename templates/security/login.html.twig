@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-  <section class="bg-talenteko-peach-100 py-16">
+  <section class="bg-orange-50 py-16">
     <div class="mx-auto max-w-md px-6">
       <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">Se connecter</h1>
 
@@ -91,37 +91,28 @@
           <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
           {# Remember me + lien "mot de passe oublié" #}
-          <div class="flex items-center justify-between text-sm">
-            <label class="inline-flex cursor-pointer items-center gap-2">
-              <input type="checkbox" name="_remember_me" class="peer hidden" id="remember-me" />
-              <span class="form-checkbox-box">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewbox="0 0 20 20"
-                  fill="currentColor"
-                  class="form-checkbox-icon"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </span>
-              <span class="text-gray-700">Se souvenir de moi</span>
-            </label>
+<div class="flex items-center justify-between text-sm mt-2">
+    <label for="remember_me" class="flex items-center gap-2 cursor-pointer">
+        <input
+            type="checkbox"
+            id="remember_me"
+            name="_remember_me"
+            class="form-checkbox"
+        />
+        <span class="text-gray-700">Se souvenir de moi</span>
+    </label>
 
-            <a href="{{ path('app_forgot_password') }}" class="btn-link">Mot de passe oublié ?</a>
-          </div>
+    <a href="{{ path('app_forgot_password') }}" class="btn-link">Mot de passe oublié ?</a>
+</div>
 
-          <button type="submit" class="btn-primary btn-block mt-4">Se connecter</button>
+<button type="submit" class="btn-primary w-full mt-6">Se connecter</button>
+
+{# --- Création de compte --- #}
+<p class="mt-6 text-center text-sm text-gray-600 flex items-center justify-center gap-2">
+    <span>Pas encore de compte ?</span>
+    <a href="{{ path('app_register') }}" class="btn-link px-2">Créer un compte</a>
+</p>
         </form>
-
-        {# --- Création de compte --- #}
-        <div class="mt-6 flex items-center justify-between text-sm text-gray-600">
-          <span>Pas encore de compte ?</span>
-          <a href="{{ path('app_register') }}" class="btn-link pr-8">Créer un compte</a>
-        </div>
       </div>
     </div>
   </section>

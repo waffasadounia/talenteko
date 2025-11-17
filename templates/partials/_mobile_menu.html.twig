@@ -2,10 +2,10 @@
    templates/partials/_mobile_menu.html.twig
    Menu mobile — TalentÉkô
    ------------------------------------------------------------
-   - Effet slide latéral + overlay flou
-   - Liens lisibles avec icônes colorées
-   - Boutons compacts, cohérents (btn-outline / btn-primary)
-   - Contraste & accessibilité dark mode
+   - Slide latéral
+   - Icônes harmonisées
+   - CTAs cohérents
+   - Déconnexion visible uniquement si connecté
    ============================================================ #}
 
 <nav id="mobile-menu"
@@ -33,59 +33,79 @@
     {# Liens principaux #}
     <ul class="flex flex-col divide-y divide-gray-200 dark:divide-gray-700
                text-base font-semibold text-talenteko-blue-900 dark:text-white">
+
       <li>
         <a href="{{ path('app_search') }}"
            class="flex items-center gap-3 py-3 px-2 rounded-md
                   hover:bg-talenteko-peach-100 dark:hover:bg-talenteko-blue-700
-                  transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
-          <i class="fa fa-search w-5 text-talenteko-orange-500" aria-hidden="true"></i>
+                  transition-colors duration-150 focus:outline-none">
+          <i class="fa fa-search w-5 text-talenteko-orange-500"></i>
           <span>Recherche</span>
         </a>
       </li>
+
       <li>
         <a href="{{ path('app_profile_favoris') }}"
            class="flex items-center gap-3 py-3 px-2 rounded-md
                   hover:bg-talenteko-peach-100 dark:hover:bg-talenteko-blue-700
-                  transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
-          <i class="fa fa-heart w-5 text-talenteko-orange-500" aria-hidden="true"></i>
+                  transition-colors duration-150 focus:outline-none">
+          <i class="fa fa-heart w-5 text-talenteko-orange-500"></i>
           <span>Favoris</span>
         </a>
       </li>
+
       <li>
         <a href="{{ path('app_messages') }}"
            class="flex items-center gap-3 py-3 px-2 rounded-md
                   hover:bg-talenteko-peach-100 dark:hover:bg-talenteko-blue-700
-                  transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
-          <i class="fa fa-envelope w-5 text-talenteko-orange-500" aria-hidden="true"></i>
+                  transition-colors duration-150 focus:outline-none">
+          <i class="fa fa-envelope w-5 text-talenteko-orange-500"></i>
           <span>Messages</span>
         </a>
       </li>
+
     </ul>
 
-    {# Zone CTA — équilibrée et harmonieuse sur mobile #}
-<div class="mt-auto pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col gap-3 pb-6">
-  <a href="{{ path('app_listing_new') }}"
-     class="btn-outline w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
-            shadow-sm hover:shadow-md transition-transform duration-150 active:scale-95">
-    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-    <span>Déposer une annonce</span>
-  </a>
+    {# Zone CTA — collée en bas #}
+    <div class="mt-auto pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col gap-3 pb-6">
 
-  {% if app.user %}
-    <a href="{{ path('app_profile_dashboard') }}"
-       class="btn-primary w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
-              shadow-md hover:shadow-lg transition-transform duration-150 active:scale-95">
-      <i class="fa fa-user-circle" aria-hidden="true"></i>
-      <span>Mon profil</span>
-    </a>
-  {% else %}
-    <a href="{{ path('app_login') }}"
-       class="btn-primary w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
-              shadow-md hover:shadow-lg transition-transform duration-150 active:scale-95">
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <span>Se connecter</span>
-    </a>
-  {% endif %}
-</div>
+      {# Déposer une annonce — visible pour tous #}
+      <a href="{{ path('app_listing_new') }}"
+         class="btn-outline w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
+                shadow-sm hover:shadow-md transition active:scale-95">
+        <i class="fa fa-plus-circle"></i>
+        <span>Déposer une annonce</span>
+      </a>
+
+      {% if app.user %}
+
+        {# Profil #}
+        <a href="{{ path('app_profile_dashboard') }}"
+           class="btn-primary w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
+                  shadow-md hover:shadow-lg transition active:scale-95">
+          <i class="fa fa-user-circle"></i>
+          <span>Mon profil</span>
+        </a>
+
+        {# Déconnexion (mobile) #}
+        <a href="{{ path('app_logout') }}"
+           class="flex items-center gap-3 px-4 py-2 rounded-lg
+                  text-talenteko-orange-500">
+          <i class="fa fa-sign-out text-lg"></i>
+          <span>Se déconnecter</span>
+        </a>
+
+      {% else %}
+
+        {# Connexion #}
+        <a href="{{ path('app_login') }}"
+           class="btn-primary w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
+                  shadow-md hover:shadow-lg transition active:scale-95">
+          <i class="fa fa-user"></i>
+          <span>Se connecter</span>
+        </a>
+
+      {% endif %}
+    </div>
   </div>
 </nav>

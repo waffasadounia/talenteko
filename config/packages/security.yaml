@@ -1,17 +1,13 @@
-# config/packages/security.yaml
 security:
-  # --- Hashage des mots de passe ---
   password_hashers:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
-  # --- Provider utilisateur (auth via email) ---
   providers:
     app_user_provider:
       entity:
         class: App\Entity\User
         property: email
 
-  # --- Firewalls ---
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -24,15 +20,13 @@ security:
 
       logout:
         path: app_logout
-        target: / # Redirection après déconnexion
+        target: /
 
       remember_me:
         secret: '%kernel.secret%'
-        lifetime: 604800 # 1 semaine
+        lifetime: 604800
         path: /
-        # always_remember_me: true # à activer seulement si souhaité
 
-    # --- règles d'accès (ordre évalué de haut en bas) ---
   access_control:
     # Pages publiques
     - { path: ^/$, roles: PUBLIC_ACCESS }
@@ -41,32 +35,23 @@ security:
     - { path: ^/inscription$, roles: PUBLIC_ACCESS }
     - { path: ^/uploads/listings, roles: PUBLIC_ACCESS }
 
+    # Mot de passe oublié — PUBLIC
+    - { path: ^/reset-password/request$, roles: PUBLIC_ACCESS }
+    - { path: ^/reset-password/, roles: PUBLIC_ACCESS }
+
     # Pages statiques
     - { path: ^/faq, roles: PUBLIC_ACCESS }
     - { path: ^/a-propos, roles: PUBLIC_ACCESS }
     - { path: ^/mentions-legales, roles: PUBLIC_ACCESS }
     - { path: ^/contact, roles: PUBLIC_ACCESS }
 
-    # Admin & styleguide
+    # Admin
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/styleguide, roles: ROLE_ADMIN }
 
-    # --- Pages Listing protégées ---
+    # Listing protégés
     - { path: ^/listing/nouvelle, roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/listing/.+/edit, roles: IS_AUTHENTICATED_FULLY }
 
-    # Tout le reste accessible aux connectés (y compris remember_me)
+    # Le reste → user connecté (remember me OK)
     - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
-
-# --- config spécifique test ---
-when@test:
-  security:
-    password_hashers:
-      Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-        algorithm: auto
-        cost: 4
-        time_cost: 3
-        memory_cost: 10
-    firewalls:
-      main:
-        remember_me: false # Désactivé en test
