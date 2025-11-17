@@ -9,19 +9,24 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Message>
- *
- * Repository = couche d'accès aux messages (Message).
+ * Repository — Gestion des entités Message (messagerie TalentÉkô)
+ * Fournit les méthodes principales :
+ * - récupération des messages d’un thread
+ * - messages envoyés / reçus par un utilisateur
  */
-class MessageRepository extends ServiceEntityRepository
+final class MessageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Message::class);
     }
+    //  Récupération par thread
 
     /**
-     * Retourne tous les messages d’un thread, triés par date croissante.
+     * Retourne tous les messages d’un thread, triés par ordre chronologique.
+     *
+     * @param int $threadId ID du thread concerné
+     * @return Message[]
      */
     public function findByThread(int $threadId): array
     {
@@ -34,9 +39,14 @@ class MessageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    //  Messages envoyés par utilisateur
 
     /**
-     * Retourne les messages envoyés par un utilisateur (sender).
+     * Retourne les messages envoyés par un utilisateur (expéditeur).
+     *
+     * @param int $userId ID de l’expéditeur
+     * @param int $limit  Limite de résultats (par défaut : 20)
+     * @return Message[]
      */
     public function findSentByUser(int $userId, int $limit = 20): array
     {
@@ -49,9 +59,14 @@ class MessageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    //  Messages reçus par utilisateur
 
     /**
-     * Retourne les messages reçus par un utilisateur (recipient).
+     * Retourne les messages reçus par un utilisateur (destinataire).
+     *
+     * @param int $userId ID du destinataire
+     * @param int $limit  Limite de résultats (par défaut : 20)
+     * @return Message[]
      */
     public function findReceivedByUser(int $userId, int $limit = 20): array
     {

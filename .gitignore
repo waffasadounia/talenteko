@@ -80,3 +80,6 @@ tools/*
 
 # Temp files
 *.bak
+
+# Garder le dataset dans le repo
+!data/dataset_talenteko.sql

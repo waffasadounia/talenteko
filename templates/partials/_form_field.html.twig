@@ -1,35 +1,46 @@
-{# ==========================================
-  Partial Twig : Champ générique (input texte)
-  Usage :
-  {% include "partials/_form_field.html.twig" with {
-    field: form.email,
-    label: "Adresse email",
-    placeholder: "ex. vous@exemple.fr",
-    autocomplete: "email"
-  } %}
-  ========================================== #}
+{# =======================================================
+   Partial: Form Field
+   Champ standard TalentÉkô (label + input + erreurs)
+   ======================================================= #}
 
 {% set is_invalid = form_errors(field) is not empty %}
 {% set errors_id = field.vars.id ~ '-errors' %}
 
+{# Base des attributs #}
+{% set attrs = {
+  placeholder: placeholder|default(''),
+  class: '
+    block w-full rounded-lg
+    border border-gray-300 dark:border-gray-700
+    bg-white dark:bg-gray-900
+    text-gray-900 dark:text-gray-100
+    focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500
+  ' ~ (is_invalid ? ' border-red-500' : ''),
+  autocomplete: autocomplete|default('off'),
+  'aria-invalid': is_invalid ? 'true' : 'false',
+  'aria-describedby': is_invalid ? errors_id : null
+} %}
+
+{# Fusion avec attr_extra s'il existe #}
+{% if attr_extra is defined %}
+  {% set attrs = attrs|merge(attr_extra) %}
+{% endif %}
+
 <div class="space-y-1">
-  <label for="{{ field.vars.id }}" class="form-label">
+  {# Label #}
+  <label for="{{ field.vars.id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
     {{ label }}
-    <span class="form-required" aria-hidden="true">*</span>
+    {% if field.vars.required %}
+      <span class="text-red-500" aria-hidden="true">*</span>
+    {% endif %}
   </label>
 
-  {{ form_widget(field, {
-    attr: {
-      placeholder: placeholder|default(''),
-      class: 'form-input' ~ (is_invalid ? ' is-invalid' : ''),
-      'aria-invalid': is_invalid ? 'true' : 'false',
-      'aria-describedby': is_invalid ? errors_id : null,
-      autocomplete: autocomplete|default('off')
-    }
-  }) }}
+  {# Input #}
+  {{ form_widget(field, { attr: attrs }) }}
 
+  {# Erreurs #}
   {% if is_invalid %}
-    <p id="{{ errors_id }}" class="form-error" role="alert">
+    <p id="{{ errors_id }}" class="text-red-600 text-xs mt-1" role="alert">
       {{ form_errors(field) }}
     </p>
   {% endif %}

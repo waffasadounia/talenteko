@@ -1,0 +1,91 @@
+{# ============================================================
+   templates/partials/_mobile_menu.html.twig
+   Menu mobile — TalentÉkô
+   ------------------------------------------------------------
+   - Effet slide latéral + overlay flou
+   - Liens lisibles avec icônes colorées
+   - Boutons compacts, cohérents (btn-outline / btn-primary)
+   - Contraste & accessibilité dark mode
+   ============================================================ #}
+
+<nav id="mobile-menu"
+     class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm"
+     data-header-nav-target="menu"
+     aria-hidden="true">
+
+  <div
+    class="absolute right-0 top-0 h-full w-72 max-w-[85%]
+           bg-gradient-to-b from-white to-talenteko-peach-100
+           dark:from-talenteko-blue-900 dark:to-talenteko-blue-800
+           shadow-2xl rounded-l-2xl p-6 flex flex-col
+           transform translate-x-full transition-transform duration-300 ease-in-out"
+    data-header-nav-target="panel">
+
+    {# Bouton de fermeture #}
+    <button type="button"
+            class="self-end mb-6 text-talenteko-orange-500 hover:text-talenteko-orange-600
+                   focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500"
+            aria-label="Fermer le menu"
+            data-action="click->header-nav#close">
+      <i class="fa fa-times text-2xl" aria-hidden="true"></i>
+    </button>
+
+    {# Liens principaux #}
+    <ul class="flex flex-col divide-y divide-gray-200 dark:divide-gray-700
+               text-base font-semibold text-talenteko-blue-900 dark:text-white">
+      <li>
+        <a href="{{ path('app_search') }}"
+           class="flex items-center gap-3 py-3 px-2 rounded-md
+                  hover:bg-talenteko-peach-100 dark:hover:bg-talenteko-blue-700
+                  transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
+          <i class="fa fa-search w-5 text-talenteko-orange-500" aria-hidden="true"></i>
+          <span>Recherche</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ path('app_profile_favoris') }}"
+           class="flex items-center gap-3 py-3 px-2 rounded-md
+                  hover:bg-talenteko-peach-100 dark:hover:bg-talenteko-blue-700
+                  transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
+          <i class="fa fa-heart w-5 text-talenteko-orange-500" aria-hidden="true"></i>
+          <span>Favoris</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ path('app_messages') }}"
+           class="flex items-center gap-3 py-3 px-2 rounded-md
+                  hover:bg-talenteko-peach-100 dark:hover:bg-talenteko-blue-700
+                  transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500">
+          <i class="fa fa-envelope w-5 text-talenteko-orange-500" aria-hidden="true"></i>
+          <span>Messages</span>
+        </a>
+      </li>
+    </ul>
+
+    {# Zone CTA — équilibrée et harmonieuse sur mobile #}
+<div class="mt-auto pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col gap-3 pb-6">
+  <a href="{{ path('app_listing_new') }}"
+     class="btn-outline w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
+            shadow-sm hover:shadow-md transition-transform duration-150 active:scale-95">
+    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    <span>Déposer une annonce</span>
+  </a>
+
+  {% if app.user %}
+    <a href="{{ path('app_profile_dashboard') }}"
+       class="btn-primary w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
+              shadow-md hover:shadow-lg transition-transform duration-150 active:scale-95">
+      <i class="fa fa-user-circle" aria-hidden="true"></i>
+      <span>Mon profil</span>
+    </a>
+  {% else %}
+    <a href="{{ path('app_login') }}"
+       class="btn-primary w-full flex items-center justify-center gap-2 text-base py-2 rounded-full
+              shadow-md hover:shadow-lg transition-transform duration-150 active:scale-95">
+      <i class="fa fa-user" aria-hidden="true"></i>
+      <span>Se connecter</span>
+    </a>
+  {% endif %}
+</div>
+  </div>
+</nav>

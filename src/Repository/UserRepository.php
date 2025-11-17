@@ -12,22 +12,28 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
- * @extends ServiceEntityRepository<User>
+ * Repository — Gestion des entités User (utilisateurs TalentÉkô)
+ * Fournit les méthodes principales :
+ * - mise à jour sécurisée du mot de passe (PasswordUpgraderInterface)
+ * - recherche d’utilisateurs par email
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+final class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
+    // Mise à jour du mot de passe (hash)
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
+     * Met à jour (rehash) le mot de passe d’un utilisateur au fil du temps.
+     *
+     * @throws UnsupportedUserException Si l’objet n’est pas une instance de User.
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(\sprintf('Instances of "%s" are not supported.', $user::class));
+            throw new UnsupportedUserException(\sprintf('Instances of "%s" ne sont pas supportées.', $user::class));
         }
 
         $user->setPassword($newHashedPassword);
@@ -35,8 +41,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    // Recherche utilisateur par email
     /**
-     * Trouve un utilisateur par son adresse email.
+     * Retourne un utilisateur en fonction de son adresse email.
+     *
+     * @param string $email Adresse email de l’utilisateur
      */
     public function findOneByEmail(string $email): ?User
     {

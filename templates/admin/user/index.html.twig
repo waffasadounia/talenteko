@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+  Utilisateurs | Admin TalentÉkô
+{% endblock %}
+
+{% block body %}
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="mb-6 text-3xl font-bold text-talenteko-blue-900">Gestion des utilisateurs</h1>
+
+    <table class="min-w-full overflow-hidden rounded-xl border border-gray-200">
+      <thead class="bg-gray-50 text-left">
+        <tr>
+          <th class="px-4 py-2">Pseudo</th>
+          <th class="px-4 py-2">Email</th>
+          <th class="px-4 py-2">Rôles</th>
+          <th class="px-4 py-2 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% for user in users %}
+          <tr>
+            <td class="px-4 py-2">{{ user.pseudo }}</td>
+            <td class="px-4 py-2 text-sm text-gray-600">{{ user.email }}</td>
+            <td class="px-4 py-2 text-sm">{{ user.roles|join(', ') }}</td>
+            <td class="px-4 py-2 text-right">
+              {% if 'ROLE_BANNED' not in user.roles %}
+                <form
+                  method="post"
+                  action="{{
+                  path(
+                    'app_admin_user_ban',
+                    {
+                      id: user.id
+                    }
+                  )
+                  }}"
+                >
+                  <button class="btn-outline text-xs" aria-label="Bannir {{ user.pseudo }}">
+                    Bannir
+                  </button>
+                </form>
+              {% else %}
+                <form
+                  method="post"
+                  action="{{
+                  path(
+                    'app_admin_user_unban',
+                    {
+                      id: user.id
+                    }
+                  )
+                  }}"
+                >
+                  <button
+                    class="btn-outline text-xs text-green-600"
+                    aria-label="Rétablir {{ user.pseudo }}"
+                  >
+                    Rétablir
+                  </button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="4" class="p-4 text-center text-gray-500">Aucun utilisateur trouvé.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}

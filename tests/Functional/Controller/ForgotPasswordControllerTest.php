@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller;
 
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -85,7 +84,7 @@ final class ForgotPasswordControllerTest extends WebTestCase
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => 'demo@talenteko.test']);
         $user->setResetToken('expiredtoken');
-        $user->setResetRequestedAt((new DateTimeImmutable())->modify('-2 hours'));
+        $user->setResetRequestedAt((new \DateTimeImmutable())->modify('-2 hours'));
         $this->em->flush();
 
         $client = static::createClient();
@@ -100,7 +99,7 @@ final class ForgotPasswordControllerTest extends WebTestCase
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => 'demo@talenteko.test']);
         $user->setResetToken('validtoken');
-        $user->setResetRequestedAt(new DateTimeImmutable());
+        $user->setResetRequestedAt(new \DateTimeImmutable());
         $this->em->flush();
 
         $client = static::createClient();
@@ -122,7 +121,7 @@ final class ForgotPasswordControllerTest extends WebTestCase
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => 'demo@talenteko.test']);
         $user->setResetToken('mismatchtoken');
-        $user->setResetRequestedAt(new DateTimeImmutable());
+        $user->setResetRequestedAt(new \DateTimeImmutable());
         $this->em->flush();
 
         $client = static::createClient();

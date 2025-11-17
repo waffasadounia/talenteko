@@ -6,11 +6,19 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-final class UserFixtures extends Fixture
+/**
+ * Fixtures — Utilisateurs TalentÉkô
+ * ---------------------------------
+ * Génère :
+ * - 10 utilisateurs "classiques"
+ * - 1 compte administrateur
+ */
+final class UserFixtures extends Fixture implements FixtureGroupInterface
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $hasher,
@@ -25,7 +33,7 @@ final class UserFixtures extends Fixture
         for ($i = 1; $i <= 10; ++$i) {
             $user = new User();
 
-            $email = \sprintf(
+            $email = sprintf(
                 '%s.%s@example.com',
                 strtolower($faker->firstName()),
                 strtolower($faker->lastName())
@@ -33,7 +41,7 @@ final class UserFixtures extends Fixture
 
             $user
                 ->setEmail($email)
-                ->setPseudo($faker->userName()) // pseudo unique et sûr
+                ->setPseudo($faker->userName()) // pseudo unique
                 ->setLocation($faker->city())
                 ->setPassword(
                     $this->hasher->hashPassword($user, 'Password123!')
@@ -41,7 +49,7 @@ final class UserFixtures extends Fixture
 
             $em->persist($user);
 
-            // Ajout d’une référence pour les listings
+            // 🔗 Référence pour ListingFixtures
             $this->addReference('user_'.$i, $user);
         }
 
@@ -58,10 +66,17 @@ final class UserFixtures extends Fixture
 
         $em->persist($admin);
 
-        // Référence spécifique admin
+        // 🔗 Référence admin
         $this->addReference('user_admin', $admin);
 
         // --- Flush global ---
         $em->flush();
+
+        echo "✅ 10 utilisateurs + 1 admin générés avec succès.\n";
+    }
+
+    public static function getGroups(): array
+    {
+        return ['users'];
     }
 }

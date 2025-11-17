@@ -21,7 +21,7 @@ final class TestDatabaseExtension implements Extension
 {
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
     {
-        $facade->registerSubscriber(new class () implements StartedSubscriber {
+        $facade->registerSubscriber(new class implements StartedSubscriber {
             public function notify(TestSuiteStarted $event): void
             {
                 // On n’exécute le reset BDD que pour la suite de tests principale

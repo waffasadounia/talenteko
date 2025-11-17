@@ -1,25 +1,35 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Contrôleur Stimulus : Messages flash
+ * Controller : flash auto-dismiss
  *
- * - Masque automatiquement un flash après X secondes
- * - Ajoute une transition douce (fade out)
- * - Accessibilité :
- *   • aria-live="polite" pour annoncer le message
+ * - Fade-out automatique des messages flash
+ * - Suppression propre du DOM
+ * - Accessibilité : aria-live="polite", role="status"
+ * - Compatible Tailwind & dark-mode
  */
 export default class extends Controller {
   static values = {
-    timeout: { type: Number, default: 5000 }, // 5s par défaut
+    timeout: { type: Number, default: 5000 }, // 5 secondes
   };
 
   connect() {
+    // Accessibilité
     this.element.setAttribute('role', 'status');
     this.element.setAttribute('aria-live', 'polite');
 
+    // Animation fade-out
     setTimeout(() => {
-      this.element.classList.add('opacity-0', 'transition', 'duration-700');
-      setTimeout(() => this.element.remove(), 800);
+      this.element.classList.add(
+        'opacity-0',
+        'translate-y-1',
+        'transition-all',
+        'duration-700',
+        'ease-out'
+      );
+
+      // Supprime l'élément après l'animation
+      setTimeout(() => this.element.remove(), 750);
     }, this.timeoutValue);
   }
 }

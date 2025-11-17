@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+  Échanges | Admin TalentÉkô
+{% endblock %}
+
+{% block body %}
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="mb-6 text-3xl font-bold text-talenteko-blue-900">Gestion des échanges</h1>
+
+    <ul role="list" class="divide-y divide-gray-100">
+      {% for exchange in exchanges %}
+        <li class="flex items-center justify-between py-4">
+          <div>
+            <p class="font-semibold">
+              Échange #{{ exchange.id }}
+            </p>
+            <p class="text-sm text-gray-600">
+              {{ exchange.listing.title ?? '—' }} — {{ exchange.status.label() }}
+            </p>
+          </div>
+          <div class="flex gap-2">
+            {% if exchange.status.value != 'completed' %}
+              <form
+                method="post"
+                action="{{
+                path(
+                  'app_admin_exchange_close',
+                  {
+                    id: exchange.id
+                  }
+                )
+                }}"
+              >
+                <button class="btn-outline text-xs">Clôturer</button>
+              </form>
+            {% endif %}
+            <form
+              method="post"
+              action="{{
+              path(
+                'app_admin_exchange_delete',
+                {
+                  id: exchange.id
+                }
+              )
+              }}"
+            >
+              <button class="btn-outline text-xs text-red-600">Supprimer</button>
+            </form>
+          </div>
+        </li>
+      {% else %}
+        <li class="py-4 text-gray-500">Aucun échange enregistré.</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

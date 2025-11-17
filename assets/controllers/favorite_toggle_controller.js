@@ -1,13 +1,9 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Contrôleur favoris (toggle UI)
+ * Contrôleur favoris (toggle)
  * - Cœur vide ↔ Cœur plein
- * - Met à jour les attributs ARIA pour l’accessibilité
- *
- * NB : Ici uniquement côté front.
- * Plus tard, on pourra connecter ce toggle au backend via fetch()
- * en utilisant par ex. data-id ou data-url.
+ * - Maj les attributs ARIA pour l’accessibilité
  */
 export default class extends Controller {
   static targets = ['empty', 'filled'];

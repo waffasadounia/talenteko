@@ -9,9 +9,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Notification>
- *
- * Repository = gestion des notifications utilisateur.
+ * Repository — Gestion des entités Notification
+ * Fournit les méthodes principales :
+ * - récupération des notifications par utilisateur
+ * - filtrage des notifications non lues
  */
 final class NotificationRepository extends ServiceEntityRepository
 {
@@ -19,9 +20,14 @@ final class NotificationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Notification::class);
     }
+    // Notifications par utilisateur
 
     /**
      * Retourne toutes les notifications d’un utilisateur, triées par date.
+     *
+     * @param int $userId ID de l’utilisateur
+     * @param int $limit  Nombre maximum de résultats (défaut : 50)
+     * @return Notification[]
      */
     public function findByUser(int $userId, int $limit = 50): array
     {
@@ -33,9 +39,14 @@ final class NotificationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    // Notifications non lues
+   
     /**
      * Retourne uniquement les notifications non lues d’un utilisateur.
+     *
+     * @param int $userId ID de l’utilisateur
+     * @param int $limit  Nombre maximum de résultats (défaut : 20)
+     * @return Notification[]
      */
     public function findUnreadByUser(int $userId, int $limit = 20): array
     {

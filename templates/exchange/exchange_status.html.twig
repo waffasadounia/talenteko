@@ -1,0 +1,114 @@
+{# ============================================================
+   templates/exchange/exchange_status.html.twig
+   Notification : Mise à jour du statut d’un échange — TalentÉkô
+   ============================================================ #}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Mise à jour de votre échange | TalentÉkô
+    </title>
+    <style>
+      /* ----------- Styles de base ----------- */ body { font-family: Montserrat, Arial,
+      sans-serif; background-color: #fdf5f1; color: #141c2e; margin: 0; padding: 24px; line-height:
+      1.6; }
+
+      .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px;
+      padding: 24px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); }
+
+      h1 { font-size: 20px; font-weight: 700; color: #d6713c; text-align: center; margin-bottom:
+      20px; }
+
+      p { font-size: 14px; margin: 10px 0; }
+
+      .btn { display: inline-block; background-color: #d6713c; color: #ffffff !important;
+      text-decoration: none; font-weight: 600; padding: 12px 20px; border-radius: 8px; text-align:
+      center; margin: 24px 0; }
+
+      .footer { font-size: 12px; color: #777777; text-align: center; margin-top: 24px; }
+
+      /* ----------- Statuts ----------- */ .status { font-weight: 600; padding: 10px 14px;
+      border-radius: 6px; display: inline-block; }
+
+      .accepted { background-color: #e7f9ef; color: #1e7b34; } .rejected { background-color:
+      #fdecea; color: #c43d3d; } .canceled { background-color: #fff6e5; color: #a35b00; } .completed
+      { background-color: #e8f1ff; color: #2251b0; }
+    </style>
+  </head>
+
+  <body>
+    <div class="container" role="article" aria-roledescription="e-mail">
+      <h1>Mise à jour de votre échange</h1>
+
+      <p>
+        Votre proposition d’échange concernant l’annonce&nbsp;:
+      </p>
+      <p style="font-style: italic; color: #434958;">
+        {{ listingTitle|default('Annonce inconnue') }}
+      </p>
+
+      {% if status is same as(constant('App\\Enum\\ExchangeStatus::ACCEPTED')) %}
+        <p>
+          <span class="status accepted">Échange accepté</span>
+        </p>
+        <p>
+          Votre échange a été accepté. Vous pouvez désormais convenir des détails avec l’autre
+          utilisateur.
+        </p>
+      {% elseif status is same as(constant('App\\Enum\\ExchangeStatus::REJECTED')) %}
+        <p>
+          <span class="status rejected">Échange refusé</span>
+        </p>
+        <p>
+          L’autre utilisateur a refusé votre proposition.
+        </p>
+      {% elseif status is same as(constant('App\\Enum\\ExchangeStatus::CANCELED')) %}
+        <p>
+          <span class="status canceled">Échange annulé</span>
+        </p>
+        <p>
+          L’échange a été annulé par une des parties.
+        </p>
+      {% elseif status is same as(constant('App\\Enum\\ExchangeStatus::COMPLETED')) %}
+        <p>
+          <span class="status completed">Échange terminé</span>
+        </p>
+        <p>
+          L’échange est marqué comme terminé. Vous pouvez laisser une évaluation si cette
+          fonctionnalité est disponible.
+        </p>
+      {% else %}
+        <p>
+          Statut actuel de votre échange&nbsp;:
+          <strong>{{ status.label()|default('Inconnu') }}</strong>
+        </p>
+      {% endif %}
+
+      <p style="text-align: center;">
+        <a
+          href="{{
+          url(
+            'app_listing_show',
+            {
+              slug: listingSlug|default('')
+            }
+          )
+          }}"
+          class="btn"
+          aria-label="Voir l’annonce liée à cet échange sur TalentÉkô"
+        >
+          Voir l’annonce
+        </a>
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
+
+      <div class="footer">
+        © {{ 'now'|date('Y') }} TalentÉkô<br />
+        Plateforme d’échange de compétences entre particuliers.
+      </div>
+    </div>
+  </body>
+</html>

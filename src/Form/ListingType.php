@@ -6,7 +6,7 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Listing;
-// ⚡ à créer si pas encore fait (OFFER / REQUEST)
+// à créer si pas encore fait (OFFER / REQUEST)
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

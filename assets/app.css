@@ -1,17 +1,35 @@
 /* ===========================================
-   app.css — Point d’entrée Tailwind/TalentÉkô
-   Compatible Tailwind v3 (stable)
+   app.css — Point d’entrée principal TalentÉkô
+   Compatible Tailwind v3 / v4
    =========================================== */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Polices Google (Montserrat, Catamaran, Chivo) */
+/* --- Polices Google --- */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
 
-/* Styles internes (organisés par rôle) */
-@import './styles/globals.css'; /* Reset, tokens (couleurs, polices) */
-@import './styles/components.css'; /* Boutons, navigation, helpers UI */
-@import './styles/forms.css'; /* Champs de formulaires et états */
-@import './styles/components-card.css'; /* Cartes listings */
+/* --- Styles internes (séparés pour éviter conflits @apply) --- */
+@import './styles/globals.css';
+@import './styles/components.css';
+@import './styles/forms.css';
+@import './styles/components-card.css';
+
+/* --- Animations simples (aucune directive @apply ici) --- */
+
+/* Fondu (menu mobile / modales) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+.animate-fade-out {
+  animation: fadeOut 0.3s ease-in-out forwards;
+}

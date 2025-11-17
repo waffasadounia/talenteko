@@ -28,7 +28,7 @@ final class ExchangeControllerTest extends WebTestCase
 
         $listing = $this->createListing();
 
-        $client->request('POST', '/exchange/new/' . $listing->getSlug());
+        $client->request('POST', '/exchange/new/'.$listing->getSlug());
         $this->assertResponseRedirects('/login');
     }
 
@@ -41,8 +41,8 @@ final class ExchangeControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $client->request('POST', '/exchange/new/' . $listing->getSlug());
-        $this->assertResponseRedirects('/listing/' . $listing->getSlug());
+        $client->request('POST', '/exchange/new/'.$listing->getSlug());
+        $this->assertResponseRedirects('/listing/'.$listing->getSlug());
 
         // Vérifier en base que l’échange existe
         $exchange = $this->em->getRepository(Exchange::class)->findOneBy([
@@ -72,7 +72,7 @@ final class ExchangeControllerTest extends WebTestCase
         $this->em->flush();
 
         $client->loginUser($intruder);
-        $client->request('GET', '/exchange/' . $exchange->getId());
+        $client->request('GET', '/exchange/'.$exchange->getId());
 
         $this->assertResponseStatusCodeSame(403); // Forbidden
     }
@@ -94,7 +94,7 @@ final class ExchangeControllerTest extends WebTestCase
         $this->em->flush();
 
         $client->loginUser($requester);
-        $client->request('GET', '/exchange/' . $exchange->getId());
+        $client->request('GET', '/exchange/'.$exchange->getId());
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('body', $listing->getTitle());
@@ -122,8 +122,8 @@ final class ExchangeControllerTest extends WebTestCase
         }
 
         $listing = new Listing();
-        $listing->setTitle('Test Listing ' . uniqid());
-        $listing->setSlug('test-listing-' . uniqid());
+        $listing->setTitle('Test Listing '.uniqid());
+        $listing->setSlug('test-listing-'.uniqid());
         $listing->setDescription('Une annonce de test');
         $listing->setAuthor($author);
         $listing->setLocation('Paris');

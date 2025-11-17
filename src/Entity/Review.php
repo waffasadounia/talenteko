@@ -12,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(
     name: 'uniq_review_exchange_author',
     columns: ['exchange_id', 'author_id']
-)] // ⚡ Empêche un utilisateur de donner 2 avis pour le même échange
-#[ORM\Index(fields: ['rating'])] // ⚡ Optimisation pour les stats
+)] // Empêche un utilisateur de donner 2 avis pour le même échange
+#[ORM\Index(fields: ['rating'])] // Optimisation pour les statistiques
 class Review
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
@@ -34,7 +34,12 @@ class Review
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Exchange $exchange = null;
 
-    // Note entre 1 et 5
+    // Listing lié (pour la moyenne des notes)
+    #[ORM\ManyToOne(targetEntity: Listing::class, inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Listing $listing = null;
+
+    // Note (1 à 5)
     #[ORM\Column(type: 'integer')]
     #[Assert\NotNull(message: 'La note est obligatoire.')]
     #[Assert\Range(
@@ -44,6 +49,7 @@ class Review
     )]
     private int $rating = 1;
 
+    // Commentaire facultatif
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\Length(max: 1000, maxMessage: 'Le commentaire ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $comment = null;
@@ -71,7 +77,6 @@ class Review
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
         return $this;
     }
 
@@ -84,7 +89,6 @@ class Review
     public function setTarget(?User $target): self
     {
         $this->target = $target;
-
         return $this;
     }
 
@@ -97,7 +101,18 @@ class Review
     public function setExchange(?Exchange $exchange): self
     {
         $this->exchange = $exchange;
+        return $this;
+    }
 
+    // === Listing ===
+    public function getListing(): ?Listing
+    {
+        return $this->listing;
+    }
+
+    public function setListing(?Listing $listing): self
+    {
+        $this->listing = $listing;
         return $this;
     }
 
@@ -110,7 +125,6 @@ class Review
     public function setRating(int $rating): self
     {
         $this->rating = $rating;
-
         return $this;
     }
 
@@ -123,7 +137,6 @@ class Review
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
-
         return $this;
     }
 

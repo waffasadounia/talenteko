@@ -6,10 +6,16 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-final class CategoryFixtures extends Fixture
+/**
+ * Fixtures — Catégories principales TalentÉkô
+ * -------------------------------------------
+ * Génère les catégories de base (réutilisées dans ListingFixtures).
+ */
+final class CategoryFixtures extends Fixture implements FixtureGroupInterface
 {
     public const CATEGORIES = [
         'Administratif',
@@ -38,10 +44,17 @@ final class CategoryFixtures extends Fixture
 
             $em->persist($category);
 
-            // Référence pour ListingFixtures
+            // 🔗 Référence utilisée dans ListingFixtures
             $this->addReference('cat_'.$i, $category);
         }
 
         $em->flush();
+        echo "✅ Catégories générées avec succès (" . count(self::CATEGORIES) . ").\n";
+    }
+
+    /** 🔸 Groupe Doctrine pour exécution ciblée */
+    public static function getGroups(): array
+    {
+        return ['categories'];
     }
 }

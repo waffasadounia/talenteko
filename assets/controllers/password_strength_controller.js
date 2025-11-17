@@ -1,27 +1,19 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Contrôleur Stimulus : vérification en direct du mot de passe
+ * Contrôleur Stimulus : Vérification de la force du mot de passe
  *
- * - Affiche une checklist visuelle sous le champ de mot de passe.
- * - Chaque règle est validée/désactivée en direct avec feedback icône + couleur.
- * - Règles de sécurité (ANSSI) :
- *    • Longueur ≥ 10 caractères
- *    • Au moins une majuscule
- *    • Au moins une minuscule
- *    • Au moins un chiffre
- *    • Au moins un caractère spécial
- *
- * Accessibilité :
- * - aria-live="polite" : changements lus par lecteurs d’écran.
- * - aria-invalid : état du champ en direct.
- * - role="status" sur la liste → retour clair aux aides techniques.
+ * - Règles ANSSI : longueur, maj, min, chiffre, spécial
+ * - Feedback live (liste des critères)
+ * - aria-invalid + aria-live
+ * - Communique avec password-confirm pour désactiver le submit
  */
+
 export default class extends Controller {
-  static targets = ['input', 'feedback'];
+  static targets = ['input', 'feedback', 'submit'];
 
   connect() {
-    // === Définition des règles ===
+    // === Règles ANSSI ===
     this.rules = [
       { regex: /.{10,}/, text: 'Au moins 10 caractères' },
       { regex: /[A-Z]/, text: 'Au moins une majuscule' },
@@ -30,7 +22,7 @@ export default class extends Controller {
       { regex: /[\W_]/, text: 'Au moins un caractère spécial' },
     ];
 
-    // === Construction de la liste UL ===
+    // === UL de critères ===
     this.list = document.createElement('ul');
     this.list.className = 'text-xs mt-2 space-y-1';
     this.list.setAttribute('role', 'status');
@@ -44,7 +36,6 @@ export default class extends Controller {
       this.list.appendChild(li);
     });
 
-    // Injection dans le feedbackTarget
     this.feedbackTarget.replaceChildren(this.list);
   }
 
@@ -55,17 +46,29 @@ export default class extends Controller {
     this.rules.forEach((rule, i) => {
       const li = this.list.querySelector(`[data-index="${i}"]`);
       const passed = rule.regex.test(value);
+
       li.innerHTML = this.renderRule(rule.text, passed);
       li.className = passed
         ? 'flex items-center gap-1 text-green-600'
         : 'flex items-center gap-1 text-red-600';
+
       if (passed) validCount++;
     });
 
-    // Accessibilité : marquer champ valide/invalide
     const allValid = validCount === this.rules.length;
+
+    // ARIA
     this.inputTarget.setAttribute('aria-invalid', allValid ? 'false' : 'true');
     this.inputTarget.classList.toggle('valid-password', allValid);
+
+    // Communique avec password-confirm si présent
+    if (this.element.dataset.hasConfirm === 'true') {
+      const event = new CustomEvent('password-strength-updated', {
+        detail: { valid: allValid },
+        bubbles: true,
+      });
+      this.element.dispatchEvent(event);
+    }
   }
 
   renderRule(text, passed) {

@@ -1,37 +1,27 @@
 <section id="tendances" class="bg-white py-16">
   <div class="mx-auto max-w-6xl px-4">
-    <h2
-      class="text-talenteko-blue-900-900 mb-10 text-center text-3xl font-bold"
-    >
+    <h2 class="text-talenteko-blue-900-900 mb-10 text-center text-3xl font-bold">
       Tendances actuelles
     </h2>
 
-    <div
-      class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-    >
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {% for listing in listings %}
         {% include 'partials/_listing_card.html.twig' with {
           listing: listing
         } %}
       {% else %}
-        <p class="col-span-full text-center text-gray-500 italic">
+        <p class="col-span-full text-center italic text-gray-500">
           Aucune annonce disponible pour l'instant.<br />
           <a href="{{ path('app_listing_new') }}" class="btn-link">
             <i class="fa fa-plus-circle"></i>
-            <span>
-              Démarrez votre échange de compétences et proposez le premier !
-            </span>
+            <span>Démarrez votre échange de compétences et proposez le premier !</span>
           </a>
         </p>
       {% endfor %}
     </div>
 
     <div class="mt-8 text-center">
-      <a
-        href="{{ path('app_search') }}"
-        class="btn-link"
-        aria-label="Voir tous les listings"
-      >
+      <a href="{{ path('app_search') }}" class="btn-link" aria-label="Voir tous les listings">
         <i class="fa fa-search"></i>
         <span>Voir toutes les annonces</span>
       </a>

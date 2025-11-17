@@ -1,39 +1,103 @@
 /* ===========================================
    COMPONENTS — Boutons & Navigation
-   -------------------------------------------
-   ‡ Classes réutilisables (CTA, nav-link)
-   ‡ Définies une seule fois, utilisées partout
    =========================================== */
 
-/* Boutons principaux */
+/* === Bouton principal === */
 .btn-primary {
-  @apply inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-talenteko-orange-500 bg-talenteko-orange-500 px-4 py-2 font-sans font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2 active:scale-95;
+  @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border-2 border-talenteko-orange-500 bg-talenteko-orange-500 px-5 py-2.5 font-sans font-semibold leading-tight text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2 active:scale-95;
 }
 
+/* === Bouton outline === */
 .btn-outline {
-  @apply inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-talenteko-orange-500 bg-white px-4 py-2 font-sans font-semibold text-talenteko-orange-500 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2 active:scale-95;
+  @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border-2 border-talenteko-orange-500 bg-white px-5 py-2.5 font-sans font-semibold leading-tight text-talenteko-orange-500 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2 active:scale-95;
 }
 
-.btn-primary,
-.btn-outline {
-  @apply text-center sm:min-w-[200px];
-}
-
+/* === Bouton lien === */
 .btn-link {
-  @apply cursor-pointer font-sans font-semibold text-talenteko-orange-500 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2 active:scale-95;
+  @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-4 py-2 font-sans font-semibold leading-tight text-talenteko-orange-500 underline-offset-2 transition-colors duration-200 active:scale-95 hover:text-talenteko-orange-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2;
 }
 
-/* Variante spéciale (formulaires) — bouton centré + large */
-.btn-block {
-  @apply mx-auto flex w-full justify-center sm:w-64 lg:w-72;
+/* === Icônes dans les boutons === */
+.btn-primary i,
+.btn-outline i,
+.btn-link i {
+  @apply align-middle text-base;
 }
 
-/* Liens de navigation (header) */
+/* === Navigation principale === */
 .nav-link {
-  @apply inline-flex cursor-pointer items-center gap-2 py-2 font-sans font-semibold text-talenteko-orange-500 transition-colors duration-150 hover:text-talenteko-orange-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2 dark:text-white dark:hover:text-talenteko-peach-200;
+  @apply inline-flex items-center justify-center gap-2 py-2 font-sans font-semibold leading-none text-talenteko-orange-500 underline-offset-2 transition-colors duration-150 hover:text-talenteko-orange-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2;
 }
 
-/* Nav-link actif */
 .nav-link[aria-current='page'] {
-  @apply underline decoration-talenteko-orange-500 decoration-2;
+  @apply underline decoration-talenteko-orange-500 underline-offset-2;
+}
+
+/* === Grille de catégories === */
+nav[aria-label='Catégories populaires'] a {
+  @apply relative inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-talenteko-blue-500 transition-all duration-200 ease-out
+         hover:text-talenteko-orange-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-400 focus-visible:ring-offset-2;
+}
+
+nav[aria-label='Catégories populaires'] a::after {
+  content: '';
+  @apply absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-talenteko-orange-500 transition-all duration-300 ease-out;
+}
+
+nav[aria-label='Catégories populaires'] a:hover::after,
+nav[aria-label='Catégories populaires'] a[aria-current='page']::after {
+  @apply w-3/4;
+}
+
+/* =======================================================
+   Ajustements responsive — Menu mobile & petits écrans
+   ======================================================= */
+
+/* Boutons dans le menu mobile */
+@media (max-width: 768px) {
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 0.625rem 1rem; /* py-2.5 px-4 */
+    min-height: 40px;
+    border-radius: 0.5rem; /* rounded-lg */
+  }
+
+  .btn-primary {
+    background-color: #d6713c; /* talenteko-orange-500 */
+    border-color: #d6713c;
+  }
+
+  .btn-primary:hover {
+    background-color: #c46f45; /* hover orange-600 */
+  }
+
+  .btn-outline {
+    border-color: #d6713c;
+    background-color: #fff;
+  }
+
+  .btn-outline:hover {
+    background-color: #fce9e2; /* orange-50 */
+  }
+
+  /* Espacement entre les éléments du menu mobile */
+  nav#mobile-menu .btn-primary,
+  nav#mobile-menu .btn-outline {
+    margin-top: 0.5rem; /* mt-2 */
+  }
+
+  /* Liens du menu mobile */
+  nav#mobile-menu ul li a {
+    font-size: 1rem; /* text-base */
+    padding: 0.5rem 0.5rem; /* py-2 px-2 */
+    border-radius: 0.375rem; /* rounded-md */
+    transition: background-color 0.2s ease;
+  }
+
+  nav#mobile-menu ul li a:hover {
+    background-color: #fbf1ec; /* peach-100 */
+  }
 }

@@ -18,9 +18,14 @@ class Exchange
     // === Relations ===
 
     #[Assert\NotNull(message: 'Un échange doit avoir un utilisateur demandeur.')]
-    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    #[ORM\ManyToOne(inversedBy: 'exchangesRequested')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $requester = null;
+
+    #[Assert\NotNull(message: 'Un échange doit avoir un destinataire.')]
+    #[ORM\ManyToOne(inversedBy: 'exchangesReceived')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $recipient = null;
 
     #[Assert\NotNull(message: 'Un échange doit être lié à une annonce.')]
     #[ORM\ManyToOne(inversedBy: 'exchanges')]
@@ -28,13 +33,11 @@ class Exchange
     private ?Listing $listing = null;
 
     // === Statut ===
-
     #[Assert\NotNull(message: 'Le statut est obligatoire.')]
     #[ORM\Column(enumType: ExchangeStatus::class, options: ['default' => 'pending'])]
     private ExchangeStatus $status = ExchangeStatus::PENDING;
 
     // === Dates ===
-
     #[Assert\NotNull]
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
@@ -70,7 +73,17 @@ class Exchange
     public function setRequester(?User $user): self
     {
         $this->requester = $user;
+        return $this;
+    }
 
+    public function getRecipient(): ?User
+    {
+        return $this->recipient;
+    }
+
+    public function setRecipient(?User $user): self
+    {
+        $this->recipient = $user;
         return $this;
     }
 
@@ -82,7 +95,6 @@ class Exchange
     public function setListing(?Listing $listing): self
     {
         $this->listing = $listing;
-
         return $this;
     }
 
@@ -94,7 +106,6 @@ class Exchange
     public function setStatus(ExchangeStatus $status): self
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -111,47 +122,42 @@ class Exchange
     public function setUpdatedAt(?\DateTimeImmutable $date): self
     {
         $this->updatedAt = $date;
-
         return $this;
     }
 
-    // === Helpers (transitions métier) ===
-
+    // === Helpers métier ===
     public function accept(): self
     {
         $this->status = ExchangeStatus::ACCEPTED;
-
         return $this;
     }
 
     public function decline(): self
     {
         $this->status = ExchangeStatus::DECLINED;
-
         return $this;
     }
 
     public function markAsCompleted(): self
     {
         $this->status = ExchangeStatus::COMPLETED;
-
         return $this;
     }
 
     public function cancel(): self
     {
         $this->status = ExchangeStatus::CANCELED;
-
         return $this;
     }
 
     // === Divers ===
-
     public function __toString(): string
     {
-        return \sprintf(
-            'Échange #%d [%s]',
+        return sprintf(
+            'Échange #%d (%s → %s) [%s]',
             $this->id ?? 0,
+            $this->requester?->getPseudo() ?? 'inconnu',
+            $this->recipient?->getPseudo() ?? 'inconnu',
             $this->status->value
         );
     }

@@ -1,31 +1,14 @@
 {# templates/styleguide/_nav.html.twig #}
 <nav
   aria-label="Menu du styleguide"
-  class="bg-talenteko-peach-100 border-talenteko-orange-200 sticky top-0 z-40 border-b"
+  class="sticky top-0 z-40 border-b border-talenteko-orange-200 bg-talenteko-peach-100"
 >
   <div class="mx-auto max-w-6xl px-4 py-2">
     <ul class="flex flex-wrap gap-4 text-sm font-semibold">
-      <li>
-        <a href="{{ path('app_styleguide_buttons') }}" class="btn-link">
-          Boutons
-        </a>
-      </li>
-      <li>
-        <a href="{{ path('app_styleguide_forms') }}" class="btn-link">
-          Formulaires
-        </a>
-      </li>
-      <li>
-        <a href="{{ path('app_styleguide_typography') }}" class="btn-link">
-          Typographie
-        </a>
-      </li>
-      <li>
-        <a href="{{ path('app_styleguide_cta') }}" class="btn-link">CTA</a>
-      </li>
-      <li>
-        <a href="{{ path('app_styleguide_cards') }}" class="btn-link">Cards</a>
-      </li>
+      <li><a href="{{ path('app_styleguide_buttons') }}" class="btn-link">Boutons</a></li>
+      <li><a href="{{ path('app_styleguide_forms') }}" class="btn-link">Formulaires</a></li>
+      <li><a href="{{ path('app_styleguide_typography') }}" class="btn-link">Typographie</a></li>
+      <li><a href="{{ path('app_styleguide_cards') }}" class="btn-link">Cards</a></li>
     </ul>
   </div>
 </nav>

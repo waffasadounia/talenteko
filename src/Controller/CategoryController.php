@@ -42,7 +42,7 @@ final class CategoryController extends AbstractController
         );
 
         return $this->render('category/show.html.twig', [
-            'pageTitle' => 'Catégorie : ' . $category->getName(),
+            'pageTitle' => 'Catégorie : '.$category->getName(),
             'category' => $category,
             'listings' => $listings,
         ]);

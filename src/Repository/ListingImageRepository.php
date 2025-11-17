@@ -9,9 +9,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ListingImage>
- *
- * Repository = gestion des images d'annonce (ListingImage).
+ * Repository — Gestion des entités ListingImage (images d’annonces TalentÉkô)
+ * Fournit les méthodes principales :
+ * - récupération des images d’une annonce
+ * - récupération de l’image principale (isPrimary = true)
  */
 final class ListingImageRepository extends ServiceEntityRepository
 {
@@ -19,9 +20,13 @@ final class ListingImageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ListingImage::class);
     }
+    // Récupération des images d’une annonce
 
     /**
-     * Retourne toutes les images d'une annonce.
+     * Retourne toutes les images associées à une annonce donnée.
+     *
+     * @param int $listingId ID de l’annonce
+     * @return ListingImage[]
      */
     public function findByListing(int $listingId): array
     {
@@ -32,9 +37,12 @@ final class ListingImageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    // Récupération de l’image principale
 
     /**
-     * Retourne l'image principale d'une annonce (isPrimary = true).
+     * Retourne l’image principale d’une annonce (isPrimary = true).
+     *
+     * @param int $listingId ID de l’annonce
      */
     public function findPrimaryByListing(int $listingId): ?ListingImage
     {

@@ -15,7 +15,7 @@ final class ExchangeStatusChangedNotification
         private int $exchangeId,
         private int $recipientId,
         private int $listingId,
-        private ExchangeStatus $status, // ✅ Enum directement
+        private ExchangeStatus $status, 
     ) {
     }
 

@@ -8,10 +8,12 @@ Objectif : garantir la stabilité, la qualité et la conformité RNCP du code.
 ## 🔹 Types de tests
 
 ### ✅ Tests unitaires
+
 - Vérifient les entités, validateurs et services métiers.
 - Exemple : `UserTest.php` (hashage mot de passe, rôles), `ValidLocationValidatorTest.php`.
 
 ### ✅ Tests fonctionnels (contrôleurs)
+
 - `RegistrationControllerTest.php`
   - Cas succès : inscription valide.
   - Cas échec : email invalide, mot de passe trop faible, pseudo manquant.
@@ -23,6 +25,7 @@ Objectif : garantir la stabilité, la qualité et la conformité RNCP du code.
   - Vérifie la recherche d’annonces par mot-clé et catégorie.
 
 ### ✅ Tests d’intégration
+
 - Vérifient la cohérence des échanges entre Doctrine + Symfony (fixtures chargées).
 - Exemple : persistance des `Listing` liés à un `User` + `Category`.
 
@@ -46,11 +49,12 @@ Pour générer un rapport HTML de couverture :
 ```bash
 php bin/phpunit --coverage-html coverage/
 ```
+
 ➡️ Le dossier coverage/ contient un rapport navigable dans le navigateur.
 C’est ce qui sera présenté au jury pour prouver la robustesse du projet.
 
-
 ### 🎯 Objectifs pour la soutenance
+
 Atteindre au minimum 70 % de couverture sur les classes métiers.
 
 Montrer que :

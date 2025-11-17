@@ -21,12 +21,14 @@ final class NewExchangeCreatedNotificationHandler
         private readonly MailerInterface $mailer,
         private readonly EntityManagerInterface $em,
         private readonly LoggerInterface $logger,
+        // Adresse d'expédition par défaut (injectée via services.yaml)
         private readonly string $mailerFrom = 'no-reply@talenteko.test',
     ) {
     }
 
     public function __invoke(NewExchangeCreatedNotification $notification): void
     {
+        // Récupération des entités concernées par la notification
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
         $sender = $this->em->getRepository(User::class)->find($notification->getSenderId());
         $listing = $this->em->getRepository(Listing::class)->find($notification->getListingId());
@@ -41,14 +43,15 @@ final class NewExchangeCreatedNotificationHandler
             return;
         }
 
+        // Construction de l'email avec le bon template (chemin corrigé)
         $email = (new TemplatedEmail())
             ->from($this->mailerFrom)
             ->to($recipient->getEmail())
             ->subject('Nouvelle proposition d’échange sur TalentÉkô')
-            ->htmlTemplate('emails/new_exchange.html.twig')
+            ->htmlTemplate('exchange/new_exchange.html.twig')
             ->context([
                 'recipient' => $recipient,
-                'sender' => $sender->getPseudo(),
+                'sender' => $sender->getPseudo() ?? $sender->getEmail(),
                 'listingTitle' => $listing->getTitle(),
                 'listingSlug' => $listing->getSlug(),
             ]);
@@ -61,9 +64,11 @@ final class NewExchangeCreatedNotificationHandler
                 'sender' => $sender->getPseudo(),
             ]);
         } catch (TransportExceptionInterface $e) {
+            // Gestion propre des erreurs SMTP
             $this->logger->error('Échec envoi email NewExchange.', [
                 'error' => $e->getMessage(),
                 'recipient' => $recipient->getEmail(),
+                'exchangeId' => $notification->getExchangeId(),
             ]);
         }
     }

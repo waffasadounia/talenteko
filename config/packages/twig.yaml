@@ -1,12 +1,11 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
-    file_name_pattern: '*.twig'
-    charset: 'UTF-8'   # Forçage explicite
+  default_path: '%kernel.project_dir%/templates'
+  file_name_pattern: '*.twig'
+  charset: 'UTF-8'
 
-    # Ajout des chemins custom
-    paths:
-        '%kernel.project_dir%/templates/emails': emails
+  paths:
+    '%kernel.project_dir%/templates/exchange': exchange
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true

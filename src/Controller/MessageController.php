@@ -84,7 +84,7 @@ final class MessageController extends AbstractController
 
             // Déterminer automatiquement le destinataire
             $recipient = $thread->getOtherParticipant($user);
-            if ($recipient === null) {
+            if (null === $recipient) {
                 $this->addFlash('error', 'Impossible d’envoyer un message : destinataire introuvable.');
             } else {
                 $message->setRecipient($recipient);
@@ -105,9 +105,9 @@ final class MessageController extends AbstractController
         }
 
         return $this->render('message/show.html.twig', [
-            'thread'   => $thread,
+            'thread' => $thread,
             'messages' => $thread->getMessages(),
-            'form'     => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }

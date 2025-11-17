@@ -7,7 +7,6 @@ namespace App\Tests\Functional;
 use App\Entity\Category;
 use App\Entity\Listing;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -43,7 +42,6 @@ final class SearchControllerTest extends WebTestCase
             ->setSlug('cours-de-guitare')
             ->setAuthor($user)
             ->setCategory($category);
-
 
         $this->em->persist($user);
         $this->em->persist($category);

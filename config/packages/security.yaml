@@ -32,7 +32,7 @@ security:
         path: /
         # always_remember_me: true # à activer seulement si souhaité
 
-  # --- règles d'accès (ordre évalué de haut en bas) ---
+    # --- règles d'accès (ordre évalué de haut en bas) ---
   access_control:
     # Pages publiques
     - { path: ^/$, roles: PUBLIC_ACCESS }
@@ -50,6 +50,10 @@ security:
     # Admin & styleguide
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/styleguide, roles: ROLE_ADMIN }
+
+    # --- Pages Listing protégées ---
+    - { path: ^/listing/nouvelle, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/listing/.+/edit, roles: IS_AUTHENTICATED_FULLY }
 
     # Tout le reste accessible aux connectés (y compris remember_me)
     - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }

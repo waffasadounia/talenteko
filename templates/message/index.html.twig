@@ -1,25 +1,67 @@
+{# ============================================================
+   templates/message/index.html.twig
+   Page : Liste des conversations (boîte de réception)
+   ============================================================ #}
+
 {% extends 'base.html.twig' %}
 
+{% block title %}
+  Mes conversations | TalentÉkô
+{% endblock %}
+
 {% block body %}
-    <h1 class="text-xl font-bold mb-4">Vos conversations</h1>
+  <section class="mx-auto max-w-5xl px-4 py-10">
+    <h1 class="mb-8 flex items-center gap-2 text-3xl font-bold text-talenteko-blue-900">
+      <i class="fa-solid fa-comments text-talenteko-orange-500"></i>
+      <span>Mes conversations</span>
+    </h1>
 
     {% if threads is empty %}
-        <p class="text-gray-600">Vous n’avez aucune conversation pour le moment.</p>
+      <p class="text-center italic text-gray-600">
+        Vous n’avez aucune conversation pour le moment.
+      </p>
     {% else %}
-        <ul class="space-y-2">
-            {% for thread in threads %}
-                <li class="p-3 rounded-lg shadow-sm bg-white hover:bg-gray-50">
-                    <a href="{{ path('app_message_thread', {id: thread.id}) }}" class="block">
-                        <div class="font-semibold">
-                            Conversation avec {{ thread.getOtherParticipant(app.user).displayName }}
-                        </div>
-                        <div class="text-sm text-gray-500">
-                            Dernier message :
-                            {{ thread.getLastMessage() ? thread.getLastMessage().content|u.truncate(50, '…') }}
-                        </div>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+      <ul class="space-y-3">
+        {% for thread in threads %}
+          <li
+            class="rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
+          >
+            <a
+              href="{{
+              path(
+                'app_message_thread',
+                {
+                  id: thread.id
+                }
+              )
+              }}"
+              class="flex flex-col items-start justify-between gap-2 p-4 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500 sm:flex-row sm:items-center"
+            >
+              <div>
+                <div class="font-semibold text-talenteko-blue-900">
+                  <i class="fa-regular fa-user mr-1 text-talenteko-orange-500"></i>
+                  Conversation avec
+                  {{ thread.getOtherParticipant(app.user).displayName }}
+                </div>
+                <div class="mt-1 text-sm text-gray-500">
+                  {% if thread.getLastMessage() %}
+                    <i class="fa-regular fa-envelope mr-1"></i>
+                    {{ thread.getLastMessage().content|u.truncate(60, '…') }}
+                  {% else %}
+                    Aucun message encore échangé.
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="whitespace-nowrap text-sm text-gray-400">
+                {% if thread.getLastMessage() %}
+                  {{ thread.getLastMessage().createdAt|date('d/m/Y H:i') }}
+                {% endif %}
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
     {% endif %}
+  </section>
 {% endblock %}

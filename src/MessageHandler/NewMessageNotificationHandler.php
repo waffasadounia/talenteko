@@ -21,12 +21,14 @@ final class NewMessageNotificationHandler
         private readonly MailerInterface $mailer,
         private readonly EntityManagerInterface $em,
         private readonly LoggerInterface $logger,
+        // expéditeur par défaut défini dans services.yaml via paramètre app.mailer_from
         private readonly string $mailerFrom = 'no-reply@talenteko.test',
     ) {
     }
 
     public function __invoke(NewMessageNotification $notification): void
     {
+        // Recherche du message concerné
         $message = $this->em->getRepository(Message::class)->find($notification->getMessageId());
 
         if (!$message) {
@@ -48,11 +50,12 @@ final class NewMessageNotificationHandler
             return;
         }
 
+        // Préparation de l’email à partir du template Twig 
         $email = (new TemplatedEmail())
             ->from($this->mailerFrom)
             ->to($recipient->getEmail())
-            ->subject('Nouveau message reçu sur TalentÉkô')
-            ->htmlTemplate('emails/new_message.html.twig')
+            ->subject('📬 Nouveau message reçu sur TalentÉkô')
+            ->htmlTemplate('exchange/new_message.html.twig')
             ->context([
                 'recipient' => $recipient,
                 'sender' => $sender->getPseudo() ?? $sender->getEmail(),
@@ -68,6 +71,7 @@ final class NewMessageNotificationHandler
                 'sender' => $sender->getEmail(),
             ]);
         } catch (TransportExceptionInterface $e) {
+            // Log clair pour traçabilité (utile en prod si SMTP tombe)
             $this->logger->error('Échec envoi email NewMessage.', [
                 'error' => $e->getMessage(),
                 'recipient' => $recipient->getEmail(),

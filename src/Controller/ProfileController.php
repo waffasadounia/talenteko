@@ -18,6 +18,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class ProfileController extends AbstractController
 {
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('', name: 'dashboard', methods: ['GET'])]
+    public function dashboard(): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        return $this->render('profile/dashboard.html.twig', [
+            'page_title' => 'Mon tableau de bord',
+            'user' => $user,
+        ]);
+    }
+
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/favoris', name: 'favoris', methods: ['GET'])]
     public function favoris(): Response
     {
@@ -27,6 +40,7 @@ final class ProfileController extends AbstractController
         $favorites = $user->getFavorites(); // Collection d’objets Favorite
 
         return $this->render('profile/favoris.html.twig', [
+            'page_title' => 'Mes favoris',
             'favorites' => $favorites,
         ]);
     }
@@ -54,14 +68,14 @@ final class ProfileController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Profil mis à jour avec succès ✅');
+            $this->addFlash('success', 'Profil mis à jour avec succès');
 
             return $this->redirectToRoute('app_profile_edit');
         }
 
         return $this->render('profile/edit.html.twig', [
-            'form' => $form->createView(),
             'page_title' => 'Éditer mon profil',
+            'form' => $form->createView(),
         ]);
     }
 }

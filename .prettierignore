@@ -17,6 +17,15 @@ assets/vendor/
 # === Templates sensibles (ne pas reformater automatiquement) ===
 templates/partials/_password_field.html.twig
 
+# === Templates incompatibles avec prettier-plugin-twig ===
+templates/base.html.twig
+templates/listing/edit.html.twig
+templates/listing/new.html.twig
+templates/message/show.html.twig
+templates/partials/_alert.html.twig
+templates/search/index.html.twig
+templates/security/register.html.twig
+
 # === Logs et caches ===
 npm-debug.log*
 yarn-error.log

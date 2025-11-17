@@ -1,9 +1,9 @@
 # config/packages/liip_imagine.yaml
 liip_imagine:
-  driver: "gd"
+  driver: 'gd'
 
   twig:
-    mode: lazy  # ✅ évite les warnings de dépréciation FilterExtension/FilterTrait
+    mode: lazy # ✅ évite les warnings de dépréciation FilterExtension/FilterTrait
 
   resolvers:
     default:

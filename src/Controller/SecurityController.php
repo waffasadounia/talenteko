@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +43,6 @@ final class SecurityController extends AbstractController
     public function logout(): void
     {
         // Jamais exécuté → géré par le firewall (security.yaml)
-        throw new LogicException('La déconnexion est gérée par le firewall (security.yaml).');
+        throw new \LogicException('La déconnexion est gérée par le firewall (security.yaml).');
     }
 }

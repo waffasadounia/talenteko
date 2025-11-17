@@ -20,6 +20,9 @@ class Thread
     private ?int $id = null;
 
     // === Participants ===
+    /**
+     * @var Collection<int, User>
+     */
     #[Assert\Count(
         min: 2,
         minMessage: 'Un thread doit contenir au moins 2 participants.'
@@ -29,13 +32,16 @@ class Thread
     private Collection $participants;
 
     // === Messages ===
+    /**
+     * @var Collection<int, Message>
+     */
     #[ORM\OneToMany(
         mappedBy: 'thread',
         targetEntity: Message::class,
         cascade: ['persist', 'remove'],
         orphanRemoval: true
     )]
-    #[ORM\OrderBy(['createdAt' => 'ASC'])] // garantit l'ordre chronologique
+    #[ORM\OrderBy(['createdAt' => 'ASC'])]
     private Collection $messages;
 
     #[Assert\NotNull]
@@ -88,10 +94,6 @@ class Thread
         return $this->participants->contains($user);
     }
 
-    /**
-     * Retourne l’autre participant dans un thread 1-to-1.
-     * Retourne null si thread de groupe ou si l'utilisateur est seul.
-     */
     public function getOtherParticipant(User $user): ?User
     {
         foreach ($this->participants as $participant) {
@@ -124,7 +126,6 @@ class Thread
     public function removeMessage(Message $message): self
     {
         if ($this->messages->removeElement($message)) {
-            // orphanRemoval=true → Doctrine supprimera automatiquement le message
             $this->touch();
         }
 

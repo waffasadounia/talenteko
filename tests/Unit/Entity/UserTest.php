@@ -8,7 +8,7 @@ use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests unitaires de l'entité User
+ * Tests unitaires de l'entité User.
  *
  * Vérifie le bon fonctionnement des setters/getters
  * et la cohérence des données manipulées.

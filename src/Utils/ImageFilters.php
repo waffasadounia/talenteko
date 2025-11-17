@@ -6,8 +6,7 @@ namespace App\Utils;
 
 /**
  * Centralisation des filtres LiipImagine utilisés dans TalentÉkô.
- *
- * ⚠️ Cette liste doit rester synchronisée avec la configuration
+ * Cette liste doit rester synchronisée avec la configuration
  * dans config/packages/liip_imagine.yaml.
  */
 final class ImageFilters

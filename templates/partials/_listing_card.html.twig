@@ -1,13 +1,13 @@
 {# ================================
   partials/_listing_card.html.twig
-  Carte annonce TalentÉkô (design V2, clean — Solution B)
+  Carte annonce TalentÉkô
   ================================ #}
 
-<div class="card-listing">
-  {# --- Bouton Favoris (Stimulus toggle) --- #}
+<div class="card-listing relative">
+  {# Bouton Favoris (Stimulus toggle) #}
   <button
     type="button"
-    class="card-favorite"
+    class="card-favorite absolute top-2 right-2 z-20"
     aria-label="Ajouter ou retirer des favoris"
     data-controller="favorite-toggle"
     data-action="click->favorite-toggle#toggle"
@@ -20,14 +20,15 @@
     </span>
   </button>
 
-  {# --- Image principale --- #}
-  <a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="card-image-link">
+  {# === Image principale === #}
+  <a
+    href="{{ path('app_listing_show', { slug: listing.slug }) }}"
+    class="card-image-link relative block z-10"
+  >
     <div class="card-image-wrapper">
       {% if listing.images|length > 0 %}
         {% set img_path = listing.images|first.path %}
-
         {% if img_path == 'placeholderTE.png' %}
-          {# Cas placeholder global #}
           <img
             src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_card') }}"
             alt="Image non disponible"
@@ -37,7 +38,6 @@
             height="225"
           />
         {% else %}
-          {# Cas image locale (dans le sous-dossier de catégorie) #}
           <img
             src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ img_path)|imagine_filter('listing_card') }}"
             alt="Image du listing {{ listing.title|e }}"
@@ -48,7 +48,6 @@
           />
         {% endif %}
       {% else %}
-        {# Fallback ultime si aucun enregistrement image #}
         <img
           src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_card') }}"
           alt="Image non disponible"
@@ -59,40 +58,64 @@
         />
       {% endif %}
     </div>
-
-    {# --- Contenu texte --- #}
-    <div class="card-content">
-      <span class="card-category">
-        {{ listing.category.name ?? 'Non classée' }}
-      </span>
-
-      <h3 class="card-title">
-        <a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="card-title-link">
-          {{ listing.title }}
-        </a>
-      </h3>
-
-      <p class="card-text">
-        {{ listing.description }}
-      </p>
-
-      <div class="card-footer">
-        <div class="card-author">
-          <div class="card-avatar" aria-hidden="true">
-            {{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
-          </div>
-          <span class="card-author-name">
-            {{ listing.author.pseudo ?? 'Membre' }}
-          </span>
-        </div>
-
-        {% if listing.location %}
-          <span class="card-location">
-            <i class="fa fa-map-marker-alt card-location-icon" aria-hidden="true"></i>
-            {{ listing.location }}
-          </span>
-        {% endif %}
-      </div>
-    </div>
   </a>
+
+  {# === Contenu texte === #}
+  <div class="card-content z-10">
+    {# Ligne du haut : badge + étoiles #}
+    <div class="flex items-center justify-between mb-1">
+      <span class="px-3 py-1 rounded-full bg-talenteko-orange-500 text-white text-xs font-semibold shadow-sm">
+  {{ listing.type == 'OFFER' ? 'Offre' : 'Demande' }}
+</span>
+      {# Note moyenne dynamique #}
+{% if listing.averageRating is defined and listing.averageRating %}
+  <div
+    class="card-rating flex items-center gap-0.5 text-sm text-talenteko-orange-500"
+    aria-label="Note moyenne : {{ listing.averageRating }} sur 5"
+  >
+    {% for i in 1..5 %}
+      {% if i <= listing.averageRating %}
+        <i class="fa-solid fa-star text-talenteko-orange-500"></i>
+      {% elseif i - listing.averageRating < 1 %}
+        <i class="fa-solid fa-star-half-stroke text-talenteko-orange-500"></i>
+      {% else %}
+        <i class="fa-solid fa-star text-gray-300"></i>
+      {% endif %}
+    {% endfor %}
+    <span class="sr-only">Note : {{ listing.averageRating }}/5</span>
+  </div>
+{% else %}
+  <span class="text-xs text-gray-400 italic">Pas encore noté</span>
+{% endif %}
+
+    </div>
+
+    {# Titre + description #}
+    <h3 class="card-title">
+      <a href="{{ path('app_listing_show', { slug: listing.slug }) }}" class="card-title-link">
+        {{ listing.title }}
+      </a>
+    </h3>
+
+    <p class="card-text">
+      {{ listing.description }}
+    </p>
+
+    {# Pied de carte #}
+    <div class="card-footer">
+      <div class="card-author">
+        <div class="card-avatar" aria-hidden="true">
+          {{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
+        </div>
+        <span class="card-author-name">{{ listing.author.pseudo ?? 'Membre' }}</span>
+      </div>
+
+      {% if listing.location %}
+        <span class="card-location">
+          <i class="fa fa-map-marker-alt card-location-icon" aria-hidden="true"></i>
+          {{ listing.location }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
 </div>

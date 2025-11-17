@@ -1,99 +1,61 @@
-{# =============================
-   Layout principal TalentÉkô
-   - Sert de squelette global à toutes les pages
-   - Contient : <head>, header, footer, blocks Twig
-   ============================= #}
+{# ============================================================
+   Layout principal — TalentÉkô
+   Squelette global de toutes les pages publiques & authentifiées.
+   Contient <head>, <header>, <footer> et blocs Twig dynamiques.
+   ============================================================ #}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-
-    {# Balise <title> personnalisable par page #}
-    <title>
-      {% block title %}
-        TalentÉkô
-      {% endblock %}
-    </title>
-
-    {# Responsive mobile #}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {# Exclusion du styleguide des moteurs de recherche #}
-    {% if app.request.pathinfo starts with '/styleguide' %}
+    {# ----- SEO ----- #}
+    <title>{% block title %}TalentÉkô{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Plateforme d’échange de compétences entre particuliers{% endblock %}" />
+
+    {# Exclusion du styleguide des moteurs #}
+    {% if app.request and app.request.pathinfo starts with '/styleguide' %}
       <meta name="robots" content="noindex, nofollow" />
     {% endif %}
 
-    {# =============================
-       Favicons (multi-format)
-       ============================= #}
-    <link
-      rel="icon"
-      type="image/png"
-      href="{{ asset('images/faviconTalenteko.png') }}"
-    />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="{{ asset('images/faviconTalenteko.svg') }}"
-    />
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="{{ asset('images/faviconTalenteko.ico') }}"
-    />
+    {# ----- Favicons ----- #}
+    <link rel="icon" type="image/png" href="{{ asset('images/faviconTalenteko.png') }}" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/faviconTalenteko.svg') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/faviconTalenteko.ico') }}" />
 
-    {# =============================
-       CSS principal (compilé via Webpack Encore)
-       ============================= #}
+    {# ----- Styles Webpack Encore ----- #}
     {{ encore_entry_link_tags('app') }}
 
-    {# Polices Google (Montserrat, Catamaran, Chivo) #}
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    {# ----- Polices Google ----- #}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Catamaran:wght@400;500;600;700&family=Chivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    {# Font Awesome (icônes) #}
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    {# ----- Font Awesome ----- #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
 
-    {# Espace réservé pour CSS additionnel par page #}
-    {% block stylesheets %}
-
-    {% endblock %}
-
-    {# =============================
-       JS principal (Webpack Encore)
-       ============================= #}
-    {{ encore_entry_script_tags('app') }}
+    {# Styles spécifiques par page #}
+    {% block stylesheets %}{% endblock %}
   </head>
 
-  <body class="font-montserrat bg-white text-gray-800">
-    {# Header global (navigation) #}
+  <body class="font-montserrat bg-white text-gray-800 leading-relaxed antialiased">
+
+    {# ----- HEADER GLOBAL ----- #}
     {% include 'partials/_header.html.twig' %}
 
-    {# Messages flash globaux (succès, erreurs, etc.) #}
-    <section class="container mx-auto mt-4 px-4">
+    {# ----- FLASH GLOBAL ----- #}
+    <section class="container mx-auto mt-4 px-4" aria-label="Messages du site">
       {% include 'partials/_flash.html.twig' %}
     </section>
 
-    {# Zone principale de contenu #}
-    <main class="container mx-auto mt-8 min-h-[80vh]">
-      {% block body %}
-
-      {% endblock %}
+    {# ----- CONTENU PRINCIPAL ----- #}
+    <main id="main-content" class="container mx-auto mt-8 mb-8 min-h-[80vh]" tabindex="-1">
+      {% block body %}{% endblock %}
     </main>
 
-    {# Footer global #}
+    {# ----- FOOTER GLOBAL ----- #}
     {% include 'partials/_footer.html.twig' %}
-
-    {# Espace réservé pour JS additionnel par page #}
     {% block javascripts %}
-
+      {{ encore_entry_script_tags('app') }}
     {% endblock %}
+
   </body>
 </html>

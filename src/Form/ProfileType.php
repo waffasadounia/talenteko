@@ -58,7 +58,7 @@ final class ProfileType extends AbstractType
             ->add('avatarFilename', FileType::class, [
                 'label' => 'Photo de profil',
                 'required' => false,
-                'mapped' => false, // car on ne stocke que le nom du fichier, l’upload est géré ailleurs
+                'mapped' => false, // on ne stocke que le nom du fichier, l’upload est géré ailleurs
                 'constraints' => [
                     new Assert\File([
                         'maxSize' => '2M',
@@ -72,7 +72,7 @@ final class ProfileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Profile::class, // ✅ Corrigé
+            'data_class' => Profile::class, //
         ]);
     }
 }

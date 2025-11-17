@@ -10,19 +10,26 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Exchange>
- *
- * Repository = couche d'accès aux échanges (Exchange).
+ * Repository — Gestion des entités Exchange (
+ * Fournit les méthodes de récupération et de filtrage :
+ * - par statut (PENDING, ACCEPTED...)
+ * - par utilisateur (demandeur ou propriétaire)
  */
-class ExchangeRepository extends ServiceEntityRepository
+final class ExchangeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Exchange::class);
     }
+    // Récupération par statut
 
     /**
-     * Retourne les échanges par statut (PENDING, ACCEPTED, etc.).
+     * Retourne les échanges selon un statut donné (PENDING, ACCEPTED…).
+     *
+     * @param ExchangeStatus $status Statut de l’échange à filtrer
+     * @param int            $limit  Limite de résultats (par défaut : 20)
+     *
+     * @return Exchange[]
      */
     public function findByStatus(ExchangeStatus $status, int $limit = 20): array
     {
@@ -34,9 +41,12 @@ class ExchangeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    // Récupération par utilisateur (demandeur)
     /**
-     * Retourne les échanges où l'utilisateur est le demandeur (requester).
+     * Retourne les échanges où l’utilisateur est le demandeur (requester).
+     *
+     * @param int $userId ID de l’utilisateur connecté
+     * @return Exchange[]
      */
     public function findByRequester(int $userId): array
     {
@@ -48,9 +58,11 @@ class ExchangeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
     /**
-     * Retourne les échanges liés aux annonces d'un utilisateur (owner).
+     * Retourne les échanges liés aux annonces d’un utilisateur propriétaire.
+     *
+     * @param int $userId ID du propriétaire de l’annonce
+     * @return Exchange[]
      */
     public function findByOwner(int $userId): array
     {

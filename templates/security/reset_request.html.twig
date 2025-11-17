@@ -11,7 +11,7 @@
 {% block body %}
   <section class="bg-talenteko-peach-100 py-16">
     <div class="mx-auto max-w-md px-6">
-      <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
+      <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
         Réinitialiser mon mot de passe
       </h1>
 
@@ -24,12 +24,7 @@
       {% include 'partials/_flash.html.twig' %}
 
       <div class="rounded-2xl border bg-white p-6 shadow-sm">
-        <form
-          method="post"
-          action="{{ path('app_forgot_password') }}"
-          class="space-y-5"
-          novalidate
-        >
+        <form method="post" action="{{ path('app_forgot_password') }}" class="space-y-5" novalidate>
           {% set email_errors_id = 'forgot-email-errors' %}
           <div class="space-y-1">
             <label for="email" class="form-label">
@@ -54,15 +49,11 @@
             {% endif %}
           </div>
 
-          <button type="submit" class="btn-primary btn-block">
-            Envoyer le lien
-          </button>
+          <button type="submit" class="btn-primary btn-block">Envoyer le lien</button>
         </form>
 
         <p class="mt-6 text-center text-sm text-gray-600">
-          <a href="{{ path('app_login') }}" class="btn-link">
-            Retour à la connexion
-          </a>
+          <a href="{{ path('app_login') }}" class="btn-link">Retour à la connexion</a>
         </p>
       </div>
     </div>

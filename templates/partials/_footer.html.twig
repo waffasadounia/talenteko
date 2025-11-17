@@ -1,11 +1,6 @@
 {# templates/partials/_footer.html.twig #}
-<footer
-  role="contentinfo"
-  class="bg-talenteko-orange-500 text-talenteko-peach-300 mt-12"
->
-  <div
-    class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-10 md:grid-cols-3"
-  >
+<footer role="contentinfo" class="mt-12 bg-talenteko-orange-500 text-talenteko-peach-300">
+  <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-10 md:grid-cols-3">
     {# Colonne gauche : Logo + slogan + réseaux sociaux #}
     <div class="flex flex-col items-center md:items-start">
       <div class="flex flex-col items-center text-center">
@@ -20,36 +15,24 @@
       </div>
 
       <div class="mt-2 self-start">
-        <p class="text-talenteko-peach-300 mb-4 text-sm">
+        <p class="mb-4 text-sm text-talenteko-peach-300">
           Plateforme de troc de compétences<br />entre particuliers
         </p>
         <ul class="flex gap-4 text-xl">
           <li>
-            <a
-              href="#"
-              class="hover:text-talenteko-peach-300"
-              aria-label="Facebook"
-            >
+            <a href="#" class="hover:text-talenteko-peach-300" aria-label="Facebook">
               <i class="fab fa-facebook" aria-hidden="true"></i>
               <span class="sr-only">Facebook</span>
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              class="hover:text-talenteko-peach-300"
-              aria-label="Instagram"
-            >
+            <a href="#" class="hover:text-talenteko-peach-300" aria-label="Instagram">
               <i class="fab fa-instagram" aria-hidden="true"></i>
               <span class="sr-only">Instagram</span>
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              class="hover:text-talenteko-peach-300"
-              aria-label="Twitter"
-            >
+            <a href="#" class="hover:text-talenteko-peach-300" aria-label="Twitter">
               <i class="fab fa-twitter" aria-hidden="true"></i>
               <span class="sr-only">Twitter</span>
             </a>
@@ -60,31 +43,20 @@
 
     {# Colonne milieu : À propos #}
     <div aria-labelledby="footer-about">
-      <h3 id="footer-about" class="mb-3 text-sm font-bold md:text-base">
-        À propos
-      </h3>
+      <h3 id="footer-about" class="mb-3 text-sm font-bold md:text-base">À propos</h3>
       <ul class="space-y-2 text-sm">
         <li>
-          <a
-            href="{{ path('app_about') }}"
-            class="hover:text-talenteko-peach-300 hover:underline"
-          >
+          <a href="{{ path('app_about') }}" class="hover:text-talenteko-peach-300 hover:underline">
             Qui sommes-nous
           </a>
         </li>
         <li>
-          <a
-            href="{{ path('app_how') }}"
-            class="hover:text-talenteko-peach-300 hover:underline"
-          >
+          <a href="{{ path('app_how') }}" class="hover:text-talenteko-peach-300 hover:underline">
             Comment ça marche
           </a>
         </li>
         <li>
-          <a
-            href="{{ path('app_faq') }}"
-            class="hover:text-talenteko-peach-300 hover:underline"
-          >
+          <a href="{{ path('app_faq') }}" class="hover:text-talenteko-peach-300 hover:underline">
             Foire aux questions
           </a>
         </li>
@@ -101,9 +73,7 @@
 
     {# Colonne droite : Informations légales #}
     <div aria-labelledby="footer-legal">
-      <h3 id="footer-legal" class="mb-3 text-sm font-bold md:text-base">
-        Informations légales
-      </h3>
+      <h3 id="footer-legal" class="mb-3 text-sm font-bold md:text-base">Informations légales</h3>
       <ul class="space-y-2 text-sm">
         <li>
           <a
@@ -142,9 +112,7 @@
   </div>
 
   {# Copyright #}
-  <div
-    class="text-talenteko-peach-300 border-t border-white/30 py-4 text-center text-xs"
-  >
+  <div class="border-t border-white/30 py-4 text-center text-xs text-talenteko-peach-300">
     © {{ 'now'|date('Y') }} Talentéko. Tous droits réservés.
   </div>
 </footer>

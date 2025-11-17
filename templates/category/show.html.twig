@@ -1,43 +1,46 @@
-{#================================
-  templates/category/show.html.twig
-  Page détaillée d'une catégorie
-  ================================#}
+{# ============================================================
+   templates/category/show.html.twig
+   Page : Détail d’une catégorie — TalentÉkô
+   ============================================================ #}
 
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  {{ category.name }}
-  | TalentÉkô
+  {{ category.name }} | TalentÉkô
 {% endblock %}
 
 {% block body %}
-  <section class="bg-white py-16">
-    <div class="mx-auto max-w-6xl px-4">
-      <h1 class="text-talenteko-blue-900 mb-10 text-center text-3xl font-bold">
-        {{ category.name }}
-      </h1>
+<section class="bg-white py-16">
+  <div class="mx-auto max-w-6xl px-4">
+    <h1 class="mb-10 text-center text-3xl font-bold text-talenteko-blue-900" aria-label="Catégorie : {{ category.name }}">
+      {{ category.name }}
+    </h1>
 
-      {# Grille des listings liés à cette catégorie #}
-      <div
-        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-      >
-        {% for listing in category.listings %}
-          {% include 'partials/_listing_card.html.twig' with {
-            listing: listing
-          } %}
-        {% else %}
-          <p class="col-span-full text-center text-gray-500 italic">
-            Aucun listing pour cette catégorie pour l'instant.
-          </p>
-        {% endfor %}
-      </div>
+    {# Grille des annonces liées à cette catégorie #}
+    <div
+      class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      role="region"
+      aria-labelledby="category-listings-title"
+    >
+      <h2 id="category-listings-title" class="sr-only">Annonces dans {{ category.name }}</h2>
 
-      <div class="mt-8 text-center">
-        <a href="{{ path('app_category_index') }}" class="btn-link">
-          <i class="fa fa-arrow-left"></i>
-          <span>Retour aux catégories</span>
-        </a>
-      </div>
+      {% for listing in category.listings %}
+        {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
+      {% else %}
+        <p role="status" class="col-span-full text-center italic text-gray-500">
+          Aucune annonce pour cette catégorie pour l’instant.
+        </p>
+      {% endfor %}
     </div>
-  </section>
+
+    <div class="mt-8 text-center">
+      <a href="{{ path('app_search') }}" class="btn-link inline-flex items-center gap-2" aria-label="Retour à la recherche">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>Retour</span>
+      </a>
+    </div>
+  </div>
+</section>
 {% endblock %}

@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Thread;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Thread>
- *
- * Repository = couche d'accès aux conversations (Thread).
- */
-class ThreadRepository extends ServiceEntityRepository
+final class ThreadRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -21,14 +17,16 @@ class ThreadRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne tous les threads auxquels participe un utilisateur.
+     * Retourne toutes les conversations auxquelles participe un utilisateur.
+     *
+     * @return Thread[]
      */
-    public function findByUser(int $userId): array
+    public function findByParticipant(User $user): array
     {
         return $this->createQueryBuilder('t')
             ->leftJoin('t.participants', 'p')->addSelect('p')
-            ->andWhere('p.id = :id')
-            ->setParameter('id', $userId)
+            ->andWhere(':user MEMBER OF t.participants')
+            ->setParameter('user', $user)
             ->orderBy('t.updatedAt', 'DESC')
             ->getQuery()
             ->getResult();
@@ -50,7 +48,9 @@ class ThreadRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne les threads avec leur dernier message, pour un utilisateur.
+     * Retourne les threads d’un utilisateur avec leur dernier message.
+     *
+     * @return Thread[]
      */
     public function findWithLastMessageByUser(int $userId, int $limit = 10): array
     {

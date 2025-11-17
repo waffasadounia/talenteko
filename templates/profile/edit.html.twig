@@ -12,7 +12,7 @@
 {% block body %}
   <section class="bg-talenteko-peach-100 py-12">
     <div class="mx-auto max-w-2xl px-6">
-      <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
+      <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
         Modifier mon profil
       </h1>
 
@@ -23,128 +23,139 @@
           class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700"
           role="alert"
         >
-          <strong class="font-semibold">
-            Le formulaire contient des erreurs.
-          </strong>
+          <strong class="font-semibold">Le formulaire contient des erreurs.</strong>
           <span class="ml-1">Merci de corriger les champs en rouge.</span>
         </div>
       {% endif %}
 
       <div class="rounded-2xl bg-white p-6 shadow-sm">
-        {{ form_start(form, {
-          attr: {
-            novalidate: 'novalidate',
-            id: 'profile-form',
-            class: 'tk-form'
-          }
-        }) }}
+        {{
+          form_start(
+            form,
+            {
+              attr: {
+                novalidate: 'novalidate',
+                id: 'profile-form',
+                class: 'tk-form'
+              }
+            }
+          )
+        }}
 
         <div class="space-y-6">
-          {# ========== PSEUDO ========== #}
-          {% set pseudo_invalid = form_errors(form.pseudo) is not empty %}
-          {% set pseudo_errors_id = form.pseudo.vars.id ~ '-errors' %}
-          <div>
-            <label for="{{ form.pseudo.vars.id }}" class="form-label">
-              Pseudonyme
-            </label>
-            {{ form_widget(form.pseudo, {
-              attr: {
-                class: 'form-input' ~ (pseudo_invalid ? ' is-invalid' : ''),
-                'aria-invalid': pseudo_invalid ? 'true' : 'false',
-                'aria-describedby': pseudo_invalid ? pseudo_errors_id : null
+          {# === PSEUDO === #}
+          {{
+            form_row(
+              form.pseudo,
+              {
+                label: 'Pseudonyme',
+                row_attr: {
+                  class: 'space-y-1'
+                },
+                attr: {
+                  class: 'form-input',
+                  placeholder: 'ex. BricoMan42'
+                }
               }
-            }) }}
-            {% if pseudo_invalid %}
-              <p id="{{ pseudo_errors_id }}" class="form-error" role="alert">
-                {{ form_errors(form.pseudo) }}
-              </p>
-            {% endif %}
-          </div>
+            )
+          }}
 
-          {# ========== LOCALISATION ========== #}
-          {% set loc_invalid = form_errors(form.location) is not empty %}
-          {% set loc_errors_id = form.location.vars.id ~ '-errors' %}
-          <div>
-            <label for="{{ form.location.vars.id }}" class="form-label">
-              Localisation
-            </label>
-            {{ form_widget(form.location, {
-              attr: {
-                class: 'form-input' ~ (loc_invalid ? ' is-invalid' : ''),
-                'aria-invalid': loc_invalid ? 'true' : 'false',
-                'aria-describedby': loc_invalid ? loc_errors_id : null
+          {# === LOCALISATION === #}
+          {{
+            form_row(
+              form.location,
+              {
+                label: 'Localisation',
+                row_attr: {
+                  class: 'space-y-1'
+                },
+                attr: {
+                  class: 'form-input',
+                  placeholder: 'ex. Paris, Lyon...'
+                }
               }
-            }) }}
-            {% if loc_invalid %}
-              <p id="{{ loc_errors_id }}" class="form-error" role="alert">
-                {{ form_errors(form.location) }}
-              </p>
-            {% endif %}
-          </div>
+            )
+          }}
 
-          {# ========== BIO ========== #}
-          <div>
-            <label for="{{ form.bio.vars.id }}" class="form-label">
-              Biographie
-            </label>
-            {{ form_widget(form.bio, {
-              attr: {
-                class: 'form-textarea',
-                rows: 4
-              }
-            }) }}
-            {{ form_errors(form.bio) }}
-          </div>
+          <hr class="my-6 border-t border-gray-200" />
 
-          {# ========== COMPÉTENCES PROPOSÉES ========== #}
-          <div>
-            <label for="{{ form.skills_offered.vars.id }}" class="form-label">
-              Compétences proposées
-            </label>
-            {{ form_widget(form.skills_offered, {
-              attr: {
-                class: 'form-input'
+          {# === BIO === #}
+          {{
+            form_row(
+              form.profile.bio,
+              {
+                label: 'À propos de vous',
+                row_attr: {
+                  class: 'space-y-1'
+                },
+                attr: {
+                  class: 'form-textarea',
+                  rows: 4
+                }
               }
-            }) }}
-            {{ form_errors(form.skills_offered) }}
-          </div>
+            )
+          }}
 
-          {# ========== COMPÉTENCES RECHERCHÉES ========== #}
-          <div>
-            <label for="{{ form.skills_wanted.vars.id }}" class="form-label">
-              Compétences recherchées
-            </label>
-            {{ form_widget(form.skills_wanted, {
-              attr: {
-                class: 'form-input'
+          {# === COMPÉTENCES PROPOSÉES === #}
+          {{
+            form_row(
+              form.profile.skillsOffered,
+              {
+                label: 'Compétences proposées',
+                row_attr: {
+                  class: 'space-y-1'
+                },
+                attr: {
+                  class: 'form-input'
+                }
               }
-            }) }}
-            {{ form_errors(form.skills_wanted) }}
-          </div>
+            )
+          }}
 
-          {# ========== AVATAR (upload) ========== #}
-          {% set avatar_invalid = form_errors(form.avatar) is not empty %}
-          {% set avatar_errors_id = form.avatar.vars.id ~ '-errors' %}
-          <div>
-            <label for="{{ form.avatar.vars.id }}" class="form-label">
-              Photo de profil
-            </label>
-            {{ form_widget(form.avatar, {
-              attr: {
-                class: avatar_invalid ? 'is-invalid' : '',
-                'aria-invalid': avatar_invalid ? 'true' : 'false',
-                'aria-describedby': avatar_invalid ? avatar_errors_id : null
+          {# === COMPÉTENCES RECHERCHÉES === #}
+          {{
+            form_row(
+              form.profile.skillsWanted,
+              {
+                label: 'Compétences recherchées',
+                row_attr: {
+                  class: 'space-y-1'
+                },
+                attr: {
+                  class: 'form-input'
+                }
               }
-            }) }}
-            {% if avatar_invalid %}
-              <p id="{{ avatar_errors_id }}" class="form-error" role="alert">
-                {{ form_errors(form.avatar) }}
-              </p>
-            {% endif %}
-          </div>
+            )
+          }}
+
+          {# === AVATAR === #}
+          {{
+            form_row(
+              form.profile.avatarFilename,
+              {
+                label: 'Photo de profil',
+                row_attr: {
+                  class: 'space-y-1'
+                },
+                attr: {
+                  class: 'form-input-file'
+                }
+              }
+            )
+          }}
         </div>
 
-        <button class="btn-primary btn-block mt-6">Enregistrer</button>
+        <div class="mt-8 flex justify-between">
+          <a href="{{ path('app_profile_dashboard') }}" class="btn-outline">
+            <i class="fa-solid fa-arrow-left mr-1"></i>
+            Retour
+          </a>
+          <button class="btn-primary">
+            <i class="fa-solid fa-floppy-disk mr-1"></i>
+            Enregistrer
+          </button>
+        </div>
+
         {{ form_end(form) }}
       </div>
     </div>

@@ -97,5 +97,3 @@ Définis dans forms.css :
 4. Animations respectueuses : support prefers-reduced-motion.
 5. Cohérence visuelle : palette TalentÉkô utilisée dans tous les composants.
 
-✍️ Auteur : Styles internes TalentÉkô
-📅 Dernière mise à jour : octobre 2025

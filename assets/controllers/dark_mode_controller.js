@@ -3,7 +3,7 @@ import { Controller } from '@hotwired/stimulus';
 /**
  * Contrôleur Stimulus : Dark mode toggle
  *
- * - Ajoute la classe .dark sur <html>
+ * - Ajout classe .dark sur <html>
  * - Sauvegarde la préférence dans localStorage
  * - Respecte prefers-color-scheme du système
  * - Accessibilité : aria-pressed sur le bouton

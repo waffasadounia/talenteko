@@ -1,7 +1,8 @@
-{# ================================
-  templates/profile/dashboard.html.twig
-  Tableau de bord utilisateur
-  ================================ #}
+{# ============================================================
+   templates/profile/dashboard.html.twig
+   Tableau de bord utilisateur — TalentÉkô
+   ============================================================ #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -10,20 +11,19 @@
 
 {% block body %}
   <section class="mx-auto max-w-6xl px-4 py-10">
-    <h1 class="text-talenteko-blue-900 mb-6 text-3xl font-bold">
-      Mon tableau de bord
-    </h1>
+    <h1 class="mb-6 text-3xl font-bold text-talenteko-blue-900">Mon tableau de bord</h1>
 
+    {# --- Profil résumé --- #}
     <div
-      class="mb-8 flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-6"
+      class="mb-8 flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
     >
       <div
-        class="bg-talenteko-peach-200 text-talenteko-orange-500 flex h-16 w-16 items-center justify-center rounded-full text-xl font-bold"
+        class="flex h-16 w-16 items-center justify-center rounded-full bg-talenteko-peach-200 text-xl font-bold text-talenteko-orange-500"
       >
         {{ (app.user.pseudo ?? 'M')|slice(0, 1)|upper }}
       </div>
       <div>
-        <div class="text-talenteko-blue-900 text-lg font-semibold">
+        <div class="text-lg font-semibold text-talenteko-blue-900">
           {{ app.user.pseudo }}#{{ app.user.tag }}
         </div>
         <div class="text-sm text-gray-500">
@@ -32,31 +32,75 @@
       </div>
     </div>
 
+    {# --- Liens d’action principaux --- #}
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
       <a
         href="{{ path('app_listing_new') }}"
-        class="bg-talenteko-orange-500 rounded-xl p-6 text-center text-white shadow transition hover:shadow-md"
+        class="rounded-xl bg-talenteko-orange-500 p-6 text-center text-white shadow transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500"
       >
-        <h2 class="mb-2 text-xl font-bold">
-          <i class="fa-solid fa-bullhorn"></i>
-          Déposer une annonce
+        <h2 class="mb-2 inline-flex items-center justify-center gap-2 text-xl font-bold">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>Déposer une annonce
         </h2>
         <p>
-          Partagez vos compétences ou trouvez de l'aide.
+          Partagez vos compétences ou trouvez de l’aide.
         </p>
       </a>
 
       <a
         href="{{ path('app_profile_favoris') }}"
-        class="rounded-xl border border-gray-200 bg-white p-6 text-center shadow transition hover:shadow-md"
+        class="rounded-xl border border-gray-200 bg-white p-6 text-center shadow transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500"
       >
-        <h2 class="mb-2 text-xl font-bold">
-          <i class="fa-solid fa-heart"></i>
-          Mes favoris
+        <h2
+          class="mb-2 inline-flex items-center justify-center gap-2 text-xl font-bold text-talenteko-blue-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-talenteko-orange-500"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M11.645 20.91l-.007-.003-.011-.006a16.965 16.965 0 01-1.214-.708 22.06 22.06 0 01-2.563-1.72C4.64 15.817 2 12.978 2 9.5a5.5 5.5 0 019-4.243A5.5 5.5 0 0120 9.5c0 3.478-2.64 6.317-5.85 8.973a22.06 22.06 0 01-2.563 1.72 16.965 16.965 0 01-1.214.708l-.011.006-.007.003-.003.001a.75.75 0 01-.65 0l-.003-.001z"
+            />
+          </svg>Mes favoris
         </h2>
         <p>
           Consultez les annonces que vous avez enregistrées.
         </p>
+      </a>
+    </div>
+
+    {# --- Bouton retour --- #}
+    <div class="mt-10 text-center">
+      <a href="{{ path('app_home') }}" class="btn-link inline-flex items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        <span>Retour à l’accueil</span>
       </a>
     </div>
   </section>

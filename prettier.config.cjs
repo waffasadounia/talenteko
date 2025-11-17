@@ -1,11 +1,11 @@
 /* eslint-env node */
-// ==============================================
-// Configuration Prettier – TalentÉkô
-// ----------------------------------------------
-// - Lisibilité & cohérence (RNCP DWWM).
-// - Support Twig (Symfony/Twig).
-// - Intégration TailwindCSS (ordre des classes).
-// ==============================================
+// ======================================================
+// Prettier Config — TalentÉkô
+// ------------------------------------------------------
+// • Lisibilité & cohérence
+// • Support complet Twig (Symfony/Twig)
+// • Classement automatique des classes TailwindCSS
+// ======================================================
 
 module.exports = {
   semi: true,
@@ -16,8 +16,8 @@ module.exports = {
   trailingComma: 'es5',
 
   plugins: [
-    '@zackad/prettier-plugin-twig',   // Format Twig
-    'prettier-plugin-tailwindcss',    // Ordonne classes Tailwind
+    '@zackad/prettier-plugin-twig', // Formatage Twig
+    'prettier-plugin-tailwindcss', // Ordonne les classes Tailwind
   ],
 
   overrides: [

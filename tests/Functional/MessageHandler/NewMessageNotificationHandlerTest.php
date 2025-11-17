@@ -39,8 +39,8 @@ final class NewMessageNotificationHandlerTest extends TestCase
             ->method('send')
             ->with(
                 $this->callback(function (Email $email) {
-                    return $email->getTo()[0]->getAddress() === 'dest@test.com'
-                        && $email->getSubject() === 'Nouveau message sur TalentÉkô';
+                    return 'dest@test.com' === $email->getTo()[0]->getAddress()
+                        && 'Nouveau message sur TalentÉkô' === $email->getSubject();
                 }),
             );
 

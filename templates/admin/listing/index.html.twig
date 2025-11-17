@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+  Annonces | Admin TalentÉkô
+{% endblock %}
+
+{% block body %}
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="mb-6 text-3xl font-bold text-talenteko-blue-900">Gestion des annonces</h1>
+
+    <ul role="list" class="divide-y divide-gray-100">
+      {% for listing in listings %}
+        <li class="flex items-center justify-between py-4">
+          <div>
+            <p class="font-semibold">
+              {{ listing.title }}
+            </p>
+            <p class="text-sm text-gray-600">
+              {{ listing.category.name ?? '—' }} • {{ listing.status.label() }}
+            </p>
+          </div>
+          <div class="flex gap-2">
+            {% if listing.status.value != 'published' %}
+              <form
+                method="post"
+                action="{{
+                path(
+                  'app_admin_listing_validate',
+                  {
+                    id: listing.id
+                  }
+                )
+                }}"
+              >
+                <button class="btn-outline text-xs">Valider</button>
+              </form>
+            {% endif %}
+            <form
+              method="post"
+              action="{{
+              path(
+                'app_admin_listing_delete',
+                {
+                  id: listing.id
+                }
+              )
+              }}"
+            >
+              <button class="btn-outline text-xs text-red-600">Supprimer</button>
+            </form>
+          </div>
+        </li>
+      {% else %}
+        <li class="py-4 text-gray-500">Aucune annonce enregistrée.</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

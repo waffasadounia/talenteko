@@ -22,13 +22,14 @@ final class ExchangeStatusChangedNotificationHandler
         private readonly MailerInterface $mailer,
         private readonly EntityManagerInterface $em,
         private readonly LoggerInterface $logger,
+        // Adresse d’expédition par défaut (injectée via services.yaml)
         private readonly string $mailerFrom = 'no-reply@talenteko.test',
     ) {
     }
 
     public function __invoke(ExchangeStatusChangedNotification $notification): void
     {
-        // Charger les entités nécessaires
+        // Chargement des entités concernées
         $exchange = $this->em->getRepository(Exchange::class)->find($notification->getExchangeId());
         $recipient = $this->em->getRepository(User::class)->find($notification->getRecipientId());
         $listing = $this->em->getRepository(Listing::class)->find($notification->getListingId());
@@ -40,15 +41,15 @@ final class ExchangeStatusChangedNotificationHandler
                 'listingId' => $notification->getListingId(),
             ]);
 
-            return; // Pas d’envoi si données invalides
+            return; // Pas d’envoi si données incomplètes
         }
 
-        // Construire le mail
+        // Préparation de l’email avec le bon template (chemin corrigé)
         $email = (new TemplatedEmail())
             ->from($this->mailerFrom)
             ->to($recipient->getEmail())
-            ->subject('Mise à jour de votre échange sur TalentÉkô')
-            ->htmlTemplate('emails/exchange_status.html.twig')
+            ->subject(' Mise à jour de votre échange sur TalentÉkô')
+            ->htmlTemplate('exchange/exchange_status.html.twig')
             ->context([
                 'recipient' => $recipient,
                 'listingTitle' => $listing?->getTitle() ?? 'Annonce inconnue',
@@ -64,6 +65,7 @@ final class ExchangeStatusChangedNotificationHandler
                 'status' => $notification->getStatus()->value,
             ]);
         } catch (TransportExceptionInterface $e) {
+            // Gestion propre d’échec SMTP (log + contexte clair)
             $this->logger->error('Échec envoi email ExchangeStatus.', [
                 'error' => $e->getMessage(),
                 'exchangeId' => $exchange->getId(),

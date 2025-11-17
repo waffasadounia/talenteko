@@ -33,9 +33,9 @@ final class UserController extends AbstractController
 
         // ✅ Vue Twig : profil public de l’utilisateur
         return $this->render('user/show.html.twig', [
-            'page_title'   => sprintf('Profil de %s', $user->getDisplayName()), // harmonisé avec User::__toString()
+            'page_title' => \sprintf('Profil de %s', $user->getDisplayName()), // harmonisé avec User::__toString()
             'user_profile' => $user, // ⚡ nommé différemment de app.user pour éviter la confusion
-            'listings'     => $listings,
+            'listings' => $listings,
         ]);
     }
 }

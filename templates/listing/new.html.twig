@@ -1,80 +1,95 @@
-{# templates/listing/new.html.twig #}
+{# ============================================================
+   templates/listing/new.html.twig
+   Page : Déposer une annonce — TalentÉkô
+   ============================================================ #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}
-  Déposer une annonce | TalentÉkô
-{% endblock %}
+{% block title %}Déposer une annonce | TalentÉkô{% endblock %}
 
 {% block body %}
-  <main class="min-h-screen bg-talenteko-peach-200 flex items-center justify-center px-4 py-8">
-    <div class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
+<main class="min-h-screen bg-talenteko-peach-200 flex items-center justify-center px-4 py-8">
+  <div class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
 
-      {# --- En-tête --- #}
-      <h1 class="text-3xl font-extrabold text-center text-talenteko-blue-900 mb-2">
-        Déposer une annonce
-      </h1>
-      <p class="text-gray-500 mb-8 text-center">
-        Partagez vos compétences, trouvez l’aide dont vous avez besoin
-      </p>
+    {# --- En-tête --- #}
+    <h1 class="text-3xl font-extrabold text-center text-talenteko-blue-900 mb-2">
+      Déposer une annonce
+    </h1>
+    <p class="text-gray-500 mb-8 text-center">
+      Partagez vos compétences, trouvez l’aide dont vous avez besoin.
+    </p>
 
-      {# --- Formulaire --- #}
-      {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+    {# --- Formulaire principal --- #}
+    {{ form_start(form, {'attr': {'class': 'space-y-6', 'novalidate': 'novalidate'}}) }}
 
-        {# Titre #}
-        <div>
-          {{ form_label(form.title, 'Titre de l’annonce', {'label_attr': {'class': 'form-label'}}) }}
-          {{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
-          {{ form_errors(form.title) }}
+      {# Titre #}
+      <div>
+        {{ form_label(form.title, 'Titre de l’annonce', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-input', 'placeholder': 'ex. Cours de guitare ou aide au jardin'}}) }}
+        {{ form_errors(form.title) }}
+      </div>
+
+      {# Description #}
+      <div>
+        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-input min-h-[120px]', 'placeholder': 'Décrivez ce que vous proposez ou recherchez…'}}) }}
+        {{ form_errors(form.description) }}
+      </div>
+
+      {# Type d’annonce (offre ou demande) #}
+      <div>
+        {{ form_label(form.type, 'Type d’annonce', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="flex gap-6">
+          {{ form_widget(form.type, {'attr': {'class': 'form-radio'}}) }}
         </div>
+        {{ form_errors(form.type) }}
+      </div>
 
-        {# Description #}
-        <div>
-          {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-          {{ form_widget(form.description, {'attr': {'class': 'form-input'}}) }}
-          {{ form_errors(form.description) }}
-        </div>
+      {# Catégorie #}
+      <div>
+        {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.category, {'attr': {'class': 'form-input'}}) }}
+        {{ form_errors(form.category) }}
+      </div>
 
-        {# Type d’annonce #}
-        <div>
-          {{ form_label(form.type, 'Type d’annonce', {'label_attr': {'class': 'form-label'}}) }}
-          <div class="flex gap-6">
-            {{ form_widget(form.type, {'attr': {'class': 'form-radio'}}) }}
-          </div>
-          {{ form_errors(form.type) }}
-        </div>
+      {# Localisation #}
+      <div>
+        {{ form_label(form.location, 'Localisation', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.location, {'attr': {'class': 'form-input', 'placeholder': 'ex. Lyon, Marseille, Paris'}}) }}
+        {{ form_errors(form.location) }}
+      </div>
 
-        {# Catégorie #}
-        <div>
-          {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
-          {{ form_widget(form.category, {'attr': {'class': 'form-input'}}) }}
-          {{ form_errors(form.category) }}
-        </div>
-
-        {# Localisation #}
-        <div>
-          {{ form_label(form.location, 'Localisation', {'label_attr': {'class': 'form-label'}}) }}
-          {{ form_widget(form.location, {'attr': {'class': 'form-input'}}) }}
-          {{ form_errors(form.location) }}
-        </div>
-
-        {# Upload images #}
-        <div>
-          {{ form_label(form.images, 'Images', {'label_attr': {'class': 'form-label'}}) }}
-          <label class="w-full h-36 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:border-talenteko-orange-500 transition cursor-pointer">
-            <i class="fa-solid fa-cloud-arrow-up text-2xl mb-1"></i>
-            <span>Cliquez ou déposez vos images</span>
-            {{ form_widget(form.images, {'attr': {'class': 'absolute inset-0 opacity-0 cursor-pointer'}}) }}
+      {# Upload images (drag & drop accessible) #}
+      <div>
+        {{ form_label(form.images, 'Images', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="relative">
+          <label for="{{ form.images.vars.id }}"
+                 class="w-full h-36 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:border-talenteko-orange-500 transition cursor-pointer"
+                 role="button"
+                 aria-label="Téléverser des images pour l’annonce">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12" />
+            </svg>
+            <span class="text-sm">Cliquez ou déposez vos images ici</span>
+            {{ form_widget(form.images, {'attr': {'class': 'absolute inset-0 opacity-0 cursor-pointer', 'aria-hidden': 'true'}}) }}
           </label>
-          {{ form_errors(form.images) }}
         </div>
+        {{ form_errors(form.images) }}
+      </div>
 
-        {# Boutons #}
-        <div class="flex justify-between pt-4">
-          <a href="{{ path('app_home') }}" class="btn-outline">Annuler</a>
-          <button type="submit" class="btn-primary">Publier l’annonce</button>
-        </div>
+      {# --- Boutons --- #}
+      <div class="flex justify-between items-center pt-4">
+        <a href="{{ path('app_home') }}" class="btn-outline inline-flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span>Annuler</span>
+        </a>
 
-      {{ form_end(form) }}
-    </div>
-  </main>
+        <button type="submit" class="btn-primary">Publier l’annonce</button>
+      </div>
+
+    {{ form_end(form) }}
+  </div>
+</main>
 {% endblock %}

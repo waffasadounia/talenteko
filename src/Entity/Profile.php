@@ -10,7 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity]
 class Profile
 {
-    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
     #[Assert\Length(
@@ -20,11 +22,19 @@ class Profile
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $bio = null;
 
-    #[ORM\Column(type: 'json', nullable: true)]
-    private ?array $skillsOffered = null;
+    #[Assert\Length(
+        max: 500,
+        maxMessage: 'La liste des compétences offertes ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $skillsOffered = null;
 
-    #[ORM\Column(type: 'json', nullable: true)]
-    private ?array $skillsWanted = null;
+    #[Assert\Length(
+        max: 500,
+        maxMessage: 'La liste des compétences recherchées ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $skillsWanted = null;
 
     #[Assert\Length(
         max: 255,
@@ -51,35 +61,30 @@ class Profile
 
     public function setBio(?string $bio): self
     {
-        // 🛡️ sécurité : supprime le HTML pour éviter XSS
+        // sécurité : supprime le HTML pour éviter XSS
         $this->bio = $bio ? strip_tags($bio) : null;
-
         return $this;
     }
 
-    /** @return ?array Liste des compétences offertes */
-    public function getSkillsOffered(): ?array
+    public function getSkillsOffered(): ?string
     {
         return $this->skillsOffered;
     }
 
-    public function setSkillsOffered(?array $skills): self
+    public function setSkillsOffered(?string $skills): self
     {
-        $this->skillsOffered = $skills;
-
+        $this->skillsOffered = $skills ? strip_tags($skills) : null;
         return $this;
     }
 
-    /** @return ?array Liste des compétences recherchées */
-    public function getSkillsWanted(): ?array
+    public function getSkillsWanted(): ?string
     {
         return $this->skillsWanted;
     }
 
-    public function setSkillsWanted(?array $skills): self
+    public function setSkillsWanted(?string $skills): self
     {
-        $this->skillsWanted = $skills;
-
+        $this->skillsWanted = $skills ? strip_tags($skills) : null;
         return $this;
     }
 
@@ -90,9 +95,7 @@ class Profile
 
     public function setAvatarFilename(?string $filename): self
     {
-        // on normalise le nom de fichier
         $this->avatarFilename = $filename ? mb_strtolower($filename) : null;
-
         return $this;
     }
 
@@ -107,14 +110,11 @@ class Profile
             $user->setProfile($this);
         }
         $this->user = $user;
-
         return $this;
     }
 
-    // === Divers ===
-
     public function __toString(): string
     {
-        return $this->bio ? mb_substr($this->bio, 0, 30).'…' : 'Profil';
+        return $this->bio ? mb_substr($this->bio, 0, 30) . '…' : 'Profil';
     }
 }

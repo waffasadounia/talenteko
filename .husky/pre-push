@@ -8,7 +8,7 @@
 # - Bloquer le push en cas d'erreurs Twig ou tests échoués
 # ======================================================
 
-echo "🚀 Vérifications pre-push TalentÉkô..."
+echo " Vérifications pre-push TalentÉkô..."
 
 # 1) TwigCS strict (erreurs bloquantes)
 echo "➡️ Vérification TwigCS..."
@@ -25,4 +25,3 @@ composer exec phpunit -- --stop-on-failure || {
 }
 
 echo "✅ Pre-push terminé, push autorisé !"
-

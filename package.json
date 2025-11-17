@@ -2,8 +2,9 @@
   "name": "talenteko",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "license": "UNLICENSED",
-  "description": "Plateforme Talenteko (Symfony + Twig + Tailwind + Stimulus + Turbo)",
+  "description": "Plateforme TalentÉkô (Symfony + Twig + Tailwind + Stimulus + Turbo)",
   "repository": {
     "type": "git",
     "url": "https://github.com/waffasadounia/talenteko.git"
@@ -13,17 +14,17 @@
   },
   "homepage": "https://github.com/waffasadounia/talenteko#readme",
   "scripts": {
-    "dev-server": "encore dev-server",
-    "dev": "encore dev",
-    "watch": "encore dev --watch",
-    "build": "encore prod",
+    "dev-server": "encore dev-server --config webpack.config.cjs",
+    "dev": "encore dev --config webpack.config.cjs",
+    "watch": "encore dev --watch --config webpack.config.cjs",
+    "build": "encore production --config webpack.config.cjs",
     "prepare": "husky install",
     "lint:php": "php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php",
     "fix:php": "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
     "lint:twig": "php vendor/bin/twigcs templates/",
     "fix:twig": "prettier --write \"templates/**/*.twig\" --parser twig",
-    "lint:js": "eslint assets --ext .js,.jsx",
-    "fix:js": "eslint assets --ext .js,.jsx --fix",
+    "lint:js": "eslint assets --ext .js",
+    "fix:js": "eslint assets --ext .js --fix",
     "lint:css": "prettier --check \"assets/**/*.css\"",
     "fix:css": "prettier --write \"assets/**/*.css\"",
     "lint": "npm run lint:php && npm run lint:js && npm run lint:css && npm run lint:twig",
@@ -47,16 +48,16 @@
     "eslint": "^9.6.0",
     "eslint-config-prettier": "^10.1.0",
     "eslint-plugin-import": "^2.29.1",
+    "globals": "^16.4.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.0",
-    "postcss": "^8.4.39",
+    "postcss": "^8.5.6",
     "postcss-loader": "^8.1.1",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "regenerator-runtime": "^0.13.9",
     "sass": "^1.77.0",
     "style-loader": "^4.0.0",
-    "tailwindcss": "^3.4.14",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.0"
   },
@@ -75,5 +76,8 @@
       "prettier --write",
       "php vendor/bin/twigcs --severity error"
     ]
+  },
+  "dependencies": {
+    "tailwindcss": "^3.4.13"
   }
 }

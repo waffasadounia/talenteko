@@ -9,19 +9,21 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Category>
- *
- * Repository = couche d'accès aux catégories (Category).
+ * Repository — Gestion des entités Category
+ * Fournit les méthodes de récupération, tri et recherche par slug.
  */
-class CategoryRepository extends ServiceEntityRepository
+final class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
     }
+    // Récupération simple
 
     /**
      * Retourne toutes les catégories triées par nom (ordre alphabétique).
+     *
+     * @return Category[]
      */
     public function findAllOrderedByName(): array
     {
@@ -30,9 +32,10 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    // Recherche ciblée
 
     /**
-     * Trouve une catégorie par son slug.
+     * Retourne une catégorie selon son slug unique.
      */
     public function findOneBySlug(string $slug): ?Category
     {

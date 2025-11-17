@@ -11,9 +11,7 @@
 {% block body %}
   <section class="bg-talenteko-peach-100 py-16">
     <div class="mx-auto max-w-md px-6">
-      <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-        Se connecter
-      </h1>
+      <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">Se connecter</h1>
 
       {# --- Erreur globale (ex: identifiants invalides) --- #}
       {% if error %}
@@ -28,18 +26,16 @@
       {% if app.user %}
         {% include 'partials/_alert.html.twig' with {
           type: 'info',
-          message: 'Vous êtes connecté en tant que <strong>' ~ app.user.userIdentifier ~ '</strong>. <a href="' ~ path('app_logout') ~ '" class="btn-link">Se déconnecter</a>'
+          message: 'Vous êtes connecté en tant que <strong>' ~ app.user.userIdentifier
+            ~ '</strong>. <a href="'
+            ~ path('app_logout')
+            ~ '" class="btn-link">Se déconnecter</a>'
         } %}
       {% endif %}
 
       {# --- Formulaire de connexion --- #}
       <div class="rounded-2xl bg-white p-6 shadow-sm">
-        <form
-          method="post"
-          action="{{ path('app_login') }}"
-          class="tk-form space-y-5"
-          novalidate
-        >
+        <form method="post" action="{{ path('app_login') }}" class="tk-form space-y-5" novalidate>
           {# ========== EMAIL ========== #}
           {% set email_errors_id = 'login-email-errors' %}
           <div class="space-y-1">
@@ -92,21 +88,12 @@
           </div>
 
           {# Token CSRF obligatoire #}
-          <input
-            type="hidden"
-            name="_csrf_token"
-            value="{{ csrf_token('authenticate') }}"
-          />
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
           {# Remember me + lien "mot de passe oublié" #}
           <div class="flex items-center justify-between text-sm">
             <label class="inline-flex cursor-pointer items-center gap-2">
-              <input
-                type="checkbox"
-                name="_remember_me"
-                class="peer hidden"
-                id="remember-me"
-              />
+              <input type="checkbox" name="_remember_me" class="peer hidden" id="remember-me" />
               <span class="form-checkbox-box">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -124,24 +111,16 @@
               <span class="text-gray-700">Se souvenir de moi</span>
             </label>
 
-            <a href="{{ path('app_forgot_password') }}" class="btn-link">
-              Mot de passe oublié ?
-            </a>
+            <a href="{{ path('app_forgot_password') }}" class="btn-link">Mot de passe oublié ?</a>
           </div>
 
-          <button type="submit" class="btn-primary btn-block mt-4">
-            Se connecter
-          </button>
+          <button type="submit" class="btn-primary btn-block mt-4">Se connecter</button>
         </form>
 
         {# --- Création de compte --- #}
-        <div
-          class="mt-6 flex items-center justify-between text-sm text-gray-600"
-        >
+        <div class="mt-6 flex items-center justify-between text-sm text-gray-600">
           <span>Pas encore de compte ?</span>
-          <a href="{{ path('app_register') }}" class="btn-link pr-8">
-            Créer un compte
-          </a>
+          <a href="{{ path('app_register') }}" class="btn-link pr-8">Créer un compte</a>
         </div>
       </div>
     </div>

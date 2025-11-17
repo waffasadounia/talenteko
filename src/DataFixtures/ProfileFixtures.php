@@ -41,7 +41,7 @@ final class ProfileFixtures extends Fixture implements DependentFixtureInterface
                     )
                 )
                 ->setAvatarFilename(null) // MVP : toujours lettre pseudo, pas d'image
-                
+
                 ->setUser($user);
 
             $em->persist($profile);

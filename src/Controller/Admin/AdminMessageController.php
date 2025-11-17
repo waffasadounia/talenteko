@@ -12,27 +12,45 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/**
+ * Gestion de la messagerie dans le back-office TalentÉkô.
+ *
+ * Permet aux administrateurs de visualiser et supprimer les messages.
+ */
 #[IsGranted('ROLE_ADMIN')]
-#[Route('/admin/messages')]
+#[Route('/admin/message')]
 final class AdminMessageController extends AbstractController
 {
-    #[Route('', name: 'app_admin_messages', methods: ['GET'])]
+    /**
+     * Liste les messages récents.
+     *
+     * URL : /admin/message
+     * Template : templates/admin/message/index.html.twig
+     */
+    #[Route('', name: 'app_admin_message_index', methods: ['GET'])]
     public function index(MessageRepository $repo): Response
     {
-        return $this->render('admin/messages/index.html.twig', [
-            'pageTitle' => 'Gestion des messages',
+        return $this->render('admin/message/index.html.twig', [
+            'page_title' => 'Gestion des messages',
             'messages' => $repo->findBy([], ['createdAt' => 'DESC'], 50), // derniers 50
         ]);
     }
 
+    /**
+     * Supprime un message spécifique.
+     *
+     * URL : /admin/message/{id}/delete
+     */
     #[Route('/{id}/delete', name: 'app_admin_message_delete', methods: ['POST', 'DELETE'])]
     public function delete(Message $message, EntityManagerInterface $em): Response
     {
         $id = $message->getId();
+
         $em->remove($message);
         $em->flush();
 
-        $this->addFlash('danger', sprintf("Message #%d supprimé.", $id));
-        return $this->redirectToRoute('app_admin_messages');
+        $this->addFlash('danger', \sprintf('Message #%d supprimé ❌', $id));
+
+        return $this->redirectToRoute('app_admin_message_index');
     }
 }

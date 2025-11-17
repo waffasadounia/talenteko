@@ -13,6 +13,12 @@
         "parser": "twig",
         "endOfLine": "lf"
       }
+    },
+    {
+      "files": ["*.js", "*.jsx", "*.css"],
+      "options": {
+        "endOfLine": "lf"
+      }
     }
   ]
 }

@@ -1,22 +1,60 @@
 /* ===========================================
    THEME TALENTÉKÔ — Tokens & Reset global
-   Compatible Tailwind v3
    =========================================== */
 
-/* Styles de base */
+/* 🎨 Variables globales */
+:root {
+  /* Palette BLEU */
+ --talenteko-blue-900: #141c2e; /* Bleu principal (titres, texte fort) */
+  --talenteko-blue-800: #1e2636; /* Variante foncée pour hover ou bandeaux */
+  --talenteko-blue-700: #252e40; /* Intermédiaire — hover sur liens/fonds */
+  --talenteko-blue-600: #2b3343; /* Ton moyen actuel, équilibré pour boutons secondaires */
+  --talenteko-blue-500: #434958; /* Gris-bleu neutre (bordures, icônes secondaires) */
+  --talenteko-blue-400: #a1a4ab; /* Bleu clair/gris bleuté (focus, placeholders) */
+  --talenteko-blue-300: #c2c5cc; /* Très clair — hover sur fond blanc, badges doux */
+  --talenteko-blue-200: #e1e3e7; /* Couleur de fond légère */
+  --talenteko-blue-100: #f0f1f3; /* Fond très subtil, contraste élevé */
+  --talenteko-blue-50:  #f8f9fa; /* Presque blanc, idéal pour sections aérées */
+
+  /* 🔹 Gradients (bonus, facultatif) */
+  --talenteko-blue-gradient: linear-gradient(135deg, var(--talenteko-blue-900), var(--talenteko-blue-600));
+  --talenteko-blue-gradient-soft: linear-gradient(135deg, var(--talenteko-blue-200), var(--talenteko-blue-50));
+
+  /* Palette ORANGE */
+  --talenteko-orange-50: #fce9e2;
+  --talenteko-orange-100: #fce9e2;
+  --talenteko-orange-200: #f9d2c4;
+  --talenteko-orange-300: #f2a580;
+  --talenteko-orange-400: #e8926a;
+  --talenteko-orange-500: #d6713c;
+  --talenteko-orange-600: #c46f45;
+  --talenteko-orange-700: #b35f3a;
+  --talenteko-orange-800: #994f2e;
+
+  /* Palette PÊCHE */
+  --talenteko-peach-100: #fbf1ec;
+  --talenteko-peach-200: #fdf5f1;
+  --talenteko-peach-300: #fdfaf9;
+}
+
+/* ===========================================
+   RESET GLOBAL + TYPOGRAPHIE
+   =========================================== */
+
 html {
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: theme('fontFamily.sans'); /* <- "sans" inclut Montserrat */
-  font-size: theme('fontSize.base');
-  line-height: theme('lineHeight.relaxed'); /* remplace base -> relaxed = 1.625 */
-  color: theme('colors.talenteko.blue.900');
-  background-color: theme('colors.talenteko.peach.100');
+  font-family: 'Montserrat', 'Catamaran', 'Chivo', sans-serif;
+  font-size: 1rem;
+  line-height: 1.625;
+  color: var(--talenteko-blue-900);
+  background-color: var(--talenteko-peach-100);
 }
 
 img {
@@ -28,18 +66,27 @@ img {
 a {
   color: inherit;
   text-decoration: none;
+  transition: color 0.2s ease-in-out;
 }
 
 :focus-visible {
-  outline: 2px solid theme('colors.talenteko.orange.500');
+  outline: 2px solid var(--talenteko-orange-500);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   * {
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
-    transition-duration: 0.01ms;
-    scroll-behavior: auto;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

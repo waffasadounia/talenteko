@@ -1,13 +1,13 @@
 {# ======================================
    Partiel : Messages flash
+   TalentÉkô — version modernisée
    ====================================== #}
 
 {% for label, messages in app.flashes %}
-  {% for message in messages %}
-    {# type = success, error, warning, info #}
-    {% include 'partials/_alert.html.twig' with {
-      type: label,
-      message: message
-    } only %}
-  {% endfor %}
+    {% for message in messages %}
+        {% include 'partials/_alert.html.twig' with {
+            type: label,
+            message: message
+        } only %}
+    {% endfor %}
 {% endfor %}

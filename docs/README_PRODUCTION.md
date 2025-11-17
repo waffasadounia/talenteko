@@ -6,6 +6,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 🚀 Routes & Navigation
+
 - [ ] Vérifier que **toutes les routes** existent (`php bin/console debug:router`).
 - [ ] Corriger les incohérences : ex. `app_conditions` (et non `app_legal_conditions`).
 - [ ] Supprimer les routes non utilisées ou legacy.
@@ -14,6 +15,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 🔒 Sécurité
+
 - [ ] `IS_AUTHENTICATED_FULLY` sur les pages sensibles : annonces, messagerie, favoris.
 - [ ] `remember_me` activé et fonctionnel.
 - [ ] Pages admin (dashboard, styleguide) protégées par `ROLE_ADMIN`.
@@ -22,6 +24,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 📝 Encodage & EOL
+
 - [ ] Tous les fichiers encodés en **UTF-8 sans BOM**.
 - [ ] Fins de ligne normalisées en **LF** (Linux).
 - [ ] Chaque fichier se termine par une **newline finale**.
@@ -30,6 +33,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 🪝 Git Hooks
+
 - [ ] `pre-commit` rapide : PHP lint, encodage/EOL auto-fix, lint JS/CSS.
 - [ ] `pre-push` strict : TwigCS, PHPUnit complet (unitaires + fonctionnels).
 - [ ] Pas de hook dupliqué (`.husky/_/` nettoyé).
@@ -37,6 +41,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 📦 Fixtures & Migrations
+
 - [ ] Base de données propre : `php bin/console doctrine:migrations:migrate --env=prod`.
 - [ ] Fixtures cohérentes : `User`, `Listing`, `Category`.
 - [ ] Pas de données legacy (`Annonce` → remplacé par `Listing`).
@@ -45,6 +50,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 🎨 Styles & UI (Tailwind)
+
 - [ ] Palette TalentÉkô appliquée (`talenteko-blue`, `talenteko-orange`, etc.).
 - [ ] Classes factorisées (`btn-primary`, `btn-outline`, `btn-link`).
 - [ ] Responsive vérifié (mobile, tablette, desktop).
@@ -54,6 +60,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## ♿ Accessibilité
+
 - [ ] Tous les inputs ont un **label explicite**.
 - [ ] Champs invalides avec `aria-invalid="true"` et `aria-describedby`.
 - [ ] Images avec attributs `alt`.
@@ -63,6 +70,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 🧪 Tests
+
 - [ ] Tests **unitaires** passent (`composer test -- --testsuite=unit`).
 - [ ] Tests **fonctionnels** passent (`composer test -- --testsuite=functional`).
 - [ ] Couverture minimale atteinte (entités + formulaires + contrôleurs critiques).
@@ -71,6 +79,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## 📖 Documentation
+
 - [ ] `README.md` principal clair (install + usage).
 - [ ] `docs/README_INSTALL.md` (installation locale).
 - [ ] `docs/README_TESTS.md` (exécution des tests).
@@ -83,6 +92,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 ---
 
 ## ✅ Validation finale
+
 - [ ] Déploiement test en local (`APP_ENV=prod`).
 - [ ] Compilation des assets (`npm run build`).
 - [ ] Pas d’erreurs `php bin/console lint:*`.
