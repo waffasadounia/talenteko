@@ -9,7 +9,6 @@
 config/secrets/prod/prod.decrypt.private.php
 
 # Dossiers runtime
-/public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -20,7 +19,6 @@ config/secrets/prod/prod.decrypt.private.php
 /coverage/
 /coverage.xml
 /.phpunit.result.cache
-###< phpunit/phpunit ###
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
@@ -33,12 +31,6 @@ pnpm-debug.log*
 ###> liip/imagine-bundle ###
 
 ###< liip/imagine-bundle ###
-
-# Uploads utilisateur (on garde le dossier vide)
-
-
-# Media runtime (idem, garder le dossier vide)
-!public/media/.gitignore
 
 # Archives locales
 *.zip
@@ -64,7 +56,7 @@ Thumbs.db
 
 # Backup migration files
 /backup_migration/
- migrations
+/migrations
 
 ###> Talenteko migration/maintenance scripts ###
 tools/*
