@@ -69,14 +69,12 @@ final class ListingType extends AbstractType
             // === Localisation ===
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'Merci d’indiquer une localisation.']),
-                ],
                 'attr' => [
                     'placeholder' => 'ex. Paris, Lyon, Marseille',
                     'autocomplete' => 'address-level2',
                 ],
             ])
+
 
             // === Catégorie ===
             ->add('category', EntityType::class, [
@@ -84,27 +82,25 @@ final class ListingType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Catégorie',
                 'placeholder' => 'Choisir une catégorie',
-                'constraints' => [
-                    new Assert\NotNull(['message' => 'Merci de sélectionner une catégorie.']),
-                ],
             ])
 
             // === Images ===
             ->add('images', FileType::class, [
                 'label' => 'Images',
                 'mapped' => false,
-                'required' => false,
+                'required' => false, // IMPORTANT
                 'multiple' => true,
                 'constraints' => [
                     new Assert\All([
                         new Assert\Image([
                             'maxSize' => '5M',
                             'mimeTypesMessage' => 'Merci de télécharger uniquement des images valides.',
-                        ]),
-                    ]),
+                        ])
+                    ])
                 ],
                 'attr' => ['accept' => 'image/*'],
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

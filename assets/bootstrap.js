@@ -25,6 +25,7 @@ import RatingFilterController from './controllers/rating_filter_controller.js';
 import PasswordConfirmController from './controllers/password_confirm_controller.js';
 import PasswordStrengthController from './controllers/password_strength_controller.js';
 import ScrollNavController from './controllers/scroll_nav_controller.js';
+import ImagePreviewController from './controllers/image_preview_controller.js';
 
 // --- Enregistrement global Stimulus ---
 window.application.register('header-nav', HeaderNavController);
@@ -40,6 +41,7 @@ window.application.register('rating-filter', RatingFilterController);
 window.application.register('password-confirm', PasswordConfirmController);
 window.application.register('password-strength', PasswordStrengthController);
 window.application.register('scroll-nav', ScrollNavController);
+window.application.register('image-preview', ImagePreviewController);
 
 // --- Log de vérification (utile en dev) ---
 console.log('Contrôleurs Stimulus enregistrés :');
@@ -57,4 +59,5 @@ console.log([
   'password-confirm',
   'password-strength',
   'scroll-nav',
+  'image-preview',
 ]);

@@ -29,7 +29,7 @@ export default class extends Controller {
 
     const query = this.inputTarget.value.trim();
 
-    if (query.length < 2) {
+    if (query.length < 3) {
       this.clearList();
       return;
     }
@@ -44,7 +44,8 @@ export default class extends Controller {
       if (!res.ok) {
         console.warn('API Adresse renvoie une erreur :', res.status);
         this.clearList();
-        return;
+        this.renderList([{ properties: { label: 'Aucun résultat (tapez au moins 3 lettres)' } }]);
+return;
       }
 
       const data = await res.json();

@@ -37,21 +37,17 @@ export default class extends Controller {
     this.updateVisibility();
   }
 
-  // ------------------------------------------------------
-  // Sélection d’une option (clic ou clavier)
-  // ------------------------------------------------------
-  selectOption(event) {
-    const selectedValue = event.currentTarget.dataset.value;
-    const selectedLabel = event.currentTarget.textContent.trim();
+  //------------------------------------------------------
+// selectOption SANS auto-submit
+//------------------------------------------------------
+selectOption(event) {
+  const selectedValue = event.currentTarget.dataset.value;
+  const selectedLabel = event.currentTarget.textContent.trim();
 
-    this.inputTarget.value = selectedValue;
-    this.labelTarget.textContent = selectedLabel;
-    this.close();
-
-    // Soumission automatique du formulaire parent
-    const form = this.element.closest('form');
-    if (form) form.requestSubmit();
-  }
+  this.inputTarget.value = selectedValue;
+  this.labelTarget.textContent = selectedLabel;
+  this.close();
+}
 
   // ------------------------------------------------------
   // Gestion du clavier sur le bouton principal

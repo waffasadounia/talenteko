@@ -27,7 +27,7 @@ final class RegistrationController extends AbstractController
         UserPasswordHasherInterface $hasher,
         Security $security,
     ): Response {
-        // 🚫 Si déjà connecté → on redirige vers l'accueil
+        // Si déjà connecté → on redirige vers l'accueil
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }
@@ -36,7 +36,7 @@ final class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        // 🛡️ Vérification honeypot anti-bot
+        // Vérification honeypot anti-bot
         if ($form->isSubmitted() && '' !== trim((string) $request->request->get('website', ''))) {
             $form->addError(new FormError('Validation anti-robot échouée, merci de réessayer.'));
 
@@ -46,17 +46,17 @@ final class RegistrationController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // 🔑 Hash du mot de passe sécurisé
+            // Hash du mot de passe sécurisé
             $hashed = $hasher->hashPassword($user, (string) $user->getPlainPassword());
             $user->setPassword($hashed);
 
             $em->persist($user);
             $em->flush();
 
-            // 🎉 Connexion auto après inscription
+            // Connexion auto après inscription
             $this->addFlash('success', 'Bienvenue sur TalentÉkô 🎉 Votre compte a été créé avec succès.');
 
-            return $security->login($user); // ⚡ disponible depuis Symfony 6.3
+            return $security->login($user); // disponible depuis Symfony 6.3
         }
 
         // Retourner le formulaire avec code HTTP adapté

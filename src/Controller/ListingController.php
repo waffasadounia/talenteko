@@ -15,15 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/listing', name: 'app_listing_')]
+#[Route('/annonce', name: 'app_listing_')]
 final class ListingController extends AbstractController
 {
     // ==========================================================
-    // PAGE PUBLIQUE : Liste des annonces publiées
+    // PAGE PUBLIQUE : Liste de toutes les annonces publiées
     // ==========================================================
     #[Route('/toutes', name: 'index', methods: ['GET'])]
     public function index(ListingRepository $listingRepo): Response
@@ -38,7 +38,10 @@ final class ListingController extends AbstractController
             'listings'   => $listings,
         ]);
     }
+
+    // ==========================================================
     // PAGE PRIVÉE : Création d’une nouvelle annonce
+    // ==========================================================
     #[Route('/nouvelle', name: 'new', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new(
@@ -51,6 +54,7 @@ final class ListingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             // Associer l’auteur connecté
             $listing->setAuthor($this->getUser());
 
@@ -99,7 +103,10 @@ final class ListingController extends AbstractController
             'form'       => $form->createView(),
         ]);
     }
+
+    // ==========================================================
     // PAGE PUBLIQUE : Affichage d’une annonce
+    // ==========================================================
     #[Route(
         '/{slug}',
         name: 'show',
@@ -110,7 +117,7 @@ final class ListingController extends AbstractController
         #[MapEntity(expr: 'repository.findOneBy({slug: slug})')]
         Listing $listing,
     ): Response {
-        // Protection : visible seulement pour auteur ou admin si brouillon
+        // Protection : brouillon visible uniquement par auteur ou admin
         if (
             'draft' === $listing->getStatus()->value
             && $listing->getAuthor() !== $this->getUser()
@@ -123,7 +130,10 @@ final class ListingController extends AbstractController
             'listing' => $listing,
         ]);
     }
+
+    // ==========================================================
     // PAGE PRIVÉE : Édition d’une annonce
+    // ==========================================================
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
@@ -155,3 +165,4 @@ final class ListingController extends AbstractController
         ]);
     }
 }
+

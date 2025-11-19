@@ -22,47 +22,48 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Listing
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
-    #[Assert\NotBlank]
-    #[ORM\Column(length: 180)]
-    private string $title;
+#[ORM\Id]
+#[ORM\GeneratedValue]
+#[ORM\Column]
+private ?int $id = null;
 
-    #[Assert\NotBlank]
-    #[ORM\Column(length: 220, unique: true, nullable: false)]
-    private string $slug;
+#[Assert\NotBlank]
+#[ORM\Column(length: 180)]
+private string $title;
 
-    #[Assert\NotBlank]
-    #[ORM\Column(type: 'text')]
-    private string $description;
+#[ORM\Column(length: 255, unique: true, nullable: true)]
+private ?string $slug = null; // PAS DE VALIDATION, généré automatiquement
 
-    #[ORM\Column(length: 10)]
-    private string $type;
+#[Assert\NotBlank]
+#[ORM\Column(type: 'text')]
+private string $description;
 
-    #[Assert\NotBlank]
-    #[ORM\Column(length: 120)]
-    #[ValidLocation]
-    private string $location;
+#[ORM\Column(length: 10)]
+private string $type;
 
-    #[ORM\Column(enumType: ListingStatus::class, options: ['default' => 'draft'])]
-    private ListingStatus $status = ListingStatus::DRAFT;
+#[Assert\NotBlank(message: "Merci d’indiquer une localisation.")]
+#[ValidLocation]
+#[ORM\Column(length: 120)]
+private string $location;
 
-    #[ORM\Column]
-    private \DateTimeImmutable $createdAt;
+#[ORM\Column(enumType: ListingStatus::class, options: ['default' => 'draft'])]
+private ListingStatus $status = ListingStatus::DRAFT;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+#[ORM\Column]
+private \DateTimeImmutable $createdAt;
 
-    #[ORM\ManyToOne(inversedBy: 'listings')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private ?User $author = null;
+#[ORM\Column(nullable: true)]
+private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'listings')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Category $category;
+#[ORM\ManyToOne(inversedBy: 'listings')]
+#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+private ?User $author = null; // doit être nullable ici pour passer la validation
+
+#[ORM\ManyToOne(inversedBy: 'listings')]
+#[ORM\JoinColumn(nullable: false)]
+private Category $category;
+
 
     /**
      * @var Collection<int, ListingImage>

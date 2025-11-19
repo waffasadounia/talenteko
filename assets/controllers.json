@@ -9,6 +9,18 @@
                 "enabled": false,
                 "fetch": "eager"
             }
+        },
+        "image-preview": {
+            "enabled": true,
+            "fetch": "eager"
+        },
+        "custom-select": {
+            "enabled": true,
+            "fetch": "eager"
+        },
+        "location-autocomplete": {
+            "enabled": true,
+            "fetch": "eager"
         }
     },
     "entrypoints": []

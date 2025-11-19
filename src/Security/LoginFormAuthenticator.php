@@ -18,66 +18,63 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-/**
- * Authenticator de formulaire pour TalentÉkô.
- *
- * - Lit les champs "email" et "password" envoyés par le formulaire.
- * - Vérifie le CSRF.
- * - Gère le "Se souvenir de moi" si coché (+ activé dans security.yaml).
- * - Redirige après succès vers la page demandée (TargetPath) ou l'accueil.
- */
 final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator
+    ) {}
 
     /**
-     * Construit le "Passport" à partir de la requête.
-     * On récupère l'email, le mot de passe, le token CSRF et l'état du remember_me.
+     * Construit le Passport (identifiants + badges CSRF / remember me).
      */
     public function authenticate(Request $request): Passport
     {
-        // Champs postés depuis un formulaire HTML
         $email = $request->request->getString('email');
         $password = $request->request->getString('password');
         $csrf = $request->request->getString('_csrf_token');
 
-        // Retenir le dernier identifiant saisi si erreur
+        // Stocker l'email saisi si login échoue
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         $badges = [new CsrfTokenBadge('authenticate', $csrf)];
-        if ($request->request->getBoolean('_remember_me', false)) {
+
+        if ($request->request->getBoolean('_remember_me')) {
             $badges[] = new RememberMeBadge();
         }
 
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($password),
-            $badges,
+            $badges
         );
     }
 
     /**
      * Redirection après authentification réussie.
-     * - Si l'utilisateur venait d'une page protégée, on y retourne (TargetPath).
-     * - Sinon on renvoie vers l'accueil.
+     * Gère aussi le cas spécial d'inscription.
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // ✔️ Fix spécial INSCRIPTION : ignorer le TargetPath
+        if ($request->attributes->get('_route') === 'app_register') {
+            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        }
+
+        // ✔️ Retourne vers la page protégée d'origine si existante
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
+        // ✔️ Sinon → accueil
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
     /**
-     * URL de la page de login (utilisée par le framework si besoin).
+     * URL de la page de login (obligatoire pour AbstractLoginFormAuthenticator).
      */
     protected function getLoginUrl(Request $request): string
     {
