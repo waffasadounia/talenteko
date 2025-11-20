@@ -31,30 +31,28 @@ final class CheckImagesCommand extends Command
     ) {
         parent::__construct();
     }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $fs = new Filesystem();
 
-        $publicPath = $this->projectDir.'/public';
+        $publicPath = $this->projectDir . '/public';
 
         $errors = [];
 
         // 1) Vérifier les catégories
         $io->section('Catégories');
         foreach ($this->categoryRepository->findAll() as $category) {
-            $base = $publicPath.'/images/categories/'.$category->getSlug();
-            $expectedPng = $base.'.png';
-            $expectedWebp = $base.'.webp';
+            $base = $publicPath . '/images/categories/' . $category->getSlug();
+            $expectedPng = $base . '.png';
+            $expectedWebp = $base . '.webp';
 
             if (!$fs->exists($expectedPng) && !$fs->exists($expectedWebp)) {
-                $errors[] = "❌ Catégorie {$category->getSlug()} manquante.";
+                $errors[] = " Catégorie {$category->getSlug()} manquante.";
             } else {
                 $io->writeln("✔ {$category->getSlug()} OK");
             }
         }
-
         // 2) Vérifier les listings
         $io->section('Listings');
         foreach ($this->listingRepository->findAll() as $listing) {
@@ -64,16 +62,15 @@ final class CheckImagesCommand extends Command
             }
 
             foreach ($listing->getImages() as $image) {
-                $expected = $publicPath.'/uploads/listings/'.$listing->getCategory()->getSlug().'/'.$image->getPath();
+                $expected = $publicPath . '/uploads/listings/' . $listing->getCategory()->getSlug() . '/' . $image->getPath();
 
                 if (!$fs->exists($expected) && !str_starts_with($image->getPath(), 'http')) {
-                    $errors[] = "❌ Listing {$listing->getId()} image manquante : {$expected}";
+                    $errors[] = " Listing {$listing->getId()} image manquante : {$expected}";
                 } else {
                     $io->writeln("✔ Listing {$listing->getId()} → {$image->getPath()}");
                 }
             }
         }
-
         // 3) Résumé
         $io->section('Résumé');
         if (empty($errors)) {
@@ -81,8 +78,7 @@ final class CheckImagesCommand extends Command
 
             return Command::SUCCESS;
         }
-
-        $io->error("Images manquantes détectées :\n".implode("\n", $errors));
+        $io->error("Images manquantes détectées :\n" . implode("\n", $errors));
 
         return Command::FAILURE;
     }

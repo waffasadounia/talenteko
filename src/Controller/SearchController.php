@@ -28,9 +28,7 @@ final class SearchController extends AbstractController
         ListingRepository $listingRepository,
         CategoryRepository $categoryRepository
     ): Response {
-        // ============================================================
-        // 1️⃣ Extraction et nettoyage des critères de recherche
-        // ============================================================
+        // Extraction et nettoyage des critères de recherche
         $criteria = array_filter([
             'q'         => trim((string) $request->query->get('q', '')),
             'location'  => trim((string) $request->query->get('location', '')),
@@ -40,19 +38,13 @@ final class SearchController extends AbstractController
             'date'      => $request->query->get('date'),
         ], static fn($v) => $v !== null && $v !== '');
 
-        // ============================================================
-        // 2️⃣ Requête Doctrine via ListingRepository
-        // ============================================================
+        // Requête Doctrine via ListingRepository
         $results = $listingRepository->searchByFilters($criteria);
 
-        // ============================================================
-        // 3️⃣ Récupération des catégories (pour filtres ou affichage)
-        // ============================================================
+        //  Récupération des catégories (pour filtres ou affichage)
         $categories = $categoryRepository->findBy([], ['name' => 'ASC']);
 
-        // ============================================================
-        // 4️⃣ Rendu du template
-        // ============================================================
+        //  Rendu du template
         return $this->render('search/index.html.twig', [
             'results'    => $results,
             'criteria'   => $criteria,

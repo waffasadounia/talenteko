@@ -6,12 +6,6 @@ namespace App\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * Contrainte personnalisée pour la validation des localisations.
- *
- * Utilisation :
- *   #[ValidLocation]
- */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
 class ValidLocation extends Constraint
 {

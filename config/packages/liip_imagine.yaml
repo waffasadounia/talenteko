@@ -3,7 +3,7 @@ liip_imagine:
   driver: 'gd'
 
   twig:
-    mode: lazy # ✅ évite les warnings de dépréciation FilterExtension/FilterTrait
+    mode: lazy # évite les warnings de dépréciation FilterExtension/FilterTrait
 
   resolvers:
     default:

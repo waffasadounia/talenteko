@@ -35,8 +35,7 @@ export default class extends Controller {
             data-action="click->image-preview#remove"
             data-name="${file.name}">
             ×
-          </button>
-        `;
+          </button>`;
 
         this.previewTarget.appendChild(div);
       };

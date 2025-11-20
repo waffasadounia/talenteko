@@ -83,7 +83,7 @@ class Notification
 
     public function setContent(?string $content): self
     {
-        // strip_tags pour éviter une injection XSS si affichage brut
+    // strip_tags pour éviter une injection XSS si affichage brut
         $this->content = $content ? strip_tags($content) : null;
 
         return $this;

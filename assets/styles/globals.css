@@ -2,10 +2,10 @@
    THEME TALENTÉKÔ — Tokens & Reset global
    =========================================== */
 
-/* 🎨 Variables globales */
+/* Variables globales */
 :root {
   /* Palette BLEU */
- --talenteko-blue-900: #141c2e; /* Bleu principal (titres, texte fort) */
+  --talenteko-blue-900: #141c2e; /* Bleu principal (titres, texte fort) */
   --talenteko-blue-800: #1e2636; /* Variante foncée pour hover ou bandeaux */
   --talenteko-blue-700: #252e40; /* Intermédiaire — hover sur liens/fonds */
   --talenteko-blue-600: #2b3343; /* Ton moyen actuel, équilibré pour boutons secondaires */
@@ -14,11 +14,19 @@
   --talenteko-blue-300: #c2c5cc; /* Très clair — hover sur fond blanc, badges doux */
   --talenteko-blue-200: #e1e3e7; /* Couleur de fond légère */
   --talenteko-blue-100: #f0f1f3; /* Fond très subtil, contraste élevé */
-  --talenteko-blue-50:  #f8f9fa; /* Presque blanc, idéal pour sections aérées */
+  --talenteko-blue-50: #f8f9fa; /* Presque blanc, idéal pour sections aérées */
 
-  /* 🔹 Gradients (bonus, facultatif) */
-  --talenteko-blue-gradient: linear-gradient(135deg, var(--talenteko-blue-900), var(--talenteko-blue-600));
-  --talenteko-blue-gradient-soft: linear-gradient(135deg, var(--talenteko-blue-200), var(--talenteko-blue-50));
+  /*  Gradients (bonus, facultatif) */
+  --talenteko-blue-gradient: linear-gradient(
+    135deg,
+    var(--talenteko-blue-900),
+    var(--talenteko-blue-600)
+  );
+  --talenteko-blue-gradient-soft: linear-gradient(
+    135deg,
+    var(--talenteko-blue-200),
+    var(--talenteko-blue-50)
+  );
 
   /* Palette ORANGE */
   --talenteko-orange-50: #fce9e2;

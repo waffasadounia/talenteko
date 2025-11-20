@@ -13,7 +13,7 @@ final class ThreadVoter extends Voter
 {
     public const VIEW = 'THREAD_VIEW';
     public const REPLY = 'THREAD_REPLY';
-    public const DELETE = 'THREAD_DELETE'; // ou LEAVE
+    public const DELETE = 'THREAD_DELETE';
 
     protected function supports(string $attribute, mixed $subject): bool
     {

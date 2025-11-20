@@ -37,14 +37,47 @@ final class ProfileController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $favorites = $user->getFavorites(); // Collection d’objets Favorite
-
         return $this->render('profile/favoris.html.twig', [
             'page_title' => 'Mes favoris',
-            'favorites' => $favorites,
+            'favorites' => $user->getFavorites(),
         ]);
     }
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/annonces', name: 'listings', methods: ['GET'])]
+    public function myListings(
+        EntityManagerInterface $em
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
 
+        $listings = $em->getRepository(\App\Entity\Listing::class)
+            ->findBy(['author' => $user], ['createdAt' => 'DESC']);
+
+        return $this->render('profile/my_listings.html.twig', [
+            'page_title' => 'Mes annonces',
+            'listings' => $listings,
+        ]);
+    }
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/echanges', name: 'exchanges', methods: ['GET'])]
+    public function myExchanges(
+        EntityManagerInterface $em
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $repo = $em->getRepository(\App\Entity\Exchange::class);
+
+        $exchanges = array_merge(
+            $repo->findByRequester($user->getId()),
+            $repo->findByOwner($user->getId())
+        );
+
+        return $this->render('profile/my_exchanges.html.twig', [
+            'page_title' => 'Mes échanges',
+            'exchanges' => $exchanges,
+        ]);
+    }
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
@@ -52,10 +85,11 @@ final class ProfileController extends AbstractController
         EntityManagerInterface $em,
         Security $security,
     ): Response {
+
         /** @var User $user */
         $user = $security->getUser();
 
-        // Si pas encore de Profile → on en crée un
+        // Si l'utilisateur n'a pas encore de Profile, on le crée
         if (null === $user->getProfile()) {
             $profile = new \App\Entity\Profile();
             $user->setProfile($profile);
@@ -65,10 +99,39 @@ final class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // === Gestion Upload Avatar ===
+            $avatarFile = $form->get('profile')->get('avatarFilename')->getData();
+
+            if ($avatarFile) {
+                $uploadsDir = $this->getParameter('kernel.project_dir') . '/public/uploads/avatars';
+
+                // Création dossier si inexistant
+                if (!is_dir($uploadsDir)) {
+                    mkdir($uploadsDir, 0777, true);
+                }
+
+                // Suppression ancien avatar si présent
+                $oldAvatar = $user->getProfile()->getAvatarFilename();
+                if ($oldAvatar && file_exists($uploadsDir . '/' . $oldAvatar)) {
+                    @unlink($uploadsDir . '/' . $oldAvatar);
+                }
+
+                // Nouveau nom unique
+                $newFilename = uniqid('avatar_') . '.' . $avatarFile->guessExtension();
+
+                // Upload réel
+                $avatarFile->move($uploadsDir, $newFilename);
+
+                // Sauvegarde dans l'entité Profile
+                $user->getProfile()->setAvatarFilename($newFilename);
+            }
+
+            // IMPORTANT : toujours persist le User
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Profil mis à jour avec succès');
+            $this->addFlash('success', 'Profil mis à jour avec succès.');
 
             return $this->redirectToRoute('app_profile_edit');
         }

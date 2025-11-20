@@ -12,8 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Contrôleur des profils publics utilisateurs.
- *
- * ➡ Permet de consulter le profil d’un utilisateur et ses annonces actives.
+ *Permet de consulter le profil d’un utilisateur et ses annonces actives.
  */
 final class UserController extends AbstractController
 {
@@ -25,16 +24,16 @@ final class UserController extends AbstractController
     )]
     public function show(User $user, ListingRepository $listingRepo): Response
     {
-        // 🔎 Récupérer toutes les annonces publiées par cet utilisateur
+        // Récupérer toutes les annonces publiées par cet utilisateur
         $listings = $listingRepo->findBy(
             ['author' => $user],
             ['createdAt' => 'DESC']
         );
 
-        // ✅ Vue Twig : profil public de l’utilisateur
+        // Vue Twig : profil public de l’utilisateur
         return $this->render('user/show.html.twig', [
             'page_title' => \sprintf('Profil de %s', $user->getDisplayName()), // harmonisé avec User::__toString()
-            'user_profile' => $user, // ⚡ nommé différemment de app.user pour éviter la confusion
+            'user_profile' => $user, // nommé différemment de app.user pour éviter la confusion
             'listings' => $listings,
         ]);
     }

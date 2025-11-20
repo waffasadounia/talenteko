@@ -8,85 +8,150 @@
 {% block title %}Modifier mon annonce | TalentÉkô{% endblock %}
 
 {% block body %}
-<main class="min-h-screen bg-talenteko-peach-200 flex items-center justify-center px-4 py-8">
-  <div class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
-    {# --- En-tête --- #}
-    <h1 class="text-3xl font-extrabold text-center text-talenteko-blue-900 mb-2">
-      Modifier mon annonce
-    </h1>
-    <p class="text-gray-500 mb-8 text-center">
-      Mettez à jour les informations de votre annonce.
-    </p>
+<main class="min-h-screen bg-orange-50 flex items-center justify-center px-4 py-8">
 
-    {# --- Formulaire principal --- #}
-    {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
 
-      {# Titre #}
-      <div>
-        {{ form_label(form.title, 'Titre de l’annonce', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
-        {{ form_errors(form.title) }}
-      </div>
+        <h1 class="text-3xl font-extrabold text-center text-talenteko-orange-500 mb-2">
+            Modifier mon annonce
+        </h1>
 
-      {# Description #}
-      <div>
-        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.description, {'attr': {'class': 'form-input'}}) }}
-        {{ form_errors(form.description) }}
-      </div>
+        <p class="text-gray-500 mb-8 text-center">
+            Mettez à jour les informations de votre annonce.
+        </p>
 
-      {# Type d’annonce #}
-      <div>
-        {{ form_label(form.type, 'Type d’annonce', {'label_attr': {'class': 'form-label'}}) }}
-        <div class="flex gap-6">
-          {{ form_widget(form.type, {'attr': {'class': 'form-radio'}}) }}
+        {{ form_start(form, {
+            'attr': {
+                'class': 'space-y-6',
+                'novalidate': 'novalidate'
+            }
+        }) }}
+
+        {# Titre #}
+        <div>
+            {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
+            {{ form_errors(form.title) }}
         </div>
-        {{ form_errors(form.type) }}
-      </div>
 
-      {# Catégorie #}
-      <div>
-        {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.category, {'attr': {'class': 'form-input'}}) }}
-        {{ form_errors(form.category) }}
-      </div>
+        {# Description #}
+        <div>
+            {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-input min-h-[120px]'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
 
-      {# Localisation #}
-      <div>
-        {{ form_label(form.location, 'Localisation', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.location, {'attr': {'class': 'form-input'}}) }}
-        {{ form_errors(form.location) }}
-      </div>
+        {# Type #}
+        <div>
+            {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
 
-      {# Images #}
-      <div>
-        {{ form_label(form.images, 'Images', {'label_attr': {'class': 'form-label'}}) }}
-        <label class="w-full h-36 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:border-talenteko-orange-500 transition cursor-pointer focus-within:ring-2 focus-within:ring-talenteko-orange-500">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5m0 0l5 5m-5-5v12" />
-          </svg>
-          <span>Cliquez ou déposez vos images</span>
-          {{ form_widget(form.images, {'attr': {
-            'class': 'absolute inset-0 opacity-0 cursor-pointer',
-            'aria-label': 'Choisir des images à téléverser'
-          }}) }}
-        </label>
-        {{ form_errors(form.images) }}
-      </div>
+            <div class="flex flex-wrap items-center gap-8">
+                {% for choice in form.type %}
+                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                        {{ form_widget(choice, { attr: { class: 'form-radio' } }) }}
+                        <span class="text-gray-700 text-sm font-normal">{{ choice.vars.label }}</span>
+                    </label>
+                {% endfor %}
+            </div>
 
-      {# Boutons --- #}
-      <div class="flex justify-between pt-4">
-        <a href="{{ path('app_listing_show', {slug: listing.slug}) }}" class="btn-outline inline-flex items-center gap-2">
-          <i class="fa-solid fa-arrow-left"></i>
-          <span>Retour à l’annonce</span>
-        </a>
-        <button type="submit" class="btn-primary">
-          <i class="fa-solid fa-floppy-disk mr-1"></i>
-          Enregistrer les modifications
-        </button>
-      </div>
+            {{ form_errors(form.type) }}
+        </div>
 
-    {{ form_end(form) }}
-  </div>
+        {# Catégorie (custom select) #}
+        <div>
+            {{ form_label(form.category, null, {'label_attr': {'class': 'form-label'}}) }}
+
+            {% include 'components/_custom_select.html.twig' with {
+                id: form.category.vars.id,
+                name: form.category.vars.full_name,
+                selected: form.category.vars.value,
+                options: form.category.vars.choices|map(c => {
+                    'value': c.value,
+                    'label': c.label
+                })
+            } %}
+
+            {{ form_errors(form.category) }}
+            {% do form.category.setRendered() %}
+        </div>
+
+        {# Localisation — autocomplete Stimulus #}
+        <div data-controller="location-autocomplete" class="relative">
+
+            {{ form_label(form.location, null, {'label_attr': {'class': 'form-label'}}) }}
+
+            {{ form_widget(form.location, {
+                attr: {
+                    class: 'form-input',
+                    placeholder: 'ex. Paris, Lyon, Marseille',
+                    autocomplete: 'off',
+                    'data-location-autocomplete-target': 'input',
+                    'data-action': 'input->location-autocomplete#search keydown->location-autocomplete#keydown'
+                }
+            }) }}
+
+            <ul
+                data-location-autocomplete-target="list"
+                class="hidden absolute left-0 right-0 z-40 mt-1 bg-white border border-gray-300
+                       rounded-lg shadow-lg max-h-64 overflow-y-auto"
+                role="listbox">
+            </ul>
+
+            {{ form_errors(form.location) }}
+        </div>
+
+        {# Upload images + preview (identique à NEW) #}
+        <div data-controller="image-preview">
+
+            {{ form_label(form.images, 'Images', {'label_attr': {'class': 'form-label'}}) }}
+
+            <div
+                class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
+                       flex flex-col items-center justify-center text-gray-400
+                       hover:border-talenteko-orange-500 transition"
+                onclick="document.getElementById('{{ form.images.vars.id }}').click();"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
+        </svg>
+                <span class="text-sm">Cliquez ou déposez vos images ici</span>
+            </div>
+
+            <div class="mt-2">
+                {{ form_widget(form.images, {
+                    attr: {
+                        id: form.images.vars.id,
+                        class: 'w-full opacity-0 h-0 p-0 m-0',
+                        'data-image-preview-target': 'input',
+                        'data-action': 'change->image-preview#preview'
+                    }
+                }) }}
+            </div>
+
+            <div data-image-preview-target="preview"
+                 class="flex flex-wrap gap-3 mt-4 w-full min-h-[1px]"></div>
+
+            {{ form_errors(form.images) }}
+            {% do form.images.setRendered() %}
+        </div>
+
+        {# Boutons #}
+        <div class="flex justify-between pt-4">
+            <a href="{{ path('app_listing_show', {slug: listing.slug}) }}"
+               class="btn-outline inline-flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Retour à l’annonce</span>
+            </a>
+
+            <button type="submit"
+                    class="btn-primary py-3 px-6 ">
+                Enregistrer les modifications
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
 </main>
 {% endblock %}

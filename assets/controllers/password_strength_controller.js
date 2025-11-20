@@ -11,7 +11,6 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
   static targets = ['input', 'feedback', 'submit'];
-
   connect() {
     // === Règles ANSSI ===
     this.rules = [
@@ -21,7 +20,6 @@ export default class extends Controller {
       { regex: /\d/, text: 'Au moins un chiffre' },
       { regex: /[\W_]/, text: 'Au moins un caractère spécial' },
     ];
-
     // === UL de critères ===
     this.list = document.createElement('ul');
     this.list.className = 'text-xs mt-2 space-y-1';
@@ -35,32 +33,24 @@ export default class extends Controller {
       li.className = 'flex items-center gap-1 text-red-600';
       this.list.appendChild(li);
     });
-
     this.feedbackTarget.replaceChildren(this.list);
   }
-
   check() {
     const value = this.inputTarget.value;
     let validCount = 0;
-
     this.rules.forEach((rule, i) => {
       const li = this.list.querySelector(`[data-index="${i}"]`);
       const passed = rule.regex.test(value);
-
       li.innerHTML = this.renderRule(rule.text, passed);
       li.className = passed
         ? 'flex items-center gap-1 text-green-600'
         : 'flex items-center gap-1 text-red-600';
-
       if (passed) validCount++;
     });
-
     const allValid = validCount === this.rules.length;
-
     // ARIA
     this.inputTarget.setAttribute('aria-invalid', allValid ? 'false' : 'true');
     this.inputTarget.classList.toggle('valid-password', allValid);
-
     // Communique avec password-confirm si présent
     if (this.element.dataset.hasConfirm === 'true') {
       const event = new CustomEvent('password-strength-updated', {
@@ -70,7 +60,6 @@ export default class extends Controller {
       this.element.dispatchEvent(event);
     }
   }
-
   renderRule(text, passed) {
     return passed
       ? `<i class="fa-solid fa-check-circle text-green-500 mr-1"></i><span>${text}</span>`

@@ -27,10 +27,6 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         private UrlGeneratorInterface $urlGenerator
     ) {}
-
-    /**
-     * Construit le Passport (identifiants + badges CSRF / remember me).
-     */
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->getString('email');
@@ -59,17 +55,17 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // ✔️ Fix spécial INSCRIPTION : ignorer le TargetPath
+        // Fix spécial INSCRIPTION : ignorer le TargetPath
         if ($request->attributes->get('_route') === 'app_register') {
             return new RedirectResponse($this->urlGenerator->generate('app_home'));
         }
 
-        // ✔️ Retourne vers la page protégée d'origine si existante
+        // Retourne vers la page protégée d'origine si existante
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // ✔️ Sinon → accueil
+        // Sinon → accueil
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 

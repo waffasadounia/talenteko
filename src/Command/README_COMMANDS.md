@@ -1,24 +1,24 @@
-# 📑 README — Commandes Symfony (TalentÉkô)
+# README — Commandes Symfony (TalentÉkô)
 
 Ce dossier contient des **commandes personnalisées Symfony** permettant de gérer les **images, catégories et slugs** dans le projet **TalentÉkô**.
 
-## 📚 Table des matières
+## Table des matières
 
-1. [🔄 Rafraîchir le cache LiipImagine](#-1-rafraîchir-le-cache-liipimagine)
+1. [ Rafraîchir le cache LiipImagine](#-1-rafraîchir-le-cache-liipimagine)
 
-2. [🔍 Vérifier la présence des images](#-2-vérifier-la-présence-des-images)
+2. [ Vérifier la présence des images](#-2-vérifier-la-présence-des-images)
 
-3. [📝 Corriger les slugs des catégories](#-3-corriger-les-slugs-des-catégories)
+3. [ Corriger les slugs des catégories](#-3-corriger-les-slugs-des-catégories)
 
-4. [🖼 Corriger les chemins d’images](#-4-corriger-les-chemins-dimages)
+4. [ Corriger les chemins d’images](#-4-corriger-les-chemins-dimages)
 
-5. [⚡ Préchauffer les variantes LiipImagine](#-5-préchauffer-les-variantes-liipimagine)
+5. [ Préchauffer les variantes LiipImagine](#-5-préchauffer-les-variantes-liipimagine)
 
-6. [💡 Bonnes pratiques](#-bonnes-pratiques)
+6. [ Bonnes pratiques](#-bonnes-pratiques)
 
-## 📂 Liste des commandes disponibles
+## Liste des commandes disponibles
 
-### 🔄 1. Rafraîchir le cache LiipImagine
+### 1. Rafraîchir le cache LiipImagine
 
 ```bash
 php bin/console app:cache-images
@@ -29,7 +29,7 @@ php bin/console app:cache-images
 - Extensions supportées : .jpg, .jpeg, .png, .webp.
 - Quand l’utiliser : après avoir remplacé des images ou modifié les filtres LiipImagine.
 
-### 🔍 2. Vérifier la présence des images
+### 2. Vérifier la présence des images
 
 ```bash
 php bin/console app:check-images
@@ -42,13 +42,13 @@ php bin/console app:check-images
 
 **Affiche un résumé clair avec :**
 
-- ✅ Images OK
-- ⚠️ Fallback utilisé
-- ❌ Images manquantes
+- Images OK
+- Fallback utilisé
+- Images manquantes
 
 Quand l’utiliser : avant une démo ou une mise en production pour s’assurer qu’il n’y a pas de fichiers manquants.
 
-### 📝 3. Corriger les slugs des catégories
+### 3. Corriger les slugs des catégories
 
 ```bash
 php bin/console app:fix-category-slugs
@@ -60,7 +60,7 @@ php bin/console app:fix-category-slugs
 
 Quand l’utiliser : après avoir modifié ou importé des catégories.
 
-### 🖼 4. Corriger les chemins d’images
+### 4. Corriger les chemins d’images
 
 ```bash
 php bin/console app:fix-image-paths
@@ -72,7 +72,7 @@ php bin/console app:fix-image-paths
 
 Quand l’utiliser : après une migration de données ou un import non propre.
 
-### ⚡ 5. Préchauffer les variantes LiipImagine
+### 5. Préchauffer les variantes LiipImagine
 
 ```bash
 php bin/console app:warmup-images
@@ -84,7 +84,7 @@ php bin/console app:warmup-images
 
 Quand l’utiliser : juste avant une démo, pour que toutes les images s’affichent instantanément.
 
-## 📦 6. Insérer un dataset massif d’annonces
+## 6. Insérer un dataset massif d’annonces
 
 ```bash
 php bin/console app:seed-listings
@@ -100,14 +100,14 @@ php bin/console app:seed-listings
 
 Utile pour peupler rapidement la base en environnement de test ou pour les démonstrations.
 
-### 💡 Bonnes pratiques
+### Bonnes pratiques
 
 - Lancer app:fix-category-slugs après avoir modifié les catégories en BDD.
 - Lancer app:fix-image-paths si on change la logique de stockage des fichiers.
 - Utiliser app:warmup-images après un gros import ou un reset de cache.
 - Utiliser app:check-images avant une démo pour s’assurer que tout est OK.
 
-### ℹ️ Ces commandes sont destinées à la **maintenance** et au **debug**.
+### Ces commandes sont destinées à la **maintenance** et au **debug**.
 
 Elles ne sont pas nécessaires pour le fonctionnement quotidien de TalentÉkô,
 mais permettent d’assurer la qualité avant une mise en production ou une soutenance.

@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 /**
  * Contrôleur de sécurité (login / logout).
  *
- * ⚡ Ce contrôleur est lié à l'authenticator personnalisé :
+ * Ce contrôleur est lié à l'authenticator personnalisé :
  * App\Security\LoginFormAuthenticator
  *
  * - /login : formulaire de connexion (géré côté POST par l'authenticator).

@@ -11,7 +11,7 @@ webpack_encore:
 
   # Attributs appliqués à toutes les balises <link>
   # link_attributes:
-  #     'data-turbo-track': reload
+  # 'data-turbo-track': reload
 
 framework:
   assets:

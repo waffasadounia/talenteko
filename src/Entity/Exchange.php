@@ -8,7 +8,7 @@ use App\Enum\ExchangeStatus;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: \App\Repository\ExchangeRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Exchange
 {
@@ -16,7 +16,6 @@ class Exchange
     private ?int $id = null;
 
     // === Relations ===
-
     #[Assert\NotNull(message: 'Un échange doit avoir un utilisateur demandeur.')]
     #[ORM\ManyToOne(inversedBy: 'exchangesRequested')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]

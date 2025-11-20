@@ -42,7 +42,6 @@ final class NewExchangeCreatedNotificationHandler
 
             return;
         }
-
         // Construction de l'email avec le bon template (chemin corrigé)
         $email = (new TemplatedEmail())
             ->from($this->mailerFrom)

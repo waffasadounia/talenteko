@@ -3,21 +3,18 @@ import { Controller } from '@hotwired/stimulus';
 /**
  * Contrôleur Stimulus — Autocomplétion de la localisation (API BAN)
  * ---------------------------------------------------------------
- * - Propose des villes (type=municipality)
+ * - Propose des villes
  * - Compatibilité Stimulus complète
  * - Fix : évite les 400 causés par keydown / event
  */
 export default class extends Controller {
   static targets = ['input', 'list'];
-
   connect() {
     this.activeIndex = -1;
     this.closeOnClickOutside = this.closeOnClickOutside.bind(this);
-
     this.listTarget.setAttribute('role', 'listbox');
     this.listTarget.setAttribute('aria-live', 'polite');
   }
-
   /**
    * Recherche via API — corrigée (anti 400 errors)
    */
@@ -26,14 +23,12 @@ export default class extends Controller {
     if (event instanceof KeyboardEvent) {
       return;
     }
-
     const query = this.inputTarget.value.trim();
 
     if (query.length < 3) {
       this.clearList();
       return;
     }
-
     try {
       const res = await fetch(
         `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
@@ -45,9 +40,8 @@ export default class extends Controller {
         console.warn('API Adresse renvoie une erreur :', res.status);
         this.clearList();
         this.renderList([{ properties: { label: 'Aucun résultat (tapez au moins 3 lettres)' } }]);
-return;
+        return;
       }
-
       const data = await res.json();
       this.renderList(data.features);
     } catch (err) {
@@ -55,7 +49,6 @@ return;
       this.clearList();
     }
   }
-
   /**
    * Génère la liste d’options
    */
@@ -68,8 +61,7 @@ return;
       const li = document.createElement('li');
 
       li.textContent = label;
-      li.className =
-        'px-3 py-2 text-sm cursor-pointer hover:bg-talenteko-peach-200 transition';
+      li.className = 'px-3 py-2 text-sm cursor-pointer hover:bg-talenteko-peach-200 transition';
       li.setAttribute('role', 'option');
       li.setAttribute('id', `opt-${i}`);
       li.setAttribute('aria-selected', 'false');
@@ -78,7 +70,6 @@ return;
         e.preventDefault();
         this.select(label);
       });
-
       this.listTarget.appendChild(li);
     });
 
@@ -88,7 +79,6 @@ return;
 
     document.addEventListener('mousedown', this.closeOnClickOutside);
   }
-
   /**
    * Navigation clavier
    */
@@ -121,7 +111,6 @@ return;
         break;
     }
   }
-
   /**
    * Ajoute le style sur l’option active
    */
@@ -133,15 +122,11 @@ return;
     });
 
     if (this.activeIndex >= 0) {
-      this.inputTarget.setAttribute(
-        'aria-activedescendant',
-        items[this.activeIndex].id
-      );
+      this.inputTarget.setAttribute('aria-activedescendant', items[this.activeIndex].id);
     } else {
       this.inputTarget.removeAttribute('aria-activedescendant');
     }
   }
-
   /**
    * Quand on sélectionne une suggestion
    */
@@ -158,7 +143,6 @@ return;
       this.clearList();
     }
   }
-
   /**
    * Animation fermeture + reset
    */
@@ -170,7 +154,6 @@ return;
       this._resetList();
     }
   }
-
   _resetList() {
     this.listTarget.innerHTML = '';
     this.listTarget.classList.add('hidden');

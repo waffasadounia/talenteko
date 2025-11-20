@@ -27,31 +27,22 @@ export default class extends Controller {
   disconnect() {
     document.removeEventListener('click', this._boundClickOutside);
   }
-
-  // ------------------------------------------------------
   // Ouverture / fermeture du menu déroulant
-  // ------------------------------------------------------
   toggle(event) {
     event.preventDefault();
     this.open = !this.open;
     this.updateVisibility();
   }
+  // selectOption SANS auto-submit
+  selectOption(event) {
+    const selectedValue = event.currentTarget.dataset.value;
+    const selectedLabel = event.currentTarget.textContent.trim();
 
-  //------------------------------------------------------
-// selectOption SANS auto-submit
-//------------------------------------------------------
-selectOption(event) {
-  const selectedValue = event.currentTarget.dataset.value;
-  const selectedLabel = event.currentTarget.textContent.trim();
-
-  this.inputTarget.value = selectedValue;
-  this.labelTarget.textContent = selectedLabel;
-  this.close();
-}
-
-  // ------------------------------------------------------
+    this.inputTarget.value = selectedValue;
+    this.labelTarget.textContent = selectedLabel;
+    this.close();
+  }
   // Gestion du clavier sur le bouton principal
-  // ------------------------------------------------------
   handleKeydown(event) {
     if ([' ', 'Enter', 'ArrowDown'].includes(event.key)) {
       event.preventDefault();
@@ -63,10 +54,7 @@ selectOption(event) {
       this.close();
     }
   }
-
-  // ------------------------------------------------------
   // Gestion du clavier dans la liste des options
-  // ------------------------------------------------------
   handleOptionKeydown(event) {
     const currentIndex = this.optionTargets.indexOf(event.currentTarget);
     if (event.key === 'ArrowDown') {
@@ -76,8 +64,7 @@ selectOption(event) {
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
       const prev =
-        this.optionTargets[currentIndex - 1] ||
-        this.optionTargets[this.optionTargets.length - 1];
+        this.optionTargets[currentIndex - 1] || this.optionTargets[this.optionTargets.length - 1];
       prev.focus();
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -87,19 +74,13 @@ selectOption(event) {
       this.buttonTarget.focus();
     }
   }
-
-  // ------------------------------------------------------
   // Ferme le menu si clic à l’extérieur
-  // ------------------------------------------------------
   handleClickOutside(event) {
     if (this.open && !this.element.contains(event.target)) {
       this.close();
     }
   }
-
-  // ------------------------------------------------------
   // Maj la visibilité et les attributs ARIA
-  // ------------------------------------------------------
   updateVisibility() {
     this.listTarget.classList.toggle('hidden', !this.open);
     this.buttonTarget.setAttribute('aria-expanded', this.open);

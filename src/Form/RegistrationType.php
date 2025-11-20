@@ -63,7 +63,7 @@ final class RegistrationType extends AbstractType
                 'attr' => [
                     'autocomplete' => 'address-level2',
                     'placeholder' => 'ex. Paris, Lyon, Marseille',
-                    // ⚡ Branché avec Stimulus côté front
+            // Branché avec Stimulus côté front
                 ],
             ])
 

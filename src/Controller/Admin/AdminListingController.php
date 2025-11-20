@@ -36,7 +36,6 @@ final class AdminListingController extends AbstractController
             'listings' => $repo->findBy([], ['createdAt' => 'DESC']),
         ]);
     }
-
     /**
      * Valide une annonce (passe son statut en PUBLISHED).
      *
@@ -47,12 +46,9 @@ final class AdminListingController extends AbstractController
     {
         $listing->setStatus(ListingStatus::PUBLISHED);
         $em->flush();
-
-        $this->addFlash('success', \sprintf('Annonce « %s » validée avec succès ✅', $listing->getTitle()));
-
+        $this->addFlash('success', \sprintf('Annonce « %s » validée avec succès', $listing->getTitle()));
         return $this->redirectToRoute('app_admin_listing_index');
     }
-
     /**
      * Supprime une annonce.
      *
@@ -62,12 +58,9 @@ final class AdminListingController extends AbstractController
     public function delete(Listing $listing, EntityManagerInterface $em): Response
     {
         $title = $listing->getTitle();
-
         $em->remove($listing);
         $em->flush();
-
-        $this->addFlash('danger', \sprintf('Annonce « %s » supprimée ❌', $title));
-
+        $this->addFlash('danger', \sprintf('Annonce « %s » supprimée', $title));
         return $this->redirectToRoute('app_admin_listing_index');
     }
 }

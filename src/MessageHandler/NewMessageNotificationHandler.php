@@ -50,7 +50,7 @@ final class NewMessageNotificationHandler
             return;
         }
 
-        // Préparation de l’email à partir du template Twig 
+        // Préparation de l’email
         $email = (new TemplatedEmail())
             ->from($this->mailerFrom)
             ->to($recipient->getEmail())

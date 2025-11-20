@@ -53,7 +53,6 @@ final class MessageController extends AbstractController
         if (!$thread->isParticipant($user)) {
             throw $this->createAccessDeniedException('Vous n’avez pas accès à cette conversation.');
         }
-
         // Formulaire d’ajout de message
         $form = $this->createFormBuilder(new Message())
             ->add('content', TextareaType::class, [
@@ -103,11 +102,41 @@ final class MessageController extends AbstractController
                 ]);
             }
         }
-
         return $this->render('message/show.html.twig', [
             'thread' => $thread,
             'messages' => $thread->getMessages(),
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/start/{id}', name: 'app_message_start', methods: ['GET'])]
+    public function start(
+        User $other,
+        EntityManagerInterface $em,
+        ThreadRepository $threadRepo
+    ): Response {
+        /** @var User $me */
+        $me = $this->getUser();
+
+        if ($me === $other) {
+            $this->addFlash('warning', 'Impossible de démarrer une conversation avec vous-même.');
+            return $this->redirectToRoute('app_messages');
+        }
+
+        // Vérifier si un thread existe déjà
+        $thread = $threadRepo->findExisting($me, $other);
+
+        if (!$thread) {
+            $thread = new Thread();
+            $thread->addParticipant($me);
+            $thread->addParticipant($other);
+
+            $em->persist($thread);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_message_thread', [
+            'id' => $thread->getId(),
         ]);
     }
 }

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="mt-10 text-left">
+  <a onclick="history.back()" class="btn-link inline-flex items-center gap-2 cursor-pointer">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 19l-7-7 7-7" />
+    </svg>
+    Retour
+  </a>
+</div>
+{% include 'profile/_profile_nav.html.twig' %}
+<section class="mx-auto max-w-6xl px-4 py-10">
+<h1 class="mb-8 flex items-center gap-2 text-3xl font-bold text-talenteko-blue-900">
+  <svg xmlns="http://www.w3.org/2000/svg"
+       class="h-8 w-8 text-talenteko-orange-500"
+       fill="none"
+       viewBox="0 0 24 24"
+       stroke="currentColor">
+    <path stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 7h11m0 0l-4-4m4 4l-4 4M20 17H9m0 0l4 4m-4-4l4-4" />
+  </svg>
+  <span>Mes échanges</span>
+</h1>
+  {% if exchanges is empty %}
+    <p class="italic text-gray-500">Vous n’avez aucun échange pour l’instant.</p>
+  {% else %}
+    {% for exchange in exchanges %}
+      <div class="rounded-xl border p-4 mb-4">
+        <strong>{{ exchange.listing.title }}</strong><br>
+        Statut : {{ exchange.status.value|upper }}
+      </div>
+    {% endfor %}
+  {% endif %}
+</section>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-# 🎛 Contrôleurs Stimulus — TalentÉkô
+# Contrôleurs Stimulus — TalentÉkô
 
 Ce dossier contient les **contrôleurs Stimulus (JavaScript)** utilisés pour enrichir l’expérience utilisateur de TalentÉkô.
 Ils implémentent les fonctionnalités dynamiques prévues dans le **cahier des charges** (MVP + bonus UX).
@@ -7,7 +7,7 @@ Chaque contrôleur est **accessibilité-ready (ARIA/WCAG)** et documenté pour �
 
 ---
 
-## 📑 Table des matières
+## Table des matières
 
 1. [Favoris](#1-favoris)
 2. [Autocomplétion localisation](#2-autocomplétion-localisation)
@@ -175,12 +175,12 @@ Sauvegarde temporaire d’un formulaire en localStorage.
   …
 </form>
 
-## ✅ Bonnes pratiques
+## Bonnes pratiques
 
 - Tous les contrôleurs sont petits, dédiés, réutilisables.
 - Intégrés via data-controller dans les templates Twig.
 - Respect des règles WCAG (aria-label, aria-pressed, aria-expanded, aria-live).
 - Stockage simple et propre (localStorage) pour les préférences.
 
-✍️ Auteur : Contrôleurs Stimulus internes TalentÉkô
-📅 Dernière mise à jour : octobre 2025
+Auteur : Contrôleurs Stimulus internes TalentÉkô
+Dernière mise à jour : octobre 2025

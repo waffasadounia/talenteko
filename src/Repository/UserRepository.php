@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * Repository — Gestion des entités User (utilisateurs TalentÉkô)
  * Fournit les méthodes principales :
- * - mise à jour sécurisée du mot de passe (PasswordUpgraderInterface)
+ * - mise à jour sécurisée du mot de passe  (hash)
  * - recherche d’utilisateurs par email
  */
 final class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
@@ -28,7 +28,7 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
     /**
      * Met à jour (rehash) le mot de passe d’un utilisateur au fil du temps.
      *
-     * @throws UnsupportedUserException Si l’objet n’est pas une instance de User.
+     * @throws UnsupportedUserException 
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {

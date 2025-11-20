@@ -35,7 +35,6 @@ final class AdminUserController extends AbstractController
             'users' => $repo->findBy([], ['createdAt' => 'DESC']),
         ]);
     }
-
     /**
      * Bannit un utilisateur (ajoute ROLE_BANNED).
      *
@@ -52,9 +51,7 @@ final class AdminUserController extends AbstractController
 
         $user->setRoles($roles);
         $em->flush();
-
-        $this->addFlash('warning', \sprintf('Utilisateur %s banni 🚫', $user->getEmail()));
-
+        $this->addFlash('warning', \sprintf('Utilisateur %s banni', $user->getEmail()));
         return $this->redirectToRoute('app_admin_user_index');
     }
 
@@ -66,20 +63,16 @@ final class AdminUserController extends AbstractController
     #[Route('/{id}/unban', name: 'app_admin_user_unban', methods: ['POST'])]
     public function unban(User $user, EntityManagerInterface $em): Response
     {
-        $roles = array_filter($user->getRoles(), fn (string $r) => 'ROLE_BANNED' !== $r);
+        $roles = array_filter($user->getRoles(), fn(string $r) => 'ROLE_BANNED' !== $r);
 
         if ([] === $roles) {
             $roles = ['ROLE_USER'];
         }
-
         $user->setRoles($roles);
         $em->flush();
-
-        $this->addFlash('success', \sprintf('Utilisateur %s rétabli ✅', $user->getEmail()));
-
+        $this->addFlash('success', \sprintf('Utilisateur %s rétabli ', $user->getEmail()));
         return $this->redirectToRoute('app_admin_user_index');
     }
-
     /**
      * Supprime un utilisateur définitivement.
      *
@@ -93,8 +86,7 @@ final class AdminUserController extends AbstractController
         $em->remove($user);
         $em->flush();
 
-        $this->addFlash('danger', \sprintf('Utilisateur %s supprimé ❌', $email));
-
+        $this->addFlash('danger', \sprintf('Utilisateur %s supprimé', $email));
         return $this->redirectToRoute('app_admin_user_index');
     }
 }

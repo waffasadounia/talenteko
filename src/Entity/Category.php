@@ -106,7 +106,7 @@ class Category
     public function removeListing(Listing $listing): self
     {
         if ($this->listings->removeElement($listing)) {
-            // pas de $listing->setCategory(null), car JoinColumn nullable=false
+    // pas de $listing->setCategory(null), car JoinColumn nullable=false
         }
 
         return $this;

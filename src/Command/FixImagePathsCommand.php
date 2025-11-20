@@ -27,7 +27,6 @@ final class FixImagePathsCommand extends Command
     ) {
         parent::__construct();
     }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -36,16 +35,13 @@ final class FixImagePathsCommand extends Command
         $images = $repo->findAll();
         $total = \count($images);
         $corrected = 0;
-
         $io->section("Analyse de $total images");
 
         foreach ($images as $image) {
             $path = trim(str_replace('\\', '/', (string) $image->getPath()));
-
             if (str_contains($path, '/')) {
                 $parts = explode('/', $path);
                 $filename = end($parts);
-
                 if ($filename !== $path) {
                     $image->setPath($filename);
                     ++$corrected;
@@ -53,12 +49,11 @@ final class FixImagePathsCommand extends Command
                 }
             }
         }
-
         if ($corrected > 0) {
             $this->em->flush();
-            $io->success("✅ $corrected chemins corrigés sur $total images analysées.");
+            $io->success(" $corrected chemins corrigés sur $total images analysées.");
         } else {
-            $io->success("👌 Aucun chemin d’image à corriger sur $total images analysées.");
+            $io->success(" Aucun chemin d’image à corriger sur $total images analysées.");
         }
 
         return Command::SUCCESS;

@@ -6,7 +6,6 @@ namespace App\Form;
 
 use App\Entity\Profile;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,30 +34,30 @@ final class ProfileType extends AbstractType
             ])
 
             // === Compétences proposées ===
-            ->add('skillsOffered', CollectionType::class, [
+            ->add('skillsOffered', TextareaType::class, [
                 'label' => 'Compétences proposées',
                 'required' => false,
-                'entry_type' => \Symfony\Component\Form\Extension\Core\Type\TextType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
+                'attr' => [
+                    'placeholder' => 'Cours, services, connaissances que vous proposez…',
+                    'class' => 'form-textarea',
+                ],
             ])
 
             // === Compétences recherchées ===
-            ->add('skillsWanted', CollectionType::class, [
+            ->add('skillsWanted', TextareaType::class, [
                 'label' => 'Compétences recherchées',
                 'required' => false,
-                'entry_type' => \Symfony\Component\Form\Extension\Core\Type\TextType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
+                'attr' => [
+                    'placeholder' => 'Les compétences dont vous avez besoin…',
+                    'class' => 'form-textarea',
+                ],
             ])
 
-            // === Avatar (optionnel) ===
+            // === Avatar (upload) ===
             ->add('avatarFilename', FileType::class, [
                 'label' => 'Photo de profil',
                 'required' => false,
-                'mapped' => false, // on ne stocke que le nom du fichier, l’upload est géré ailleurs
+                'mapped' => false,
                 'constraints' => [
                     new Assert\File([
                         'maxSize' => '2M',
@@ -72,7 +71,7 @@ final class ProfileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Profile::class, //
+            'data_class' => Profile::class,
         ]);
     }
 }

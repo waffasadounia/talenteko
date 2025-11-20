@@ -11,14 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'review')]
 #[ORM\UniqueConstraint(
     name: 'uniq_review_exchange_author',
-    columns: ['exchange_id', 'author_id']
-)] // Empêche un utilisateur de donner 2 avis pour le même échange
+    columns: ['exchange_id', 'author_id'])]
+// Empêche un utilisateur de donner 2 avis pour le même échange
 #[ORM\Index(fields: ['rating'])] // Optimisation pour les statistiques
 class Review
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
     private ?int $id = null;
-
     // Auteur de l’avis
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reviewsGiven')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]

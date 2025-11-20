@@ -6,187 +6,145 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  {{ listing.title }} | TalentÉkô
+	{{ listing.title }}
+	| TalentÉkô
 {% endblock %}
 
 {% block body %}
-  {# ===== Bandeau d’en-tête ===== #}
-  <section class="bg-talenteko-peach-100 py-8">
-    <div class="mx-auto max-w-6xl px-4">
-      <p class="mb-3 text-sm">
-        <a href="{{ path('app_home') }}" class="text-talenteko-orange-500 hover:underline">
-          Accueil
-        </a>
-        <span class="text-gray-400">/</span>
-        <span class="text-gray-600">Annonce</span>
-      </p>
+	{# ===== Bandeau d’en-tête ===== #}
+	<section class="bg-orange-50 py-8">
+		<div class="mx-auto max-w-6xl px-4">
+			<p class="mb-3 text-sm">
+				<a href="{{ path('app_home') }}" class="text-talenteko-orange-500 hover:underline">
+					Accueil
+				</a>
+				<span class="text-gray-400">/</span>
+				<span class="text-gray-600">Annonce</span>
+			</p>
 
-      <h1 class="text-3xl font-extrabold text-talenteko-blue-900 md:text-4xl">
-        {{ listing.title }}
-      </h1>
+			<h1 class="text-3xl font-extrabold text-talenteko-blue-900 md:text-4xl">
+				{{ listing.title }}
+			</h1>
 
-      <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
-        {% if listing.category %}
-          <span>Catégorie : <strong>{{ listing.category.name ?? 'Non classée' }}</strong></span>
-        {% endif %}
-        {% if listing.location %}
-          <span>Ville : <strong>{{ listing.location }}</strong></span>
-        {% endif %}
-      </div>
-    </div>
-  </section>
+			<div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+				{% if listing.category %}
+					<span>Catégorie :
+						<strong>{{ listing.category.name ?? 'Non classée' }}</strong>
+					</span>
+				{% endif %}
+				{% if listing.location %}
+					<span>Ville :
+						<strong>{{ listing.location }}</strong>
+					</span>
+				{% endif %}
+			</div>
+		</div>
+	</section>
 
-  {# ===== Contenu principal ===== #}
-  <section class="bg-white py-10">
-    <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3">
-      {# Colonne gauche : image + description #}
-      <div class="space-y-6 md:col-span-2">
-        {# Image principale (LiipImagine filter listing_show) #}
-        <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white">
-          {% if (listing.images|length) > 0 %}
-            {% set img_path = listing.images|first.path %}
-            {% if img_path == 'placeholderTE.png' %}
-              <img
-                src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter(
-                  'listing_show'
-                ) }}"
-                alt="Image non disponible"
-                class="w-full rounded-t-xl"
-              />
-            {% else %}
-              <img
-                src="{{ asset(
-                  'uploads/listings/' ~ listing.category.slug ~ '/' ~ img_path
-                )|imagine_filter('listing_show') }}"
-                alt="Image du listing {{ listing.title|e }}"
-                class="w-full rounded-t-xl"
-              />
-            {% endif %}
-          {% else %}
-            <img
-              src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_show') }}"
-              alt="Image non disponible"
-              class="w-full rounded-t-xl"
-            />
-          {% endif %}
+	{# ===== Contenu principal ===== #}
+	<section class="bg-white py-10">
+		<div
+			class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3">
+			{# Colonne gauche : image + description #}
+			<div
+				class="space-y-6 md:col-span-2">
+				{# Image principale (LiipImagine filter listing_show) #}
+				<div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white">
+					{% if (listing.images|length) > 0 %}
+						{% set img_path = listing.images|first.path %}
+						{% if img_path == 'placeholderTE.png' %}
+							<img src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter( 'listing_show' ) }}" alt="Image non disponible" class="w-full rounded-t-xl"/>
+						{% else %}
+							<img src="{{ asset( 'uploads/listings/' ~ listing.category.slug ~ '/' ~ img_path )|imagine_filter('listing_show') }}" alt="Image du listing {{ listing.title|e }}" class="w-full rounded-t-xl"/>
+						{% endif %}
+					{% else %}
+						<img src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_show') }}" alt="Image non disponible" class="w-full rounded-t-xl"/>
+					{% endif %}
 
-          {# Bouton Favoris (Stimulus) #}
-          <button
-            class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-talenteko-orange-500 shadow transition hover:bg-talenteko-peach-200"
-            aria-label="Ajouter ou retirer des favoris"
-            data-controller="favorite-toggle"
-            data-action="click->favorite-toggle#toggle"
-          >
-            <svg
-              data-favorite-toggle-target="empty"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              class="h-5 w-5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z"
-              />
-            </svg>
-            <svg
-              data-favorite-toggle-target="filled"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="hidden h-5 w-5"
-            >
-              <path
-                d="M11.645 20.91l-.007-.003-.011-.006a16.965 16.965 0 01-1.214-.708 22.06 22.06 0 01-2.563-1.72C4.64 15.817 2 12.978 2 9.5a5.5 5.5 0 019-4.243A5.5 5.5 0 0120 9.5c0 3.478-2.64 6.317-5.85 8.973a22.06 22.06 0 01-2.563 1.72 16.965 16.965 0 01-1.214.708l-.011.006-.007.003-.003.001a.75.75 0 01-.65 0l-.003-.001z"
-              />
-            </svg>
-          </button>
-        </div>
+					{# Bouton Favoris (Stimulus) #}
+					<button class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-talenteko-orange-500 shadow transition hover:bg-talenteko-peach-200" aria-label="Ajouter ou retirer des favoris" data-controller="favorite-toggle" data-action="click->favorite-toggle#toggle">
+						<svg data-favorite-toggle-target="empty" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z"/>
+						</svg>
+						<svg data-favorite-toggle-target="filled" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" class="hidden h-5 w-5">
+							<path d="M11.645 20.91l-.007-.003-.011-.006a16.965 16.965 0 01-1.214-.708 22.06 22.06 0 01-2.563-1.72C4.64 15.817 2 12.978 2 9.5a5.5 5.5 0 019-4.243A5.5 5.5 0 0120 9.5c0 3.478-2.64 6.317-5.85 8.973a22.06 22.06 0 01-2.563 1.72 16.965 16.965 0 01-1.214.708l-.011.006-.007.003-.003.001a.75.75 0 01-.65 0l-.003-.001z"/>
+						</svg>
+					</button>
+				</div>
 
-        {# Galerie d’images secondaires #}
-        {% if (listing.images|length) > 1 %}
-          <div class="flex gap-3 overflow-x-auto py-2">
-            {% for image in listing.images|slice(1) %}
-              {% set path = image.path == 'placeholderTE.png'
+				{# Galerie d’images secondaires #}
+				{% if (listing.images|length) > 1 %}
+					<div class="flex gap-3 overflow-x-auto py-2">
+						{% for image in listing.images|slice(1) %}
+							{% set path = image.path == 'placeholderTE.png'
                 ? 'uploads/listings/placeholderTE.png'
                 : 'uploads/listings/' ~ listing.category.slug ~ '/' ~ image.path
               %}
-              <img
-                src="{{ asset(path)|imagine_filter('listing_card') }}"
-                alt="Image supplémentaire du listing {{ listing.title|e }}"
-                class="h-24 w-40 rounded-lg border object-cover"
-              />
-            {% endfor %}
-          </div>
-        {% endif %}
+							<img src="{{ asset(path)|imagine_filter('listing_card') }}" alt="Image supplémentaire du listing {{ listing.title|e }}" class="h-24 w-40 rounded-lg border object-cover"/>
+						{% endfor %}
+					</div>
+				{% endif %}
 
-        <article class="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 class="mb-3 text-xl font-bold text-talenteko-blue-900">Description</h2>
-          <div class="max-w-none whitespace-pre-line leading-relaxed text-gray-800">
-            {{ listing.description }}
-          </div>
-        </article>
-      </div>
+				<article class="rounded-xl border border-gray-200 bg-white p-6">
+					<h2 class="mb-3 text-xl font-bold text-talenteko-blue-900">Description</h2>
+					<div class="max-w-none whitespace-pre-line leading-relaxed text-gray-800">
+						{{ listing.description }}
+					</div>
+				</article>
+			</div>
 
-      {# Colonne droite : auteur #}
-      <aside class="space-y-6">
-        <div class="rounded-xl border border-gray-200 bg-white p-6">
-          <h3 class="mb-4 text-lg font-semibold text-talenteko-blue-900">Proposé par</h3>
-          <a
-            href="{{
-            path(
-              'app_user_show',
-              {
-                id: listing.author.id
-              }
-            )
-            }}"
-            class="group flex items-center gap-3"
-          >
-            <div
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-talenteko-peach-200 font-bold text-talenteko-orange-500 transition group-hover:bg-talenteko-orange-500 group-hover:text-white"
-            >
-              {{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
-            </div>
-            <div>
-              <div class="font-semibold text-talenteko-blue-900 group-hover:underline">
-                {{ listing.author.pseudo ?? 'Membre' }}
-              </div>
-              {% if listing.location %}
-                <div class="max-w-[120px] truncate text-sm text-gray-500">
-                  {{ listing.location }}
-                </div>
-              {% endif %}
-            </div>
-          </a>
-        </div>
+			{# Colonne droite : auteur #}
+			<aside class="space-y-6">
+				<div class="rounded-xl border border-gray-200 bg-white p-6">
+					<h3 class="mb-4 text-lg font-semibold text-talenteko-blue-900">Proposé par</h3>
+					<a href="{{ path( 'app_user_show', { id: listing.author.id } ) }}" class="group flex items-center gap-3">
+						<div class="flex h-10 w-10 items-center justify-center rounded-full bg-talenteko-peach-200 font-bold text-talenteko-orange-500 transition group-hover:bg-talenteko-orange-500 group-hover:text-white">
+							{{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
+						</div>
+						<div>
+							<div class="font-semibold text-talenteko-blue-900 group-hover:underline">
+								{{ listing.author.pseudo ?? 'Membre' }}
+							</div>
+							{% if listing.location %}
+								<div class="max-w-[120px] truncate text-sm text-gray-500">
+									{{ listing.location }}
+								</div>
+							{% endif %}
+						</div>
+					</a>
+					{# === Bouton Contacter / Échanger === #}
+					{% if app.user %}
+						{% if app.user != listing.author %}
+							<div class="rounded-xl bg-white p-6 text-center">
+								<a href="{{ path('app_message_start', { id: listing.author.id }) }}" class="btn-primary w-full inline-flex items-center justify-center gap-2 py-3">
+									<i class="fa-solid fa-comments"></i>
+									Contacter / Échanger
+								</a>
+							</div>
+						{% endif %}
+					{% else %}
+						<div class="rounded-xl border border-gray-200 bg-white p-6 text-center">
+							<a href="{{ path('app_login') }}" class="btn-primary inline-flex items-center gap-2 w-full justify-center py-3">
+								<i class="fa-solid fa-user-lock"></i>
+								Se connecter pour échanger
+							</a>
+						</div>
+					{% endif %}
 
-        {# Bloc retour (standardisé) #}
-        <div class="rounded-xl border border-gray-200 bg-white p-6 text-center">
-          <a href="{{ path('app_home') }}" class="btn-link inline-flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            <span>Retour à l’accueil</span>
-          </a>
-        </div>
-      </aside>
-    </div>
-  </section>
 
-  {% include 'partials/_flash.html.twig' %}
+				</div>
+
+				{# Bloc retour (standardisé) #}
+				<div class="rounded-xl border border-gray-200 bg-white p-6 text-center">
+					<a href="{{ path('app_home') }}" class="btn-link inline-flex items-center gap-2">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+						</svg>
+						<span>Retour à l’accueil</span>
+					</a>
+				</div>
+			</aside>
+		</div>
+	</section>
+	{% include 'partials/_flash.html.twig' %}
 {% endblock %}

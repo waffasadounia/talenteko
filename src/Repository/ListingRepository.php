@@ -64,7 +64,6 @@ final class ListingRepository extends ServiceEntityRepository
             $qb->andWhere('l.location LIKE :loc')
                 ->setParameter('loc', '%'.$location.'%');
         }
-
         return $qb->getQuery()->getResult();
     }
     // Pagination simple (annonces publiées uniquement)
@@ -108,7 +107,7 @@ final class ListingRepository extends ServiceEntityRepository
                 ->setParameter('loc', '%'.$criteria['location'].'%');
         }
 
-        // Distance (placeholder V2 : géolocalisation réelle)
+        // Distance (placeholder)
         if (!empty($criteria['distance'])) {
             // TODO: implémenter géoloc dans la V2 (bounding box)
         }
@@ -143,6 +142,21 @@ final class ListingRepository extends ServiceEntityRepository
             ->join('l.category', 'c')
             ->orderBy('c.name', 'ASC')
             ->getQuery()
-            ->getSingleColumnResult(); // Symfony 6.4+
+            ->getSingleColumnResult();
     }
+    public function searchPublic(string $query): array
+{
+    return $this->createQueryBuilder('l')
+        ->leftJoin('l.category', 'c')
+        ->andWhere('l.status = :status')
+        ->andWhere('l.title LIKE :q
+                OR l.description LIKE :q
+                OR c.name LIKE :q
+                OR l.location LIKE :q')
+        ->setParameter('status', ListingStatus::PUBLISHED)
+        ->setParameter('q', '%' . $query . '%')
+        ->orderBy('l.createdAt', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
 }

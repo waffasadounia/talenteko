@@ -35,7 +35,6 @@ final class AdminMessageController extends AbstractController
             'messages' => $repo->findBy([], ['createdAt' => 'DESC'], 50), // derniers 50
         ]);
     }
-
     /**
      * Supprime un message spécifique.
      *
@@ -45,12 +44,9 @@ final class AdminMessageController extends AbstractController
     public function delete(Message $message, EntityManagerInterface $em): Response
     {
         $id = $message->getId();
-
         $em->remove($message);
         $em->flush();
-
-        $this->addFlash('danger', \sprintf('Message #%d supprimé ❌', $id));
-
+        $this->addFlash('danger', \sprintf('Message #%d supprimé', $id));
         return $this->redirectToRoute('app_admin_message_index');
     }
 }

@@ -14,7 +14,7 @@
 
 /* === Bouton lien === */
 .btn-link {
-  @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-4 py-2 font-sans font-semibold leading-tight text-talenteko-orange-500 underline-offset-2 transition-colors duration-200 active:scale-95 hover:text-talenteko-orange-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2;
+  @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-4 py-2 font-sans font-semibold leading-tight text-talenteko-orange-500 underline-offset-2 transition-colors duration-200 hover:text-talenteko-orange-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2 active:scale-95;
 }
 
 /* === Icônes dans les boutons === */
@@ -35,8 +35,7 @@
 
 /* === Grille de catégories === */
 nav[aria-label='Catégories populaires'] a {
-  @apply relative inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-talenteko-blue-500 transition-all duration-200 ease-out
-         hover:text-talenteko-orange-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-400 focus-visible:ring-offset-2;
+  @apply relative inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-talenteko-blue-500 transition-all duration-200 ease-out hover:text-talenteko-orange-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-400 focus-visible:ring-offset-2;
 }
 
 nav[aria-label='Catégories populaires'] a::after {

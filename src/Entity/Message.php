@@ -128,7 +128,7 @@ class Message
 
     public function setContent(string $content): self
     {
-        // Sécurité XSS : suppression de tout HTML
+    // Sécurité XSS : suppression de tout HTML
         $this->content = strip_tags($content);
 
         return $this;

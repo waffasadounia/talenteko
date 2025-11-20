@@ -43,7 +43,6 @@ final class ExchangeController extends AbstractController
 
             return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
         }
-
         $existing = $em->getRepository(Exchange::class)->findOneBy([
             'listing' => $listing,
             'requester' => $user,
@@ -52,10 +51,8 @@ final class ExchangeController extends AbstractController
 
         if ($existing) {
             $this->addFlash('warning', 'Vous avez déjà une demande en attente pour cette annonce.');
-
             return $this->redirectToRoute('app_listing_show', ['slug' => $listing->getSlug()]);
         }
-
         $exchange = new Exchange();
         $exchange->setListing($listing);
         $exchange->setRequester($user);
@@ -93,7 +90,6 @@ final class ExchangeController extends AbstractController
         if ($exchange->getRequester() !== $user && $exchange->getListing()->getAuthor() !== $user) {
             throw $this->createAccessDeniedException('Vous n’avez pas accès à cet échange.');
         }
-
         return $this->render('exchange/show.html.twig', [
             'exchange' => $exchange,
             'listing' => $exchange->getListing(),

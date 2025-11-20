@@ -11,17 +11,17 @@
 echo " Vérifications pre-push TalentÉkô..."
 
 # 1) TwigCS strict (erreurs bloquantes)
-echo "➡️ Vérification TwigCS..."
+echo " Vérification TwigCS..."
 composer exec twigcs -- templates/ --severity error || {
-  echo "❌ Erreurs Twig détectées — corrige avant de push."
+  echo " Erreurs Twig détectées — corrige avant de push."
   exit 1
 }
 
 # 2) Tests PHPUnit (unitaires + fonctionnels)
-echo "➡️ Tests PHPUnit..."
+echo " Tests PHPUnit..."
 composer exec phpunit -- --stop-on-failure || {
-  echo "❌ Tests échoués — corrige avant de push."
+  echo " Tests échoués — corrige avant de push."
   exit 1
 }
 
-echo "✅ Pre-push terminé, push autorisé !"
+echo " Pre-push terminé, push autorisé !"

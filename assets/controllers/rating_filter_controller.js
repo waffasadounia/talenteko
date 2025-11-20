@@ -25,7 +25,6 @@ export default class extends Controller {
     this.value = parseInt(this.inputTarget.value || 0, 10);
     this.refresh();
   }
-
   /**
    * Sélectionne une note au clic (ou à la touche Espace/Entrée).
    * Permet aussi de désélectionner la note si on reclique dessus.
@@ -40,7 +39,6 @@ export default class extends Controller {
     const form = this.element.closest('form');
     if (form) form.requestSubmit();
   }
-
   /**
    * Survol souris : met en surbrillance temporairement
    */

@@ -105,9 +105,12 @@ export default class extends Controller {
         break;
     }
   }
-
   handleClickOutside(event) {
-    if (this.open && !this.panelTarget.contains(event.target) && !this.button.contains(event.target)) {
+    if (
+      this.open &&
+      !this.panelTarget.contains(event.target) &&
+      !this.button.contains(event.target)
+    ) {
       this.close();
     }
   }

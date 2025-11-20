@@ -43,7 +43,7 @@ final class AdminController extends AbstractController
         $totalMessages = $messageRepo->count([]);
 
         // Rendu du tableau de bord admin
-        return $this->render('admin.html.twig', [
+        return $this->render('admin/admin.html.twig',[
             'page_title' => 'Tableau de bord administrateur',
             'totalUsers' => $totalUsers,
             'totalListings' => $totalListings,

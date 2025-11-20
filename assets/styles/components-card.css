@@ -4,15 +4,12 @@
 
 /* Base : carte listing */
 .card-listing {
-  @apply relative flex flex-col overflow-hidden rounded-xl border border-gray-200
-         bg-white shadow-sm transition duration-300
-         focus-within:ring-offset-2 hover:-translate-y-1 hover:shadow-md;
+  @apply relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 focus-within:ring-offset-2 hover:-translate-y-1 hover:shadow-md;
 }
 
 /* Image */
 .card-image-link {
-  @apply block rounded-t-xl focus:outline-none
-         focus-visible:ring-2 focus-visible:ring-talenteko-orange-500;
+  @apply block rounded-t-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500;
 }
 
 .card-image-wrapper {
@@ -21,8 +18,7 @@
 
 .card-image-wrapper::after {
   content: '';
-  @apply pointer-events-none absolute inset-0
-         bg-gradient-to-t from-black/5 to-transparent;
+  @apply pointer-events-none absolute inset-0 bg-gradient-to-t from-black/5 to-transparent;
 }
 
 .card-image {
@@ -35,12 +31,7 @@
 
 /* Bouton favoris */
 .card-favorite {
-  @apply absolute top-2 right-2 z-20 flex h-9 w-9 items-center justify-center
-         rounded-full border border-gray-300 bg-white/95 text-talenteko-orange-500
-         shadow-md backdrop-blur transition duration-200
-         hover:border-talenteko-orange-500 hover:text-talenteko-orange-600
-         focus-visible:outline-none focus-visible:ring-1
-         focus-visible:ring-talenteko-orange-300 active:scale-95;
+  @apply absolute right-2 top-2 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white/95 text-talenteko-orange-500 shadow-md backdrop-blur transition duration-200 hover:border-talenteko-orange-500 hover:text-talenteko-orange-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-talenteko-orange-300 active:scale-95;
 }
 
 /* Favori actif */
@@ -55,8 +46,7 @@
 
 /* Catégorie */
 .card-category {
-  @apply inline-block text-xs font-semibold uppercase tracking-wide
-         text-talenteko-orange-500;
+  @apply inline-block text-xs font-semibold uppercase tracking-wide text-talenteko-orange-500;
 }
 
 /* Titre */
@@ -65,14 +55,12 @@
 }
 
 .card-title-link {
-  @apply rounded focus:outline-none focus-visible:underline
-         focus-visible:decoration-talenteko-orange-500
-         focus-visible:underline-offset-2 focus-visible:ring-0;
+  @apply rounded focus:outline-none focus-visible:underline focus-visible:decoration-talenteko-orange-500 focus-visible:underline-offset-2 focus-visible:ring-0;
 }
 
-/* Bloc note moyenne (pour la prochaine étape dynamique) */
+/* Bloc note moyenne */
 .card-rating {
-  @apply flex items-center gap-0.5 text-talenteko-orange-500 text-sm;
+  @apply flex items-center gap-0.5 text-sm text-talenteko-orange-500;
 }
 
 /* Description */
@@ -91,9 +79,7 @@
 }
 
 .card-avatar {
-  @apply flex h-8 w-8 shrink-0 items-center justify-center
-         rounded-full bg-talenteko-peach-200 font-bold
-         text-talenteko-orange-500;
+  @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-talenteko-peach-200 font-bold text-talenteko-orange-500;
 }
 
 /* Tronquer le pseudo s’il est trop long */
@@ -103,8 +89,7 @@
 
 /* Localisation */
 .card-location {
-  @apply flex max-w-[90px] items-center gap-1 truncate
-         text-xs text-talenteko-blue-500;
+  @apply flex max-w-[90px] items-center gap-1 truncate text-xs text-talenteko-blue-500;
 }
 
 .card-location-icon {

@@ -32,37 +32,31 @@ final class WarmupImagesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $uploadDir = __DIR__.'/../../public/uploads/listings';
-
+        $uploadDir = __DIR__ . '/../../public/uploads/listings';
         $finder = new Finder();
         $finder->files()
             ->in($uploadDir)
             ->name('*.{jpg,jpeg,png,webp}');
 
         if (!$finder->hasResults()) {
-            $io->warning("Aucune image trouvée dans $uploadDir");
-
+            $io->warning(" Aucune image trouvée dans $uploadDir");
             return Command::SUCCESS;
         }
-
         $io->section('Préparation des images');
         foreach ($finder as $file) {
-            $relativePath = 'uploads/listings/'.str_replace('\\', '/', $file->getRelativePathname());
-            $io->text("➡️ $relativePath");
+            $relativePath = 'uploads/listings/' . str_replace('\\', '/', $file->getRelativePathname());
+            $io->text(" $relativePath");
 
             foreach (ImageFilters::ALL as $filter) {
                 try {
                     $this->cacheManager->generateUrl($relativePath, $filter);
                     $io->writeln("   <info>✔ $filter OK</info>");
                 } catch (\Throwable $e) {
-                    $io->error("   ❌ $filter échoué : ".$e->getMessage());
+                    $io->error(" $filter échoué : " . $e->getMessage());
                 }
             }
         }
-
-        $io->success('✅ Warmup terminé ! Toutes les variantes d’images ont été générées.');
-
+        $io->success(' Warmup terminé ! Toutes les variantes d’images ont été générées.');
         return Command::SUCCESS;
     }
 }

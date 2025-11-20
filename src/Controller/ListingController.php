@@ -22,26 +22,31 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/annonce', name: 'app_listing_')]
 final class ListingController extends AbstractController
 {
-    // ==========================================================
     // PAGE PUBLIQUE : Liste de toutes les annonces publiées
-    // ==========================================================
     #[Route('/toutes', name: 'index', methods: ['GET'])]
-    public function index(ListingRepository $listingRepo): Response
+    public function index(Request $request, ListingRepository $listingRepo): Response
     {
-        $listings = $listingRepo->findBy(
-            ['status' => ListingStatus::PUBLISHED],
-            ['createdAt' => 'DESC']
-        );
+        // Récupère la recherche GET ?q=...
+        $query = trim((string) $request->query->get('q', ''));
 
+        if ($query !== '') {
+            // Recherche personnalisée
+            $listings = $listingRepo->searchPublic($query);
+        } else {
+            // Listing normal (version originale)
+            $listings = $listingRepo->findBy(
+                ['status' => ListingStatus::PUBLISHED],
+                ['createdAt' => 'DESC']
+            );
+        }
         return $this->render('listing/index.html.twig', [
             'page_title' => 'Toutes les annonces',
             'listings'   => $listings,
+            'search'     => $query,
         ]);
     }
 
-    // ==========================================================
     // PAGE PRIVÉE : Création d’une nouvelle annonce
-    // ==========================================================
     #[Route('/nouvelle', name: 'new', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new(
@@ -103,10 +108,7 @@ final class ListingController extends AbstractController
             'form'       => $form->createView(),
         ]);
     }
-
-    // ==========================================================
     // PAGE PUBLIQUE : Affichage d’une annonce
-    // ==========================================================
     #[Route(
         '/{slug}',
         name: 'show',
@@ -130,10 +132,7 @@ final class ListingController extends AbstractController
             'listing' => $listing,
         ]);
     }
-
-    // ==========================================================
     // PAGE PRIVÉE : Édition d’une annonce
-    // ==========================================================
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
@@ -165,4 +164,3 @@ final class ListingController extends AbstractController
         ]);
     }
 }
-

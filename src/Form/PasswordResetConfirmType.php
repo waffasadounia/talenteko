@@ -17,7 +17,7 @@ final class PasswordResetConfirmType extends AbstractType
     {
         $b->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
-            'mapped' => false,  // ⛔ indispensable
+            'mapped' => false,  
             'required' => true,
             'invalid_message' => 'Les mots de passe doivent correspondre.',
 

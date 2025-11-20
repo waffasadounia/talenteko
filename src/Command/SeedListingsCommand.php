@@ -30,7 +30,6 @@ final class SeedListingsCommand extends Command
     ) {
         parent::__construct();
     }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $slugger = new AsciiSlugger();
@@ -42,9 +41,8 @@ final class SeedListingsCommand extends Command
         // On exclut l'admin
         $regularUsers = array_filter(
             $users,
-            fn (User $u) => !\in_array('ROLE_ADMIN', $u->getRoles(), true)
+            fn(User $u) => !\in_array('ROLE_ADMIN', $u->getRoles(), true)
         );
-
         if (empty($categories) || empty($regularUsers)) {
             $output->writeln('<error>Impossible de générer : pas de catégories ou d’utilisateurs disponibles.</error>');
 
@@ -55,15 +53,14 @@ final class SeedListingsCommand extends Command
         for ($i = 1; $i <= 100; ++$i) {
             $title = "Annonce démo #$i";
             $description = 'Ceci est une annonce générée automatiquement pour démonstration.';
-
             $listing = new Listing();
             $listing
                 ->setTitle($title)
                 ->setDescription($description)
                 ->setType(random_int(0, 1) ? 'OFFER' : 'REQUEST')
-                ->setLocation('Ville démo #'.random_int(1, 50))
+                ->setLocation('Ville démo #' . random_int(1, 50))
                 ->setStatus(ListingStatus::PUBLISHED)
-                ->setSlug((string) $slugger->slug($title.'-'.uniqid()))
+                ->setSlug((string) $slugger->slug($title . '-' . uniqid()))
                 ->setAuthor($regularUsers[array_rand($regularUsers)])
                 ->setCategory($categories[array_rand($categories)]);
 
@@ -77,11 +74,8 @@ final class SeedListingsCommand extends Command
             $this->em->persist($image);
             $this->em->persist($listing);
         }
-
         $this->em->flush();
-
         $output->writeln('<info>✔ 100 annonces génériques ont été insérées avec succès.</info>');
-
         return Command::SUCCESS;
     }
 }

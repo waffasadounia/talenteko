@@ -48,7 +48,6 @@ final class ReviewListener
         if (!$listing) {
             return;
         }
-
         // Recalculer la moyenne
         $listing->updateAverageRating();
 

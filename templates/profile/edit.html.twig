@@ -6,30 +6,44 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Modifier mon profil | TalentÉkô
+	Modifier mon profil | TalentÉkô
 {% endblock %}
-
 {% block body %}
-  <section class="bg-talenteko-peach-100 py-12">
-    <div class="mx-auto max-w-2xl px-6">
-      <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
-        Modifier mon profil
-      </h1>
+<div class="mt-10 text-left">
+  <a onclick="history.back()" class="btn-link inline-flex items-center gap-2 cursor-pointer">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 19l-7-7 7-7" />
+    </svg>
+    Retour
+  </a>
+</div>
+{% include 'profile/_profile_nav.html.twig' %}
+	<section class="bg-orange-50 py-12 mt-10">
+		<div class="mx-auto max-w-2xl px-6">
+			<h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
+				Modifier mon profil
+			</h1>
 
-      {# --- Bandeau erreurs global --- #}
-      {% if not form.vars.valid and form.vars.submitted %}
-        <div
-          id="form-global-errors"
-          class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700"
-          role="alert"
-        >
-          <strong class="font-semibold">Le formulaire contient des erreurs.</strong>
-          <span class="ml-1">Merci de corriger les champs en rouge.</span>
-        </div>
-      {% endif %}
+			{# --- Bandeau erreurs global --- #}
+			{% if not form.vars.valid and form.vars.submitted %}
+				<div id="form-global-errors" class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700" role="alert">
+					<strong class="font-semibold">Le formulaire contient des erreurs.</strong>
+					<span class="ml-1">Merci de corriger les champs en rouge.</span>
+				</div>
+			{% endif %}
 
-      <div class="rounded-2xl bg-white p-6 shadow-sm">
-        {{
+			<div class="rounded-2xl bg-white p-6 shadow-sm">
+				{{
           form_start(
             form,
             {
@@ -42,9 +56,10 @@
           )
         }}
 
-        <div class="space-y-6">
-          {# === PSEUDO === #}
-          {{
+				<div
+					class="space-y-6">
+					{# === PSEUDO === #}
+					{{
             form_row(
               form.pseudo,
               {
@@ -60,8 +75,8 @@
             )
           }}
 
-          {# === LOCALISATION === #}
-          {{
+					{# === LOCALISATION === #}
+					{{
             form_row(
               form.location,
               {
@@ -77,10 +92,11 @@
             )
           }}
 
-          <hr class="my-6 border-t border-gray-200" />
+					<hr
+					class="my-6 border-t border-gray-200"/>
 
-          {# === BIO === #}
-          {{
+					{# === BIO === #}
+					{{
             form_row(
               form.profile.bio,
               {
@@ -96,8 +112,8 @@
             )
           }}
 
-          {# === COMPÉTENCES PROPOSÉES === #}
-          {{
+					{# === COMPÉTENCES PROPOSÉES === #}
+					{{
             form_row(
               form.profile.skillsOffered,
               {
@@ -112,8 +128,8 @@
             )
           }}
 
-          {# === COMPÉTENCES RECHERCHÉES === #}
-          {{
+					{# === COMPÉTENCES RECHERCHÉES === #}
+					{{
             form_row(
               form.profile.skillsWanted,
               {
@@ -128,36 +144,63 @@
             )
           }}
 
-          {# === AVATAR === #}
-          {{
-            form_row(
-              form.profile.avatarFilename,
-              {
-                label: 'Photo de profil',
-                row_attr: {
-                  class: 'space-y-1'
-                },
-                attr: {
-                  class: 'form-input-file'
-                }
-              }
-            )
-          }}
-        </div>
 
-        <div class="mt-8 flex justify-between">
-          <a href="{{ path('app_profile_dashboard') }}" class="btn-outline">
-            <i class="fa-solid fa-arrow-left mr-1"></i>
-            Retour
-          </a>
-          <button class="btn-primary">
-            <i class="fa-solid fa-floppy-disk mr-1"></i>
-            Enregistrer
-          </button>
-        </div>
+					{# === AVATAR (upload + preview + affichage actuel) === #}
 
-        {{ form_end(form) }}
-      </div>
-    </div>
-  </section>
+					<div data-controller="image-preview" class="space-y-3">
+
+						{{ form_label(form.profile.avatarFilename, 'Photo de profil', {
+        label_attr: { class: 'form-label' }
+    }) }}
+
+						{# --- Avatar actuel s'il existe --- #}
+						{% if app.user.profile and app.user.profile.avatarFilename %}
+							<div class="flex items-center gap-4">
+								<img src="{{ asset('uploads/avatars/' ~ app.user.profile.avatarFilename) }}" alt="Avatar actuel" class="w-20 h-20 rounded-full object-cover shadow-md border border-gray-200">
+								<span class="text-sm text-gray-600 italic">Avatar actuel</span>
+							</div>
+						{% endif %}
+
+						{# Zone cliquable (comme annonces) #}
+						<div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
+							               flex flex-col items-center justify-center text-gray-400
+							               hover:border-talenteko-orange-500 cursor-pointer transition" onclick="document.getElementById('{{ form.profile.avatarFilename.vars.id }}').click();">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
+							</svg>
+							<span class="text-sm">Cliquez ou déposez votre avatar</span>
+						</div>
+
+						{# Input invisible géré par Stimulus #}
+						<div class="mt-2">
+							{{ form_widget(form.profile.avatarFilename, {
+            attr: {
+                id: form.profile.avatarFilename.vars.id,
+                class: 'w-full opacity-0 h-0 p-0 m-0',
+                accept: 'image/*',
+                'data-image-preview-target': 'input',
+                'data-action': 'change->image-preview#preview'
+            }
+        }) }}
+						</div>
+						{# Zone preview (Stimulus) #}
+						<div data-image-preview-target="preview" class="flex flex-wrap gap-3 mt-2 w-full min-h-[1px]"></div>
+
+						{{ form_errors(form.profile.avatarFilename) }}
+					</div>
+				</div>
+				<div class="mt-8 flex justify-between">
+					<a href="{{ path('app_profile_dashboard') }}" class="btn-outline">
+						<i class="fa-solid fa-arrow-left mr-1"></i>
+						Retour
+					</a>
+					<button class="btn-primary">
+						<i class="fa-solid fa-floppy-disk mr-1"></i>
+						Enregistrer
+					</button>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</section>
 {% endblock %}

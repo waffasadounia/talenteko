@@ -4,30 +4,29 @@
 
 /* === Champs génériques (hors checkbox & radio) === */
 .form-input,
-.tk-form input:not([type="checkbox"]):not([type="radio"]),
+.tk-form input:not([type='checkbox']):not([type='radio']),
 .tk-form select,
 .tk-form textarea {
-  @apply mt-1 w-full rounded-lg border border-gray-400 bg-white px-3 py-2 text-talenteko-blue-900
-         transition placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500;
+  @apply mt-1 w-full rounded-lg border border-gray-400 bg-white px-3 py-2 text-talenteko-blue-900 transition placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500;
 }
 
-/* Hover actif (hors checkbox & radio) */
+/* Hover */
 .form-input:not(:disabled):hover,
-.tk-form input:not([type="checkbox"]):not([type="radio"]):not(:disabled):hover,
+.tk-form input:not([type='checkbox']):not([type='radio']):not(:disabled):hover,
 .tk-form select:not(:disabled):hover,
 .tk-form textarea:not(:disabled):hover {
   @apply border-talenteko-orange-300;
 }
 
-/* Désactivés (hors checkbox & radio) */
+/* Disabled */
 .form-input:disabled,
-.tk-form input:not([type="checkbox"]):not([type="radio"]):disabled,
+.tk-form input:not([type='checkbox']):not([type='radio']):disabled,
 .tk-form select:disabled,
 .tk-form textarea:disabled {
-  @apply cursor-not-allowed bg-gray-100 text-gray-500 border-gray-400;
+  @apply cursor-not-allowed border-gray-400 bg-gray-100 text-gray-500;
 }
 
-/* === Labels et aides === */
+/* Labels + aide */
 .form-label {
   @apply block text-sm font-semibold text-talenteko-blue-900;
 }
@@ -40,7 +39,7 @@
   @apply text-sm text-gray-500;
 }
 
-/* === Erreurs === */
+/* Erreurs */
 .tk-form [aria-invalid='true'],
 .tk-form .is-invalid,
 .form-input.is-invalid {
@@ -51,107 +50,54 @@
   @apply mt-1 text-sm text-red-600;
 }
 
-/* === Select natif === */
+/* ===========================================
+   SELECT Natif TalentÉkô
+   =========================================== */
+
 .tk-form select,
 .form-input[type='select'] {
-  @apply appearance-none rounded-lg border border-gray-400 px-3 py-2 text-talenteko-blue-900;
+  @apply appearance-none rounded-lg border border-gray-400 bg-white px-3 py-2 text-talenteko-blue-900;
+
   background-image: url("data:image/svg+xml,%3Csvg fill='%23D6713C' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 1rem;
 }
 
-/* ==========================================================
-   CHECKBOX TALENTÉKÔ — ORANGE DESIGN (base)
-   ========================================================== */
+/* ===========================================
+   CHECKBOX TalentÉkô (version finale stable)
+   =========================================== */
 
 .form-checkbox {
-  width: 1rem !important;
-  height: 1rem !important;
-  appearance: none !important; /* doublon supprimé */
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  border: 2px solid var(--talenteko-orange-500);
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
 }
 
+/* Checked */
 .form-checkbox:checked {
-  @apply bg-talenteko-orange-500 border-talenteko-orange-500;
+  background-color: var(--talenteko-orange-500);
+  border-color: var(--talenteko-orange-500);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 1rem;
 }
 
+/* Focus visible */
 .form-checkbox:focus-visible {
-  outline: 2px solid #d6713c;
+  outline: 2px solid var(--talenteko-orange-500);
   outline-offset: 2px;
 }
 
-/* ==========================================================
-   FIX GLOBAL DÉFINITIF — BATS TOUT TAILWIND
-   ========================================================== */
-
-.tk-form input[type="checkbox"],
-input[type="checkbox"].form-checkbox {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-
-  width: 1rem !important;
-  height: 1rem !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  border-radius: 0.25rem !important;
-  border: 2px solid var(--talenteko-orange-500) !important;
-
-  background-color: white !important;
-  cursor: pointer !important;
-}
-
-/* === SUPPRESSION DU DOUBLON === */
-/* (l’ancien .form-checkbox:checked supprimé) */
-
-.tk-form input[type="checkbox"]:checked,
-input[type="checkbox"].form-checkbox:checked {
-  background-color: var(--talenteko-orange-500) !important;
-  border-color: var(--talenteko-orange-500) !important;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z'/%3E%3C/svg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  background-size: 1rem !important;
-}
-
-.tk-form input[type="checkbox"]:focus-visible,
-input[type="checkbox"].form-checkbox:focus-visible {
-  outline: 2px solid var(--talenteko-orange-500) !important;
-  outline-offset: 2px !important;
-}
-
-/* ==========================================================
-   AUTOCOMPLÉTION — Localisation
-   ========================================================== */
-
-.tk-autocomplete-list {
-  @apply absolute z-40 mt-1 w-full max-h-56 overflow-auto rounded-lg border border-gray-200 bg-white shadow-md ring-1 ring-black/5 transition-all duration-150 ease-out;
-  animation: tk-autocomplete-fade-in 0.15s ease-out;
-}
-
-.tk-autocomplete-list li {
-  @apply px-3 py-2 text-sm text-talenteko-blue-900 cursor-pointer select-none transition-colors duration-150;
-}
-
-.tk-autocomplete-list li:hover,
-.tk-autocomplete-list li[aria-selected='true'] {
-  @apply bg-talenteko-peach-100 text-talenteko-orange-700;
-}
-
-@keyframes tk-autocomplete-fade-in {
-  from { opacity: 0; transform: translateY(-3px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ==========================================================
-   Radio TalentÉkô
-   ========================================================== */
+/* ===========================================
+   RADIO TalentÉkô
+   =========================================== */
 
 input[type='radio'].form-radio {
   all: unset;
@@ -174,9 +120,38 @@ input[type='radio'].form-radio:checked {
   border-color: #d6713c;
 }
 
-/* ==========================================================
+/* ===========================================
+   AUTOCOMPLÉTION — Localisation
+   =========================================== */
+
+.tk-autocomplete-list {
+  @apply absolute z-40 mt-1 max-h-56 w-full overflow-auto rounded-lg border border-gray-200 bg-white shadow-md ring-1 ring-black/5 transition-all duration-150 ease-out;
+  animation: tk-autocomplete-fade-in 0.15s ease-out;
+}
+
+.tk-autocomplete-list li {
+  @apply cursor-pointer select-none px-3 py-2 text-sm text-talenteko-blue-900 transition-colors duration-150;
+}
+
+.tk-autocomplete-list li:hover,
+.tk-autocomplete-list li[aria-selected='true'] {
+  @apply bg-talenteko-peach-100 text-talenteko-orange-700;
+}
+
+@keyframes tk-autocomplete-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================================
    Bouton Outline
-   ========================================================== */
+   =========================================== */
 
 .btn-outline {
   @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-talenteko-orange-500 bg-white px-4 py-2 font-semibold text-talenteko-orange-500 shadow-md transition;
@@ -185,3 +160,21 @@ input[type='radio'].form-radio:checked {
 .btn-outline:hover {
   @apply shadow-lg;
 }
+
+/* ===========================================
+   DARK MODE (désactivé pour l’instant)
+   =========================================== */
+
+/*
+.form-input {
+  @apply dark:bg-gray-800 dark:border-gray-600 dark:text-white;
+}
+
+.form-checkbox {
+  border-color: theme('colors.orange.400');
+}
+
+.form-checkbox:checked {
+  background-color: theme('colors.orange.400');
+}
+*/

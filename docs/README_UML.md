@@ -1,1 +1,0 @@
-# 📝 Notes de soutenance TalentÉkô

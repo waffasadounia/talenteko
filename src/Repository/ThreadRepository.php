@@ -64,4 +64,17 @@ final class ThreadRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findExisting(User $a, User $b): ?Thread
+{
+    return $this->createQueryBuilder('t')
+        ->join('t.participants', 'p1')
+        ->join('t.participants', 'p2')
+        ->andWhere('p1 = :a')
+        ->andWhere('p2 = :b')
+        ->setParameter('a', $a)
+        ->setParameter('b', $b)
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
 }

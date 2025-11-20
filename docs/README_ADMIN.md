@@ -1,6 +1,6 @@
-# 📘 README — Module Administration TalentÉkô
+#  README — Module Administration TalentÉkô
 
-## 🎯 Objectif
+## Objectif
 
 Le module **Administration** permet aux utilisateurs ayant le rôle `ROLE_ADMIN` de :
 
@@ -10,7 +10,7 @@ Le module **Administration** permet aux utilisateurs ayant le rôle `ROLE_ADMIN`
 
 ---
 
-## 👑 Droits Admin
+## Droits Admin
 
 Un administrateur peut :
 
@@ -23,7 +23,7 @@ Un administrateur peut :
 
 ---
 
-## 📂 Contrôleurs créés
+## Contrôleurs créés
 
 | Fichier                       | Rôle principal             |
 | ----------------------------- | -------------------------- |
@@ -35,7 +35,7 @@ Un administrateur peut :
 
 ---
 
-## 🛠️ Routes disponibles
+## Routes disponibles
 
 ### Dashboard
 
@@ -67,14 +67,14 @@ Un administrateur peut :
 
 ---
 
-## 🔒 Sécurité
+## Sécurité
 
 - Toutes les routes Admin sont protégées par l’attribut `#[IsGranted('ROLE_ADMIN')]`.
 - Les utilisateurs non autorisés sont redirigés vers la page de connexion.
 
 ---
 
-## 📑 Templates Twig
+## Templates Twig
 
 Chaque contrôleur s’appuie sur des vues dédiées dans `templates/admin/*/`.
 
@@ -86,7 +86,7 @@ Chaque contrôleur s’appuie sur des vues dédiées dans `templates/admin/*/`.
 
 ---
 
-## ✅ Checklist
+## Checklist
 
 - [x] **Admin dashboard** opérationnel.
 - [x] **CRUD et actions spécifiques** pour utilisateurs, annonces, échanges, messages.
@@ -95,7 +95,7 @@ Chaque contrôleur s’appuie sur des vues dédiées dans `templates/admin/*/`.
 
 ---
 
-## 📌 Notes pour soutenance
+## Notes pour soutenance
 
 - L’administrateur est le **super-utilisateur** du site.
 - Il a le pouvoir de **modérer, valider et supprimer** tout contenu.

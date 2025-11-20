@@ -1,4 +1,4 @@
-# 🎨 Styles — TalentÉkô
+# Styles — TalentÉkô
 
 Ce dossier contient les **styles CSS/Tailwind** du projet TalentÉkô.
 Ils suivent une organisation claire et modulaire : chaque fichier a un rôle précis (tokens, composants, formulaires, etc.).
@@ -7,7 +7,7 @@ Tous les styles respectent la **charte graphique officielle** et les **critères
 
 ---
 
-## 📑 Table des matières
+## Table des matières
 
 1. [Structure du dossier](#1-structure-du-dossier)
 2. [Palette & Tokens](#2-palette--tokens)
@@ -56,7 +56,7 @@ Définis dans components.css :
 - .btn-block → bouton centré/large (formulaires).
 - .nav-link → liens de navigation, gère aussi aria-current="page".
 
-👉 Tous les boutons sont accessibles (focus-visible, active:scale-95) et responsives (sm:min-w-[200px]).
+Tous les boutons sont accessibles (focus-visible, active:scale-95) et responsives (sm:min-w-[200px]).
 
 ## 4. Cartes annonces
 
@@ -69,7 +69,7 @@ Définies dans components.card.css :
 - .card-author + .card-avatar → auteur avec avatar par initiale.
 - .card-location → localisation avec icône.
 
-👉 Accessibilité renforcée : focus sur liens/images, aria-pressed sur favoris.
+Accessibilité renforcée : focus sur liens/images, aria-pressed sur favoris.
 
 ## 5. Formulaires
 
@@ -82,7 +82,7 @@ Définis dans forms.css :
 - .form-checkbox-box + .form-checkbox-icon → checkboxes customisées.
 - [aria-invalid="true"] + .is-invalid → gestion erreurs Symfony.
 
-👉 Supporte aussi les listes déroulantes de l’autocomplétion localisation (role="listbox", cohérent avec Stimulus).
+Supporte aussi les listes déroulantes de l’autocomplétion localisation (role="listbox", cohérent avec Stimulus).
 
 ## 6. Bonnes pratiques
 
@@ -96,4 +96,3 @@ Définis dans forms.css :
 3. Responsive : boutons et cartes adaptés mobile/desktop.
 4. Animations respectueuses : support prefers-reduced-motion.
 5. Cohérence visuelle : palette TalentÉkô utilisée dans tous les composants.
-

@@ -1,11 +1,11 @@
-# ✅ Checklist Production — TalentÉkô
+# Checklist Production — TalentÉkô
 
 Cette checklist garantit que TalentÉkô est **prêt pour la mise en production** et la **soutenance DWWM**.
 Elle couvre la qualité technique, la sécurité, la cohérence des données et la conformité aux bonnes pratiques.
 
 ---
 
-## 🚀 Routes & Navigation
+## Routes & Navigation
 
 - [ ] Vérifier que **toutes les routes** existent (`php bin/console debug:router`).
 - [ ] Corriger les incohérences : ex. `app_conditions` (et non `app_legal_conditions`).
@@ -14,7 +14,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## 🔒 Sécurité
+## Sécurité
 
 - [ ] `IS_AUTHENTICATED_FULLY` sur les pages sensibles : annonces, messagerie, favoris.
 - [ ] `remember_me` activé et fonctionnel.
@@ -23,7 +23,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## 📝 Encodage & EOL
+## Encodage & EOL
 
 - [ ] Tous les fichiers encodés en **UTF-8 sans BOM**.
 - [ ] Fins de ligne normalisées en **LF** (Linux).
@@ -32,7 +32,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## 🪝 Git Hooks
+## Git Hooks
 
 - [ ] `pre-commit` rapide : PHP lint, encodage/EOL auto-fix, lint JS/CSS.
 - [ ] `pre-push` strict : TwigCS, PHPUnit complet (unitaires + fonctionnels).
@@ -40,7 +40,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## 📦 Fixtures & Migrations
+## Fixtures & Migrations
 
 - [ ] Base de données propre : `php bin/console doctrine:migrations:migrate --env=prod`.
 - [ ] Fixtures cohérentes : `User`, `Listing`, `Category`.
@@ -49,7 +49,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## 🎨 Styles & UI (Tailwind)
+## Styles & UI (Tailwind)
 
 - [ ] Palette TalentÉkô appliquée (`talenteko-blue`, `talenteko-orange`, etc.).
 - [ ] Classes factorisées (`btn-primary`, `btn-outline`, `btn-link`).
@@ -59,7 +59,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## ♿ Accessibilité
+## Accessibilité
 
 - [ ] Tous les inputs ont un **label explicite**.
 - [ ] Champs invalides avec `aria-invalid="true"` et `aria-describedby`.
@@ -69,7 +69,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## 🧪 Tests
+## Tests
 
 - [ ] Tests **unitaires** passent (`composer test -- --testsuite=unit`).
 - [ ] Tests **fonctionnels** passent (`composer test -- --testsuite=functional`).
@@ -78,7 +78,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## 📖 Documentation
+## Documentation
 
 - [ ] `README.md` principal clair (install + usage).
 - [ ] `docs/README_INSTALL.md` (installation locale).
@@ -91,7 +91,7 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-## ✅ Validation finale
+## Validation finale
 
 - [ ] Déploiement test en local (`APP_ENV=prod`).
 - [ ] Compilation des assets (`npm run build`).
@@ -106,4 +106,4 @@ Elle couvre la qualité technique, la sécurité, la cohérence des données et 
 
 ---
 
-🟢 **Quand tous les points sont validés, le projet TalentÉkô est prêt pour la mise en production et la soutenance.**
+**Quand tous les points sont validés, le projet TalentÉkô est prêt pour la mise en production et la soutenance.**

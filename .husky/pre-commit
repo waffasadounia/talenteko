@@ -13,7 +13,7 @@ echo "🔍 Vérification pre-commit TalentÉkô..."
 FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.php$' || true)
 for FILE in $FILES; do
   composer exec -- php -l "$FILE" >/dev/null || {
-    echo "❌ Erreur de syntaxe PHP dans $FILE"
+    echo " Erreur de syntaxe PHP dans $FILE"
     exit 1
   }
 done
@@ -25,42 +25,42 @@ for FILE in $(git diff --cached --name-only); do
     if head -c3 "$FILE" | grep -q $'\xEF\xBB\xBF'; then
       tail -c +4 "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
       git add "$FILE"
-      echo "🔧 BOM supprimé : $FILE"
+      echo " BOM supprimé : $FILE"
     fi
     # CRLF → LF
     if grep -Iq $'\r' "$FILE"; then
       sed -i 's/\r$//' "$FILE"
       git add "$FILE"
-      echo "🔧 Fins de ligne converties : $FILE"
+      echo " Fins de ligne converties : $FILE"
     fi
     # Ajout newline finale
     if [ -s "$FILE" ] && ! tail -c 1 "$FILE" | grep -q $'\n'; then
       echo "" >> "$FILE"
       git add "$FILE"
-      echo "🔧 Ajout newline finale : $FILE"
+      echo " Ajout newline finale : $FILE"
     fi
   fi
 done
-echo "✅ Encodage/EOL validés"
+echo " Encodage/EOL validés"
 
 # 3) Lint-staged (tolérant si aucun fichier applicable)
 if npx lint-staged; then
-  echo "✅ Lint-staged OK"
+  echo " Lint-staged OK"
 else
   STATUS=$?
   if [ "$STATUS" -eq 1 ]; then
-    echo "ℹ️ Aucun fichier applicable pour lint-staged (OK)"
+    echo " Aucun fichier applicable pour lint-staged (OK)"
   else
-    echo "❌ Lint-staged échoué (code $STATUS)"
+    echo " Lint-staged échoué (code $STATUS)"
     exit $STATUS
   fi
 fi
 
 # 4) Validation composer.json
 if ! composer validate --no-check-publish; then
-  echo "❌ composer.json invalide"
+  echo " composer.json invalide"
   exit 1
 fi
 
-echo "✅ Pre-commit terminé avec succès"
+echo " Pre-commit terminé avec succès"
 exit 0

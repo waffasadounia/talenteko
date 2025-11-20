@@ -1,10 +1,10 @@
-# 🛠 TalentÉkô — Qualité & Tooling
+# TalentÉkô — Qualité & Tooling
 
 Ce document résume les **outils et conventions** mis en place pour garantir la qualité du code et la portabilité du projet TalentÉkô.
 
 ---
 
-## 📂 Gestion du dépôt Git
+## Gestion du dépôt Git
 
 ### `.gitignore`
 
@@ -39,7 +39,7 @@ Ce document résume les **outils et conventions** mis en place pour garantir la 
 
 ---
 
-## 📦 npm scripts
+## npm scripts
 
 | Commande            | Action                                       |
 | ------------------- | -------------------------------------------- |
@@ -57,7 +57,7 @@ Ce document résume les **outils et conventions** mis en place pour garantir la 
 
 ---
 
-## 🔒 Hooks Git (Husky + lint-staged)
+## Hooks Git (Husky + lint-staged)
 
 ### `pre-commit`
 
@@ -73,7 +73,7 @@ Ce document résume les **outils et conventions** mis en place pour garantir la 
 
 ---
 
-## 🎯 Bénéfices
+## Bénéfices
 
 - Code **propre, homogène, portable**.
 - Aucun secret ni cache versionné.
@@ -83,7 +83,7 @@ Ce document résume les **outils et conventions** mis en place pour garantir la 
 
 ---
 
-## 🔧 Scripts de maintenance
+## Scripts de maintenance
 
 Certains scripts internes sont utilisés pour assurer la qualité du code et la cohérence du projet.
-➡️ Voir la documentation complète : [Scripts de maintenance](../tools/README.md)
+Voir la documentation complète : [Scripts de maintenance](../tools/README.md)

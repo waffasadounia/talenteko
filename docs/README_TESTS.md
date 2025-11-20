@@ -1,18 +1,18 @@
-# 🧪 Tests — TalentÉkô
+# Tests — TalentÉkô
 
 Ce document présente la stratégie de tests mise en place dans le projet **TalentÉkô** (Symfony 6, PHPUnit 11).
 Objectif : garantir la stabilité, la qualité et la conformité RNCP du code.
 
 ---
 
-## 🔹 Types de tests
+## Types de tests
 
-### ✅ Tests unitaires
+### Tests unitaires
 
 - Vérifient les entités, validateurs et services métiers.
 - Exemple : `UserTest.php` (hashage mot de passe, rôles), `ValidLocationValidatorTest.php`.
 
-### ✅ Tests fonctionnels (contrôleurs)
+### Tests fonctionnels (contrôleurs)
 
 - `RegistrationControllerTest.php`
   - Cas succès : inscription valide.
@@ -24,14 +24,14 @@ Objectif : garantir la stabilité, la qualité et la conformité RNCP du code.
 - `SearchControllerTest.php`
   - Vérifie la recherche d’annonces par mot-clé et catégorie.
 
-### ✅ Tests d’intégration
+### Tests d’intégration
 
 - Vérifient la cohérence des échanges entre Doctrine + Symfony (fixtures chargées).
 - Exemple : persistance des `Listing` liés à un `User` + `Category`.
 
 ---
 
-## 📦 Organisation des fichiers
+## Organisation des fichiers
 
 tests/
 ├─ Unit/
@@ -42,7 +42,7 @@ tests/
 │ └─ Security/
 └─ Integration/
 
-## 📊 Couverture
+## Couverture
 
 Pour générer un rapport HTML de couverture :
 
@@ -50,10 +50,10 @@ Pour générer un rapport HTML de couverture :
 php bin/phpunit --coverage-html coverage/
 ```
 
-➡️ Le dossier coverage/ contient un rapport navigable dans le navigateur.
+Le dossier coverage/ contient un rapport navigable dans le navigateur.
 C’est ce qui sera présenté au jury pour prouver la robustesse du projet.
 
-### 🎯 Objectifs pour la soutenance
+### Objectifs pour la soutenance
 
 Atteindre au minimum 70 % de couverture sur les classes métiers.
 
@@ -64,5 +64,5 @@ La recherche fonctionne.
 
 # Bonus : présenter les rapports générés en direct (coverage/index.html).
 
-✍️ Auteur : Équipe TalentÉkô
-📅 Dernière mise à jour : septembre 2025
+ Auteur : Équipe TalentÉkô
+ Dernière mise à jour : septembre 2025

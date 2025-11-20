@@ -8,7 +8,7 @@ export default class extends Controller {
   static targets = ['panel', 'overlay'];
 
   connect() {
-    console.log('✅ FilterPanelController connecté');
+    console.log(' FilterPanelController connecté');
 
     // Raccourcis
     this.toggleButton = document.getElementById('filter-toggle');
@@ -28,7 +28,7 @@ export default class extends Controller {
 
   // --- Bascule ouverture / fermeture ---
   toggle(event) {
-    console.log('✅ toggle() exécuté !');
+    console.log(' toggle() exécuté !');
     this.isOpen() ? this.close() : this.open(event);
   }
 
@@ -64,7 +64,7 @@ export default class extends Controller {
     }
 
     document.addEventListener('keydown', this.handleKeydown);
-    console.log('✅ Panneau ouvert (dataset.state = open)');
+    console.log('Panneau ouvert (dataset.state = open)');
   }
 
   // --- Fermeture du panneau ---
@@ -95,7 +95,7 @@ export default class extends Controller {
     // Restaure focus
     if (this.triggerButton) this.triggerButton.focus();
 
-    console.log('✅ Panneau fermé (dataset.state = closed)');
+    console.log('Panneau fermé (dataset.state = closed)');
   }
 
   // --- Vérifie l’état ---

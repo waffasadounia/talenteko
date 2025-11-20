@@ -44,7 +44,7 @@ final class ExchangeStatusChangedNotificationHandler
             return; // Pas d’envoi si données incomplètes
         }
 
-        // Préparation de l’email avec le bon template (chemin corrigé)
+        // Préparation de l’email
         $email = (new TemplatedEmail())
             ->from($this->mailerFrom)
             ->to($recipient->getEmail())
@@ -65,7 +65,7 @@ final class ExchangeStatusChangedNotificationHandler
                 'status' => $notification->getStatus()->value,
             ]);
         } catch (TransportExceptionInterface $e) {
-            // Gestion propre d’échec SMTP (log + contexte clair)
+            // Gestion propre d’échec SMTP
             $this->logger->error('Échec envoi email ExchangeStatus.', [
                 'error' => $e->getMessage(),
                 'exchangeId' => $exchange->getId(),

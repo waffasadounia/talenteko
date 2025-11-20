@@ -35,7 +35,6 @@ final class StyleguideController extends AbstractController
     {
         return $this->render('styleguide/buttons.html.twig');
     }
-
     /**
      * Page interne : styleguide des formulaires TalentÉkô
      * URL : /styleguide/forms
@@ -46,7 +45,6 @@ final class StyleguideController extends AbstractController
     {
         return $this->render('styleguide/forms.html.twig');
     }
-
     /**
      * Page interne : styleguide typographie TalentÉkô
      * URL : /styleguide/typography
@@ -57,7 +55,6 @@ final class StyleguideController extends AbstractController
     {
         return $this->render('styleguide/typography.html.twig');
     }
-
     /**
      * Page interne : styleguide CTA TalentÉkô
      * URL : /styleguide/cta
@@ -68,7 +65,6 @@ final class StyleguideController extends AbstractController
     {
         return $this->render('styleguide/cta.html.twig');
     }
-
     /**
      * Page interne : styleguide des cartes TalentÉkô
      * URL : /styleguide/cards

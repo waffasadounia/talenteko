@@ -32,7 +32,7 @@ final class CacheImagesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $publicDir = __DIR__.'/../../public/uploads/listings';
+        $publicDir = __DIR__ . '/../../public/uploads/listings';
 
         $finder = new Finder();
         $finder->files()
@@ -44,11 +44,10 @@ final class CacheImagesCommand extends Command
 
             return Command::SUCCESS;
         }
-
         $io->section('Rafraîchissement du cache LiipImagine');
         foreach ($finder as $file) {
-            $relativePath = 'uploads/listings/'.str_replace('\\', '/', $file->getRelativePathname());
-            $io->text("➡️ $relativePath");
+            $relativePath = 'uploads/listings/' . str_replace('\\', '/', $file->getRelativePathname());
+            $io->text("$relativePath");
 
             foreach (ImageFilters::ALL as $filter) {
                 try {
@@ -56,13 +55,11 @@ final class CacheImagesCommand extends Command
                     $this->cacheManager->getBrowserPath($relativePath, $filter);
                     $io->writeln("   <info>✔ $filter régénéré</info>");
                 } catch (\Exception $e) {
-                    $io->error("   ❌ $filter échoué : ".$e->getMessage());
+                    $io->error("    $filter échoué : " . $e->getMessage());
                 }
             }
         }
-
-        $io->success('✅ Cache images régénéré pour toutes les variantes.');
-
+        $io->success('Cache images régénéré pour toutes les variantes.');
         return Command::SUCCESS;
     }
 }

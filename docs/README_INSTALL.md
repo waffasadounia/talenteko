@@ -1,4 +1,4 @@
-# 🚀 Guide d’installation — TalentÉkô
+# Guide d’installation — TalentÉkô
 
 Ce document décrit les étapes pour installer et lancer TalentÉkô en local.
 Prérequis : **PHP 8.2+, Composer 2, Node.js 20+, npm 10+, MariaDB/MySQL**.
@@ -72,8 +72,7 @@ Ouvrir http://127.0.0.1:8000
 ```bash
 composer test
 ```
-
-➡️ Rapport de couverture : php bin/phpunit --coverage-html coverage/
+ Rapport de couverture : php bin/phpunit --coverage-html coverage/
 
 ## Résumé rapide
 
@@ -90,7 +89,7 @@ npm run dev
 symfony server:start
 ```
 
-## 🔑 Comptes de test
+## Comptes de test
 
 **_Utilisateur :_** user@talenteko.fr
 / Password123!
@@ -98,6 +97,6 @@ symfony server:start
 **_Admin :_** admin@talenteko.fr
 / Password123!
 
-## ✍️ Auteur : Équipe TalentÉkô
+## Auteur : Équipe TalentÉkô
 
-## 📅 Dernière mise à jour : septembre 2025
+## Dernière mise à jour : septembre 2025

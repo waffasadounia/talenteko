@@ -36,7 +36,6 @@ final class AdminExchangeController extends AbstractController
             'exchanges' => $repo->findBy([], ['createdAt' => 'DESC']),
         ]);
     }
-
     /**
      * Clôture manuellement un échange (statut → COMPLETED).
      *
@@ -47,12 +46,9 @@ final class AdminExchangeController extends AbstractController
     {
         $exchange->setStatus(ExchangeStatus::COMPLETED);
         $em->flush();
-
-        $this->addFlash('info', \sprintf('Échange #%d clôturé avec succès ✅', $exchange->getId()));
-
+        $this->addFlash('info', \sprintf('Échange #%d clôturé avec succès', $exchange->getId()));
         return $this->redirectToRoute('app_admin_exchange_index');
     }
-
     /**
      * Supprime définitivement un échange.
      *
@@ -62,12 +58,9 @@ final class AdminExchangeController extends AbstractController
     public function delete(Exchange $exchange, EntityManagerInterface $em): Response
     {
         $id = $exchange->getId();
-
         $em->remove($exchange);
         $em->flush();
-
-        $this->addFlash('danger', \sprintf('Échange #%d supprimé ❌', $id));
-
+        $this->addFlash('danger', \sprintf('Échange #%d supprimé', $id));
         return $this->redirectToRoute('app_admin_exchange_index');
     }
 }

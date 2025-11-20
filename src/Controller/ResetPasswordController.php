@@ -68,7 +68,6 @@ final class ResetPasswordController extends AbstractController
                         ),
                         'user' => $user,
                     ]);
-
                 $mailer->send($mail);
             }
 
@@ -77,12 +76,10 @@ final class ResetPasswordController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
-
         return $this->render('security/reset_request.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * ÉTAPE 2 — Page où l'utilisateur choisit un nouveau mot de passe
      */

@@ -31,7 +31,6 @@ final class FixCategorySlugsCommand extends Command
     ) {
         parent::__construct();
     }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -46,13 +45,12 @@ final class FixCategorySlugsCommand extends Command
             if (!$category instanceof Category) {
                 continue;
             }
-
             // Recalcul du slug correct depuis le nom (trim + slug)
             $correctSlug = strtolower((string) $this->slugger->slug(trim($category->getName())));
 
             if ($category->getSlug() !== $correctSlug) {
                 $io->warning(\sprintf(
-                    '⚠️ Catégorie "%s" (id %d) : slug corrigé "%s" → "%s"',
+                    ' Catégorie "%s" (id %d) : slug corrigé "%s" → "%s"',
                     $category->getName(),
                     $category->getId(),
                     $category->getSlug(),
@@ -68,9 +66,9 @@ final class FixCategorySlugsCommand extends Command
 
         if ($updated > 0) {
             $this->em->flush();
-            $io->success("✅ $updated slugs corrigés sur $total catégories.");
+            $io->success(" $updated slugs corrigés sur $total catégories.");
         } else {
-            $io->success("👌 Tous les slugs sont déjà corrects ($total vérifiées).");
+            $io->success(" Tous les slugs sont déjà corrects ($total vérifiées).");
         }
 
         return Command::SUCCESS;
