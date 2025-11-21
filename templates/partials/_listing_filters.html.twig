@@ -12,151 +12,107 @@
    ============================================================ #}
 
 <aside
-  id="filter-panel"
-  data-filter-panel-target="panel"
-  class="fixed top-0 right-0 z-40 h-full w-80 max-w-[380px]
-         translate-x-full opacity-0
-         bg-white shadow-2xl transition-transform duration-500 ease-out
-         overflow-y-auto p-6 rounded-l-2xl
-         [&[data-state=open]]:translate-x-0 [&[data-state=open]]:opacity-100"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="filters-title"
-  tabindex="-1"
->
-  {# ------------------------------------------------------------
-     En-tête du panneau
-     ------------------------------------------------------------ #}
-  <div class="flex justify-between items-center mb-8">
-    <h2 id="filters-title" class="text-xl font-semibold text-talenteko-blue-900">
-      Filtres de recherche
-    </h2>
-    <button
-      type="button"
-      class="text-talenteko-orange-500 hover:text-talenteko-orange-600 font-semibold text-sm focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded-md px-1"
-      data-action="click->filter-panel#close"
-      aria-label="Fermer les filtres"
-    >
-      ✕
-    </button>
-  </div>
+	id="filter-panel" data-filter-panel-target="panel" class="fixed top-0 right-0 z-40 h-full w-80 max-w-[380px]
+		         translate-x-full opacity-0
+		         bg-white shadow-2xl transition-transform duration-500 ease-out
+		         overflow-y-auto p-6 rounded-l-2xl
+		         [&[data-state=open]]:translate-x-0 [&[data-state=open]]:opacity-100" role="dialog" aria-modal="true" aria-labelledby="filters-title" tabindex="-1">
+	{# ------------------------------------------------------------
+	     En-tête du panneau
+	     ------------------------------------------------------------ #}
+	<div class="flex justify-between items-center mb-8">
+		<h2 id="filters-title" class="text-xl font-semibold text-talenteko-blue-900">
+			Filtres de recherche
+		</h2>
+		<button type="button" class="text-talenteko-orange-500 hover:text-talenteko-orange-600 font-semibold text-sm focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded-md px-1" data-action="click->filter-panel#close" aria-label="Fermer les filtres">
+			✕
+		</button>
+	</div>
 
-  {# ------------------------------------------------------------
-     Formulaire de filtres
-     ------------------------------------------------------------ #}
-  <form method="get" action="{{ path('app_search') }}"
-        class="tk-form divide-y divide-gray-200 space-y-8">
+	{# ------------------------------------------------------------
+	     Formulaire de filtres
+	     ------------------------------------------------------------ #}
+	<form
+		method="get" action="{{ path('app_search') }}" class="tk-form divide-y divide-gray-200 space-y-8">
 
-    {# === Localisation (autocomplétion BAN) === #}
-    <div class="relative space-y-2 pb-2" data-controller="location-autocomplete">
-      <label for="location" class="form-label">Localisation</label>
-      <input
-        type="text"
-        id="location"
-        name="location"
-        value="{{ criteria.location|default('') }}"
-        placeholder="ex. Paris, Lyon..."
-        class="form-input"
-        data-location-autocomplete-target="input"
-        data-action="input->location-autocomplete#search keydown->location-autocomplete#keydown"
-        aria-autocomplete="list"
-        aria-expanded="false"
-        aria-owns="location-suggestions"
-      />
-      <ul id="location-suggestions"
-          data-location-autocomplete-target="list"
-          class="tk-autocomplete-list hidden"></ul>
-    </div>
+		{# === Localisation (autocomplétion BAN) === #}
+		<div class="relative space-y-2 pb-2" data-controller="location-autocomplete">
+			<label for="location" class="form-label">Localisation</label>
+			<input type="text" id="location" name="location" value="{{ criteria.location|default('') }}" placeholder="ex. Paris, Lyon..." class="form-input" data-location-autocomplete-target="input" data-action="input->location-autocomplete#search keydown->location-autocomplete#keydown" aria-autocomplete="list" aria-expanded="false" aria-owns="location-suggestions"/>
+			<ul id="location-suggestions" data-location-autocomplete-target="list" class="tk-autocomplete-list hidden"></ul>
+		</div>
 
-    {# === Distance maximale === #}
-    <div class="pt-6 space-y-2 pb-2">
-      <label for="distance" class="form-label">Distance maximale (km)</label>
-      <div class="flex items-center gap-3">
-        <input
-          type="range"
-          id="distance"
-          name="distance"
-          min="0"
-          max="100"
-          step="5"
-          value="{{ criteria.distance|default(25) }}"
-          class="tk-slider flex-1"
-        />
-        <span id="distance-value"
-              class="text-sm font-semibold text-talenteko-orange-600 min-w-[3rem] text-right">
-          {{ criteria.distance|default(25) }} km
-        </span>
-      </div>
-    </div>
+		{# === Distance maximale === #}
+		<div class="pt-6 space-y-2 pb-2">
+			<label for="distance" class="form-label">Distance maximale (km)</label>
+			<div class="flex items-center gap-3">
+				<input type="range" id="distance" name="distance" min="0" max="100" step="5" value="{{ criteria.distance|default(25) }}" class="tk-slider flex-1"/>
+				<span id="distance-value" class="text-sm font-semibold text-talenteko-orange-600 min-w-[3rem] text-right">
+					{{ criteria.distance|default(25) }}
+					km
+				</span>
+			</div>
+		</div>
+		<script>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const slider = document.getElementById('distance');
-        const label = document.getElementById('distance-value');
-        const update = () => {
-          const val = slider.value;
-          const percent = (val / slider.max) * 100;
-          slider.style.background = `linear-gradient(to right, #d6713c ${percent}%, #e5e7eb ${percent}%)`;
-          label.textContent = `${val} km`;
-        };
-        update();
-        slider.addEventListener('input', update);
-      });
-    </script>
+			document.addEventListener('DOMContentLoaded', () => {
+const slider = document.getElementById('distance');
+const label = document.getElementById('distance-value');
+const update = () => {
+const val = slider.value;
+const percent = (val / slider.max) * 100;
+slider.style.background = `linear-gradient(to right, #d6713c ${percent}%, #e5e7eb ${percent}%)`;
+label.textContent = `${val} km`;
+};
+update();
+slider.addEventListener('input', update);
+});
+		</script>
 
-    {# === Type d’annonce === #}
-    <div class="pt-6 space-y-3 pb-2">
-      <span class="form-label">Type d’annonce</span>
-      <div class="flex flex-col gap-3 mt-1 text-sm text-talenteko-blue-900">
-        <label class="flex items-center gap-2 cursor-pointer">
-          <input type="radio" name="type" value=""
-                 class="form-radio" {% if criteria.type|default('') is empty %}checked{% endif %}>
-          <span>Toutes</span>
-        </label>
-        <label class="flex items-center gap-2 cursor-pointer">
-          <input type="radio" name="type" value="OFFER"
-                 class="form-radio" {% if criteria.type|default('') == 'OFFER' %}checked{% endif %}>
-          <span>Offres</span>
-        </label>
-        <label class="flex items-center gap-2 cursor-pointer">
-          <input type="radio" name="type" value="REQUEST"
-                 class="form-radio" {% if criteria.type|default('') == 'REQUEST' %}checked{% endif %}>
-          <span>Demandes</span>
-        </label>
-      </div>
-    </div>
+		{# === Type d’annonce === #}
+		<div class="pt-6 space-y-3 pb-2">
+			<span class="form-label">Type d’annonce</span>
+			<div class="flex flex-col gap-3 mt-1 text-sm text-talenteko-blue-900">
+				<label class="flex items-center gap-2 cursor-pointer">
+					<input type="radio" name="type" value="" class="form-radio" {% if criteria.type|default('') is empty %} checked {% endif %}>
+					<span>Toutes</span>
+				</label>
+				<label class="flex items-center gap-2 cursor-pointer">
+					<input type="radio" name="type" value="OFFER" class="form-radio" {% if criteria.type|default('') == 'OFFER' %} checked {% endif %}>
+					<span>Offres</span>
+				</label>
+				<label class="flex items-center gap-2 cursor-pointer">
+					<input type="radio" name="type" value="REQUEST" class="form-radio" {% if criteria.type|default('') == 'REQUEST' %} checked {% endif %}>
+					<span>Demandes</span>
+				</label>
+			</div>
+		</div>
 
-    {# === Évaluation minimum (étoiles interactives) === #}
-    <div class="pt-6 space-y-2 pb-2" data-controller="rating-filter">
-      <label for="rating" class="form-label">Évaluation minimum</label>
-      <input type="hidden" id="rating" name="rating"
-             value="{{ criteria.rating|default('') }}"
-             data-rating-filter-target="input">
-      <div class="flex items-center gap-1 select-none">
-        {% for i in 1..5 %}
-          <button type="button"
-                  class="transition-colors text-gray-300 hover:text-talenteko-orange-400 focus:outline-none text-xl"
-                  data-value="{{ i }}"
-                  data-rating-filter-target="star"
-                  data-action="click->rating-filter#select mouseover->rating-filter#highlight mouseout->rating-filter#clearHighlight"
-                  aria-label="{{ i }} étoile{{ i > 1 ? 's' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-              <path d="M12 .587l3.668 7.568L24 9.423l-6 5.853L19.335 24 12 20.012 4.665 24 6 15.276 0 9.423l8.332-1.268z"/>
-            </svg>
-          </button>
-        {% endfor %}
-      </div>
-      {% if criteria.rating|default('') %}
-        <p class="text-sm text-gray-600 mt-1">
-          Note minimale : <strong>{{ criteria.rating }}/5</strong>
-        </p>
-      {% endif %}
-    </div>
+		{# === Évaluation minimum (étoiles interactives) === #}
+		<div class="pt-6 space-y-2 pb-2" data-controller="rating-filter">
+			<label for="rating" class="form-label">Évaluation minimum</label>
+			<input type="hidden" id="rating" name="rating" value="{{ criteria.rating|default('') }}" data-rating-filter-target="input">
+			<div class="flex items-center gap-1 select-none">
+				{% for i in 1..5 %}
+					<button type="button" class="transition-colors text-gray-300 hover:text-talenteko-orange-400 focus:outline-none text-xl" data-value="{{ i }}" data-rating-filter-target="star" data-action="click->rating-filter#select mouseover->rating-filter#highlight mouseout->rating-filter#clearHighlight" aria-label="{{ i }} étoile{{ i > 1 ? 's' : '' }}">
+						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+							<path d="M12 .587l3.668 7.568L24 9.423l-6 5.853L19.335 24 12 20.012 4.665 24 6 15.276 0 9.423l8.332-1.268z"/>
+						</svg>
+					</button>
+				{% endfor %}
+			</div>
+			{% if criteria.rating|default('') %}
+				<p class="text-sm text-gray-600 mt-1">
+					Note minimale :
+					<strong>{{ criteria.rating }}/5</strong>
+				</p>
+			{% endif %}
+		</div>
 
-    {# === Date de publication (menu déroulant) === #}
-    <div class="pt-6 space-y-2 pb-2">
-      <label for="date" class="form-label">Date de publication</label>
-      {% include 'components/_custom_select.html.twig' with {
+		{# === Date de publication (menu déroulant) === #}
+		<div class="pt-6 space-y-2 pb-2">
+			<label for="date" class="form-label">Date de publication</label>
+			{% include 'components/_custom_select.html.twig' with {
         id: 'date',
         name: 'date',
         options: [
@@ -167,24 +123,16 @@
         ],
         selected: criteria.date|default('')
       } %}
-    </div>
+		</div>
 
-    {# === Boutons === #}
-    <div class="pt-8 flex flex-col gap-3">
-      <button type="submit" class="btn-primary w-full">Appliquer les filtres</button>
-      <a href="{{ path('app_search') }}" class="btn-outline w-full text-center">Réinitialiser</a>
-    </div>
-  </form>
+		{# === Boutons === #}
+		<div class="pt-8 flex flex-col gap-3">
+			<button type="submit" class="btn-primary w-full">Appliquer les filtres</button>
+			<a href="{{ path('app_search') }}" class="btn-outline w-full text-center">Réinitialiser</a>
+		</div>
+	</form>
 </aside>
-
-{# ------------------------------------------------------------
-   Overlay sombre (arrière-plan cliquable pour fermer)
-   ------------------------------------------------------------ #}
-<div
-  id="filter-overlay"
-  data-filter-panel-target="overlay"
-  data-action="click->filter-panel#close"
-  class="fixed inset-0 z-30 hidden opacity-0 bg-black/60
-         transition-opacity duration-500 ease-in-out
-         data-[state=open]:block data-[state=open]:opacity-100"
-></div>
+{# Overlay sombre (arrière-plan cliquable pour fermer)#}
+<div id="filter-overlay" data-filter-panel-target="overlay" data-action="click->filter-panel#close" class="fixed inset-0 z-30 hidden opacity-0 bg-black/60
+	         transition-opacity duration-500 ease-in-out
+	         data-[state=open]:block data-[state=open]:opacity-100"></div>

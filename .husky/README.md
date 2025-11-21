@@ -1,11 +1,11 @@
-# 🪝 Hooks Git — TalentÉkô
+# Hooks Git — TalentÉkô
 
 Ce dossier contient les **hooks Git Husky** utilisés pour garantir la qualité du code dans le projet TalentÉkô.
 Les hooks s’exécutent automatiquement lors d’actions Git (`commit`, `push`) et bloquent l’opération en cas d’erreurs.
 
 ---
 
-##  Table des matières
+## Table des matières
 
 1. [Structure du dossier](#1-structure-du-dossier)
 2. [Hooks actifs](#2-hooks-actifs)
@@ -28,7 +28,7 @@ Les hooks s’exécutent automatiquement lors d’actions Git (`commit`, `push`)
 
 ## 2. Hooks actifs
 
-### 🔍 pre-commit
+### pre-commit
 
 Vérifications rapides **avant chaque commit** :
 
@@ -41,7 +41,7 @@ Vérifications rapides **avant chaque commit** :
 -  Valide `composer.json`.
 -  Lint JS & CSS (`npm run lint:js`, `npm run lint:css`) si des fichiers correspondants sont modifiés.
 
-➡️ Objectif : **commits rapides** mais sûrs.
+Objectif : **commits rapides** mais sûrs.
 
 ---
 
@@ -53,7 +53,7 @@ Vérifications strictes **avant chaque push** :
 -  Lance tous les **tests PHPUnit** (unitaires & fonctionnels).
 -  Si une erreur est détectée, le push est bloqué.
 
-➡️ Objectif : **ne jamais pousser du code cassé sur la branche distante**.
+Objectif : **ne jamais pousser du code cassé sur la branche distante**.
 
 ---
 
@@ -79,5 +79,5 @@ Tous les autres hooks vides, doublons ou backups ont été supprimés (`post-mer
 
 ---
 
- Auteur : _Hooks Git internes TalentÉkô_
+ Auteur : waffa
  Dernière mise à jour : **octobre 2025**

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-6 py-20">
+		<h1 class="text-7xl font-extrabold text-talenteko-orange-500 mb-4">
+			404
+		</h1>
+		<p class="text-xl text-talenteko-blue-900 font-semibold mb-4">
+			<i class="fa-regular fa-face-frown-open text-talenteko-orange-500 text-4xl"></i>
+			Oups… cette page n’existe pas.
+		</p>
+		<p class="text-talenteko-blue-700 mb-8">
+			Le lien est peut-être incorrect ou la page a été déplacée.
+		</p>
+		<a href="{{ path('app_home') }}" class="btn-primary inline-flex items-center gap-2 px-6 py-3">
+			<i class="fa-solid fa-house"></i>
+			Retour à l’accueil
+		</a>
+	</div>
+{% endblock %}

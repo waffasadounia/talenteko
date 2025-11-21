@@ -9,31 +9,20 @@
 	Modifier mon profil | TalentÉkô
 {% endblock %}
 {% block body %}
-<div class="mt-10 text-left">
-  <a onclick="history.back()" class="btn-link inline-flex items-center gap-2 cursor-pointer">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M15 19l-7-7 7-7" />
-    </svg>
-    Retour
-  </a>
-</div>
-{% include 'profile/_profile_nav.html.twig' %}
+	<div class="mt-10 text-left">
+		<a onclick="history.back()" class="btn-link inline-flex items-center gap-2 cursor-pointer">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+			</svg>
+			Retour
+		</a>
+	</div>
+	{% include 'profile/_profile_nav.html.twig' %}
 	<section class="bg-orange-50 py-12 mt-10">
 		<div class="mx-auto max-w-2xl px-6">
 			<h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
 				Modifier mon profil
 			</h1>
-
 			{# --- Bandeau erreurs global --- #}
 			{% if not form.vars.valid and form.vars.submitted %}
 				<div id="form-global-errors" class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700" role="alert">
@@ -143,16 +132,12 @@
               }
             )
           }}
-
-
 					{# === AVATAR (upload + preview + affichage actuel) === #}
 
 					<div data-controller="image-preview" class="space-y-3">
-
 						{{ form_label(form.profile.avatarFilename, 'Photo de profil', {
         label_attr: { class: 'form-label' }
     }) }}
-
 						{# --- Avatar actuel s'il existe --- #}
 						{% if app.user.profile and app.user.profile.avatarFilename %}
 							<div class="flex items-center gap-4">
@@ -163,8 +148,8 @@
 
 						{# Zone cliquable (comme annonces) #}
 						<div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
-							               flex flex-col items-center justify-center text-gray-400
-							               hover:border-talenteko-orange-500 cursor-pointer transition" onclick="document.getElementById('{{ form.profile.avatarFilename.vars.id }}').click();">
+														               flex flex-col items-center justify-center text-gray-400
+														               hover:border-talenteko-orange-500 cursor-pointer transition" onclick="document.getElementById('{{ form.profile.avatarFilename.vars.id }}').click();">
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewbox="0 0 24 24" stroke="currentColor">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
 							</svg>
@@ -185,7 +170,6 @@
 						</div>
 						{# Zone preview (Stimulus) #}
 						<div data-image-preview-target="preview" class="flex flex-wrap gap-3 mt-2 w-full min-h-[1px]"></div>
-
 						{{ form_errors(form.profile.avatarFilename) }}
 					</div>
 				</div>

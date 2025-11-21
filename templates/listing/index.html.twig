@@ -6,60 +6,46 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Annonces disponibles | TalentÉkô
+	Annonces disponibles | TalentÉkô
 {% endblock %}
 
 {% block body %}
-  <section class="bg-white py-16">
-    <div class="mx-auto max-w-6xl px-4">
-      <h1 class="mb-12 text-center text-3xl font-bold text-talenteko-blue-900">
-        Toutes les annonces disponibles
-      </h1>
+	<section class="bg-white py-16">
+		<div class="mx-auto max-w-6xl px-4">
+			<h1 class="mb-12 text-center text-3xl font-bold text-talenteko-blue-900">
+				Toutes les annonces disponibles
+			</h1>
 
-      {# === Barre de recherche simple (optionnelle au MVP) === #}
-      <form
-        method="get"
-        action="{{ path('app_listing_index') }}"
-        role="search"
-        class="mb-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
-      >
-        <label for="search-query" class="sr-only">Rechercher une annonce</label>
-        <input
-          id="search-query"
-          type="text"
-          name="q"
-          placeholder="Rechercher une compétence, une ville..."
-          class="form-input w-full focus:ring-talenteko-orange-500 sm:w-96"
-          aria-label="Rechercher une annonce"
-        />
-        <button type="submit" class="btn-primary focus:ring-2 focus:ring-talenteko-orange-500">
-          <i class="fa-solid fa-magnifying-glass mr-1"></i>
-          Rechercher
-        </button>
-      </form>
+			{# === Barre de recherche simple (optionnelle au MVP) === #}
+			<form method="get" action="{{ path('app_listing_index') }}" role="search" class="mb-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+				<label for="search-query" class="sr-only">Rechercher une annonce</label>
+				<input id="search-query" type="text" name="q" placeholder="Rechercher une compétence, une ville..." class="form-input w-full focus:ring-talenteko-orange-500 sm:w-96" aria-label="Rechercher une annonce"/>
+				<button type="submit" class="btn-primary focus:ring-2 focus:ring-talenteko-orange-500">
+					<i class="fa-solid fa-magnifying-glass mr-1"></i>
+					Rechercher
+				</button>
+			</form>
 
-      {# === Grille d’annonces === #}
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {% for listing in listings %}
-          {% include 'partials/_listing_card.html.twig' with {
+			{# === Grille d’annonces === #}
+			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+				{% for listing in listings %}
+					{% include 'partials/_listing_card.html.twig' with {
             listing: listing
           } %}
-        {% else %}
-          <p class="col-span-full text-center italic text-gray-500">
-            Aucune annonce disponible pour le moment.
-          </p>
-        {% endfor %}
-      </div>
-
-      {# === Lien retour === #}
-      <div class="mt-10 text-center">
-        <a href="{{ path('app_home') }}" class="btn-link inline-flex items-center gap-2">
-          <i class="fa-solid fa-arrow-left"></i>
-          <span>Retour à l’accueil</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  {% include 'partials/_flash.html.twig' %}
+				{% else %}
+					<p class="col-span-full text-center italic text-gray-500">
+						Aucune annonce disponible pour le moment.
+					</p>
+				{% endfor %}
+			</div>
+			{# === Lien retour === #}
+			<div class="mt-10 text-center">
+				<a href="{{ path('app_home') }}" class="btn-link inline-flex items-center gap-2">
+					<i class="fa-solid fa-arrow-left"></i>
+					<span>Retour à l’accueil</span>
+				</a>
+			</div>
+		</div>
+	</section>
+	{% include 'partials/_flash.html.twig' %}
 {% endblock %}

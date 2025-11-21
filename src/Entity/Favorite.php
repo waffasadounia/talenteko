@@ -9,21 +9,37 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'favorite')]
-#[ORM\UniqueConstraint(name: 'uniq_user_listing', columns: ['user_id', 'listing_id'])] // empêche doublons
+#[ORM\UniqueConstraint(name: 'uniq_user_listing', columns: ['user_id', 'listing_id'])]
 #[ORM\Index(columns: ['user_id'])]
 #[ORM\Index(columns: ['listing_id'])]
 class Favorite
 {
-    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
+    // ==========================================
+    // USER
+    // ==========================================
     #[Assert\NotNull(message: 'Un favori doit appartenir à un utilisateur.')]
-    #[ORM\ManyToOne(inversedBy: 'favorites')]
+    #[ORM\ManyToOne(
+        inversedBy: 'favorites',
+        cascade: ['persist'],
+        fetch: 'LAZY'
+    )]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
+    // ==========================================
+    // LISTING
+    // ==========================================
     #[Assert\NotNull(message: 'Un favori doit cibler une annonce.')]
-    #[ORM\ManyToOne(inversedBy: 'favorites')]
+    #[ORM\ManyToOne(
+        inversedBy: 'favorites',
+        cascade: ['persist'],
+        fetch: 'LAZY'
+    )]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Listing $listing = null;
 
@@ -35,7 +51,9 @@ class Favorite
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    // === Getters / Setters ===
+    // ==========================================
+    // GETTERS / SETTERS
+    // ==========================================
     public function getId(): ?int
     {
         return $this->id;
@@ -46,10 +64,9 @@ class Favorite
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -58,10 +75,9 @@ class Favorite
         return $this->listing;
     }
 
-    public function setListing(?Listing $listing): self
+    public function setListing(Listing $listing): self
     {
         $this->listing = $listing;
-
         return $this;
     }
 
@@ -70,7 +86,6 @@ class Favorite
         return $this->createdAt;
     }
 
-    // === Divers ===
     public function __toString(): string
     {
         return \sprintf(

@@ -2,7 +2,7 @@
 // Bootstrap JS — Stimulus (TalentÉkô 2025)
 // ------------------------------------------------------
 // Configuration manuelle de Stimulus pour Webpack Encore 5.x
-// Mode ESM strict — tous les contrôleurs enregistrés à la main
+// Mode ESM strict
 // ======================================================
 
 import { Application } from '@hotwired/stimulus';

@@ -163,4 +163,42 @@ final class ListingController extends AbstractController
             'page_title' => 'Modifier mon annonce',
         ]);
     }
+    // PAGE PRIVÉE : Confirmation de suppression d’une annonce
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/{id}/supprimer/confirmation', name: 'confirm_delete', methods: ['GET'])]
+    public function confirmDelete(Listing $listing): Response
+    {
+        if ($listing->getAuthor() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+        return $this->render('listing/confirm_delete.html.twig', [
+            'listing' => $listing,
+        ]);
+    }
+    // PAGE PRIVÉE : Suppression d’une annonce
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/{id}/supprimer', name: 'delete', methods: ['POST'])]
+    public function delete(
+        Listing $listing,
+        Request $request,
+        EntityManagerInterface $em
+    ): Response {
+        // Seul l’auteur OU un admin peut supprimer
+        if ($listing->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer cette annonce.');
+        }
+
+        // Protection CSRF
+        if ($this->isCsrfTokenValid('delete' . $listing->getId(), $request->request->get('_token'))) {
+
+            // Suppression
+            $em->remove($listing);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre annonce a bien été supprimée.');
+        }
+
+        // Redirection vers la page "mes annonces" (ou autre)
+        return $this->redirectToRoute('app_profile_listings');
+    }
 }

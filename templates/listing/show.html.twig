@@ -25,7 +25,6 @@
 			<h1 class="text-3xl font-extrabold text-talenteko-blue-900 md:text-4xl">
 				{{ listing.title }}
 			</h1>
-
 			<div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
 				{% if listing.category %}
 					<span>Catégorie :
@@ -40,7 +39,6 @@
 			</div>
 		</div>
 	</section>
-
 	{# ===== Contenu principal ===== #}
 	<section class="bg-white py-10">
 		<div
@@ -60,7 +58,6 @@
 					{% else %}
 						<img src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_show') }}" alt="Image non disponible" class="w-full rounded-t-xl"/>
 					{% endif %}
-
 					{# Bouton Favoris (Stimulus) #}
 					<button class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-talenteko-orange-500 shadow transition hover:bg-talenteko-peach-200" aria-label="Ajouter ou retirer des favoris" data-controller="favorite-toggle" data-action="click->favorite-toggle#toggle">
 						<svg data-favorite-toggle-target="empty" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
@@ -71,7 +68,6 @@
 						</svg>
 					</button>
 				</div>
-
 				{# Galerie d’images secondaires #}
 				{% if (listing.images|length) > 1 %}
 					<div class="flex gap-3 overflow-x-auto py-2">
@@ -84,7 +80,6 @@
 						{% endfor %}
 					</div>
 				{% endif %}
-
 				<article class="rounded-xl border border-gray-200 bg-white p-6">
 					<h2 class="mb-3 text-xl font-bold text-talenteko-blue-900">Description</h2>
 					<div class="max-w-none whitespace-pre-line leading-relaxed text-gray-800">
@@ -92,7 +87,6 @@
 					</div>
 				</article>
 			</div>
-
 			{# Colonne droite : auteur #}
 			<aside class="space-y-6">
 				<div class="rounded-xl border border-gray-200 bg-white p-6">
@@ -130,8 +124,6 @@
 							</a>
 						</div>
 					{% endif %}
-
-
 				</div>
 
 				{# Bloc retour (standardisé) #}

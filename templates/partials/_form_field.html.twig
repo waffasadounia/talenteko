@@ -23,25 +23,26 @@
 
 {# Fusion avec attr_extra s'il existe #}
 {% if attr_extra is defined %}
-  {% set attrs = attrs|merge(attr_extra) %}
+	{% set attrs = attrs|merge(attr_extra) %}
 {% endif %}
 
-<div class="space-y-1">
-  {# Label #}
-  <label for="{{ field.vars.id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
-    {{ label }}
-    {% if field.vars.required %}
-      <span class="text-red-500" aria-hidden="true">*</span>
-    {% endif %}
-  </label>
+<div
+	class="space-y-1">
+	{# Label #}
+	<label for="{{ field.vars.id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+		{{ label }}
+		{% if field.vars.required %}
+			<span class="text-red-500" aria-hidden="true">*</span>
+		{% endif %}
+	</label>
 
-  {# Input #}
-  {{ form_widget(field, { attr: attrs }) }}
+	{# Input #}
+	{{ form_widget(field, { attr: attrs }) }}
 
-  {# Erreurs #}
-  {% if is_invalid %}
-    <p id="{{ errors_id }}" class="text-red-600 text-xs mt-1" role="alert">
-      {{ form_errors(field) }}
-    </p>
-  {% endif %}
+	{# Erreurs #}
+	{% if is_invalid %}
+		<p id="{{ errors_id }}" class="text-red-600 text-xs mt-1" role="alert">
+			{{ form_errors(field) }}
+		</p>
+	{% endif %}
 </div>

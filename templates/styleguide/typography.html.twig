@@ -2,118 +2,118 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Styleguide Typographie | TalentÉkô
+	Styleguide Typographie | TalentÉkô
 {% endblock %}
 
 {% block body %}
-  {% include 'styleguide/_nav.html.twig' %}
+	{% include 'styleguide/_nav.html.twig' %}
 
-  <main class="container mx-auto space-y-12 px-6 py-12">
-    <header class="space-y-2">
-      <h1 class="text-primary-color text-3xl font-bold md:text-4xl">
-        Styleguide Typographie | TalentÉkô
-      </h1>
-      <p class="text-gray-600">
-        Hiérarchie des titres, paragraphes, listes, citations, liens et code conforme à la charte
-        TalentÉkô.
-      </p>
-    </header>
+	<main class="container mx-auto space-y-12 px-6 py-12">
+		<header class="space-y-2">
+			<h1 class="text-primary-color text-3xl font-bold md:text-4xl">
+				Styleguide Typographie | TalentÉkô
+			</h1>
+			<p class="text-gray-600">
+				Hiérarchie des titres, paragraphes, listes, citations, liens et code conforme à la charte
+				        TalentÉkô.
+			</p>
+		</header>
 
-    {# Titres H1-H6 #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Titres</h2>
-      <div class="space-y-2">
-        <h1 class="text-primary-color text-4xl font-extrabold">H1 Titre principal</h1>
-        <h2 class="text-primary-color text-3xl font-bold">H2 Sous-titre</h2>
-        <h3 class="text-primary-color text-2xl font-bold">H3 Intertitre</h3>
-        <h4 class="text-primary-color text-xl font-semibold">H4 Section</h4>
-        <h5 class="text-primary-color text-lg font-semibold">H5 Sous-section</h5>
-        <h6 class="text-primary-color text-base font-semibold">H6 Légende</h6>
-      </div>
-      <p class="text-sm text-gray-500">
-        Police : Montserrat (titres), Catamaran/Chivo (texte). Couleur primaire
-        <code>#141C2E</code>.
-      </p>
-    </section>
+		{# Titres H1-H6 #}
+		<section class="space-y-4">
+			<h2 class="text-xl font-semibold">Titres</h2>
+			<div class="space-y-2">
+				<h1 class="text-primary-color text-4xl font-extrabold">H1 Titre principal</h1>
+				<h2 class="text-primary-color text-3xl font-bold">H2 Sous-titre</h2>
+				<h3 class="text-primary-color text-2xl font-bold">H3 Intertitre</h3>
+				<h4 class="text-primary-color text-xl font-semibold">H4 Section</h4>
+				<h5 class="text-primary-color text-lg font-semibold">H5 Sous-section</h5>
+				<h6 class="text-primary-color text-base font-semibold">H6 Légende</h6>
+			</div>
+			<p class="text-sm text-gray-500">
+				Police : Montserrat (titres), Catamaran/Chivo (texte). Couleur primaire
+				<code>#141C2E</code>.
+			</p>
+		</section>
 
-    {# Paragraphes & emphase #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Paragraphes & emphase</h2>
-      <p class="leading-relaxed text-gray-800">
-        TalentÉkô est une plateforme d’échange de compétences entre particuliers.
-        <strong class="font-semibold">L'objectif</strong>
-        est de faciliter le troc de services, avec une expérience
-        <em>simple</em>,
-        <em>accessible</em>
-        et
-        <em>cohérente</em>.
-      </p>
-      <p class="leading-relaxed text-gray-800">
-        Les actions importantes sont présentées sous forme de
-        <span class="font-semibold">boutons clairs</span>, avec un
-        <span class="font-semibold text-talenteko-orange-500">feedback visuel</span>
-        au survol et un focus visible.
-      </p>
-    </section>
+		{# Paragraphes & emphase #}
+		<section class="space-y-4">
+			<h2 class="text-xl font-semibold">Paragraphes & emphase</h2>
+			<p class="leading-relaxed text-gray-800">
+				TalentÉkô est une plateforme d’échange de compétences entre particuliers.
+				<strong class="font-semibold">L'objectif</strong>
+				est de faciliter le troc de services, avec une expérience
+				<em>simple</em>,
+				<em>accessible</em>
+				et
+				<em>cohérente</em>.
+			</p>
+			<p class="leading-relaxed text-gray-800">
+				Les actions importantes sont présentées sous forme de
+				<span class="font-semibold">boutons clairs</span>, avec un
+				<span class="font-semibold text-talenteko-orange-500">feedback visuel</span>
+				au survol et un focus visible.
+			</p>
+		</section>
 
-    {# Listes #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Listes</h2>
-      <div class="grid gap-8 md:grid-cols-2">
-        <div>
-          <h3 class="mb-2 text-lg font-semibold">Liste non ordonnée</h3>
-          <ul class="list-disc space-y-1 pl-6 text-gray-800">
-            <li>Lisibilité et hiérarchie</li>
-            <li>Couleurs cohérentes</li>
-            <li>Accessibilité (labels, focus)</li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="mb-2 text-lg font-semibold">Liste ordonnée</h3>
-          <ol class="list-decimal space-y-1 pl-6 text-gray-800">
-            <li>Analyser la maquette</li>
-            <li>Définir l'UML</li>
-            <li>Implémenter par modules Symfony</li>
-          </ol>
-        </div>
-      </div>
-    </section>
+		{# Listes #}
+		<section class="space-y-4">
+			<h2 class="text-xl font-semibold">Listes</h2>
+			<div class="grid gap-8 md:grid-cols-2">
+				<div>
+					<h3 class="mb-2 text-lg font-semibold">Liste non ordonnée</h3>
+					<ul class="list-disc space-y-1 pl-6 text-gray-800">
+						<li>Lisibilité et hiérarchie</li>
+						<li>Couleurs cohérentes</li>
+						<li>Accessibilité (labels, focus)</li>
+					</ul>
+				</div>
+				<div>
+					<h3 class="mb-2 text-lg font-semibold">Liste ordonnée</h3>
+					<ol class="list-decimal space-y-1 pl-6 text-gray-800">
+						<li>Analyser la maquette</li>
+						<li>Définir l'UML</li>
+						<li>Implémenter par modules Symfony</li>
+					</ol>
+				</div>
+			</div>
+		</section>
 
-    {# Liens #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Liens</h2>
-      <p class="text-gray-800">
-        Lien inline :
-        <a href="#" class="btn-link align-baseline" aria-label="Exemple de lien inline">
-          voir les annonces
-        </a>.
-      </p>
-      <div class="flex items-center gap-6">
-        <a href="#" class="btn-link">
-          <i class="fa fa-external-link" aria-hidden="true"></i>
-          <span>Lien d'action</span>
-        </a>
-        <a href="#" class="btn-outline"><span>Lien en style bouton</span></a>
-      </div>
-      <p class="text-sm text-gray-500">
-        Les liens ont un
-        <em>hover souligné</em>
-        et un
-        <em>focus ring</em>
-        pour la navigation clavier.
-      </p>
-    </section>
+		{# Liens #}
+		<section class="space-y-4">
+			<h2 class="text-xl font-semibold">Liens</h2>
+			<p class="text-gray-800">
+				Lien inline :
+				<a href="#" class="btn-link align-baseline" aria-label="Exemple de lien inline">
+					voir les annonces
+				</a>.
+			</p>
+			<div class="flex items-center gap-6">
+				<a href="#" class="btn-link">
+					<i class="fa fa-external-link" aria-hidden="true"></i>
+					<span>Lien d'action</span>
+				</a>
+				<a href="#" class="btn-outline">
+					<span>Lien en style bouton</span>
+				</a>
+			</div>
+			<p class="text-sm text-gray-500">
+				Les liens ont un
+				<em>hover souligné</em>
+				et un
+				<em>focus ring</em>
+				pour la navigation clavier.
+			</p>
+		</section>
 
-    {# Citation & code #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Citations & code</h2>
-      <blockquote
-        class="rounded-r-xl border-l-4 border-talenteko-orange-500 bg-talenteko-peach-100 py-2 pl-4 text-gray-800"
-      >
-        Une typographie claire renforce la lisibilité et l'accessibilité de l'interface. Utilise des
-        tailles de police, des poids et des couleurs appropriés pour créer une hiérarchie visuelle.
-      </blockquote>
-      <pre class="overflow-auto rounded-xl bg-gray-900 p-4 text-sm text-gray-100">
+		{# Citation & code #}
+		<section class="space-y-4">
+			<h2 class="text-xl font-semibold">Citations & code</h2>
+			<blockquote class="rounded-r-xl border-l-4 border-talenteko-orange-500 bg-talenteko-peach-100 py-2 pl-4 text-gray-800">
+				Une typographie claire renforce la lisibilité et l'accessibilité de l'interface. Utilise des
+				        tailles de police, des poids et des couleurs appropriés pour créer une hiérarchie visuelle.
+			</blockquote>
+			<pre class="overflow-auto rounded-xl bg-gray-900 p-4 text-sm text-gray-100">
         <code>
           // Exemple : classe bouton primaire (app.css) @layer components { .btn-primary { @apply
           bg-talenteko-orange-500 text-white rounded-full px-4 py-2 shadow-md hover:shadow-lg
@@ -122,70 +122,70 @@
           focus-visible:ring-talenteko-orange-500; } }
         </code>
       </pre>
-    </section>
+		</section>
 
-    {# Palette de couleurs #}
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Couleurs de marque</h2>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="overflow-hidden rounded-xl border">
-          <div class="h-16 bg-[#141C2E]"></div>
-          <div class="p-3 text-sm">
-            <div class="font-semibold">
-              Primary
-            </div>
-            <div class="text-gray-600">
-              #141C2E
-            </div>
-          </div>
-        </div>
-        <div class="overflow-hidden rounded-xl border">
-          <div class="h-16 bg-talenteko-orange-500"></div>
-          <div class="p-3 text-sm">
-            <div class="font-semibold">
-              Orange 500
-            </div>
-            <div class="text-gray-600">
-              #D6713C
-            </div>
-          </div>
-        </div>
-        <div class="overflow-hidden rounded-xl border">
-          <div class="h-16 bg-talenteko-peach-200"></div>
-          <div class="p-3 text-sm">
-            <div class="font-semibold">
-              Peach 200
-            </div>
-            <div class="text-gray-600">
-              #FDF5F1
-            </div>
-          </div>
-        </div>
-        <div class="overflow-hidden rounded-xl border">
-          <div class="h-16 bg-talenteko-orange-700"></div>
-          <div class="p-3 text-sm">
-            <div class="font-semibold">
-              Orange 700
-            </div>
-            <div class="text-gray-600">
-              #B35F3A
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="text-sm text-gray-500">
-        Les classes Tailwind custom (bg/text/border) pointent toutes vers ces valeurs.
-      </p>
-    </section>
+		{# Palette de couleurs #}
+		<section class="space-y-4">
+			<h2 class="text-xl font-semibold">Couleurs de marque</h2>
+			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+				<div class="overflow-hidden rounded-xl border">
+					<div class="h-16 bg-[#141C2E]"></div>
+					<div class="p-3 text-sm">
+						<div class="font-semibold">
+							Primary
+						</div>
+						<div class="text-gray-600">
+							#141C2E
+						</div>
+					</div>
+				</div>
+				<div class="overflow-hidden rounded-xl border">
+					<div class="h-16 bg-talenteko-orange-500"></div>
+					<div class="p-3 text-sm">
+						<div class="font-semibold">
+							Orange 500
+						</div>
+						<div class="text-gray-600">
+							#D6713C
+						</div>
+					</div>
+				</div>
+				<div class="overflow-hidden rounded-xl border">
+					<div class="h-16 bg-talenteko-peach-200"></div>
+					<div class="p-3 text-sm">
+						<div class="font-semibold">
+							Peach 200
+						</div>
+						<div class="text-gray-600">
+							#FDF5F1
+						</div>
+					</div>
+				</div>
+				<div class="overflow-hidden rounded-xl border">
+					<div class="h-16 bg-talenteko-orange-700"></div>
+					<div class="p-3 text-sm">
+						<div class="font-semibold">
+							Orange 700
+						</div>
+						<div class="text-gray-600">
+							#B35F3A
+						</div>
+					</div>
+				</div>
+			</div>
+			<p class="text-sm text-gray-500">
+				Les classes Tailwind custom (bg/text/border) pointent toutes vers ces valeurs.
+			</p>
+		</section>
 
-    {# Accessibilité #}
-    <section class="space-y-2">
-      <h2 class="text-xl font-semibold">Accessibilité</h2>
-      <ul class="list-disc space-y-1 pl-6 text-gray-800">
-        <li>Contraste suffisant sur les textes (#141C2E) et sur les CTA (orange 500/400).</li>
-        <li>Liens soulignés au survol, focus ring visible (navigation clavier).</li>
-        <li>Hiérarchie de titres logique (H1 > H2 > H3).</li>
-      </ul>
-    </section>
-  </main>
+		{# Accessibilité #}
+		<section class="space-y-2">
+			<h2 class="text-xl font-semibold">Accessibilité</h2>
+			<ul class="list-disc space-y-1 pl-6 text-gray-800">
+				<li>Contraste suffisant sur les textes (#141C2E) et sur les CTA (orange 500/400).</li>
+				<li>Liens soulignés au survol, focus ring visible (navigation clavier).</li>
+				<li>Hiérarchie de titres logique (H1 > H2 > H3).</li>
+			</ul>
+		</section>
+	</main>
 {% endblock %}

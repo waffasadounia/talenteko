@@ -11,46 +11,84 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'review')]
 #[ORM\UniqueConstraint(
     name: 'uniq_review_exchange_author',
-    columns: ['exchange_id', 'author_id'])]
-// Empêche un utilisateur de donner 2 avis pour le même échange
-#[ORM\Index(fields: ['rating'])] // Optimisation pour les statistiques
+    columns: ['exchange_id', 'author_id']
+)]
+#[ORM\Index(fields: ['rating'])]
 class Review
 {
-    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
-    // Auteur de l’avis
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reviewsGiven')]
+
+    // ======================================================
+    // AUTEUR
+    // ======================================================
+    #[Assert\NotNull(message: 'L’auteur est obligatoire.')]
+    #[ORM\ManyToOne(
+        targetEntity: User::class,
+        inversedBy: 'reviewsGiven',
+        cascade: ['persist'],
+        fetch: 'LAZY'
+    )]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $author = null;
 
-    // Cible de l’avis
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reviewsReceived')]
+    // ======================================================
+    // CIBLE
+    // ======================================================
+    #[Assert\NotNull(message: 'La cible de l’avis est obligatoire.')]
+    #[ORM\ManyToOne(
+        targetEntity: User::class,
+        inversedBy: 'reviewsReceived',
+        cascade: ['persist'],
+        fetch: 'LAZY'
+    )]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $target = null;
 
-    // Échange concerné
-    #[ORM\ManyToOne(targetEntity: Exchange::class)]
+    // ======================================================
+    // ÉCHANGE
+    // ======================================================
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(
+        targetEntity: Exchange::class,
+        cascade: ['persist'],
+        fetch: 'LAZY'
+    )]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Exchange $exchange = null;
 
-    // Listing lié (pour la moyenne des notes)
-    #[ORM\ManyToOne(targetEntity: Listing::class, inversedBy: 'reviews')]
+    // ======================================================
+    // LISTING
+    // ======================================================
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(
+        targetEntity: Listing::class,
+        inversedBy: 'reviews',
+        cascade: ['persist'],
+        fetch: 'LAZY'
+    )]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Listing $listing = null;
 
-    // Note (1 à 5)
+    // ======================================================
+    // RATING
+    // ======================================================
     #[ORM\Column(type: 'integer')]
     #[Assert\NotNull(message: 'La note est obligatoire.')]
     #[Assert\Range(
-        notInRangeMessage: 'La note doit être comprise entre {{ min }} et {{ max }}.',
         min: 1,
-        max: 5
+        max: 5,
+        notInRangeMessage: 'La note doit être comprise entre {{ min }} et {{ max }}.'
     )]
     private int $rating = 1;
 
-    // Commentaire facultatif
+    // ======================================================
+    // COMMENTAIRE
+    // ======================================================
     #[ORM\Column(type: 'text', nullable: true)]
-    #[Assert\Length(max: 1000, maxMessage: 'Le commentaire ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(max: 1000)]
     private ?string $comment = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -61,61 +99,58 @@ class Review
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    // === ID ===
+    // ======================================================
+    // GETTERS / SETTERS
+    // ======================================================
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // === Auteur ===
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
         return $this;
     }
 
-    // === Cible ===
     public function getTarget(): ?User
     {
         return $this->target;
     }
 
-    public function setTarget(?User $target): self
+    public function setTarget(User $target): self
     {
         $this->target = $target;
         return $this;
     }
 
-    // === Échange ===
     public function getExchange(): ?Exchange
     {
         return $this->exchange;
     }
 
-    public function setExchange(?Exchange $exchange): self
+    public function setExchange(Exchange $exchange): self
     {
         $this->exchange = $exchange;
         return $this;
     }
 
-    // === Listing ===
     public function getListing(): ?Listing
     {
         return $this->listing;
     }
 
-    public function setListing(?Listing $listing): self
+    public function setListing(Listing $listing): self
     {
         $this->listing = $listing;
         return $this;
     }
 
-    // === Note ===
     public function getRating(): int
     {
         return $this->rating;
@@ -127,7 +162,6 @@ class Review
         return $this;
     }
 
-    // === Commentaire ===
     public function getComment(): ?string
     {
         return $this->comment;
@@ -139,16 +173,17 @@ class Review
         return $this;
     }
 
-    // === Date ===
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    // === Divers ===
+    // ======================================================
+    // STRING
+    // ======================================================
     public function __toString(): string
     {
-        return \sprintf(
+        return sprintf(
             'Avis %d★ de %s pour %s',
             $this->rating,
             $this->author?->getDisplayName() ?? 'Inconnu',

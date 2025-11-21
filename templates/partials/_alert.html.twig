@@ -28,14 +28,7 @@
 {% set key = type|default('info') %}
 {% set current = colors[key] ?? colors.info %}
 
-<div
-  class="mb-4 rounded-lg border {{ current.border }} {{ current.bg }} p-3 text-sm {{ current.text }}
-         transition-all duration-300 ease-out"
-  role="alert"
-  aria-live="polite"
-  data-controller="flash"
-  data-flash-timeout-value="5000"
-  {% if id is defined and id %}id="{{ id }}"{% endif %}
->
-  {{ message|raw }}
+<div class="mb-4 rounded-lg border {{ current.border }} {{ current.bg }} p-3 text-sm {{ current.text }}
+	         transition-all duration-300 ease-out" role="alert" aria-live="polite" data-controller="flash" data-flash-timeout-value="5000" {% if id is defined and id %} id="{{ id }}" {% endif %}>
+	{{ message|raw }}
 </div>

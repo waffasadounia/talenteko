@@ -22,71 +22,89 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Listing
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-#[ORM\Id]
-#[ORM\GeneratedValue]
-#[ORM\Column]
-private ?int $id = null;
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 180)]
+    private string $title;
 
-#[Assert\NotBlank]
-#[ORM\Column(length: 180)]
-private string $title;
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null;
 
-#[ORM\Column(length: 255, unique: true, nullable: true)]
-private ?string $slug = null; // PAS DE VALIDATION, généré automatiquement
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'text')]
+    private string $description;
 
-#[Assert\NotBlank]
-#[ORM\Column(type: 'text')]
-private string $description;
+    #[ORM\Column(length: 10)]
+    private string $type;
 
-#[ORM\Column(length: 10)]
-private string $type;
+    #[Assert\NotBlank(message: "Merci d’indiquer une localisation.")]
+    #[ValidLocation]
+    #[ORM\Column(length: 120)]
+    private string $location;
 
-#[Assert\NotBlank(message: "Merci d’indiquer une localisation.")]
-#[ValidLocation]
-#[ORM\Column(length: 120)]
-private string $location;
+    #[ORM\Column(enumType: ListingStatus::class, options: ['default' => 'draft'])]
+    private ListingStatus $status = ListingStatus::DRAFT;
 
-#[ORM\Column(enumType: ListingStatus::class, options: ['default' => 'draft'])]
-private ListingStatus $status = ListingStatus::DRAFT;
+    #[ORM\Column]
+    private \DateTimeImmutable $createdAt;
 
-#[ORM\Column]
-private \DateTimeImmutable $createdAt;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
-#[ORM\Column(nullable: true)]
-private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\ManyToOne(inversedBy: 'listings')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private ?User $author = null;
 
-#[ORM\ManyToOne(inversedBy: 'listings')]
-#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-private ?User $author = null; // doit être nullable ici pour passer la validation
+    #[ORM\ManyToOne(inversedBy: 'listings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Category $category;
 
-#[ORM\ManyToOne(inversedBy: 'listings')]
-#[ORM\JoinColumn(nullable: false)]
-private Category $category;
-
-
-    /**
-     * @var Collection<int, ListingImage>
-     */
-    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: ListingImage::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    // =====================================================
+    // IMAGES
+    // =====================================================
+    #[ORM\OneToMany(
+        mappedBy: 'listing',
+        targetEntity: ListingImage::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     private Collection $images;
 
-    /**
-     * @var Collection<int, Exchange>
-     */
-    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Exchange::class, cascade: ['remove'], orphanRemoval: true)]
+    // =====================================================
+    // EXCHANGES
+    // =====================================================
+    #[ORM\OneToMany(
+        mappedBy: 'listing',
+        targetEntity: Exchange::class,
+        cascade: ['remove'],
+        orphanRemoval: true
+    )]
     private Collection $exchanges;
 
-    /**
-     * @var Collection<int, Favorite>
-     */
-    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Favorite::class, cascade: ['remove'], orphanRemoval: true)]
+    // =====================================================
+    // FAVORIS  (CORRIGÉ)
+    // =====================================================
+    #[ORM\OneToMany(
+        mappedBy: 'listing',
+        targetEntity: Favorite::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     private Collection $favorites;
 
-    /**
-     * @var Collection<int, Review>
-     */
-    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
+    // =====================================================
+    // REVIEWS (CORRIGÉ)
+    // =====================================================
+    #[ORM\OneToMany(
+        mappedBy: 'listing',
+        targetEntity: Review::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     private Collection $reviews;
 
     #[ORM\Column(type: 'float', nullable: true)]
@@ -95,6 +113,7 @@ private Category $category;
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+
         $this->images = new ArrayCollection();
         $this->exchanges = new ArrayCollection();
         $this->favorites = new ArrayCollection();
@@ -107,7 +126,9 @@ private Category $category;
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    // === Getters / Setters =====================================================
+    // =====================================================
+    // GETTERS / SETTERS
+    // =====================================================
 
     public function getId(): ?int
     {
@@ -125,7 +146,7 @@ private Category $category;
         return $this;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
@@ -218,7 +239,9 @@ private Category $category;
         return $this;
     }
 
-    /** @return Collection<int, ListingImage> */
+    // =====================================================
+    // IMAGES
+    // =====================================================
     public function getImages(): Collection
     {
         return $this->images;
@@ -230,7 +253,6 @@ private Category $category;
             $this->images->add($image);
             $image->setListing($this);
         }
-
         return $this;
     }
 
@@ -239,11 +261,12 @@ private Category $category;
         if ($this->images->removeElement($image) && $image->getListing() === $this) {
             $image->setListing(null);
         }
-
         return $this;
     }
 
-    /** @return Collection<int, Review> */
+    // =====================================================
+    // REVIEWS
+    // =====================================================
     public function getReviews(): Collection
     {
         return $this->reviews;
@@ -255,19 +278,41 @@ private Category $category;
             $this->reviews->add($review);
             $review->setListing($this);
         }
-
         return $this;
     }
 
     public function removeReview(Review $review): self
+{
+    if ($this->reviews->removeElement($review)) {
+    }
+    return $this;
+}
+    // =====================================================
+    // FAVORITES
+    // =====================================================
+    public function getFavorites(): Collection
     {
-        if ($this->reviews->removeElement($review) && $review->getListing() === $this) {
-            $review->setListing(null);
-        }
+        return $this->favorites;
+    }
 
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->setListing($this);
+        }
         return $this;
     }
 
+    public function removeFavorite(Favorite $favorite): self
+{
+    if ($this->favorites->removeElement($favorite)) {
+    }
+    return $this;
+}
+    // =====================================================
+    // RATING
+    // =====================================================
     public function updateAverageRating(): self
     {
         if ($this->reviews->isEmpty()) {
@@ -295,6 +340,9 @@ private Category $category;
         return $this->averageRating;
     }
 
+    // =====================================================
+    // STATES
+    // =====================================================
     public function publish(): void
     {
         $this->status = ListingStatus::PUBLISHED;

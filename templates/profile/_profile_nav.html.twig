@@ -3,64 +3,51 @@
   Barre de navigation du profil — TalentÉkô
   ============================================================ #}
 
-<nav
-  aria-label="Navigation Profil"
-  class="sticky top-0 z-40 mx-auto max-w-6xl border-b border-talenteko-orange-200 mb-10 pb-3"
->
-  <div class="mx-auto max-w-6xl px-4 py-3">
-    <ul class="flex flex-wrap gap-3 text-sm font-semibold">
-
-      {# === Vue générale / Profil === #}
-      <li>
-        <a href="{{ path('app_profile_dashboard') }}"
-           class="px-4 py-2 rounded-full transition
-           {{ app.request.attributes.get('_route') starts with 'app_profile_dashboard'
-              ? 'bg-talenteko-orange-500 text-white shadow'
-              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
-          Profil
-        </a>
-      </li>
-
-      <li>
-        <a href="{{ path('app_profile_listings') }}"
-           class="px-4 py-2 rounded-full transition
-           {{ app.request.attributes.get('_route') starts with 'app_profile_listings'
-              ? 'bg-talenteko-orange-500 text-white shadow'
-              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
-          Mes annonces
-        </a>
-      </li>
-
-      <li>
-        <a href="{{ path('app_profile_exchanges') }}"
-           class="px-4 py-2 rounded-full transition
-           {{ app.request.attributes.get('_route') starts with 'app_profile_exchanges'
-              ? 'bg-talenteko-orange-500 text-white shadow'
-              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
-          Mes échanges
-        </a>
-      </li>
-
-      <li>
-        <a href="{{ path('app_messages') }}"
-           class="px-4 py-2 rounded-full transition
-           {{ app.request.attributes.get('_route') starts with 'app_messages'
-              ? 'bg-talenteko-orange-500 text-white shadow'
-              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
-          Messages
-        </a>
-      </li>
-
-      <li>
-        <a href="{{ path('app_profile_edit') }}"
-           class="px-4 py-2 rounded-full transition
-           {{ app.request.attributes.get('_route') starts with 'app_profile_edit'
-              ? 'bg-talenteko-orange-500 text-white shadow'
-              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
-          Éditer
-        </a>
-      </li>
-
-    </ul>
-  </div>
+<nav aria-label="Navigation Profil" class="sticky top-0 z-40 mx-auto max-w-6xl border-b border-talenteko-orange-200 mb-10 pb-3">
+	<div class="mx-auto max-w-6xl px-4 py-3">
+		<ul
+			class="flex flex-wrap gap-3 text-sm font-semibold">
+			{# === Vue générale / Profil === #}
+			<li>
+				<a href="{{ path('app_profile_dashboard') }}" class="px-4 py-2 rounded-full transition
+						           {{ app.request.attributes.get('_route') starts with 'app_profile_dashboard'
+						              ? 'bg-talenteko-orange-500 text-white shadow'
+						              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+					Profil
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_profile_listings') }}" class="px-4 py-2 rounded-full transition
+						           {{ app.request.attributes.get('_route') starts with 'app_profile_listings'
+						              ? 'bg-talenteko-orange-500 text-white shadow'
+						              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+					Mes annonces
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_profile_exchanges') }}" class="px-4 py-2 rounded-full transition
+						           {{ app.request.attributes.get('_route') starts with 'app_profile_exchanges'
+						              ? 'bg-talenteko-orange-500 text-white shadow'
+						              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+					Mes échanges
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_messages') }}" class="px-4 py-2 rounded-full transition
+						           {{ app.request.attributes.get('_route') starts with 'app_messages'
+						              ? 'bg-talenteko-orange-500 text-white shadow'
+						              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+					Messages
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_profile_edit') }}" class="px-4 py-2 rounded-full transition
+						           {{ app.request.attributes.get('_route') starts with 'app_profile_edit'
+						              ? 'bg-talenteko-orange-500 text-white shadow'
+						              : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+					Éditer
+				</a>
+			</li>
+		</ul>
+	</div>
 </nav>

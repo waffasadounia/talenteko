@@ -6,69 +6,70 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Conversation | TalentÉkô
+	Conversation | TalentÉkô
 {% endblock %}
 
 {% block body %}
-<section class="mx-auto max-w-4xl px-4 py-10">
-  <h1 class="text-3xl font-bold text-talenteko-blue-900 mb-8 flex items-center gap-2">
-    <i class="fa-solid fa-message text-talenteko-orange-500"></i>
-    <span>Conversation avec {{ thread.getOtherParticipant(app.user).displayName }}</span>
-  </h1>
+	<section class="mx-auto max-w-4xl px-4 py-10">
+		<h1 class="text-3xl font-bold text-talenteko-blue-900 mb-8 flex items-center gap-2">
+			<i class="fa-solid fa-message text-talenteko-orange-500"></i>
+			<span>Conversation avec
+				{{ thread.getOtherParticipant(app.user).displayName }}</span>
+		</h1>
 
-  {# Liste des messages #}
-  <div class="flex flex-col gap-3 mb-8">
-    {% for message in messages %}
-      <div
-        class="max-w-[75%] px-4 py-3 rounded-2xl shadow-sm
-               {% if message.sender == app.user %}
-                 bg-talenteko-orange-500 text-white self-end ml-auto
-               {% else %}
-                 bg-gray-100 text-gray-800 self-start
-               {% endif %}"
-      >
-        <div class="text-sm font-semibold mb-1">
-          {% if message.sender == app.user %}
-            <i class="fa-solid fa-user me-1"></i> Moi
-          {% else %}
-            <i class="fa-regular fa-user me-1"></i> {{ message.sender.displayName }}
-          {% endif %}
-        </div>
-        <p class="text-sm leading-relaxed">{{ message.content }}</p>
-        <div class="text-xs mt-2 opacity-75">
-          {{ message.createdAt|date('d/m/Y H:i') }}
-        </div>
-      </div>
-    {% else %}
-      <p class="text-gray-500 italic text-center">
-        Aucun message pour l’instant.
-      </p>
-    {% endfor %}
-  </div>
+		{# Liste des messages #}
+		<div class="flex flex-col gap-3 mb-8">
+			{% for message in messages %}
+				<div class="max-w-[75%] px-4 py-3 rounded-2xl shadow-sm
+						               {% if message.sender == app.user %}
+						                 bg-talenteko-orange-500 text-white self-end ml-auto
+						               {% else %}
+						                 bg-gray-100 text-gray-800 self-start
+						               {% endif %}">
+					<div class="text-sm font-semibold mb-1">
+						{% if message.sender == app.user %}
+							<i class="fa-solid fa-user me-1"></i>
+							Moi
+						{% else %}
+							<i class="fa-regular fa-user me-1"></i>
+							{{ message.sender.displayName }}
+						{% endif %}
+					</div>
+					<p class="text-sm leading-relaxed">{{ message.content }}</p>
+					<div class="text-xs mt-2 opacity-75">
+						{{ message.createdAt|date('d/m/Y H:i') }}
+					</div>
+				</div>
+			{% else %}
+				<p class="text-gray-500 italic text-center">
+					Aucun message pour l’instant.
+				</p>
+			{% endfor %}
+		</div>
 
-  {# Formulaire d’envoi #}
-  <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-    {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
-      <div>
-        {{ form_label(form.content, 'Votre message', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.content, {'attr': {'class': 'form-textarea', 'rows': 3, 'placeholder': 'Écrivez votre message...'}}) }}
-        {{ form_errors(form.content) }}
-      </div>
-      <div class="text-right">
-        <button type="submit" class="btn-primary inline-flex items-center gap-2">
-          <i class="fa-solid fa-paper-plane"></i>
-          <span>Envoyer</span>
-        </button>
-      </div>
-    {{ form_end(form) }}
-  </div>
+		{# Formulaire d’envoi #}
+		<div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+			{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+			<div>
+				{{ form_label(form.content, 'Votre message', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.content, {'attr': {'class': 'form-textarea', 'rows': 3, 'placeholder': 'Écrivez votre message...'}}) }}
+				{{ form_errors(form.content) }}
+			</div>
+			<div class="text-right">
+				<button type="submit" class="btn-primary inline-flex items-center gap-2">
+					<i class="fa-solid fa-paper-plane"></i>
+					<span>Envoyer</span>
+				</button>
+			</div>
+			{{ form_end(form) }}
+		</div>
 
-  {# Bouton retour #}
-  <div class="mt-8 text-center">
-    <a href="{{ path('app_messages') }}" class="btn-link inline-flex items-center gap-2">
-      <i class="fa-solid fa-arrow-left"></i>
-      <span>Retour aux conversations</span>
-    </a>
-  </div>
-</section>
+		{# Bouton retour #}
+		<div class="mt-8 text-center">
+			<a href="{{ path('app_messages') }}" class="btn-link inline-flex items-center gap-2">
+				<i class="fa-solid fa-arrow-left"></i>
+				<span>Retour aux conversations</span>
+			</a>
+		</div>
+	</section>
 {% endblock %}

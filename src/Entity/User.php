@@ -22,7 +22,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(fields: ['location'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    // === Identité ===
+    // =============================
+    // IDENTITY
+    // =============================
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -41,7 +44,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ?string $plainPassword = null;
 
-    // === Profil public ===
+    // =============================
+    // PUBLIC PROFILE
+    // =============================
+
     #[ORM\Column(length: 30)]
     #[Assert\NotBlank(message: 'Merci de choisir un pseudo.')]
     #[Assert\Length(min: 3, max: 30)]
@@ -67,45 +73,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
-    // === Relations ===
-    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Profile::class, cascade: ['persist', 'remove'])]
+    // =============================
+    // RELATIONS
+    // =============================
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Profile::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private ?Profile $profile = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Listing::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Listing::class, cascade: ['persist', 'remove'], orphanRemoval: true, fetch: 'LAZY')]
     private Collection $listings;
 
-    #[ORM\OneToMany(mappedBy: 'requester', targetEntity: Exchange::class)]
+    #[ORM\OneToMany(mappedBy: 'requester', targetEntity: Exchange::class, fetch: 'LAZY')]
     private Collection $exchangesRequested;
 
-    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Exchange::class)]
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Exchange::class, fetch: 'LAZY')]
     private Collection $exchangesReceived;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PasswordResetToken::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PasswordResetToken::class, cascade: ['remove'], orphanRemoval: true, fetch: 'LAZY')]
     private Collection $passwordResetTokens;
 
-    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, cascade: ['persist', 'remove'], orphanRemoval: true, fetch: 'LAZY')]
     private Collection $sentMessages;
 
-    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class, fetch: 'LAZY')]
     private Collection $receivedMessages;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, cascade: ['persist', 'remove'], orphanRemoval: true, fetch: 'LAZY')]
     private Collection $favorites;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, cascade: ['remove'], orphanRemoval: true, fetch: 'LAZY')]
     private Collection $notifications;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Review::class, cascade: ['persist', 'remove'], orphanRemoval: true, fetch: 'LAZY')]
     private Collection $reviewsGiven;
 
-    #[ORM\OneToMany(mappedBy: 'target', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'target', targetEntity: Review::class, cascade: ['persist', 'remove'], orphanRemoval: true, fetch: 'LAZY')]
     private Collection $reviewsReceived;
 
-    // === Constructeur ===
+    // =============================
+    // CONSTRUCTOR
+    // =============================
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
         $this->createdAt = new \DateTimeImmutable();
+
         $this->listings = new ArrayCollection();
         $this->exchangesRequested = new ArrayCollection();
         $this->exchangesReceived = new ArrayCollection();
@@ -117,15 +130,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reviewsGiven = new ArrayCollection();
         $this->reviewsReceived = new ArrayCollection();
 
+        // Génération du TAG à 4 chiffres
         $this->tag = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
     }
 
-    // === Identité & sécurité ===
+    // =============================
+    // SECURITY
+    // =============================
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -145,9 +162,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+
         if (!in_array('ROLE_USER', $roles, true)) {
             $roles[] = 'ROLE_USER';
         }
+
         return array_unique($roles);
     }
 
@@ -184,12 +203,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->plainPassword = null;
     }
 
-    // === Pseudo & Display ===
+    // =============================
+    // DISPLAY
+    // =============================
 
     public function getPseudo(): ?string
     {
         return $this->pseudo;
     }
+
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
@@ -200,6 +222,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->tag;
     }
+
     public function setTag(string $tag): static
     {
         $this->tag = $tag;
@@ -211,22 +234,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->pseudo && $this->tag) {
             return $this->pseudo . '#' . $this->tag;
         }
+
         $fallback = mb_substr(explode('@', $this->email)[0] ?? 'membre', 0, 4) . '****';
+
         return $this->pseudo ?: $fallback;
     }
 
-    // === Localisation ===
+    // =============================
+    // LOCATION
+    // =============================
+
     public function getLocation(): ?string
     {
         return $this->location;
     }
+
     public function setLocation(string $location): static
     {
         $this->location = $location;
         return $this;
     }
 
-    // === Profil ===
+    // =============================
+    // PROFILE
+    // =============================
 
     public function getProfile(): ?Profile
     {
@@ -236,9 +267,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfile(?Profile $profile): static
     {
         $this->profile = $profile;
+
         if ($profile && $profile->getUser() !== $this) {
             $profile->setUser($this);
         }
+
         return $this;
     }
 
@@ -246,12 +279,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->profile?->getAvatarFilename();
     }
+
     public function getBio(): ?string
     {
         return $this->profile?->getBio();
     }
 
-    // === Listings ===
+    // =============================
+    // LISTINGS
+    // =============================
 
     /** @return Collection<int, Listing> */
     public function getListings(): Collection
@@ -265,10 +301,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->listings->add($listing);
             $listing->setAuthor($this);
         }
+
         return $this;
     }
 
-    // === Exchanges ===
+    // =============================
+    // EXCHANGES
+    // =============================
 
     /** @return Collection<int, Exchange> */
     public function getExchangesRequested(): Collection
@@ -288,6 +327,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->exchangesRequested->add($exchange);
             $exchange->setRequester($this);
         }
+
         return $this;
     }
 
@@ -297,39 +337,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->exchangesReceived->add($exchange);
             $exchange->setRecipient($this);
         }
+
         return $this;
     }
 
-    // === Divers relations ===
+    // =============================
+    // MESSAGES, FAVORITES, NOTIFS
+    // =============================
 
     public function getPasswordResetTokens(): Collection
     {
         return $this->passwordResetTokens;
     }
+
     public function getSentMessages(): Collection
     {
         return $this->sentMessages;
     }
+
     public function getReceivedMessages(): Collection
     {
         return $this->receivedMessages;
     }
+
     public function getFavorites(): Collection
     {
         return $this->favorites;
     }
+
     public function getNotifications(): Collection
     {
         return $this->notifications;
     }
+
+    // =============================
+    // REVIEWS
+    // =============================
+
     public function getReviewsGiven(): Collection
     {
         return $this->reviewsGiven;
     }
+
     public function getReviewsReceived(): Collection
     {
         return $this->reviewsReceived;
     }
+
+    // =============================
+    // TO STRING
+    // =============================
 
     public function __toString(): string
     {

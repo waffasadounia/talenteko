@@ -1,41 +1,40 @@
 {# templates/security/reset_request.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Mot de passe oublié | TalentÉkô{% endblock %}
+{% block title %}Mot de passe oublié | TalentÉkô
+{% endblock %}
 
 {% block body %}
-<section class="bg-orange-50 py-16">
-  <div class="mx-auto max-w-md px-6">
+	<section class="bg-orange-50 py-16">
+		<div class="mx-auto max-w-md px-6">
+			<h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
+				Réinitialiser mon mot de passe
+			</h1>
+			<p class="mb-6 text-center text-gray-700">
+				Entrez l'adresse email associée à votre compte.<br>
+				Vous recevrez un lien pour créer un nouveau mot de passe.
+			</p>
 
-    <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
-      Réinitialiser mon mot de passe
-    </h1>
+			{% include 'partials/_flash.html.twig' %}
 
-    <p class="mb-6 text-center text-gray-700">
-      Entrez l'adresse email associée à votre compte.<br>
-      Vous recevrez un lien pour créer un nouveau mot de passe.
-    </p>
+			<div class="rounded-2xl bg-white p-6 shadow-sm">
+				{{ form_start(form, { attr: { class: 'space-y-5', novalidate: 'novalidate' } }) }}
 
-    {% include 'partials/_flash.html.twig' %}
-
-    <div class="rounded-2xl bg-white p-6 shadow-sm">
-      {{ form_start(form, { attr: { class: 'space-y-5', novalidate: 'novalidate' } }) }}
-
-        {{ form_row(form.email, {
+				{{ form_row(form.email, {
           label: 'Adresse email',
           attr: { placeholder: 'ex. vous@exemple.fr' }
         }) }}
 
-        <div class="flex justify-center">
-          <button class="btn-primary px-10">Envoyer le lien</button>
-        </div>
+				<div class="flex justify-center">
+					<button class="btn-primary px-10">Envoyer le lien</button>
+				</div>
 
-      {{ form_end(form) }}
+				{{ form_end(form) }}
 
-      <p class="mt-6 text-center text-sm text-gray-600">
-        <a href="{{ path('app_login') }}" class="btn-link">Retour à la connexion</a>
-      </p>
-    </div>
-  </div>
-</section>
+				<p class="mt-6 text-center text-sm text-gray-600">
+					<a href="{{ path('app_login') }}" class="btn-link">Retour à la connexion</a>
+				</p>
+			</div>
+		</div>
+	</section>
 {% endblock %}

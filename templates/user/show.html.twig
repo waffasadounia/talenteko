@@ -6,64 +6,62 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Profil de {{ user_profile.pseudo ?? 'Utilisateur' }} | TalentÉkô
+	Profil de
+	{{ user_profile.pseudo ?? 'Utilisateur' }}
+	| TalentÉkô
 {% endblock %}
 
 {% block body %}
-  <section class="mx-auto max-w-5xl px-4 py-10">
-    <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-blue-900">
-      Profil de {{ user_profile.pseudo ?? 'Utilisateur' }}
-    </h1>
+	<section class="mx-auto max-w-5xl px-4 py-10">
+		<h1 class="mb-6 text-center text-3xl font-bold text-talenteko-blue-900">
+			Profil de
+			{{ user_profile.pseudo ?? 'Utilisateur' }}
+		</h1>
+		<div class="mb-10 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+			<div class="flex items-start gap-4">
+				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-talenteko-peach-200 text-xl font-bold text-talenteko-orange-500">
+					{{ (user_profile.pseudo ?? 'U')|slice(0, 1)|upper }}
+				</div>
+				<div class="flex-1">
+					<p class="text-lg font-semibold text-talenteko-blue-900">
+						{{ user_profile.pseudo }}#{{ user_profile.tag ?? '0000' }}
+					</p>
 
-    <div class="mb-10 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-      <div class="flex items-start gap-4">
-        <div
-          class="flex h-16 w-16 items-center justify-center rounded-full bg-talenteko-peach-200 text-xl font-bold text-talenteko-orange-500"
-        >
-          {{ (user_profile.pseudo ?? 'U')|slice(0, 1)|upper }}
-        </div>
-        <div class="flex-1">
-          <p class="text-lg font-semibold text-talenteko-blue-900">
-            {{ user_profile.pseudo }}#{{ user_profile.tag ?? '0000' }}
-          </p>
+					{% if user_profile.location %}
+						<p class="mt-1 flex items-center gap-2 text-sm text-gray-600">
+							<i class="fa-solid fa-location-dot text-talenteko-orange-500"></i>
+							{{ user_profile.location }}
+						</p>
+					{% endif %}
 
-          {% if user_profile.location %}
-            <p class="mt-1 flex items-center gap-2 text-sm text-gray-600">
-              <i class="fa-solid fa-location-dot text-talenteko-orange-500"></i>
-              {{ user_profile.location }}
-            </p>
-          {% endif %}
+					{% if user_profile.bio %}
+						<p class="mt-3 leading-relaxed text-gray-700">
+							{{ user_profile.bio }}
+						</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<h2 class="mb-6 text-center text-2xl font-bold text-talenteko-blue-900">Annonces publiées</h2>
 
-          {% if user_profile.bio %}
-            <p class="mt-3 leading-relaxed text-gray-700">
-              {{ user_profile.bio }}
-            </p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-
-    <h2 class="mb-6 text-center text-2xl font-bold text-talenteko-blue-900">Annonces publiées</h2>
-
-    {% if listings is not empty %}
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-        {% for listing in listings %}
-          {% include 'partials/_listing_card.html.twig' with {
+		{% if listings is not empty %}
+			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+				{% for listing in listings %}
+					{% include 'partials/_listing_card.html.twig' with {
             listing: listing
           } %}
-        {% endfor %}
-      </div>
-    {% else %}
-      <p class="text-center italic text-gray-500">
-        Cet utilisateur n’a pas encore publié d’annonce.
-      </p>
-    {% endif %}
-
-    <div class="mt-10 text-center">
-      <a href="{{ path('app_home') }}" class="btn-link inline-flex items-center gap-2">
-        <i class="fa-solid fa-arrow-left"></i>
-        <span>Retour à l’accueil</span>
-      </a>
-    </div>
-  </section>
+				{% endfor %}
+			</div>
+		{% else %}
+			<p class="text-center italic text-gray-500">
+				Cet utilisateur n’a pas encore publié d’annonce.
+			</p>
+		{% endif %}
+		<div class="mt-10 text-center">
+			<a href="{{ path('app_home') }}" class="btn-link inline-flex items-center gap-2">
+				<i class="fa-solid fa-arrow-left"></i>
+				<span>Retour à l’accueil</span>
+			</a>
+		</div>
+	</section>
 {% endblock %}

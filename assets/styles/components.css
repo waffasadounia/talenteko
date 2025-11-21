@@ -23,6 +23,22 @@
 .btn-link i {
   @apply align-middle text-base;
 }
+/* ===== Boutons small pour les cartes ===== */
+.btn-primary-sm {
+  @apply inline-flex items-center justify-center gap-1
+    rounded-full border-2 border-talenteko-orange-500
+    bg-talenteko-orange-500
+    px-3 py-1.5 text-sm font-semibold text-white
+    shadow-sm transition active:scale-95 hover:shadow-md;
+}
+
+.btn-outline-sm {
+  @apply inline-flex items-center justify-center gap-1
+    rounded-full border border-talenteko-orange-500   /* border FIN ici */
+    bg-white text-talenteko-orange-500
+    px-3 py-1.5 text-sm font-semibold
+    shadow-sm transition active:scale-95 hover:shadow-md;
+}
 
 /* === Navigation principale === */
 .nav-link {

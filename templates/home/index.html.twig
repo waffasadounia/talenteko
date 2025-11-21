@@ -1,27 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Accueil | Talenteko
+	Accueil | Talenteko
 {% endblock %}
 
 {% block body %}
-  {# HERO (bandeau d'intro) #}
-  {% include 'partials/_hero.html.twig' %}
+	{# HERO (bandeau d'intro) #}
+	{% include 'partials/_hero.html.twig' %}
 
-  {# TENDANCES (derniers listings) #}
-  {% include 'partials/_tendances.html.twig' with {
+	{# TENDANCES (derniers listings) #}
+	{% include 'partials/_tendances.html.twig' with {
     listings: listings
   } %}
 
-  {# CATEGORIES (explorer par catégories) #}
-  {% include 'partials/_categories.html.twig' with {
+	{# CATEGORIES (explorer par catégories) #}
+	{% include 'partials/_categories.html.twig' with {
     categories: categories
   } %}
 
-  {# COMMENTAIRES (afficher les commentaires) #}
-  {% include 'partials/_how_it_works.html.twig' %}
+	{# COMMENTAIRES (afficher les commentaires) #}
+	{% include 'partials/_how_it_works.html.twig' %}
 
-  {# FLASH (messages système) #}
-  {% include 'partials/_flash.html.twig' %}
+	{# FLASH (messages système) #}
+	{% include 'partials/_flash.html.twig' %}
 
 {% endblock %}

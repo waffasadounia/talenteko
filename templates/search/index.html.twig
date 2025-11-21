@@ -10,75 +10,65 @@
 
 {% block body %}
 	<section class="bg-white py-12 px-4 sm:px-8 md:px-12" data-controller="filter-panel">
-  <div class="mx-auto max-w-7xl">
-   {# Barre de recherche harmonisée — Responsive + effet zoom (TalentÉkô 2025) #}
-<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 tk-form">
-  {# ======= Barre de recherche + bouton Rechercher ======= #}
-  <form method="get"
-        action="{{ path('app_search') }}"
-        class="flex w-full sm:flex-1 items-center gap-2">
+		<div
+			class="mx-auto max-w-7xl">
+			{# Barre de recherche harmonisée — Responsive + effet zoom (TalentÉkô 2025) #}
+			<div
+				class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 tk-form">
+				{# ======= Barre de recherche + bouton Rechercher ======= #}
+				<form method="get" action="{{ path('app_search') }}" class="flex w-full sm:flex-1 items-center gap-2">
+					<label for="search-input" class="sr-only">Rechercher une compétence ou une ville</label>
+					{# Champ de saisie #}
+					<div class="relative flex-1">
+						<input id="search-input" type="search" name="q" placeholder="Compétence, ville..." value="{{ app.request.get('q') }}" class="w-full h-[44px] rounded-full border border-gray-300 bg-white pl-10 pr-4 shadow-sm
+							               text-talenteko-blue-900 placeholder-gray-400
+							               focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500 transition-all duration-200 ease-in-out" aria-label="Rechercher une compétence ou une ville"/>
+					</div>
 
-    <label for="search-input" class="sr-only">Rechercher une compétence ou une ville</label>
+					{# ======= Bouton Rechercher (texte desktop / icône mobile) ======= #}
+					<button type="submit" class="btn-primary h-[44px] sm:px-5 sm:min-w-[130px] px-3 w-[44px] sm:w-auto flex items-center justify-center">
+						<i class="fa fa-search text-base" aria-hidden="true"></i>
+						<span class="hidden sm:inline font-semibold">Rechercher</span>
+					</button>
+				</form>
 
-    {# Champ de saisie #}
-    <div class="relative flex-1">
-      <input
-        id="search-input"
-        type="search"
-        name="q"
-        placeholder="Compétence, ville..."
-        value="{{ app.request.get('q') }}"
-        class="w-full h-[44px] rounded-full border border-gray-300 bg-white pl-10 pr-4 shadow-sm
-               text-talenteko-blue-900 placeholder-gray-400
-               focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500 transition-all duration-200 ease-in-out"
-        aria-label="Rechercher une compétence ou une ville"
-      />
-    </div>
+				{# ======= Bouton Filtres ======= #}
+				<button type="button" class="btn-outline h-[44px] px-5" data-action="click->filter-panel#toggle" aria-label="Ouvrir les filtres de recherche">
+					<i class="fa fa-sliders text-talenteko-orange-500" aria-hidden="true"></i>
+					<span>Filtres</span>
+				</button>
+			</div>
+		</div>
+		{# Compteur de résultats #}
+		<p class="text-sm font-semibold text-talenteko-blue-900 mb-6">
+			{{ results|length }}résultat
+			{% if results|length > 1 %}s
+			{% endif %}
+			trouvé
+			{% if results|length > 1 %}s
+			{% endif %}
+		</p>
 
-    {# ======= Bouton Rechercher (texte desktop / icône mobile) ======= #}
-    <button type="submit"
-            class="btn-primary h-[44px] sm:px-5 sm:min-w-[130px] px-3 w-[44px] sm:w-auto flex items-center justify-center">
-      <i class="fa fa-search text-base" aria-hidden="true"></i>
-      <span class="hidden sm:inline font-semibold">Rechercher</span>
-    </button>
-  </form>
+		{# Filtres actifs — Bandeau UX TalentÉkô 2025 #}
+		{% set active_filters = [] %}
 
-  {# ======= Bouton Filtres ======= #}
-  <button type="button"
-          class="btn-outline h-[44px] px-5"
-          data-action="click->filter-panel#toggle"
-          aria-label="Ouvrir les filtres de recherche">
-    <i class="fa fa-sliders text-talenteko-orange-500" aria-hidden="true"></i>
-    <span>Filtres</span>
-  </button>
-</div>
-</div>
-{# Compteur de résultats #}
-<p class="text-sm font-semibold text-talenteko-blue-900 mb-6">
-	{{ results|length }}résultat{% if results|length > 1 %}s{% endif %}
-		trouvé{% if results|length > 1 %}s{% endif %}
-</p>
-
-{# Filtres actifs — Bandeau UX TalentÉkô 2025 #}
-	{% set active_filters = [] %}
-
-	{% if criteria.q|default('') %}
-		{% set active_filters = active_filters|merge([{'label': 'Mot-clé : ' ~ criteria.q, 'param': 'q'}]) %}
+		{% if criteria.q|default('') %}
+			{% set active_filters = active_filters|merge([{'label': 'Mot-clé : ' ~ criteria.q, 'param': 'q'}]) %}
 		{% endif %}
 		{% if criteria.location|default('') %}
-		{% set active_filters = active_filters|merge([{'label': 'Localisation : ' ~ criteria.location, 'param': 'location'}]) %}
+			{% set active_filters = active_filters|merge([{'label': 'Localisation : ' ~ criteria.location, 'param': 'location'}]) %}
 		{% endif %}
 		{% if criteria.type|default('') %}
-		{% set active_filters = active_filters|merge([{'label': 'Type : ' ~ (criteria.type == 'OFFER' ? 'Offres' : 'Demandes'), 'param': 'type'}]) %}
+			{% set active_filters = active_filters|merge([{'label': 'Type : ' ~ (criteria.type == 'OFFER' ? 'Offres' : 'Demandes'), 'param': 'type'}]) %}
 		{% endif %}
 		{% if criteria.rating|default('') %}
-		{% set active_filters = active_filters|merge([{'label': 'Note ≥ ' ~ criteria.rating, 'param': 'rating'}]) %}
+			{% set active_filters = active_filters|merge([{'label': 'Note ≥ ' ~ criteria.rating, 'param': 'rating'}]) %}
 		{% endif %}
 		{% if criteria.date|default('') %}
-		{% set active_filters = active_filters|merge([{'label': 'Publié depuis ' ~ criteria.date ~ ' jour' ~ (criteria.date > 1 ? 's' : ''), 'param': 'date'}]) %}
+			{% set active_filters = active_filters|merge([{'label': 'Publié depuis ' ~ criteria.date ~ ' jour' ~ (criteria.date > 1 ? 's' : ''), 'param': 'date'}]) %}
 		{% endif %}
 		{% if criteria.distance|default('') and criteria.distance != 25 %}
-		{% set active_filters = active_filters|merge([{'label': 'Distance ≤ ' ~ criteria.distance ~ ' km', 'param': 'distance'}]) %}
+			{% set active_filters = active_filters|merge([{'label': 'Distance ≤ ' ~ criteria.distance ~ ' km', 'param': 'distance'}]) %}
 		{% endif %}
 		{% if active_filters|length > 0 %}
 			<div class="flex flex-wrap items-center gap-2 mb-8">
@@ -87,30 +77,30 @@
 						<span>{{ filter.label }}</span>
 						<span class="text-talenteko-orange-600 font-bold">✕</span>
 					</a>
-					{% endfor %}
-					<a href="{{ path('app_search') }}" class="ml-auto text-sm text-talenteko-orange-600 font-semibold hover:underline">
-						Réinitialiser les filtres
-					</a>
+				{% endfor %}
+				<a href="{{ path('app_search') }}" class="ml-auto text-sm text-talenteko-orange-600 font-semibold hover:underline">
+					Réinitialiser les filtres
+				</a>
+			</div>
+		{% endif %}
+		{# Grille des annonces — TalentÉkô 2025 #}
+		<div class="mt-10 mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+			{% for listing in results %}
+				<div class="px-2 sm:px-0">
+					{% include 'partials/_listing_card.html.twig' with { listing: listing } %}
 				</div>
-			{% endif %}
-{# Grille des annonces — TalentÉkô 2025 #}
-<div class="mt-10 mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-  {% for listing in results %}
-    <div class="px-2 sm:px-0">
-      {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
-    </div>
-  {% else %}
-    <p class="col-span-full text-center text-gray-500 italic py-10">
-      Aucun résultat ne correspond à vos critères.
-    </p>
-  {% endfor %}
-</div>
+			{% else %}
+				<p class="col-span-full text-center text-gray-500 italic py-10">
+					Aucun résultat ne correspond à vos critères.
+				</p>
+			{% endfor %}
+		</div>
 		{% if app.user %}
 			<div class="mt-8 text-center">
 				<button type="button" class="btn-outline">Sauvegarder cette recherche</button>
 			</div>
 		{% endif %}
-		</div>
-{# Panneau de filtres (slide-in animé) #}
-		{% include 'partials/_listing_filters.html.twig' %}
-	{% endblock %}
+	</div>
+	{# Panneau de filtres (slide-in animé) #}
+	{% include 'partials/_listing_filters.html.twig' %}
+{% endblock %}

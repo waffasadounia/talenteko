@@ -7,7 +7,7 @@
 
 set -e  # Arrêt sur erreurs réelles uniquement
 
-echo "🔍 Vérification pre-commit TalentÉkô..."
+echo "Vérification pre-commit TalentÉkô..."
 
 # 1) Vérif syntaxe PHP rapide
 FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.php$' || true)

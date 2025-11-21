@@ -5,61 +5,81 @@
 
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>
-      Réinitialisation de votre mot de passe
-    </title>
-    <style>
-      body { font-family: Arial, sans-serif; background-color: #fdf5f1; color: #141c2e; padding:
-      20px; } .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius:
-      12px; padding: 24px; border: 1px solid #eee; } h1 { color: #d6713c; font-size: 20px; } .btn {
-      display: inline-block; margin-top: 20px; padding: 12px 24px; background: #141c2e; color:
-      #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; } .footer {
-      margin-top: 32px; font-size: 13px; color: #666; }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Réinitialisation de votre mot de passe</h1>
-
-      <p>
-        Bonjour,
-      </p>
-
-      <p>
-        Vous avez demandé à réinitialiser votre mot de passe sur
-        <strong>TalentÉkô</strong>.
-      </p>
-
-      <p>
-        Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :
-      </p>
-
-      <p style="text-align: center;">
-        <a href="{{ resetUrl }}" class="btn">Réinitialiser mon mot de passe</a>
-      </p>
-
-      <p>
-        Ce lien expirera dans
-        <strong>
-          {{
+	<head>
+		<meta charset="UTF-8"/>
+		<title>
+			Réinitialisation de votre mot de passe
+		</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #fdf5f1;
+				color: #141c2e;
+				padding: 20px;
+			}
+			.container {
+				max-width: 600px;
+				margin: 0 auto;
+				background: #ffffff;
+				border-radius: 12px;
+				padding: 24px;
+				border: 1px solid #eee;
+			}
+			h1 {
+				color: #d6713c;
+				font-size: 20px;
+			}
+			.btn {
+				display: inline-block;
+				margin-top: 20px;
+				padding: 12px 24px;
+				background: #141c2e;
+				color: #ffffff !important;
+				text-decoration: none;
+				border-radius: 8px;
+				font-weight: bold;
+			}
+			.footer {
+				margin-top: 32px;
+				font-size: 13px;
+				color: #666;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Réinitialisation de votre mot de passe</h1>
+			<p>
+				Bonjour,
+			</p>
+			<p>
+				Vous avez demandé à réinitialiser votre mot de passe sur
+				<strong>TalentÉkô</strong>.
+			</p>
+			<p>
+				Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :
+			</p>
+			<p style="text-align: center;">
+				<a href="{{ resetUrl }}" class="btn">Réinitialiser mon mot de passe</a>
+			</p>
+			<p>
+				Ce lien expirera dans
+				<strong>
+					{{
             resetToken.expirationMessageKey|trans(
               resetToken.expirationMessageData,
               'ResetPasswordBundle'
             )
           }}
-        </strong>.
-      </p>
-
-      <p>
-        Si vous n’êtes pas à l’origine de cette demande, ignorez simplement cet email.
-      </p>
-
-      <p class="footer">
-        Merci,<br />
-        L’équipe TalentÉkô
-      </p>
-    </div>
-  </body>
+				</strong>.
+			</p>
+			<p>
+				Si vous n’êtes pas à l’origine de cette demande, ignorez simplement cet email.
+			</p>
+			<p class="footer">
+				Merci,<br/>
+				L’équipe TalentÉkô
+			</p>
+		</div>
+	</body>
 </html>

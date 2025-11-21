@@ -1,6 +1,5 @@
 /* ===========================================
    app.css — Point d’entrée principal TalentÉkô
-   Compatible Tailwind v3 / v4
    =========================================== */
 
 @tailwind base;
@@ -10,7 +9,7 @@
 /* --- Polices Google --- */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Catamaran:wght@400;600&family=Chivo:wght@400;600&display=swap');
 
-/* --- Styles internes (séparés pour éviter conflits @apply) --- */
+/* --- Styles internes --- */
 @import './styles/globals.css';
 @import './styles/components.css';
 @import './styles/forms.css';
