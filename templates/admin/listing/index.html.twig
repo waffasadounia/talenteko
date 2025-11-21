@@ -4,12 +4,12 @@
 {% endblock %}
 
 {% block body %}
-  <section class="mx-auto max-w-6xl px-4 py-10">
+  <section class="mx-auto max-w-6xl px-4 py">
     <h1 class="mb-6 text-3xl font-bold text-talenteko-blue-900">Gestion des annonces</h1>
-
+    {% include 'admin/_admin_nav.html.twig' %}
     <ul role="list" class="divide-y divide-gray-100">
       {% for listing in listings %}
-        <li class="flex items-center justify-between py-4">
+        <li class="flex items-center justify-between py-8">
           <div>
             <p class="font-semibold">
               {{ listing.title }}

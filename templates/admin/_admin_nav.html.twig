@@ -1,0 +1,67 @@
+{# ============================================================
+  templates/admin/_admin_nav.html.twig
+  Barre de navigation Admin — TalentÉkô
+  ============================================================ #}
+
+<nav aria-label="Navigation Admin" class="sticky top-0 z-40 mx-auto max-w-6xl border-b border-talenteko-orange-200 mb-10 pb-3 bg-white">
+  <div class="mx-auto max-w-6xl px-4 py-3">
+    <ul class="flex flex-wrap gap-3 text-sm font-semibold">
+
+      {# === Utilisateurs === #}
+      <li>
+        <a href="{{ path('app_admin_user_index') }}"
+           class="px-4 py-2 rounded-full transition
+                {{ app.request.attributes.get('_route') starts with 'app_admin_user'
+                   ? 'bg-talenteko-orange-500 text-white shadow'
+                   : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+          Utilisateurs
+        </a>
+      </li>
+
+      {# === Annonces === #}
+      <li>
+        <a href="{{ path('app_admin_listing_index') }}"
+           class="px-4 py-2 rounded-full transition
+                {{ app.request.attributes.get('_route') starts with 'app_admin_listing'
+                   ? 'bg-talenteko-orange-500 text-white shadow'
+                   : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+          Annonces
+        </a>
+      </li>
+
+      {# === Échanges === #}
+      <li>
+        <a href="{{ path('app_admin_exchange_index') }}"
+           class="px-4 py-2 rounded-full transition
+                {{ app.request.attributes.get('_route') starts with 'app_admin_exchange'
+                   ? 'bg-talenteko-orange-500 text-white shadow'
+                   : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+          Échanges
+        </a>
+      </li>
+
+      {# === Messages === #}
+      <li>
+        <a href="{{ path('app_admin_message_index') }}"
+           class="px-4 py-2 rounded-full transition
+                {{ app.request.attributes.get('_route') starts with 'app_admin_message'
+                   ? 'bg-talenteko-orange-500 text-white shadow'
+                   : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+          Messages
+        </a>
+      </li>
+
+      {# === Styleguide UI === #}
+      <li>
+        <a href="{{ path('app_styleguide_buttons') }}"
+           class="px-4 py-2 rounded-full transition
+                {{ app.request.attributes.get('_route') starts with 'app_styleguide'
+                   ? 'bg-talenteko-orange-500 text-white shadow'
+                   : 'bg-white text-talenteko-orange-500 border border-talenteko-orange-300' }}">
+          Styleguide UI
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</nav>

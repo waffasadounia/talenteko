@@ -30,7 +30,7 @@ final class MessageController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        // Liste tous les threads où l’utilisateur est participant
+        // Récupère tous les threads où l’utilisateur participe
         $threads = $threadRepo->findByParticipant($user);
 
         return $this->render('message/index.html.twig', [
@@ -39,9 +39,9 @@ final class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/thread/{id}', name: 'app_message_thread', methods: ['GET', 'POST'])]
+    #[Route('/thread/{id}', name: 'app_thread_show', methods: ['GET', 'POST'])]
     public function show(
-        #[MapEntity(expr: 'repository.find(id)')] Thread $thread,
+        #[MapEntity(id: 'id')] Thread $thread,
         Request $request,
         EntityManagerInterface $em,
         MessageBusInterface $bus,
@@ -49,59 +49,60 @@ final class MessageController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        // Vérification d’accès
+        // Vérification d'accès
         if (!$thread->isParticipant($user)) {
             throw $this->createAccessDeniedException('Vous n’avez pas accès à cette conversation.');
         }
-        // Formulaire d’ajout de message
+
+        // Formulaire d’envoi de message
         $form = $this->createFormBuilder(new Message())
             ->add('content', TextareaType::class, [
-                'label' => 'Votre réponse',
+                'label' => 'Votre message',
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Le message ne peut pas être vide.']),
                     new Assert\Length([
                         'min' => 2,
                         'max' => 2000,
-                        'minMessage' => 'Votre message doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Votre message ne peut pas dépasser {{ limit }} caractères.',
                     ]),
                 ],
                 'attr' => [
+                    'placeholder' => 'Écrivez un message...',
                     'rows' => 3,
-                    'placeholder' => 'Écrivez votre réponse...',
                 ],
             ])
             ->getForm();
 
         $form->handleRequest($request);
 
+        // Si message envoyé
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Message $message */
             $message = $form->getData();
             $message->setSender($user);
             $message->setThread($thread);
 
-            // Déterminer automatiquement le destinataire
+            // Détermination du destinataire
             $recipient = $thread->getOtherParticipant($user);
             if (null === $recipient) {
-                $this->addFlash('error', 'Impossible d’envoyer un message : destinataire introuvable.');
+                $this->addFlash('error', 'Impossible d’envoyer le message.');
             } else {
                 $message->setRecipient($recipient);
 
                 $em->persist($message);
                 $em->flush();
 
-                // 🔔 Notification
+                // Notification async
                 $bus->dispatch(new NewMessageNotification($message->getId()));
 
                 $this->addFlash('success', 'Message envoyé !');
 
-                // Post/Redirect/Get
-                return $this->redirectToRoute('app_message_thread', [
+                // PRG
+                return $this->redirectToRoute('app_thread_show', [
                     'id' => $thread->getId(),
                 ]);
             }
         }
+
         return $this->render('message/show.html.twig', [
             'thread' => $thread,
             'messages' => $thread->getMessages(),
@@ -123,7 +124,7 @@ final class MessageController extends AbstractController
             return $this->redirectToRoute('app_messages');
         }
 
-        // Vérifier si un thread existe déjà
+        // Vérifier si un thread existe déjà entre les deux
         $thread = $threadRepo->findExisting($me, $other);
 
         if (!$thread) {
@@ -135,7 +136,7 @@ final class MessageController extends AbstractController
             $em->flush();
         }
 
-        return $this->redirectToRoute('app_message_thread', [
+        return $this->redirectToRoute('app_thread_show', [
             'id' => $thread->getId(),
         ]);
     }

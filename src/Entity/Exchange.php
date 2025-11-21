@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\ExchangeStatus;
+use App\Entity\Thread;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,10 +13,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Exchange
 {
-    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
     // === Relations ===
+
     #[Assert\NotNull(message: 'Un échange doit avoir un utilisateur demandeur.')]
     #[ORM\ManyToOne(inversedBy: 'exchangesRequested')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -31,6 +35,21 @@ class Exchange
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Listing $listing = null;
 
+    // === Thread relation ===
+    #[ORM\OneToOne(mappedBy: 'exchange', cascade: ['persist', 'remove'])]
+    private ?Thread $thread = null;
+
+    public function getThread(): ?Thread
+    {
+        return $this->thread;
+    }
+
+    public function setThread(?Thread $thread): self
+    {
+        $this->thread = $thread;
+        return $this;
+    }
+
     // === Statut ===
     #[Assert\NotNull(message: 'Le statut est obligatoire.')]
     #[ORM\Column(enumType: ExchangeStatus::class, options: ['default' => 'pending'])]
@@ -38,10 +57,10 @@ class Exchange
 
     // === Dates ===
     #[Assert\NotNull]
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     // === Constructeur ===
@@ -125,6 +144,7 @@ class Exchange
     }
 
     // === Helpers métier ===
+
     public function accept(): self
     {
         $this->status = ExchangeStatus::ACCEPTED;

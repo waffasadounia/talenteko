@@ -4,10 +4,10 @@
 {% endblock %}
 
 {% block body %}
-  <section class="mx-auto max-w-6xl px-4 py-10">
+  <section class="mx-auto max-w-6xl px-4">
     <h1 class="mb-6 text-3xl font-bold text-talenteko-blue-900">Gestion des utilisateurs</h1>
-
-    <table class="min-w-full overflow-hidden rounded-xl border border-gray-200">
+    {% include 'admin/_admin_nav.html.twig' %}
+    <table class="min-w-full overflow-hidden rounded-xl border border-gray-200 py-10">
       <thead class="bg-gray-50 text-left">
         <tr>
           <th class="px-4 py-2">Pseudo</th>

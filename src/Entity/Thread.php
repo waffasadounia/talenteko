@@ -44,19 +44,29 @@ class Thread
     #[ORM\OrderBy(['createdAt' => 'ASC'])]
     private Collection $messages;
 
-    #[Assert\NotNull]
+    // === Exchange relation ===
+    #[ORM\OneToOne(inversedBy: 'thread')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private ?Exchange $exchange = null;
+
+    // === Dates ===
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
-    #[Assert\NotNull]
-    #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $updatedAt;
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
         $this->participants = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    // === Lifecycle ===
+    #[ORM\PreUpdate]
+    public function touch(): void
+    {
         $this->updatedAt = new \DateTimeImmutable();
     }
 
@@ -64,6 +74,18 @@ class Thread
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    // === Exchange relation ===
+    public function getExchange(): ?Exchange
+    {
+        return $this->exchange;
+    }
+
+    public function setExchange(?Exchange $exchange): self
+    {
+        $this->exchange = $exchange;
+        return $this;
     }
 
     // === Participants ===
@@ -101,7 +123,6 @@ class Thread
                 return $participant;
             }
         }
-
         return null;
     }
 
@@ -126,6 +147,9 @@ class Thread
     public function removeMessage(Message $message): self
     {
         if ($this->messages->removeElement($message)) {
+            if ($message->getThread() === $this) {
+                $message->setThread(null);
+            }
             $this->touch();
         }
 
@@ -137,26 +161,26 @@ class Thread
         return $this->messages->last() ?: null;
     }
 
-    // === Timestamps ===
+    // === Dates ===
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    #[ORM\PreUpdate]
-    public function touch(): void
+    public function setUpdatedAt(?\DateTimeImmutable $date): self
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = $date;
+        return $this;
     }
 
     // === Divers ===
     public function __toString(): string
     {
-        return \sprintf('Thread #%d', $this->id ?? 0);
+        return sprintf('Thread #%d', $this->id ?? 0);
     }
 }

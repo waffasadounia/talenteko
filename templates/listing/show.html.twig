@@ -110,10 +110,12 @@
 					{% if app.user %}
 						{% if app.user != listing.author %}
 							<div class="rounded-xl bg-white p-6 text-center">
-								<a href="{{ path('app_message_start', { id: listing.author.id }) }}" class="btn-primary w-full inline-flex items-center justify-center gap-2 py-3">
-									<i class="fa-solid fa-comments"></i>
-									Contacter / Échanger
-								</a>
+								<form method="POST" action="{{ path('app_exchange_new', { slug: listing.slug }) }}" class="w-full">
+									<button type="submit" class="btn-primary w-full inline-flex items-center justify-center gap-2 py-3">
+										<i class="fa-solid fa-comments"></i>
+										Contacter / Échanger
+									</button>
+								</form>
 							</div>
 						{% endif %}
 					{% else %}
