@@ -22,23 +22,18 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/annonce', name: 'app_listing_')]
 final class ListingController extends AbstractController
 {
-    // PAGE PUBLIQUE : Liste de toutes les annonces publiées
     #[Route('/toutes', name: 'index', methods: ['GET'])]
     public function index(Request $request, ListingRepository $listingRepo): Response
     {
-        // Récupère la recherche GET ?q=...
         $query = trim((string) $request->query->get('q', ''));
 
-        if ($query !== '') {
-            // Recherche personnalisée
-            $listings = $listingRepo->searchPublic($query);
-        } else {
-            // Listing normal (version originale)
-            $listings = $listingRepo->findBy(
+        $listings = $query !== ''
+            ? $listingRepo->searchPublic($query)
+            : $listingRepo->findBy(
                 ['status' => ListingStatus::PUBLISHED],
                 ['createdAt' => 'DESC']
             );
-        }
+
         return $this->render('listing/index.html.twig', [
             'page_title' => 'Toutes les annonces',
             'listings'   => $listings,
@@ -46,7 +41,6 @@ final class ListingController extends AbstractController
         ]);
     }
 
-    // PAGE PRIVÉE : Création d’une nouvelle annonce
     #[Route('/nouvelle', name: 'new', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new(
@@ -60,33 +54,38 @@ final class ListingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // Associer l’auteur connecté
             $listing->setAuthor($this->getUser());
 
-            // Générer un slug unique
             $slug = strtolower((string) $slugger->slug($listing->getTitle()));
             $originalSlug = $slug;
             $i = 1;
+
             while ($em->getRepository(Listing::class)->findOneBy(['slug' => $slug])) {
                 $slug = $originalSlug . '-' . $i++;
             }
-            $listing->setSlug($slug);
 
-            // Publication directe (MVP)
+            $listing->setSlug($slug);
             $listing->publish();
 
-            // Upload des images
             /** @var UploadedFile[] $images */
             $images = $form->get('images')->getData();
+
+            $categorySlug = $listing->getCategory()->getSlug();
+            $targetDirectory = $this->getParameter('kernel.project_dir')
+                . '/public/uploads/listings/' . $categorySlug;
+
+            if (!is_dir($targetDirectory)) {
+                mkdir($targetDirectory, 0777, true);
+            }
+
             foreach ($images as $index => $file) {
+
                 $newFilename = uniqid('listing_', true) . '.' . $file->guessExtension();
-                $file->move(
-                    $this->getParameter('kernel.project_dir') . '/public/uploads/listings',
-                    $newFilename
-                );
+
+                $file->move($targetDirectory, $newFilename);
 
                 $image = new ListingImage();
-                $image->setPath('uploads/listings/' . $newFilename);
+                $image->setPath($categorySlug . '/' . $newFilename);
                 $image->setIsPrimary(0 === $index);
                 $image->setListing($listing);
 
@@ -108,7 +107,7 @@ final class ListingController extends AbstractController
             'form'       => $form->createView(),
         ]);
     }
-    // PAGE PUBLIQUE : Affichage d’une annonce
+
     #[Route(
         '/{slug}',
         name: 'show',
@@ -119,7 +118,6 @@ final class ListingController extends AbstractController
         #[MapEntity(expr: 'repository.findOneBy({slug: slug})')]
         Listing $listing,
     ): Response {
-        // Protection : brouillon visible uniquement par auteur ou admin
         if (
             'draft' === $listing->getStatus()->value
             && $listing->getAuthor() !== $this->getUser()
@@ -132,38 +130,80 @@ final class ListingController extends AbstractController
             'listing' => $listing,
         ]);
     }
-    // PAGE PRIVÉE : Édition d’une annonce
+
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(
-        #[MapEntity(expr: 'repository.findOneBy({slug: slug})')]
-        Listing $listing,
-        Request $request,
-        EntityManagerInterface $em,
-    ): Response {
-        if ($listing->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException('Vous ne pouvez pas modifier cette annonce.');
+#[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
+public function edit(
+    #[MapEntity(expr: 'repository.findOneBy({slug: slug})')]
+    Listing $listing,
+    Request $request,
+    EntityManagerInterface $em,
+): Response {
+    if ($listing->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+        throw $this->createAccessDeniedException('Vous ne pouvez pas modifier cette annonce.');
+    }
+
+    $form = $this->createForm(ListingType::class, $listing);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        /** @var UploadedFile|null $newImage */
+        $newImage = $form->get('newImage')->getData();
+
+        if ($newImage) {
+
+            // 1) Supprimer l’ancienne image si elle existe
+            $oldImages = $listing->getImages();
+            if ($oldImages->count() > 0) {
+                $oldImage = $oldImages->first();
+
+                $oldFilePath = $this->getParameter('kernel.project_dir')
+                    . '/public/uploads/listings/' . $oldImage->getPath();
+
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
+
+                $listing->removeImage($oldImage);
+                $em->remove($oldImage);
+            }
+
+            // 2) Déplacer la nouvelle image
+            $categorySlug = $listing->getCategory()->getSlug();
+            $targetDir = $this->getParameter('kernel.project_dir')
+                . '/public/uploads/listings/' . $categorySlug;
+
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            $newFilename = uniqid('listing_', true) . '.' . $newImage->guessExtension();
+            $newImage->move($targetDir, $newFilename);
+
+            // 3) Sauvegarder en BDD
+            $image = new ListingImage();
+            $image->setPath($categorySlug . '/' . $newFilename);
+            $image->setIsPrimary(true);
+            $image->setListing($listing);
+
+            $listing->addImage($image);
         }
 
-        $form = $this->createForm(ListingType::class, $listing);
-        $form->handleRequest($request);
+        $em->flush();
+        $this->addFlash('success', 'Annonce mise à jour avec succès.');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            $this->addFlash('success', 'Annonce mise à jour avec succès.');
-
-            return $this->redirectToRoute('app_listing_show', [
-                'slug' => $listing->getSlug(),
-            ]);
-        }
-
-        return $this->render('listing/edit.html.twig', [
-            'form'       => $form->createView(),
-            'listing'    => $listing,
-            'page_title' => 'Modifier mon annonce',
+        return $this->redirectToRoute('app_listing_show', [
+            'slug' => $listing->getSlug(),
         ]);
     }
-    // PAGE PRIVÉE : Confirmation de suppression d’une annonce
+
+    return $this->render('listing/edit.html.twig', [
+        'form'    => $form->createView(),
+        'listing' => $listing,
+    ]);
+}
+
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/{id}/supprimer/confirmation', name: 'confirm_delete', methods: ['GET'])]
     public function confirmDelete(Listing $listing): Response
@@ -175,7 +215,7 @@ final class ListingController extends AbstractController
             'listing' => $listing,
         ]);
     }
-    // PAGE PRIVÉE : Suppression d’une annonce
+
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/{id}/supprimer', name: 'delete', methods: ['POST'])]
     public function delete(
@@ -183,22 +223,17 @@ final class ListingController extends AbstractController
         Request $request,
         EntityManagerInterface $em
     ): Response {
-        // Seul l’auteur OU un admin peut supprimer
         if ($listing->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer cette annonce.');
         }
 
-        // Protection CSRF
         if ($this->isCsrfTokenValid('delete' . $listing->getId(), $request->request->get('_token'))) {
-
-            // Suppression
             $em->remove($listing);
             $em->flush();
 
             $this->addFlash('success', 'Votre annonce a bien été supprimée.');
         }
 
-        // Redirection vers la page "mes annonces" (ou autre)
         return $this->redirectToRoute('app_profile_listings');
     }
 }

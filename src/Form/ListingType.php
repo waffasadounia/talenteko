@@ -25,13 +25,8 @@ final class ListingType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre de l’annonce',
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Merci de saisir un titre.']),
-                    new Assert\Length([
-                        'min' => 5,
-                        'max' => 180,
-                        'minMessage' => 'Le titre doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Le titre ne peut pas dépasser {{ limit }} caractères.',
-                    ]),
+                    new Assert\NotBlank(),
+                    new Assert\Length(['min' => 5, 'max' => 180]),
                 ],
                 'attr' => ['placeholder' => 'ex. Cours de guitare débutant'],
             ])
@@ -40,62 +35,41 @@ final class ListingType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Merci de saisir une description.']),
-                    new Assert\Length([
-                        'min' => 20,
-                        'minMessage' => 'La description doit contenir au moins {{ limit }} caractères.',
-                    ]),
+                    new Assert\NotBlank(),
+                    new Assert\Length(['min' => 20]),
                 ],
-                'attr' => [
-                    'rows' => 6,
-                    'placeholder' => 'Décrivez votre annonce en détail…',
-                ],
+                'attr' => ['rows' => 6],
             ])
 
-            // === Type d’annonce ===
+            // === Type ===
             ->add('type', ChoiceType::class, [
                 'label' => 'Type d’annonce',
                 'choices' => [
                     'Je propose une compétence' => 'OFFER',
                     'Je recherche une compétence' => 'REQUEST',
                 ],
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'Merci de sélectionner un type.']),
-                ],
-                'expanded' => true, // affichage en boutons radio
+                'expanded' => true,
             ])
 
             // === Localisation ===
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
-                'attr' => [
-                    'placeholder' => 'ex. Paris, Lyon, Marseille',
-                    'autocomplete' => 'address-level2',
-                ],
             ])
-
 
             // === Catégorie ===
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'label' => 'Catégorie',
                 'placeholder' => 'Choisir une catégorie',
             ])
 
-            // === Images ===
-            ->add('images', FileType::class, [
-                'label' => 'Images',
+            // === Image unique (édition) ===
+            ->add('newImage', FileType::class, [
+                'label' => 'Nouvelle image',
                 'mapped' => false,
-                'required' => false, // IMPORTANT
-                'multiple' => true,
+                'required' => false,
                 'constraints' => [
-                    new Assert\All([
-                        new Assert\Image([
-                            'maxSize' => '5M',
-                            'mimeTypesMessage' => 'Merci de télécharger uniquement des images valides.',
-                        ])
-                    ])
+                    new Assert\Image(['maxSize' => '5M']),
                 ],
                 'attr' => ['accept' => 'image/*'],
             ])

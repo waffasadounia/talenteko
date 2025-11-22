@@ -9,7 +9,6 @@
 
 {% block body %}
 <main class="min-h-screen bg-orange-50 flex items-center justify-center px-4 py-8">
-
     <div class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
         <h1 class="text-3xl font-extrabold text-center text-talenteko-orange-500 mb-2">
             Modifier mon annonce
@@ -17,29 +16,27 @@
         <p class="text-gray-500 mb-8 text-center">
             Mettez à jour les informations de votre annonce.
         </p>
-
+        {# ---------------- FORMULAIRE PRINCIPAL ---------------- #}
         {{ form_start(form, {
             attr: {
                 class: 'space-y-6',
-                novalidate: 'novalidate'
+                novalidate: 'novalidate',
+                id: 'listing_edit_form'
             }
         }) }}
-
-        {# Titre #}
+        {# ===== Titre ===== #}
         <div>
             {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
             {{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
             {{ form_errors(form.title) }}
         </div>
-
-        {# Description #}
+        {# ===== Description ===== #}
         <div>
             {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
             {{ form_widget(form.description, {'attr': {'class': 'form-input min-h-[120px]'}}) }}
             {{ form_errors(form.description) }}
         </div>
-
-        {# Type #}
+        {# ===== Type ===== #}
         <div>
             {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
             <div class="flex flex-wrap items-center gap-8">
@@ -52,8 +49,7 @@
             </div>
             {{ form_errors(form.type) }}
         </div>
-
-        {# Catégorie (custom select) #}
+        {# ===== Catégorie ===== #}
         <div>
             {{ form_label(form.category, null, {'label_attr': {'class': 'form-label'}}) }}
 
@@ -66,91 +62,90 @@
                     'label': c.label
                 })
             } %}
-
             {{ form_errors(form.category) }}
             {% do form.category.setRendered() %}
         </div>
-
-        {# Localisation #}
+        {# ===== Localisation ===== #}
         <div data-controller="location-autocomplete" class="relative">
             {{ form_label(form.location, null, {'label_attr': {'class': 'form-label'}}) }}
 
             {{ form_widget(form.location, {
                 attr: {
                     class: 'form-input',
-                    placeholder: 'ex. Paris, Lyon, Marseille',
+                    placeholder: 'ex. Paris 14, Marseille 6e',
                     autocomplete: 'off',
                     'data-location-autocomplete-target': 'input',
                     'data-action': 'input->location-autocomplete#search keydown->location-autocomplete#keydown'
                 }
             }) }}
-
-            <ul data-location-autocomplete-target="list"
-                class="hidden absolute left-0 right-0 z-40 mt-1 bg-white border border-gray-300
-                       rounded-lg shadow-lg max-h-64 overflow-y-auto"
-                role="listbox">
-            </ul>
+            <ul data-location-autocomplete-target="list" class="hidden absolute left-0 right-0 z-40 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-64 overflow-y-auto" role="listbox"></ul>
 
             {{ form_errors(form.location) }}
         </div>
+        {# ===== Image actuelle ===== #}
+        {% if listing.images|length > 0 %}
+            {% set img = listing.images|first %}
+            <div class="mt-6">
+                <p class="font-semibold mb-2">Image actuelle :</p>
 
-        {# Upload images #}
-        <div data-controller="image-preview">
+                {% set img_path = img.path starts with 'uploads/'
+                    ? '/' ~ img.path
+                    : 'uploads/listings/' ~ img.path
+                %}
+                <img src="{{ img_path | imagine_filter('listing_card') }}"
+                     alt="Image actuelle"
+                     class="w-24 h-24 rounded-lg shadow border object-cover">
+            </div>
+        {% endif %}
+        {# ===== Upload nouvelle image ===== #}
+        <div class="mt-6" data-controller="image-preview">
 
-            {{ form_label(form.images, 'Images', {'label_attr': {'class': 'form-label'}}) }}
-
+            {{ form_label(form.newImage, 'Nouvelle image (remplace l’existante)', {
+                'label_attr': { 'class': 'form-label' }
+            }) }}
             <div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
                         flex flex-col items-center justify-center text-gray-400
-                        hover:border-talenteko-orange-500 transition"
-                 onclick="document.getElementById('{{ form.images.vars.id }}').click();">
+                        hover:border-talenteko-orange-500 transition cursor-pointer"
+                 onclick="document.getElementById('{{ form.newImage.vars.id }}').click();">
 
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
                 </svg>
-                <span class="text-sm">Cliquez ou déposez vos images ici</span>
+                <span class="text-sm">Cliquez ou déposez votre image ici</span>
             </div>
-
             <div class="mt-2">
-                {{ form_widget(form.images, {
+                {{ form_widget(form.newImage, {
                     attr: {
-                        id: form.images.vars.id,
+                        id: form.newImage.vars.id,
                         class: 'w-full opacity-0 h-0 p-0 m-0',
                         'data-image-preview-target': 'input',
                         'data-action': 'change->image-preview#preview'
                     }
                 }) }}
             </div>
-
-            <div data-image-preview-target="preview"
-                 class="flex flex-wrap gap-3 mt-4 w-full min-h-[1px]"></div>
-
-            {{ form_errors(form.images) }}
-            {% do form.images.setRendered() %}
+            <div data-image-preview-target="preview" class="flex flex-wrap gap-3 mt-4 w-full min-h-[1px]"></div>
+            {{ form_errors(form.newImage) }}
         </div>
-
-        {# ====================== BOUTONS ====================== #}
-
-<div class="flex justify-between items-center pt-4 w-full">
-
-    {# Bouton Enregistrer #}
-    <button type="submit" class="btn-primary py-3 px-6 text-center">
-        Enregistrer
-    </button>
-
-    {# Formulaire DELETE #}
-    <form method="post"
-          action="{{ path('app_listing_delete', { id: listing.id }) }}"
-          onsubmit="return confirm('Voulez-vous vraiment supprimer cette annonce ? Cette action est irréversible.');">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ listing.id) }}">
-        <button type="submit"
-                class="btn-outline inline-flex items-center justify-center gap-2 py-3">
-            <i class="fa-solid fa-trash"></i>
-            Supprimer
-        </button>
-    </form>
-</div>
+        {# ===== BOUTON ENREGISTRER ===== #}
+        <div class="flex justify-center items-center w-full mt-8">
+            <button type="submit" class="btn-primary py-3 px-6 text-center">
+                Enregistrer
+            </button>
+        </div>
         {{ form_end(form) }}
+
+        {# ===== FORM SUPPRESSION — EN DEHORS DU FORM PRINCIPAL ===== #}
+        <form method="post"
+              action="{{ path('app_listing_delete', { id: listing.id }) }}"
+              onsubmit="return confirm('Voulez-vous vraiment supprimer cette annonce ?');"
+              class="mt-6">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ listing.id) }}">
+            <button type="submit"
+                    class="btn-outline inline-flex items-center justify-center gap-2 py-3 px-6 w-full">
+                <i class="fa-solid fa-trash"></i>
+                Supprimer cette annonce
+            </button>
+        </form>
     </div>
 </main>
 {% endblock %}
