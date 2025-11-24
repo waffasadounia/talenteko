@@ -1,41 +1,77 @@
-{# ============================================================
-   Header LIGHT — Version Rééquilibrée TalentÉkô
-============================================================ #}
+{# ============================================================================
+   HEADER LIGHT — TalentÉkô
+   Utilisé pour : dashboard, profil, messages, admin, pages internes.
+   Version minimaliste, sans catégories ni surcharge.
+============================================================================ #}
 
-<header class="bg-white dark:bg-talenteko-blue-900 shadow-sm">
-    <div class="mx-auto max-w-7xl px-6 py-3 grid grid-cols-3 items-center">
+{% set isUser = app.user is not null and app.user.id is not null %}
 
-        {# LOGO à gauche #}
-        <div class="flex items-center">
-            <a href="{{ path('app_home') }}" class="flex items-center gap-2">
-                <img src="{{ asset('images/talenteko_logo.png') }}"
-                     alt="TalentÉkô" class="h-10 w-auto rounded-full"/>
-                <span class="text-base font-extrabold text-talenteko-blue-900 dark:text-white hidden sm:inline">
-                    Talent<span class="text-talenteko-orange-500">Ékô</span>
-                </span>
+<header role="banner"
+        class="bg-white dark:bg-talenteko-blue-900 shadow-sm">
+
+    <div class="mx-auto max-w-7xl w-full flex items-center justify-between px-6 py-3">
+
+        {# ----------------------------------------------------------
+           1 — LOGO minimal
+        ----------------------------------------------------------- #}
+        <a href="{{ path('app_home') }}"
+           class="flex items-center gap-3">
+            <img src="{{ asset('images/talenteko_logo.png') }}"
+                 alt="TalentÉkô" class="h-10 w-auto rounded-full"/>
+            <span class="hidden sm:inline text-lg font-extrabold">
+                <span class="text-talenteko-blue-900 dark:text-white">Talent</span><span class="text-talenteko-orange-500">Ékô</span>
+            </span>
+        </a>
+
+        {# ----------------------------------------------------------
+           2 — Navigation épurée (Accueil + Recherche)
+        ----------------------------------------------------------- #}
+        <nav class="hidden md:flex items-center gap-14 text-base font-semibold
+                    text-talenteko-blue-900 dark:text-white">
+            <a href="{{ path('app_home') }}" class="hover:text-talenteko-orange-600">
+                Accueil
             </a>
-        </div>
-
-        {# NAVIGATION centrée #}
-        <nav class="flex justify-center gap-8 text-talenteko-orange-500 font-semibold">
-            <a href="{{ path('app_home') }}" class="hover:underline">Accueil</a>
-            <a href="{{ path('app_search') }}" class="hover:underline">Recherche</a>
+            <a href="{{ path('app_search') }}" class="hover:text-talenteko-orange-600">
+                Recherche
+            </a>
         </nav>
 
-        {# BOUTONS à droite #}
-        <div class="flex justify-end items-center gap-4">
-            {% if app.user %}
+        {# ----------------------------------------------------------
+           3 — Switch Connexion / Déconnexion
+        ----------------------------------------------------------- #}
+        <div class="flex items-center gap-4">
+
+            {% if isUser %}
                 <a href="{{ path('app_profile_dashboard') }}"
-                   class="btn-outline flex items-center gap-2">
-                    <i class="fa fa-user-circle"></i> <span>Mon espace</span>
+                   class="btn-outline hidden md:flex items-center gap-2">
+                    <i class="fa fa-user-circle"></i>
+                    <span>Mon espace</span>
+                </a>
+
+                <a href="{{ path('app_logout') }}"
+                   class="btn-primary hidden md:flex items-center gap-2">
+                    <i class="fa fa-right-from-bracket"></i>
+                    <span>Déconnexion</span>
                 </a>
             {% else %}
                 <a href="{{ path('app_login') }}"
-                   class="btn-primary flex items-center gap-2">
-                    <i class="fa fa-user"></i> <span>Connexion</span>
+                   class="btn-primary hidden md:flex items-center gap-2">
+                    <i class="fa fa-user"></i>
+                    <span>Connexion</span>
                 </a>
             {% endif %}
-        </div>
 
+            {# ------------------------------------------------------
+               4 — Menu mobile
+            ------------------------------------------------------- #}
+            <button class="md:hidden rounded-md p-2 text-talenteko-orange-500
+                           focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500"
+                    aria-label="Menu mobile"
+                    data-action="click->header-nav#toggle">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+
+            {% include 'partials/_mobile_menu.html.twig' %}
+        </div>
     </div>
 </header>

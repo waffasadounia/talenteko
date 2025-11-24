@@ -43,59 +43,76 @@
 		{% block stylesheets %}{% endblock %}
 	</head>
 
-	<body
-		class="font-montserrat bg-white text-gray-800 leading-relaxed antialiased">
+	<body class="font-montserrat bg-white text-gray-800 leading-relaxed antialiased">
 
-			{# ----- HEADER GLOBAL -----{% include 'partials/_header.html.twig' %} ----#}
-			{# Choix automatique du header #}
-			{% set route = app.request.attributes.get('_route') %}
+		{# ----- ANCIEN HEADER GLOBAL ----- #}
+		{# {% include 'partials/_header.html.twig' %} #}
 
-			{# ==============================
-			HEADER NORMAL COMPLET
-			(home, catégories, profil, etc.)
-			============================== #}
+
+		{# ----- ROUTE COURANTE ----- #}
+		{% set route = app.request.attributes.get('_route') %}
+
+		{# =========================================================
+					HEADER COMPLET (avec catégories)
+					Pages : accueil, catégories, annonces publiques
+		============================================================= #}
 			{% if route starts with 'app_home'
 				or route starts with 'app_category_show'
 				or route starts with 'app_category_index'
+				or route starts with 'app_listing_show'
+				or route starts with 'app_listing_index'
 			%}
-				{% include 'partials/_header_public.html.twig' %}
+			{% include 'partials/_header.html.twig' %}
 
-			{# ==============================
-			HEADER SANS CATÉGORIES (page recherche)
-			============================== #}
-			{% elseif route starts with 'app_search' %}
-				{% include 'partials/_header_no_categories.html.twig' %}
+			{# =========================================================
+						HEADER SANS CATÉGORIES (Recherche)
+			========================================================= #}
+		{% elseif route starts with 'app_search' %}
+			{% include 'partials/_header_no_categories.html.twig' %}
 
-			{# ==============================
-			HEADER PUBLIC (auth, FAQ, login, register)
-			============================== #}
-			{% elseif route starts with 'app_login'
+			{# =========================================================
+						HEADER PUBLIC (login, pages publiques)
+			========================================================= #}
+		{% elseif route starts with 'app_login'
 				or route starts with 'app_register'
 				or route starts with 'app_forgot_password'
+				or route starts with 'app_about'
+				or route starts with 'app_how'
+				or route starts with 'app_faq'
+				or route starts with 'app_contact'
 			%}
-				{% include 'partials/_header_public.html.twig' %}
+			{% include 'partials/_header_public.html.twig' %}
 
-			{# ==============================
-			HEADER LIGHT POUR TOUT LE RESTE
-			============================== #}
-			{% else %}
-				{% include 'partials/_header_light.html.twig' %}
-			{% endif %}
+			{# =========================================================
+						HEADER LIGHT (profil, dashboard, messages, admin, etc)
+			========================================================= #}
+		{% elseif route starts with 'app_profile'
+				or route starts with 'app_messages'
+				or route starts with 'app_dashboard'
+				or route starts with 'app_admin'
+			%}
+			{% include 'partials/_header_light.html.twig' %}
 
+			{# =========================================================
+						FALLBACK — LIGHT PAR DÉFAUT
+			========================================================= #}
+		{% else %}
+			{% include 'partials/_header_light.html.twig' %}
+		{% endif %}
 
-			{# ----- FLASH GLOBAL ----- #}
-			<section class="container mx-auto mt-4 px-4" aria-label="Messages du site">
-				{% include 'partials/_flash.html.twig' %}
-			</section>
+		{# ----- FLASH GLOBAL ----- #}
+		<section class="container mx-auto mt-4 px-4" aria-label="Messages du site">
+			{% include 'partials/_flash.html.twig' %}
+		</section>
 
-			{# ----- CONTENU PRINCIPAL ----- #}
-			<main id="main-content" class="container mx-auto mt-8 mb-8 min-h-[80vh]" tabindex="-1"> {% block body %}{% endblock %}
-				</main>
+		{# ----- CONTENU PRINCIPAL ----- #}
+		<main id="main-content" class="container mx-auto mt-8 mb-8 min-h-[80vh]" tabindex="-1"> {% block body %}{% endblock %}
+			</main>
 
-				{# ----- FOOTER GLOBAL ----- #}
-				{% include 'partials/_footer.html.twig' %}
-				{% block javascripts %}
-					{{ encore_entry_script_tags('app') }}
-				{% endblock %}
+			{# ----- FOOTER GLOBAL ----- #}
+			{% include 'partials/_footer.html.twig' %}
+			{% block javascripts %}
+				{{ encore_entry_script_tags('app') }}
+			{% endblock %}
 		</body>
 	</html>

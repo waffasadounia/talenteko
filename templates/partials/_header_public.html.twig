@@ -1,80 +1,84 @@
-{# ============================================================
-   Header PUBLIC — TalentÉkô
-   Pages : accueil, recherche, annonces, etc.
-============================================================ #}
+{# ============================================================================
+   HEADER PUBLIC — TalentÉkô
+   Pages : login, register, reset, FAQ, contact, mentions, etc.
+   Version très légère
+============================================================================ #}
 
-<header role="banner" class="bg-white dark:bg-talenteko-blue-900 shadow-sm" data-controller="header-nav">
+{% set isUser = app.user is not null and app.user.id is not null %}
 
-    <div class="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-3">
+<header role="banner"
+        class="bg-white dark:bg-talenteko-blue-900 shadow-sm"
+        data-controller="header-nav">
 
-        {# LOGO #}
-        <a href="{{ path('app_home') }}" class="flex shrink-0 flex-col items-center rounded-md text-center">
+    <div class="mx-auto max-w-7xl w-full flex items-center justify-between gap-6 px-6 py-4">
+
+        {# --------------
+           1 — LOGO
+        -----------------#}
+        <a href="{{ path('app_home') }}"
+           class="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 rounded-md">
+
             <img src="{{ asset('images/talenteko_logo.png') }}"
-                 alt="Logo TalentÉkô" class="max-h-10 w-auto rounded-full object-contain"/>
-            <span class="text-xs font-extrabold leading-tight">
-                <span class="text-talenteko-blue-900 dark:text-white">Talent</span>
-                <span class="text-talenteko-orange-500">Ékô</span>
+                 alt="Logo TalentÉkô"
+                 class="h-11 w-auto rounded-full object-contain"/>
+
+            <span class="hidden sm:inline text-lg font-extrabold leading-tight">
+                <span class="text-talenteko-blue-900 dark:text-white">Talent</span><span class="text-talenteko-orange-500">Ékô</span>
             </span>
         </a>
 
-        {# RECHERCHE DESKTOP #}
-        <form action="{{ path('app_search') }}" method="get"
-              class="relative hidden md:block min-w-[220px] max-w-xl flex-1">
-            <input id="search-input" type="search" name="q"
-                   placeholder="Rechercher..."
-                   class="w-full rounded-full border border-talenteko-orange-500 py-2 pl-10 pr-4"/>
-            <i class="fa fa-search absolute left-3 top-2.5 text-talenteko-orange-500"></i>
-        </form>
+        {# ---------------------------------------------
+           2 — NAVIGATION SIMPLE (Accueil / Recherche)
+        -----------------------------------------------#}
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-talenteko-blue-900 dark:text-white">
+            <a href="{{ path('app_home') }}" class="hover:text-talenteko-orange-600 transition">
+                Accueil
+            </a>
+            <a href="{{ path('app_search') }}" class="hover:text-talenteko-orange-600 transition">
+                Recherche
+            </a>
+            <a href="{{ path('app_faq') }}" class="hover:text-talenteko-orange-600 transition">
+                FAQ
+            </a>
+        </nav>
 
-        {# NAVIGATION #}
+        {# ----------------------------------------------------------
+           3 — SWITCH Connexion / Déconnexion
+        ----------------------------------------------------------- #}
         <div class="flex items-center gap-4">
 
-            <nav class="hidden md:flex items-center gap-6">
-                <a href="{{ path('app_search') }}" class="nav-link">
-                    <i class="fa fa-search"></i> <span>Recherche</span>
+            {% if isUser %}
+                <a href="{{ path('app_profile_dashboard') }}"
+                   class="btn-outline hidden md:flex items-center gap-2">
+                    <i class="fa fa-user-circle"></i>
+                    <span>Mon espace</span>
                 </a>
 
-                {% if app.user %}
-                    <a href="{{ path('app_profile_favoris') }}" class="nav-link">
-                        <i class="fa fa-heart"></i> <span>Favoris</span>
-                    </a>
-
-                    <a href="{{ path('app_messages') }}" class="nav-link relative">
-                        <i class="fa fa-envelope"></i> <span>Messages</span>
-                        {% if unreadCount|default(0) > 0 %}
-                            <span class="absolute -top-2 -right-3 rounded-full bg-talenteko-orange-600 text-white text-xs px-1">
-                                {{ unreadCount }}
-                            </span>
-                        {% endif %}
-                    </a>
-                {% endif %}
-            </nav>
-
-            {# CTA Déposer une annonce #}
-            <a href="{{ path('app_listing_new') }}" class="hidden md:flex btn-outline">
-                <i class="fa fa-plus-circle"></i><span>Déposer</span>
-            </a>
-
-            {# PROFIL / LOGIN #}
-            {% if app.user %}
-                <a href="{{ path('app_profile_dashboard') }}" class="hidden md:flex btn-primary">
-                    <i class="fa fa-user-circle"></i><span>Profil</span>
+                <a href="{{ path('app_logout') }}"
+                   class="btn-primary hidden md:flex items-center gap-2">
+                    <i class="fa fa-right-from-bracket"></i>
+                    <span>Se déconnecter</span>
                 </a>
+
             {% else %}
-                <a href="{{ path('app_login') }}" class="hidden md:flex btn-primary">
-                    <i class="fa fa-user"></i><span>Se connecter</span>
+                <a href="{{ path('app_login') }}"
+                   class="btn-primary hidden md:flex items-center gap-2">
+                    <i class="fa fa-user"></i>
+                    <span>Se connecter</span>
                 </a>
             {% endif %}
 
-            {# Burger #}
-            <button class="md:hidden text-talenteko-orange-500" data-action="click->header-nav#toggle">
+            {# ------------------------------------------------------
+               4 — Menu mobile (burgers)
+            ------------------------------------------------------- #}
+            <button class="md:hidden rounded-md p-2 text-talenteko-orange-500
+                           focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500"
+                    aria-label="Menu mobile"
+                    data-action="click->header-nav#toggle">
                 <i class="fa fa-bars text-xl"></i>
             </button>
 
             {% include 'partials/_mobile_menu.html.twig' %}
         </div>
     </div>
-
-    {# BARRE DE CATÉGORIES #}
-    {% include 'partials/_header_categories.html.twig' %}
 </header>
