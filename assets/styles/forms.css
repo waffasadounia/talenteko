@@ -47,7 +47,15 @@
 }
 
 .form-error {
-  @apply mt-1 text-sm text-red-600;
+  @apply mt-1 text-sm font-medium text-red-600;
+}
+/* Version encadrée TalentÉkô */
+.form-error-block {
+  @apply mt-2 flex items-start gap-3 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700;
+}
+
+.form-error-block i {
+  @apply mt-0.5 text-red-600;
 }
 
 /* ===========================================

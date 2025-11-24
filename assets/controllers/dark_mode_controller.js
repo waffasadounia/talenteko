@@ -5,7 +5,6 @@ import { Controller } from '@hotwired/stimulus';
  *
  * - Ajout classe .dark sur <html>
  * - Sauvegarde la préférence dans localStorage
- * - Respecte prefers-color-scheme du système
  * - Accessibilité : aria-pressed sur le bouton
  */
 export default class extends Controller {

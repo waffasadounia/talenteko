@@ -44,15 +44,15 @@ final class CategoryFixtures extends Fixture implements FixtureGroupInterface
 
             $em->persist($category);
 
-            // 🔗 Référence utilisée dans ListingFixtures
+            // Référence utilisée dans ListingFixtures
             $this->addReference('cat_'.$i, $category);
         }
 
         $em->flush();
-        echo "✅ Catégories générées avec succès (" . count(self::CATEGORIES) . ").\n";
+        echo " Catégories générées avec succès (" . count(self::CATEGORIES) . ").\n";
     }
 
-    /** 🔸 Groupe Doctrine pour exécution ciblée */
+    /** Groupe Doctrine pour exécution ciblée */
     public static function getGroups(): array
     {
         return ['categories'];

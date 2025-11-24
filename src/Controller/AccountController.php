@@ -52,8 +52,6 @@ final class AccountController extends AbstractController
                         }
                     }
                 }
-
-
                 // SUPPRIMER L'UTILISATEUR
                 $em->remove($user);
                 $em->flush();

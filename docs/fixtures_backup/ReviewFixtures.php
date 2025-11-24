@@ -49,7 +49,7 @@ final class ReviewFixtures extends Fixture implements DependentFixtureInterface
             $listing = $faker->randomElement($listings);
             $exchange = $faker->randomElement($exchanges);
 
-            // ⚡ Empêche qu’un utilisateur donne deux avis sur le même échange
+            // Empêche qu’un utilisateur donne deux avis sur le même échange
             $pairKey = $exchange->getId() . '-' . $author->getId();
             if (isset($existingPairs[$pairKey])) {
                 continue;
@@ -74,7 +74,7 @@ final class ReviewFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->flush();
 
-        echo "✅ $count avis générés avec succès.\n";
+        echo "$count avis générés avec succès.\n";
     }
 
     /**

@@ -3,74 +3,46 @@
   Carte annonce TalentÉkô
   ================================ #}
 
-<div class="card-listing relative">
-
-	{# Bouton Favoris #}
-	<button type="button"
-	        class="card-favorite absolute top-2 right-2 z-20"
-	        aria-label="Ajouter ou retirer des favoris"
-	        data-controller="favorite-toggle"
-	        data-action="click->favorite-toggle#toggle">
+<div
+	class="card-listing relative">
+	{# Bouton Favoris (Stimulus toggle) #}
+	<button type="button" class="card-favorite absolute top-2 right-2 z-20" aria-label="Ajouter ou retirer des favoris" data-controller="favorite-toggle" data-favorite-toggle-listing-id-value="{{ listing.id }}"
+    data-action="click->favorite-toggle#toggle">
 		<span data-favorite-toggle-target="empty">
-			<i class="fa-regular fa-heart"></i>
+			<i class="fa-regular fa-heart" aria-hidden="true"></i>
 		</span>
 		<span data-favorite-toggle-target="filled" class="hidden">
-			<i class="fa-solid fa-heart"></i>
+			<i class="fa-solid fa-heart" aria-hidden="true"></i>
 		</span>
 	</button>
-
 	{# === Image principale === #}
-	<a href="{{ path('app_listing_show', { slug: listing.slug }) }}"
-	   class="card-image-link relative block z-10">
+	<a href="{{ path('app_listing_show', { slug: listing.slug }) }}" class="card-image-link relative block z-10">
 		<div class="card-image-wrapper">
-
 			{% if listing.images|length > 0 %}
-
-				{% set raw = listing.images|first.path ?? null %}
-
-				{# === 1) Placeholder détecté si nom contient "placeholder" === #}
-				{% if raw is empty or raw is null or 'placeholder' in raw %}
-					{% set final = 'uploads/listings/placeholderTE.png' %}
-
-				{# === 2) Ancienne image : path contient déjà un "/" (ex: "education/xxx.jpg") === #}
-				{% elseif '/' in raw %}
-					{% set final = 'uploads/listings/' ~ raw %}
-
-				{# === 3) Nouvelle image : juste le nom, on doit préfixer la catégorie === #}
+				{% set img_path = listing.images|first.path %}
+				{% if img_path == 'placeholderTE.png' %}
+					<img src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_card') }}" alt="Image non disponible" class="card-image" loading="lazy" width="400" height="225"/>
 				{% else %}
-					{% set final = 'uploads/listings/' ~ listing.category.slug ~ '/' ~ raw %}
+					<img src="{{ asset('uploads/listings/' ~ listing.category.slug ~ '/' ~ img_path)|imagine_filter('listing_card') }}" alt="Image du listing {{ listing.title|e }}" class="card-image" loading="lazy" width="400" height="225"/>
 				{% endif %}
-				{{ dump(raw) }}
-
-				<img src="{{ asset(final)|imagine_filter('listing_card') }}"
-				     alt="Image du listing {{ listing.title }}"
-				     class="card-image"
-				     loading="lazy"
-				     width="400"
-				     height="225"/>
-
 			{% else %}
-			{# === Pas d'image du tout, on affiche le placeholder général === #}
-				<img src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_card') }}"
-				     alt="Image non disponible"
-				     class="card-image"
-				     loading="lazy"
-				     width="400"
-				     height="225"/>
-
+				<img src="{{ asset('uploads/listings/placeholderTE.png')|imagine_filter('listing_card') }}" alt="Image non disponible" class="card-image" loading="lazy" width="400" height="225"/>
 			{% endif %}
-
 		</div>
 	</a>
-
 	{# === Contenu texte === #}
-	<div class="card-content z-10">
-		<div class="flex items-center justify-between mb-1">
+	<div
+		class="card-content z-10">
+		{# Ligne du haut : badge + étoiles #}
+		<div
+			class="flex items-center justify-between mb-1">
+			{# <span class="px-3 py-1 rounded-full bg-talenteko-orange-500 text-white text-xs font-semibold shadow-sm"> #}
 			<span class="px-3 py-1 text-talenteko-orange-500 text-xs font-bold">
 				{{ listing.type == 'OFFER' ? 'Offre' : 'Demande' }}
 			</span>
-			{% if listing.averageRating %}
-				<div class="card-rating flex items-center gap-0.5 text-sm text-talenteko-orange-500">
+			{# Note moyenne dynamique #}
+			{% if listing.averageRating is defined and listing.averageRating %}
+				<div class="card-rating flex items-center gap-0.5 text-sm text-talenteko-orange-500" aria-label="Note moyenne : {{ listing.averageRating }} sur 5">
 					{% for i in 1..5 %}
 						{% if i <= listing.averageRating %}
 							<i class="fa-solid fa-star text-talenteko-orange-500"></i>
@@ -80,53 +52,55 @@
 							<i class="fa-solid fa-star text-gray-300"></i>
 						{% endif %}
 					{% endfor %}
+					<span class="sr-only">Note :
+						{{ listing.averageRating }}/5</span>
 				</div>
 			{% else %}
 				<span class="text-xs text-gray-400 italic">Pas encore noté</span>
 			{% endif %}
 		</div>
+		{# Titre + description #}
 		<h3 class="card-title">
 			<a href="{{ path('app_listing_show', { slug: listing.slug }) }}" class="card-title-link">
 				{{ listing.title }}
 			</a>
 		</h3>
-
-		<p class="card-text">{{ listing.description }}</p>
-
+		<p class="card-text">
+			{{ listing.description }}
+		</p>
+		{# Pied de carte #}
 		<div class="card-footer">
 			<div class="card-author">
-				<div class="card-avatar">{{ listing.author.pseudo|slice(0,1)|upper }}</div>
-				<span class="card-author-name">{{ listing.author.pseudo }}</span>
+				<div class="card-avatar" aria-hidden="true">
+					{{ (listing.author.pseudo ?? 'M')|slice(0, 1)|upper }}
+				</div>
+				<span class="card-author-name">{{ listing.author.pseudo ?? 'Membre' }}</span>
 			</div>
-
 			{% if listing.location %}
 				<span class="card-location">
-					<i class="fa fa-map-marker-alt card-location-icon"></i>
+					<i class="fa fa-map-marker-alt card-location-icon" aria-hidden="true"></i>
 					{{ listing.location }}
 				</span>
 			{% endif %}
 		</div>
 	</div>
-
 	{% if in_profile is defined and in_profile %}
 		<div class="mt-4 flex items-center gap-3 px-4 pb-4">
 			<a href="{{ path('app_listing_edit', { slug: listing.slug }) }}" class="btn-primary-sm">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-				     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-					<path stroke-linecap="round" stroke-linejoin="round"
-					      d="M15.232 5.232l3.536 3.536M4 20h4l10.5-10.5a1.5 1.5 0 00-4.5-4.5L4 15.5V20z"/>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M4 20h4l10.5-10.5a1.5 1.5 0 00-4.5-4.5L4 15.5V20z"/>
 				</svg>
 				Modifier
 			</a>
 			<a href="{{ path('app_listing_confirm_delete', { id: listing.id }) }}"
-			   class="btn-outline-sm flex items-center gap-2">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-				     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-					<path stroke-linecap="round" stroke-linejoin="round"
-					      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>
-				</svg>
-				Supprimer
-			</a>
+   class="btn-outline-sm flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>
+    </svg>
+    Supprimer
+</a>
 		</div>
 	{% endif %}
 </div>

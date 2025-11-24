@@ -182,5 +182,5 @@ Sauvegarde temporaire d’un formulaire en localStorage.
 - Respect des règles WCAG (aria-label, aria-pressed, aria-expanded, aria-live).
 - Stockage simple et propre (localStorage) pour les préférences.
 
-Auteur : Contrôleurs Stimulus internes TalentÉkô
+Auteur : waffa
 Dernière mise à jour : octobre 2025

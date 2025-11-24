@@ -3,38 +3,35 @@ liip_imagine:
   driver: 'gd'
 
   twig:
-    mode: lazy # évite les warnings de dépréciation FilterExtension/FilterTrait
+    mode: lazy
 
   resolvers:
     default:
       web_path: ~
 
   filter_sets:
-    cache: ~ # nécessaire pour éviter l’erreur si aucun cache n’est défini
+    cache: ~
 
-    # Miniatures pour cartes listings
     listing_card:
-      quality: 85
+      quality: 90
       filters:
         thumbnail:
-          size: [400, 225] # format 16/9
-          mode: outbound
-          allow_upscale: false
+          size: [400, 225]
+          mode: inset      # ✔ NE COUPE PLUS L’IMAGE
+          allow_upscale: true
 
-    # Grande image (page détaillée)
     listing_show:
       quality: 90
       filters:
         thumbnail:
-          size: [900, 506]
-          mode: outbound
-          allow_upscale: false
+          size: [1200, 675]
+          mode: inset      # ✔ garde l’image entière
+          allow_upscale: true
 
-    # Avatar utilisateur
     avatar_thumb:
       quality: 90
       filters:
         thumbnail:
           size: [100, 100]
-          mode: outbound
-          allow_upscale: false
+          mode: inset
+          allow_upscale: true

@@ -49,7 +49,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
 
             $em->persist($user);
 
-            // 🔗 Référence pour ListingFixtures
+            // Référence pour ListingFixtures
             $this->addReference('user_'.$i, $user);
         }
 
@@ -66,13 +66,13 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
 
         $em->persist($admin);
 
-        // 🔗 Référence admin
+        // Référence admin
         $this->addReference('user_admin', $admin);
 
         // --- Flush global ---
         $em->flush();
 
-        echo "✅ 10 utilisateurs + 1 admin générés avec succès.\n";
+        echo " 10 utilisateurs + 1 admin générés avec succès.\n";
     }
 
     public static function getGroups(): array

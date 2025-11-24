@@ -32,7 +32,7 @@ final class ExchangeFixtures extends Fixture implements DependentFixtureInterfac
         $listings = $manager->getRepository(Listing::class)->findAll();
 
         if (empty($users) || empty($listings)) {
-            echo "⚠️ Impossible de générer des échanges : données manquantes.\n";
+            echo "Impossible de générer des échanges : données manquantes.\n";
             return;
         }
 
@@ -64,7 +64,7 @@ final class ExchangeFixtures extends Fixture implements DependentFixtureInterfac
         }
 
         $manager->flush();
-        echo "✅ {$count} échanges générés avec succès.\n";
+        echo "{$count} échanges générés avec succès.\n";
     }
 
     public function getDependencies(): array

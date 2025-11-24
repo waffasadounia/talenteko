@@ -64,7 +64,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
         foreach ($categories as $category) {
             $catName = $category->getName();
 
-            // --- 1️⃣ Annonces vitrines avec images locales ---
+            // --- Annonces vitrines avec images locales ---
             if (isset(self::SAMPLES[$catName])) {
                 $i = 1;
                 foreach (self::SAMPLES[$catName] as [$title, $description]) {
@@ -91,7 +91,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
                 }
             }
 
-            // --- 2️⃣ Annonces démo (~10 par catégorie) ---
+            // --- Annonces démo (~10 par catégorie) ---
             for ($i = 0; $i < 10; ++$i) {
                 $title = 'Annonce démo #'.uniqid();
 
@@ -117,7 +117,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
-        echo "✅ Annonces générées avec images locales + placeholders.\n";
+        echo " Annonces générées avec images locales + placeholders.\n";
     }
 
     public function getDependencies(): array
@@ -128,7 +128,7 @@ final class ListingFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 
-    /** 🔸 Groupe Doctrine pour exécution ciblée */
+    /** Groupe Doctrine pour exécution ciblée */
     public static function getGroups(): array
     {
         return ['listings'];

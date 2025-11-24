@@ -133,11 +133,11 @@ final class ProfileController extends AbstractController
 
             $this->addFlash('success', 'Profil mis à jour avec succès.');
 
-            return $this->redirectToRoute('app_profile_edit');
+            return $this->redirectToRoute('app_profile_dashboard');
         }
 
         return $this->render('profile/edit.html.twig', [
-            'page_title' => 'Éditer mon profil',
+            'page_title' => 'Mon profil',
             'form' => $form->createView(),
         ]);
     }

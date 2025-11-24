@@ -54,9 +54,9 @@ final class RegistrationController extends AbstractController
             $em->flush();
 
             // Connexion auto après inscription
-            $this->addFlash('success', 'Bienvenue sur TalentÉkô 🎉 Votre compte a été créé avec succès.');
+            $this->addFlash('success', '<i class="fa-solid fa-party-horn"></i> Votre compte a été créé avec succès. Bienvenue sur TalentÉkô !');
 
-            return $security->login($user); // disponible depuis Symfony 6.3
+            return $security->login($user);
         }
 
         // Retourner le formulaire avec code HTTP adapté

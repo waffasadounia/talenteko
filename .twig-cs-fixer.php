@@ -24,7 +24,4 @@ $config = new Config(
     Official::class,
 );
 
-// Exclusions possibles (exemple) :
-// $config->addExcludedPath(__DIR__ . '/var');
-
 return $config;

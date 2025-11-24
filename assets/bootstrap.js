@@ -9,7 +9,7 @@ import { Application } from '@hotwired/stimulus';
 
 // --- Initialisation de Stimulus ---
 window.application = Application.start();
-console.log('⚡ Stimulus initialisé (mode ESM strict, enregistrement manuel)');
+console.log(' Stimulus initialisé (mode ESM strict, enregistrement manuel)');
 
 // === Import manuel de tous les contrôleurs ===
 import HeaderNavController from './controllers/header_nav_controller.js';

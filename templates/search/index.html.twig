@@ -12,7 +12,7 @@
 	<section class="bg-white py-12 px-4 sm:px-8 md:px-12" data-controller="filter-panel">
 		<div
 			class="mx-auto max-w-7xl">
-			{# Barre de recherche harmonisée — Responsive + effet zoom (TalentÉkô 2025) #}
+			{# Barre de recherche — Responsive + effet zoom #}
 			<div
 				class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 tk-form">
 				{# ======= Barre de recherche + bouton Rechercher ======= #}
@@ -49,7 +49,7 @@
 			{% endif %}
 		</p>
 
-		{# Filtres actifs — Bandeau UX TalentÉkô 2025 #}
+		{# Filtres actifs — Bandeau UX #}
 		{% set active_filters = [] %}
 
 		{% if criteria.q|default('') %}
@@ -83,7 +83,7 @@
 				</a>
 			</div>
 		{% endif %}
-		{# Grille des annonces — TalentÉkô 2025 #}
+		{# Grille des annonces #}
 		<div class="mt-10 mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
 			{% for listing in results %}
 				<div class="px-2 sm:px-0">

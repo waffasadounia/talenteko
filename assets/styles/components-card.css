@@ -101,4 +101,9 @@
   .card-listing {
     @apply h-full;
   }
+  
+  .dashboard-card {
+    @apply rounded-xl border border-gray-200 bg-white p-6 text-center shadow transition hover:shadow-md hover:-translate-y-1 cursor-pointer;
+}
+
 }

@@ -62,7 +62,7 @@ class AllLinksTest extends PantherTestCase
         $this->assertSame(
             200,
             $response->getStatusCode(),
-            sprintf("❌ ERREUR : %s renvoie %s", $url, $response->getStatusCode())
+            sprintf(" ERREUR : %s renvoie %s", $url, $response->getStatusCode())
         );
 
         // --- Vérifie que la page a un <title>
@@ -70,7 +70,7 @@ class AllLinksTest extends PantherTestCase
         $this->assertGreaterThan(
             0,
             $crawler->filter('title')->count(),
-            sprintf("❌ ERREUR : %s n'a pas de <title>", $url)
+            sprintf(" ERREUR : %s n'a pas de <title>", $url)
         );
     }
 }

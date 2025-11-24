@@ -54,6 +54,12 @@ final class ListingType extends AbstractType
             // === Localisation ===
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
+                'attr' => [
+                    'placeholder' => 'ex. Paris 15e, Marseille 6e',
+                ],
             ])
 
             // === Catégorie ===
@@ -61,19 +67,28 @@ final class ListingType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir une catégorie',
+                'label' => 'Catégorie',
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
             ])
 
-            // === Image unique (édition) ===
+            // === Image unique ===
             ->add('newImage', FileType::class, [
-                'label' => 'Nouvelle image',
-                'mapped' => false,
-                'required' => false,
+                'label' => 'Image de l’annonce',
+                'mapped' => false,     // IMPORTANT : n'est pas une propriété de Listing
+                'required' => false,   // facultatif en édition
                 'constraints' => [
-                    new Assert\Image(['maxSize' => '5M']),
+                    new Assert\Image([
+                        'maxSize' => '5M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPG, PNG, WEBP)',
+                    ]),
                 ],
-                'attr' => ['accept' => 'image/*'],
-            ])
-        ;
+                'attr' => [
+                    'accept' => 'image/*',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

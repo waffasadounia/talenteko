@@ -34,7 +34,7 @@
 
 .btn-outline-sm {
   @apply inline-flex items-center justify-center gap-1
-    rounded-full border border-talenteko-orange-500   /* border FIN ici */
+    rounded-full border border-talenteko-orange-500   
     bg-white text-talenteko-orange-500
     px-3 py-1.5 text-sm font-semibold
     shadow-sm transition active:scale-95 hover:shadow-md;

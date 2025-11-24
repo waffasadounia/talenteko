@@ -3,7 +3,6 @@
 # ======================================================
 # Hook Git — TalentÉkô
 # ------------------------------------------------------
-# Objectif :
 # - Vérifier la qualité du code avant un git push
 # - Bloquer le push en cas d'erreurs Twig ou tests échoués
 # ======================================================

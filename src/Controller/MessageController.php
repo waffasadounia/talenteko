@@ -55,7 +55,9 @@ final class MessageController extends AbstractController
         }
 
         // Formulaire d’envoi de message
-        $form = $this->createFormBuilder(new Message())
+        $form = $this->createFormBuilder(new Message(), [
+            'validation_groups' => false,
+        ])
             ->add('content', TextareaType::class, [
                 'label' => 'Votre message',
                 'constraints' => [
@@ -71,6 +73,7 @@ final class MessageController extends AbstractController
                 ],
             ])
             ->getForm();
+
 
         $form->handleRequest($request);
 
@@ -88,6 +91,8 @@ final class MessageController extends AbstractController
             } else {
                 $message->setRecipient($recipient);
 
+                $thread->addMessage($message);
+
                 $em->persist($message);
                 $em->flush();
 
@@ -96,7 +101,6 @@ final class MessageController extends AbstractController
 
                 $this->addFlash('success', 'Message envoyé !');
 
-                // PRG
                 return $this->redirectToRoute('app_thread_show', [
                     'id' => $thread->getId(),
                 ]);

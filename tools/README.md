@@ -5,7 +5,7 @@ Ils **ne sont pas nécessaires** à l’exécution de l’application, mais dém
 
 ---
 
-## 📑 Table des matières
+## Table des matières
 
 - [Encodage & fins de lignes](#1-encodage--fins-de-lignes)
 - [Encodage ciblé](#2-encodage-ciblé)
@@ -85,20 +85,20 @@ Crée une arborescence claire pour PHPUnit et déplace automatiquement :
 
 ./tools/organize-tests.sh
 
-## 5. 📂 patches/
+## 5. patches/
 
 - **fix-twigcs.patch**
   Patch appliqué pour corriger la configuration `twigcs` (Twig linter).
   → Il uniformise les règles de style Twig (`prettier` + `twigcs`) et supprime les doublons entre `composer.json` et `package.json`.
 
-ℹ️ Ces patchs sont archivés pour la **soutenance RNCP DWWM** comme preuve de l’évolution et des choix techniques.
+ℹ Ces patchs sont archivés pour la **soutenance RNCP DWWM** comme preuve de l’évolution et des choix techniques.
 
-## 📂 Structure des dossiers
+##  Structure des dossiers
 
 - `tools/` → contient uniquement les scripts et ce README.
 - `backup_migration/` → créé automatiquement lors d’une migration, contient les fichiers originaux sauvegardés.
 
-## ⚠️ Bonnes pratiques
+## Bonnes pratiques
 
 1.  Toujours committer avant de lancer un script.
 
@@ -109,7 +109,7 @@ git commit -m "sauvegarde avant script"
 
 Ainsi, on peut revenir en arrière si nécessaire. 2. Ne jamais lancer les scripts sur `vendor/` ou `node_modules/`. Les scripts sont configurés pour ignorer ces dossiers. 4. Utiliser `git diff` après chaque exécution pour valider les changements avant commit.
 
-## 🚮 Scripts supprimés
+##  Scripts supprimés
 
 Certains scripts ne sont plus utilisés mais ont existé durant la phase de nettoyage encodage :
 
@@ -117,6 +117,6 @@ Certains scripts ne sont plus utilisés mais ont existé durant la phase de nett
   Servaient à corriger les caractères corrompus (`Ã©` → `é`, etc.).
   Ils ont été supprimés car le projet est désormais **100 % UTF-8 sans erreurs**.
 
-✍️ Auteur : _Scripts internes TalentÉkô_
+ Auteur : _Scripts internes TalentÉkô_
 
-📅 Dernière mise à jour : septembre 2025
+ Dernière mise à jour : septembre 2025
