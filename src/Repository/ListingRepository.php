@@ -87,53 +87,60 @@ final class ListingRepository extends ServiceEntityRepository
      * @return Listing[]
      */
     public function searchByFilters(array $criteria): array
-    {
-        $qb = $this->createQueryBuilder('l')
-            ->leftJoin('l.author', 'a')->addSelect('a')
-            ->leftJoin('l.category', 'c')->addSelect('c')
-            ->andWhere('l.status = :status')
-            ->setParameter('status', ListingStatus::PUBLISHED)
-            ->orderBy('l.createdAt', 'DESC');
+{
+    $qb = $this->createQueryBuilder('l')
+        ->leftJoin('l.author', 'a')->addSelect('a')
+        ->leftJoin('l.category', 'c')->addSelect('c')
+        ->andWhere('l.status = :status')
+        ->setParameter('status', ListingStatus::PUBLISHED)
+        ->orderBy('l.createdAt', 'DESC');
 
-        // Mot-clé
-        if (!empty($criteria['q'])) {
-            $qb->andWhere('l.title LIKE :kw OR l.description LIKE :kw')
-                ->setParameter('kw', '%'.$criteria['q'].'%');
-        }
-
-        // Localisation
-        if (!empty($criteria['location'])) {
-            $qb->andWhere('l.location LIKE :loc')
-                ->setParameter('loc', '%'.$criteria['location'].'%');
-        }
-
-        // Distance (placeholder)
-        if (!empty($criteria['distance'])) {
-            // TODO: implémenter géoloc dans la V2 (bounding box)
-        }
-
-        // Type d’annonce : OFFER / REQUEST
-        if (!empty($criteria['type'])) {
-            $qb->andWhere('l.type = :type')
-                ->setParameter('type', $criteria['type']);
-        }
-
-        // Évaluation minimum (float)
-        if (!empty($criteria['rating'])) {
-            $qb->andWhere('l.averageRating >= :rating')
-                ->setParameter('rating', (float) $criteria['rating']);
-        }
-
-         // Date de publication (x derniers jours)
-        if (!empty($criteria['date'])) {
-            $days = (int) $criteria['date'];
-            $since = new \DateTimeImmutable("-{$days} days");
-            $qb->andWhere('l.createdAt >= :since')
-                ->setParameter('since', $since);
-        }
-
-        return $qb->getQuery()->getResult();
+    // Mot-clé
+    if (!empty($criteria['q'])) {
+        $qb->andWhere('l.title LIKE :kw OR l.description LIKE :kw')
+            ->setParameter('kw', '%'.$criteria['q'].'%');
     }
+
+    // Localisation
+    if (!empty($criteria['location'])) {
+        $qb->andWhere('l.location LIKE :loc')
+            ->setParameter('loc', '%'.$criteria['location'].'%');
+    }
+
+    // Distance (placeholder)
+    if (!empty($criteria['distance'])) {
+        // TODO: implémenter géoloc dans la V2 (bounding box)
+    }
+
+    // Type d’annonce : OFFER / REQUEST
+    if (!empty($criteria['type'])) {
+        $qb->andWhere('l.type = :type')
+            ->setParameter('type', $criteria['type']);
+    }
+
+    // Catégorie
+    if (!empty($criteria['category'])) {
+        $qb->andWhere('c.id = :category')
+           ->setParameter('category', (int) $criteria['category']);
+    }
+
+    // Évaluation minimum (float)
+    if (!empty($criteria['rating'])) {
+        $qb->andWhere('l.averageRating >= :rating')
+            ->setParameter('rating', (float) $criteria['rating']);
+    }
+
+    // Date de publication (x derniers jours)
+    if (!empty($criteria['date'])) {
+        $days = (int) $criteria['date'];
+        $since = new \DateTimeImmutable("-{$days} days");
+        $qb->andWhere('l.createdAt >= :since')
+            ->setParameter('since', $since);
+    }
+
+    return $qb->getQuery()->getResult();
+}
+
     // Récupérer toutes les catégories distinctes (pour filtres)
     public function findAllCategoriesForFilter(): array
     {

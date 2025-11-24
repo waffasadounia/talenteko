@@ -1,48 +1,44 @@
 {# =======================================================
    Partial: Form Field
-   Champ standard TalentÉkô (label + input + erreurs)
+   Champ générique : label + input + erreurs
+   Compatible avec .form-input / .form-error / .form-error-block
    ======================================================= #}
 
-{% set is_invalid = form_errors(field) is not empty %}
+{% set is_invalid = form_errors(field)|length > 0 %}
 {% set errors_id = field.vars.id ~ '-errors' %}
 
-{# Base des attributs #}
+{# Attributs du champ #}
 {% set attrs = {
-  placeholder: placeholder|default(''),
-  class: '
-    block w-full rounded-lg
-    border border-gray-300 dark:border-gray-700
-    bg-white dark:bg-gray-900
-    text-gray-900 dark:text-gray-100
-    focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500
-  ' ~ (is_invalid ? ' border-red-500' : ''),
-  autocomplete: autocomplete|default('off'),
-  'aria-invalid': is_invalid ? 'true' : 'false',
-  'aria-describedby': is_invalid ? errors_id : null
+    placeholder: placeholder|default(''),
+    class: 'form-input ' ~ (is_invalid ? 'is-invalid' : ''),
+    autocomplete: autocomplete|default('off'),
+    'aria-invalid': is_invalid ? 'true' : 'false',
+    'aria-describedby': is_invalid ? errors_id : null
 } %}
 
-{# Fusion avec attr_extra s'il existe #}
+{# Si on ajoute des attributs supplémentaires #}
 {% if attr_extra is defined %}
-	{% set attrs = attrs|merge(attr_extra) %}
+    {% set attrs = attrs|merge(attr_extra) %}
 {% endif %}
 
-<div
-	class="space-y-1">
-	{# Label #}
-	<label for="{{ field.vars.id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
-		{{ label }}
-		{% if field.vars.required %}
-			<span class="text-red-500" aria-hidden="true">*</span>
-		{% endif %}
-	</label>
+<div class="space-y-1">
 
-	{# Input #}
-	{{ form_widget(field, { attr: attrs }) }}
+    {# ===== Label ===== #}
+    <label for="{{ field.vars.id }}" class="form-label">
+        {{ label }}
+        {% if field.vars.required %}
+            <span class="form-required">*</span>
+        {% endif %}
+    </label>
 
-	{# Erreurs #}
-	{% if is_invalid %}
-		<p id="{{ errors_id }}" class="text-red-600 text-xs mt-1" role="alert">
-			{{ form_errors(field) }}
-		</p>
-	{% endif %}
+    {# ===== Input ===== #}
+    {{ form_widget(field, { attr: attrs }) }}
+
+    {# ===== Erreurs ===== #}
+    {% if is_invalid %}
+        <div id="{{ errors_id }}" class="form-error-block" role="alert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <div>{{ form_errors(field) }}</div>
+        </div>
+    {% endif %}
 </div>

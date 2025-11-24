@@ -1,47 +1,88 @@
 {# ============================================================
    components/_custom_select.html.twig
-   Composant select personnalisé 
-   ============================================================ #}
+   Composant select personnalisé
+============================================================ #}
 
-<div
-	data-controller="custom-select" class="relative inline-block w-full">
+<div data-controller="custom-select" class="relative inline-block w-full">
 
-	{# --- Bouton principal visible --- #}
-	<button type="button" id="{{ id|default(name) }}-button" data-custom-select-target="button" data-action="click->custom-select#toggle keydown->custom-select#handleKeydown" class="form-input flex items-center justify-between cursor-pointer" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ id|default(name) }}-list" aria-label="Sélectionner une option" data-turbo="false" {# FIX QUI SUPPRIME LE BUG AUTO-SUBMIT #}>
-		<span data-custom-select-target="label" aria-live="polite" aria-atomic="true" class="truncate text-talenteko-blue-900">
-			{% set current = options
-                |map(o => {
-                    'value': o.value is defined ? o.value : o,
-                    'label': o.label is defined ? o.label : o
-                })
-                |filter(o => o.value == selected)
-                |first
-            %}
+	{# ----------- BOUTON PRINCIPAL ----------- #}
+	<button
+		type="button"
+		id="{{ id|default(name) }}-button"
+		data-custom-select-target="button"
+		data-action="click->custom-select#toggle keydown->custom-select#handleKeydown"
+		class="form-input flex items-center justify-between cursor-pointer"
+		aria-haspopup="listbox"
+		aria-expanded="false"
+		aria-controls="{{ id|default(name) }}-list"
+		aria-label="Sélectionner une option"
+		data-turbo="false"
+	>
+
+		{# Trouver l’option sélectionnée (VERSION TWIG COMPATIBLE) #}
+		{% set current = null %}
+		{% for option in options %}
+			{% set val = option.value is defined ? option.value : option %}
+			{% set lbl = option.label is defined ? option.label : option %}
+
+			{% if val == selected %}
+				{% set current = {'value': val, 'label': lbl} %}
+			{% endif %}
+		{% endfor %}
+
+		<span data-custom-select-target="label" aria-live="polite" aria-atomic="true"
+		      class="truncate text-talenteko-blue-900">
 			{{ current.label|default('Sélectionner...') }}
 		</span>
 
-		<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="18" height="18" class="ml-2 text-talenteko-orange-500 shrink-0" aria-hidden="true">
+		<svg xmlns="http://www.w3.org/2000/svg"
+		     viewBox="0 0 24 24"
+		     width="18" height="18"
+		     class="ml-2 text-talenteko-orange-500 shrink-0"
+		     aria-hidden="true">
 			<path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
 		</svg>
 	</button>
 
-	{# --- Liste déroulante --- #}
-	<ul id="{{ id|default(name) }}-list" data-custom-select-target="list" class="absolute left-0 right-0 z-50 mt-1 hidden max-h-64 w-full overflow-y-auto rounded-lg border border-gray-300 bg-white shadow-lg" role="listbox" tabindex="-1">
+	{# ----------- LISTE DES OPTIONS ----------- #}
+	<ul
+		id="{{ id|default(name) }}-list"
+		data-custom-select-target="list"
+		class="absolute left-0 right-0 z-50 mt-1 hidden max-h-64 w-full
+			   overflow-y-auto rounded-lg border border-gray-300 bg-white shadow-lg"
+		role="listbox"
+		tabindex="-1"
+	>
+
 		{% for option in options %}
 			{% set val = option.value is defined ? option.value : option %}
 			{% set lbl = option.label is defined ? option.label : option %}
 			{% set is_selected = val == selected %}
 
-			<li id="{{ id|default(name) }}-option-{{ loop.index }}" role="option" tabindex="-1" data-value="{{ val }}" aria-selected="{{ is_selected ? 'true' : 'false' }}" class="cursor-pointer px-3 py-2 text-sm text-talenteko-blue-900
-				                       hover:bg-talenteko-peach-100 focus:bg-talenteko-peach-200
-				                       {% if is_selected %}
-				                         bg-talenteko-peach-50 font-semibold text-talenteko-orange-700
-				                       {% endif %}" data-custom-select-target="option" data-action="click->custom-select#selectOption keydown->custom-select#handleOptionKeydown">
-
+			<li
+				id="{{ id|default(name) }}-option-{{ loop.index }}"
+				role="option"
+				tabindex="-1"
+				data-value="{{ val }}"
+				aria-selected="{{ is_selected ? 'true' : 'false' }}"
+				class="cursor-pointer px-3 py-2 text-sm text-talenteko-blue-900
+				       hover:bg-talenteko-peach-100 focus:bg-talenteko-peach-200
+				       {% if is_selected %} bg-talenteko-peach-50 font-semibold text-talenteko-orange-700 {% endif %}"
+				data-custom-select-target="option"
+				data-action="click->custom-select#selectOption keydown->custom-select#handleOptionKeydown"
+			>
 				{{ lbl }}
 			</li>
 		{% endfor %}
 	</ul>
-	{# --- Champ de formulaire réel, caché mais obligatoire --- #}
-	<input type="hidden" id="{{ id|default(name) }}" name="{{ name }}" value="{{ selected|default('') }}" data-custom-select-target="input"/>
+
+	{# ----------- CHAMP CACHÉ (VALEUR RÉELLE) ----------- #}
+	<input
+		type="hidden"
+		id="{{ id|default(name) }}"
+		name="{{ name }}"
+		value="{{ selected|default('') }}"
+		data-custom-select-target="input"
+	/>
+
 </div>

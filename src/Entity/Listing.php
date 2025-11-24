@@ -22,43 +22,80 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Listing
 {
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank]
+    /**
+     * Titre de l'annonce
+     */
+    #[Assert\NotBlank(message: "Le titre est obligatoire.")]
+    #[Assert\Length(
+        min: 5,
+        minMessage: "Le titre doit faire au moins {{ limit }} caractères."
+    )]
     #[ORM\Column(length: 180)]
     private string $title;
 
+    /**
+     * Slug généré automatiquement — unique
+     */
     #[ORM\Column(length: 255, unique: true, nullable: true)]
     private ?string $slug = null;
 
-    #[Assert\NotBlank]
+    /**
+     * Description de l’annonce
+     */
+    #[Assert\NotBlank(message: "La description est obligatoire.")]
+    #[Assert\Length(
+        min: 20,
+        minMessage: "La description doit contenir au moins {{ limit }} caractères."
+    )]
     #[ORM\Column(type: 'text')]
     private string $description;
 
+    /**
+     * Type d’annonce : OFFER / SEARCH
+     */
     #[ORM\Column(length: 10)]
     private string $type;
 
+    /**
+     * Localisation validée via l’autocomplete BAN API
+     */
     #[Assert\NotBlank(message: "Merci d’indiquer une localisation.")]
     #[ValidLocation]
     #[ORM\Column(length: 120)]
     private string $location;
 
+    /**
+     * Statut de publication
+     */
     #[ORM\Column(enumType: ListingStatus::class, options: ['default' => 'draft'])]
     private ListingStatus $status = ListingStatus::DRAFT;
 
+    /**
+     * Dates importantes
+     */
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    /**
+     * Auteur de l'annonce
+     */
     #[ORM\ManyToOne(inversedBy: 'listings')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?User $author = null;
 
+    /**
+     * Catégorie liée
+     */
     #[ORM\ManyToOne(inversedBy: 'listings')]
     #[ORM\JoinColumn(nullable: false)]
     private Category $category;
@@ -86,7 +123,7 @@ class Listing
     private Collection $exchanges;
 
     // =====================================================
-    // FAVORIS  (CORRIGÉ)
+    // FAVORIS
     // =====================================================
     #[ORM\OneToMany(
         mappedBy: 'listing',
@@ -97,7 +134,7 @@ class Listing
     private Collection $favorites;
 
     // =====================================================
-    // REVIEWS (CORRIGÉ)
+    // REVIEWS 
     // =====================================================
     #[ORM\OneToMany(
         mappedBy: 'listing',

@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,6 +16,16 @@ final class UserProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $b, array $options): void
     {
         $b
+            // === Adresse email ===
+            ->add('email', EmailType::class, [
+                'label' => 'Adresse email',
+                'attr' => [
+                    'class' => 'form-input',
+                    'placeholder' => 'ex. utilisateur@example.com',
+                    'autocomplete' => 'email',
+                ],
+            ])
+
             // === Pseudonyme ===
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudonyme',
@@ -35,7 +46,7 @@ final class UserProfileType extends AbstractType
                 ],
             ])
 
-            // === Sous-formulaire Profile (bio, skills, avatar) ===
+            // === Sous-formulaire Profile ===
             ->add('profile', ProfileType::class, [
                 'label' => false,
             ]);

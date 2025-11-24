@@ -14,7 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
 final class ListingType extends AbstractType
 {
@@ -24,21 +23,18 @@ final class ListingType extends AbstractType
             // === Titre ===
             ->add('title', TextType::class, [
                 'label' => 'Titre de l’annonce',
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length(['min' => 5, 'max' => 180]),
+                'attr' => [
+                    'placeholder' => 'ex. Cours de guitare débutant',
                 ],
-                'attr' => ['placeholder' => 'ex. Cours de guitare débutant'],
             ])
 
             // === Description ===
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length(['min' => 20]),
+                'attr' => [
+                    'rows' => 6,
+                    'placeholder' => 'Décrivez votre annonce…',
                 ],
-                'attr' => ['rows' => 6],
             ])
 
             // === Type ===
@@ -51,40 +47,27 @@ final class ListingType extends AbstractType
                 'expanded' => true,
             ])
 
+            // === Catégorie ===
+            ->add('category', EntityType::class, [
+                'label' => 'Catégorie',
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner…',
+            ])
+
             // === Localisation ===
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
                 'attr' => [
                     'placeholder' => 'ex. Paris 15e, Marseille 6e',
-                ],
-            ])
-
-            // === Catégorie ===
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'name',
-                'placeholder' => 'Choisir une catégorie',
-                'label' => 'Catégorie',
-                'constraints' => [
-                    new Assert\NotBlank(),
                 ],
             ])
 
             // === Image unique ===
             ->add('newImage', FileType::class, [
                 'label' => 'Image de l’annonce',
-                'mapped' => false,     // IMPORTANT : n'est pas une propriété de Listing
-                'required' => false,   // facultatif en édition
-                'constraints' => [
-                    new Assert\Image([
-                        'maxSize' => '5M',
-                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
-                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPG, PNG, WEBP)',
-                    ]),
-                ],
+                'mapped' => false,
+                'required' => false,
                 'attr' => [
                     'accept' => 'image/*',
                 ],

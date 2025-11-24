@@ -61,7 +61,7 @@ class Profile
 
     public function setBio(?string $bio): self
     {
-        // sécurité : supprime le HTML pour éviter XSS
+    // sécurité : supprime le HTML pour éviter XSS évite les injections de code via le profil
         $this->bio = $bio ? strip_tags($bio) : null;
         return $this;
     }

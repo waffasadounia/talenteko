@@ -6,124 +6,127 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Créer un compte | TalentÉkô
+    Créer un compte | TalentÉkô
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	<script>
-		console.log(" Register page loaded — checking Stimulus…");
-	</script>
+    {{ parent() }}
+    <script>console.log("Register page loaded — Stimulus OK");</script>
 {% endblock %}
 
 {% block body %}
-	<section class="bg-orange-50 py-12">
-		<div
-			class="mx-auto max-w-md px-6">
+<section class="bg-orange-50 py-12">
+    <div class="mx-auto max-w-md px-6">
 
-			{# --- Bandeau d'erreurs global --- #}
-			{% if not form.vars.valid and form.vars.submitted %}
-				{% include 'partials/_alert.html.twig' with {
-        type: 'error',
-        message: '<strong>Le formulaire contient des erreurs.</strong> Merci de vérifier les champs en rouge.',
-        id: 'form-global-errors'
-      } %}
-			{% endif %}
+        {# --- Bandeau d'erreurs global (sans doublons) --- #}
+        {% if form.vars.submitted and not form.vars.valid %}
+            {% include 'partials/_alert.html.twig' with {
+                type: 'error',
+                message: '<strong>Le formulaire contient des erreurs.</strong> Merci de vérifier les champs en rouge.',
+                id: 'form-global-errors'
+            } %}
+        {% endif %}
 
-			{# --- Messages flash --- #}
-			{% include 'partials/_flash.html.twig' %}
+        {# --- Messages flash --- #}
+        {% include 'partials/_flash.html.twig' %}
 
-			{# --- Bloc formulaire --- #}
-			<div class="rounded-2xl bg-white p-6 shadow-sm">
-				<h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
-					Créer un compte
-				</h1>
+        <div class="rounded-2xl bg-white p-6 shadow-sm">
+            <h1 class="text-talenteko-orange-500 mb-6 text-center text-3xl font-bold">
+                Créer un compte
+            </h1>
 
-				{{ form_start(form, {
-        attr: {
-          novalidate: 'novalidate',
-          id: 'register-form',
-          class: 'tk-form space-y-5'
-        }
-      }) }}
+            {{ form_start(form, {
+                attr: {
+                    novalidate: 'novalidate',
+                    id: 'register-form',
+                    class: 'tk-form space-y-5'
+                }
+            }) }}
 
-				{# EMAIL #}
-				{% include 'partials/_form_field.html.twig' with {
-        field: form.email,
-        label: 'Adresse email',
-        placeholder: 'ex. vous@exemple.fr',
-        autocomplete: 'email'
-      } %}
+            {#  EMAIL #}
+            {% include 'partials/_form_field.html.twig' with {
+                field: form.email,
+                label: 'Adresse email',
+                placeholder: 'ex. vous@exemple.fr',
+                autocomplete: 'email'
+            } %}
 
-				{# PSEUDO #}
-				{% include 'partials/_form_field.html.twig' with {
-        field: form.pseudo,
-        label: 'Pseudonyme',
-        placeholder: 'ex. BricoMan42',
-        autocomplete: 'nickname'
-      } %}
+            {#  PSEUDO #}
+            {% include 'partials/_form_field.html.twig' with {
+                field: form.pseudo,
+                label: 'Pseudonyme',
+                placeholder: 'ex. BricoMan42',
+                autocomplete: 'nickname'
+            } %}
 
-				{# LOCALISATION — avec Stimulus location-autocomplete #}
-				<div data-controller="location-autocomplete" class="space-y-1">
-					{% include 'partials/_form_field.html.twig' with {
-        field: form.location,
-        label: 'Localisation',
-        placeholder: 'ex. Paris, Lyon, Marseille',
-        autocomplete: 'address-level2',
-        attr_extra: {
-            'data-location-autocomplete-target': 'input',
-            'data-action': 'input->location-autocomplete#search keydown->location-autocomplete#keydown'
-        }
-    } %}
-					{# LISTE DES RÉSULTATS (OBLIGATOIRE) #}
-					<ul data-location-autocomplete-target="list" class="bg-white border border-gray-300 rounded-lg mt-1 shadow-sm hidden max-h-48 overflow-y-auto"></ul>
+            {#  LOCALISATION #}
+            <div data-controller="location-autocomplete" class="space-y-1">
+                {% include 'partials/_form_field.html.twig' with {
+                    field: form.location,
+                    label: 'Localisation',
+                    placeholder: 'ex. Paris, Lyon, Marseille',
+                    autocomplete: 'address-level2',
+                    attr_extra: {
+                        'data-location-autocomplete-target': 'input',
+                        'data-action': 'input->location-autocomplete#search keydown->location-autocomplete#keydown'
+                    }
+                } %}
+                <ul data-location-autocomplete-target="list"
+                    class="bg-white border border-gray-300 rounded-lg mt-1 shadow-sm hidden max-h-48 overflow-y-auto"></ul>
+            </div>
 
-				</div>
-				{# MOT DE PASSE + CONFIRMATION #}
-				<div class="mt-4">
-					{% include 'partials/_password_fields.html.twig' with {
-    field_first: form.plainPassword.first,
-    field_second: form.plainPassword.second,
-    label_first: 'Mot de passe',
-    label_second: 'Confirmer le mot de passe'} %}
-				</div>
+            {#  MOT DE PASSE + CONFIRM #}
+            <div class="mt-4">
+                {% include 'partials/_password_fields.html.twig' with {
+                    field_first: form.plainPassword.first,
+                    field_second: form.plainPassword.second,
+                    label_first: 'Mot de passe',
+                    label_second: 'Confirmer le mot de passe'
+                } %}
+            </div>
 
-				{# Conditions d'utilisation #}
-				<div class="flex items-center gap-3 mt-4">
-					{{ form_widget(form.agreeTerms, { attr: { class: 'form-checkbox' } }) }}
+            {#  CONDITIONS D'UTILISATION #}
+            <div class="mt-4 space-y-1">
+                <div class="flex items-center gap-3">
+                    {{ form_widget(form.agreeTerms, { attr: { class: 'form-checkbox' } }) }}
+                    <label for="{{ form.agreeTerms.vars.id }}" class="text-sm text-gray-700 leading-snug">
+                        J’accepte les
+                        <a href="{{ path('app_conditions') }}" class="btn-link px-1">conditions d’utilisation.</a>
+                    </label>
+                </div>
 
-					<label for="{{ form.agreeTerms.vars.id }}" class="text-sm text-gray-700 leading-snug">
-						J’accepte les
-						<a href="{{ path('app_conditions') }}" class="btn-link inline-flex px-1">conditions d’utilisation.</a>
-					</label>
-				</div>
-				{{ form_errors(form.agreeTerms) }}
+                {# Erreur du champ (une seule !) #}
+                {% if form_errors(form.agreeTerms) %}
+                    <p class="text-red-600 text-xs mt-1">
+                        {{ form_errors(form.agreeTerms) }}
+                    </p>
+                {% endif %}
+            </div>
 
-				{# Champ CSRF caché #}
-				{{ form_widget(form._token) }}
+            {# CSRF #}
+            {{ form_widget(form._token) }}
 
-				{# Bouton de validation — centré #}
-				<div class="flex justify-center mt-6">
-					<button type="submit" class="btn-primary px-10">
-						S'inscrire
-					</button>
-				</div>
-				{{ form_end(form, { render_rest: false }) }}
+            {# BOUTON #}
+            <div class="flex justify-center mt-6">
+                <button type="submit" class="btn-primary px-10">
+                    S'inscrire
+                </button>
+            </div>
 
-				{# Déjà inscrit ? Lien espacé proprement #}
-				<p class="mt-6 flex justify-between items-center text-sm text-gray-600">
-					<span>Déjà inscrit ?</span>
-					<a href="{{ path('app_login') }}" class="btn-link px-2">Se connecter</a>
-				</p>
-			</div>
-		</div>
-	</section>
-	<script>
-		document.addEventListener('turbo:before-cache', () => {
-const el = document.getElementById('form-global-errors');
-if (el)
-el.remove();
+            {{ form_end(form, { render_rest: false }) }}
 
+            <p class="mt-6 flex justify-between items-center text-sm text-gray-600">
+                <span>Déjà inscrit ?</span>
+                <a href="{{ path('app_login') }}" class="btn-link px-2">Se connecter</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('turbo:before-cache', () => {
+    const el = document.getElementById('form-global-errors');
+    if (el) el.remove();
 });
-	</script>
+</script>
 {% endblock %}

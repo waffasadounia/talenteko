@@ -1,0 +1,164 @@
+{# ============================================================
+   templates/partials/_header.html.twig
+   - Logo + navigation + CTA + recherche desktop
+   - Menu burger mobile (focus-trap, aria)
+   - Barre de catégories scrollable
+   - Responsive + ARIA + Dark mode
+   ============================================================ #}
+
+{# Sécurisation : détecter un utilisateur valide (non supprimé) #}
+{% set isUser = app.user is not null
+    and attribute(app.user, 'id') is not null
+    and app.user.id is not null
+%}
+
+<header role="banner" class="bg-white dark:bg-talenteko-blue-900 shadow-sm" data-controller="header-nav">
+
+	<div class="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-3">
+
+		{# 1 LOGO #}
+		<a href="{{ path('app_home') }}" class="flex shrink-0 flex-col items-center rounded-md text-center
+			focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2"
+			aria-label="Retour à l'accueil TalentÉkô">
+			<img src="{{ asset('images/talenteko_logo.png') }}" alt="Logo TalentÉkô"
+			     class="max-h-10 w-auto rounded-full object-contain"/>
+			<span class="text-xs font-extrabold leading-tight">
+				<span class="text-talenteko-blue-900 dark:text-white">Talent</span>
+				<span class="text-talenteko-orange-500">Ékô</span>
+			</span>
+		</a>
+
+		{# 2 RECHERCHE DESKTOP #}
+		<form action="{{ path('app_search') }}" method="get" role="search" aria-label="Recherche de compétences"
+			  class="relative hidden md:block min-w-[220px] max-w-xl flex-1">
+			<label for="search-input" class="sr-only">Rechercher une compétence</label>
+			<input id="search-input" type="search" name="q" placeholder="Rechercher une compétence"
+				   class="w-full rounded-full border border-talenteko-orange-500 py-2 pl-10 pr-4
+						  text-talenteko-blue-900 placeholder-gray-400
+						  focus:border-talenteko-orange-500 focus:outline-none focus:ring-2
+						  focus:ring-talenteko-orange-500 dark:bg-talenteko-blue-800 dark:text-white"/>
+			<i class="fa fa-search absolute left-3 top-2.5 text-talenteko-orange-500"></i>
+		</form>
+
+		{# 3 NAVIGATION + CTA + BURGER #}
+		<div class="flex shrink-0 items-center gap-4 whitespace-nowrap">
+
+			{# NAVIGATION PRINCIPALE — DESKTOP #}
+			<nav aria-label="Navigation principale" class="hidden md:flex items-center gap-6">
+
+				{# Visible pour tout le monde #}
+				<a href="{{ path('app_search') }}" class="nav-link hover:text-talenteko-orange-600 hover:underline">
+					<i class="fa fa-search"></i><span>Recherche</span>
+				</a>
+
+				{# Visible UNIQUEMENT si user complet + ID valide #}
+				{% if isUser %}
+					<a href="{{ path('app_profile_favoris') }}" class="nav-link hover:text-talenteko-orange-600 hover:underline">
+						<i class="fa fa-heart"></i><span>Favoris</span>
+					</a>
+
+					<a href="{{ path('app_messages') }}" class="nav-link hover:text-talenteko-orange-600 hover:underline relative">
+						<i class="fa fa-envelope"></i><span>Messages</span>
+						{% if unreadCount|default(0) > 0 %}
+							<span class="absolute -top-2 -right-3 inline-flex h-4 w-4 items-center justify-center rounded-full
+											bg-talenteko-orange-600 text-[10px] font-bold text-white">
+								{{ unreadCount }}
+							</span>
+						{% endif %}
+					</a>
+				{% endif %}
+
+			</nav>
+
+			{# CTA : déposer une annonce #}
+			<a href="{{ path('app_listing_new') }}"
+			   class="hidden md:flex btn-outline items-center gap-2 hover:bg-talenteko-orange-50"
+			   aria-label="Déposer une annonce">
+				<i class="fa fa-plus-circle"></i><span>Déposer une annonce</span>
+			</a>
+
+			{# PROFIL / LOGIN #}
+			{% if isUser %}
+				<a href="{{ path('app_profile_dashboard') }}"
+				   class="hidden md:flex btn-primary items-center gap-2"
+				   aria-label="Accéder à votre profil">
+					<i class="fa fa-user-circle"></i><span>Profil</span>
+				</a>
+
+				<a href="{{ path('app_logout') }}"
+				   class="hidden md:flex btn-outline items-center gap-2 rounded-full"
+				   aria-label="Se déconnecter">
+					<i class="fa fa-sign-out"></i>
+				</a>
+			{% else %}
+				<a href="{{ path('app_login') }}"
+				   class="hidden md:flex btn-primary items-center gap-2"
+				   aria-label="Se connecter à votre compte">
+					<i class="fa fa-user"></i><span>Se connecter</span>
+				</a>
+			{% endif %}
+
+			{# MENU BURGER MOBILE #}
+			<button class="md:hidden rounded-md p-2 text-talenteko-orange-500
+					focus:outline-none focus-visible:ring-2 focus-visible:ring-talenteko-orange-500 focus-visible:ring-offset-2"
+					aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu"
+					data-action="click->header-nav#toggle">
+				<i class="fa fa-bars text-xl"></i>
+			</button>
+
+			{% include 'partials/_mobile_menu.html.twig' %}
+		</div>
+	</div>
+
+	{# BARRE DES CATÉGORIES #}
+	<nav aria-label="Catégories populaires"
+		 class="relative border-b border-talenteko-orange-500 bg-white dark:bg-talenteko-blue-800"
+		 data-controller="scroll-nav">
+
+		<div class="mx-auto max-w-7xl px-6 flex items-center">
+
+			<button type="button" class="hidden md:flex items-center justify-center p-2 text-talenteko-orange-500
+										hover:text-talenteko-orange-600"
+					data-action="click->scroll-nav#scrollLeft">
+				<i class="fa fa-chevron-left text-lg"></i>
+			</button>
+
+			<div class="flex-1 overflow-x-auto scrollbar-hide scroll-smooth" data-scroll-nav-target="container">
+				<ul class="flex items-center gap-4 py-3 min-w-max">
+
+					{% set categories = [
+						'Bricolage','Bien-être','Jardinage','Éducation',
+						'Informatique','Langues','Art','Cuisine',
+						'Sport','Marketing','Administratif','Juridique'
+					] %}
+
+					{% for cat in categories %}
+						{% set slug = cat|lower|replace({
+							'é':'e','è':'e','ê':'e','ë':'e',
+							'à':'a','â':'a','ä':'a','î':'i','ï':'i',
+							'ô':'o','ö':'o','ù':'u','û':'u','ü':'u',
+							'ç':'c',' ':'-'
+						}) %}
+
+						<li>
+							<a href="{{ path('app_category_show', { slug: slug }) }}"
+							   class="inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold
+									  text-talenteko-blue-900 dark:text-white transition-all duration-200
+									  hover:text-talenteko-blue-700 dark:hover:text-talenteko-peach-200">
+								{{ cat }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<button type="button" class="hidden md:flex items-center justify-center p-2 text-talenteko-orange-500
+										hover:text-talenteko-orange-600"
+					data-action="click->scroll-nav#scrollRight">
+				<i class="fa fa-chevron-right text-lg"></i>
+			</button>
+
+		</div>
+
+	</nav>
+</header>

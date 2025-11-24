@@ -1,0 +1,41 @@
+{# ============================================================
+   Header LIGHT — Version Rééquilibrée TalentÉkô
+============================================================ #}
+
+<header class="bg-white dark:bg-talenteko-blue-900 shadow-sm">
+    <div class="mx-auto max-w-7xl px-6 py-3 grid grid-cols-3 items-center">
+
+        {# LOGO à gauche #}
+        <div class="flex items-center">
+            <a href="{{ path('app_home') }}" class="flex items-center gap-2">
+                <img src="{{ asset('images/talenteko_logo.png') }}"
+                     alt="TalentÉkô" class="h-10 w-auto rounded-full"/>
+                <span class="text-base font-extrabold text-talenteko-blue-900 dark:text-white hidden sm:inline">
+                    Talent<span class="text-talenteko-orange-500">Ékô</span>
+                </span>
+            </a>
+        </div>
+
+        {# NAVIGATION centrée #}
+        <nav class="flex justify-center gap-8 text-talenteko-orange-500 font-semibold">
+            <a href="{{ path('app_home') }}" class="hover:underline">Accueil</a>
+            <a href="{{ path('app_search') }}" class="hover:underline">Recherche</a>
+        </nav>
+
+        {# BOUTONS à droite #}
+        <div class="flex justify-end items-center gap-4">
+            {% if app.user %}
+                <a href="{{ path('app_profile_dashboard') }}"
+                   class="btn-outline flex items-center gap-2">
+                    <i class="fa fa-user-circle"></i> <span>Mon espace</span>
+                </a>
+            {% else %}
+                <a href="{{ path('app_login') }}"
+                   class="btn-primary flex items-center gap-2">
+                    <i class="fa fa-user"></i> <span>Connexion</span>
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+</header>

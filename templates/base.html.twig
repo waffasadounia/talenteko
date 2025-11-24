@@ -46,22 +46,56 @@
 	<body
 		class="font-montserrat bg-white text-gray-800 leading-relaxed antialiased">
 
-		{# ----- HEADER GLOBAL ----- #}
-		{% include 'partials/_header.html.twig' %}
+			{# ----- HEADER GLOBAL -----{% include 'partials/_header.html.twig' %} ----#}
+			{# Choix automatique du header #}
+			{% set route = app.request.attributes.get('_route') %}
 
-		{# ----- FLASH GLOBAL ----- #}
-		<section class="container mx-auto mt-4 px-4" aria-label="Messages du site">
-			{% include 'partials/_flash.html.twig' %}
-		</section>
+			{# ==============================
+			HEADER NORMAL COMPLET
+			(home, catégories, profil, etc.)
+			============================== #}
+			{% if route starts with 'app_home'
+				or route starts with 'app_category_show'
+				or route starts with 'app_category_index'
+			%}
+				{% include 'partials/_header_public.html.twig' %}
 
-		{# ----- CONTENU PRINCIPAL ----- #}
-		<main id="main-content" class="container mx-auto mt-8 mb-8 min-h-[80vh]" tabindex="-1"> {% block body %}{% endblock %}
-			</main>
+			{# ==============================
+			HEADER SANS CATÉGORIES (page recherche)
+			============================== #}
+			{% elseif route starts with 'app_search' %}
+				{% include 'partials/_header_no_categories.html.twig' %}
 
-			{# ----- FOOTER GLOBAL ----- #}
-			{% include 'partials/_footer.html.twig' %}
-			{% block javascripts %}
-				{{ encore_entry_script_tags('app') }}
-			{% endblock %}
+			{# ==============================
+			HEADER PUBLIC (auth, FAQ, login, register)
+			============================== #}
+			{% elseif route starts with 'app_login'
+				or route starts with 'app_register'
+				or route starts with 'app_forgot_password'
+			%}
+				{% include 'partials/_header_public.html.twig' %}
+
+			{# ==============================
+			HEADER LIGHT POUR TOUT LE RESTE
+			============================== #}
+			{% else %}
+				{% include 'partials/_header_light.html.twig' %}
+			{% endif %}
+
+
+			{# ----- FLASH GLOBAL ----- #}
+			<section class="container mx-auto mt-4 px-4" aria-label="Messages du site">
+				{% include 'partials/_flash.html.twig' %}
+			</section>
+
+			{# ----- CONTENU PRINCIPAL ----- #}
+			<main id="main-content" class="container mx-auto mt-8 mb-8 min-h-[80vh]" tabindex="-1"> {% block body %}{% endblock %}
+				</main>
+
+				{# ----- FOOTER GLOBAL ----- #}
+				{% include 'partials/_footer.html.twig' %}
+				{% block javascripts %}
+					{{ encore_entry_script_tags('app') }}
+				{% endblock %}
 		</body>
 	</html>

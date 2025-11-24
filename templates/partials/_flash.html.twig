@@ -1,12 +1,17 @@
 {# ======================================
-   Partiel : Messages flash TalentÉkô
+   Partiel : Messages flash
+   Utilise _alert.html.twig
    ====================================== #}
 
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        {% include 'partials/_alert.html.twig' with {
-            type: label,
-            message: message
-        } only %}
-    {% endfor %}
-{% endfor %}
+{% if app.flashes is not empty %}
+    <div class="space-y-3 mb-4">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                {% include 'partials/_alert.html.twig' with {
+                    type: label,
+                    message: message
+                } only %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endif %}

@@ -27,7 +27,7 @@ final class RegistrationController extends AbstractController
         UserPasswordHasherInterface $hasher,
         Security $security,
     ): Response {
-        // Si déjà connecté → on redirige vers l'accueil
+        // Si l'utilisateur est déjà connecté → accueil
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_home');
         }
@@ -36,7 +36,7 @@ final class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        // Vérification honeypot anti-bot
+        // Honeypot anti-robot
         if ($form->isSubmitted() && '' !== trim((string) $request->request->get('website', ''))) {
             $form->addError(new FormError('Validation anti-robot échouée, merci de réessayer.'));
 
@@ -46,26 +46,30 @@ final class RegistrationController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Hash du mot de passe sécurisé
+
+            // Hash du mot de passe
             $hashed = $hasher->hashPassword($user, (string) $user->getPlainPassword());
             $user->setPassword($hashed);
 
             $em->persist($user);
             $em->flush();
 
-            // Connexion auto après inscription
-            $this->addFlash('success', '<i class="fa-solid fa-party-horn"></i> Votre compte a été créé avec succès. Bienvenue sur TalentÉkô !');
+            // Flash AVANT login
+            $this->addFlash('success', 'Votre compte a été créé avec succès. Bienvenue sur TalentÉkô !');
 
-            return $security->login($user);
+            // Login + redirection dans la même action
+            return $security->login(
+                $user,
+                'app_profile_dashboard'
+            );
         }
+            // Code HTTP selon état du formulaire
+            $statusCode = $form->isSubmitted()
+                ? Response::HTTP_UNPROCESSABLE_ENTITY
+                : Response::HTTP_OK;
 
-        // Retourner le formulaire avec code HTTP adapté
-        $statusCode = $form->isSubmitted()
-            ? Response::HTTP_UNPROCESSABLE_ENTITY
-            : Response::HTTP_OK;
-
-        return $this->render('security/register.html.twig', [
-            'form' => $form->createView(),
-        ], new Response('', $statusCode));
+            return $this->render('security/register.html.twig', [
+                'form' => $form->createView(),
+            ], new Response('', $statusCode));
     }
 }

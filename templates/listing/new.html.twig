@@ -5,89 +5,97 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Déposer une annonce | TalentÉkô
-{% endblock %}
+{% block title %}Déposer une annonce | TalentÉkô{% endblock %}
 
 {% block body %}
-	<main class="min-h-screen bg-orange-50 flex items-center justify-center px-4 py-8">
-		<div
-			class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
+<main class="min-h-screen bg-orange-50 flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow p-8">
 
-			{# ===== TITRE ===== #}
-			<h1 class="text-3xl font-extrabold text-center text-talenteko-orange-500 mb-2">
-				Déposer une annonce
-			</h1>
-			<p class="text-gray-500 mb-8 text-center">
-				Partagez vos compétences, trouvez l’aide dont vous avez besoin.
-			</p>
+        {# ===== TITRE ===== #}
+        <h1 class="text-3xl font-extrabold text-center text-talenteko-orange-500 mb-2">
+            Déposer une annonce
+        </h1>
+        <p class="text-gray-500 mb-8 text-center">
+            Partagez vos compétences, trouvez l’aide dont vous avez besoin.
+        </p>
 
-			{{ form_start(form, {
+        {{ form_start(form, {
             attr: {
                 class: 'space-y-6',
                 novalidate: 'novalidate'
             }
         }) }}
 
-			{# ============================================================
-						           TITRE
-		    ============================================================ #}
-			<div>
-				{{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
-				{{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
+        {# ============================================================
+                           TITRE
+        ============================================================ #}
+        <div>
+            {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
 
-				{% if form_errors(form.title) %}
-					<p class="form-error">{{ form_errors(form.title) }}</p>
-				{% endif %}
-			</div>
+            {{ form_widget(form.title, {
+                attr: {
+                    class: 'form-input ' ~ (form_errors(form.title) ? 'is-invalid' : '')
+                }
+            }) }}
 
-			{# ============================================================
-						           DESCRIPTION
-			============================================================ #}
-			<div>
-				{{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
+            {% if form_errors(form.title) %}
+                <div class="form-error-block">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ form_errors(form.title) }}
+                </div>
+            {% endif %}
+        </div>
 
-				{{ form_widget(form.description, {
-        attr: {
-            class: 'form-input min-h-[120px] ' ~ (form_errors(form.description) ? 'is-invalid' : '')
-        }
-    }) }}
+        {# ============================================================
+                           DESCRIPTION
+        ============================================================ #}
+        <div>
+            {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
 
-				{% if form_errors(form.description) %}
-					<div class="form-error-block">
-						<i class="fa-solid fa-circle-exclamation"></i>
-						<div>{{ form_errors(form.description) }}</div>
-					</div>
-				{% endif %}
-			</div>
+            {{ form_widget(form.description, {
+                attr: {
+                    class: 'form-input min-h-[120px] ' ~ (form_errors(form.description) ? 'is-invalid' : '')
+                }
+            }) }}
 
+            {% if form_errors(form.description) %}
+                <div class="form-error-block">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ form_errors(form.description) }}
+                </div>
+            {% endif %}
+        </div>
 
-			{# ============================================================
-						           TYPE
-			============================================================ #}
-			<div>
-				{{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
+        {# ============================================================
+                           TYPE
+        ============================================================ #}
+        <div>
+            {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
 
-				<div class="flex flex-wrap items-center gap-8">
-					{% for choice in form.type %}
-						<label class="flex items-center gap-2 cursor-pointer select-none">
-							{{ form_widget(choice, { attr: { class: 'form-radio' } }) }}
-							<span class="text-gray-700 text-sm font-normal">{{ choice.vars.label }}</span>
-						</label>
-					{% endfor %}
-				</div>
+            <div class="flex flex-wrap items-center gap-8">
+                {% for choice in form.type %}
+                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                        {{ form_widget(choice, { attr: { class: 'form-radio' } }) }}
+                        <span class="text-gray-700 text-sm font-normal">{{ choice.vars.label }}</span>
+                    </label>
+                {% endfor %}
+            </div>
 
-				{% if form_errors(form.type) %}
-					<p class="form-error">{{ form_errors(form.type) }}</p>
-				{% endif %}
-			</div>
+            {% if form_errors(form.type) %}
+                <div class="form-error-block">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ form_errors(form.type) }}
+                </div>
+            {% endif %}
+        </div>
 
-			{# ============================================================
-						           CATÉGORIE — Custom Select
-			============================================================ #}
-			<div>
-				{{ form_label(form.category, null, {'label_attr': {'class': 'form-label'}}) }}
+        {# ============================================================
+                           CATÉGORIE — Custom Select
+        ============================================================ #}
+        <div>
+            {{ form_label(form.category, null, {'label_attr': {'class': 'form-label'}}) }}
 
-				{% include 'components/_custom_select.html.twig' with {
+            {% include 'components/_custom_select.html.twig' with {
                 id: form.category.vars.id,
                 name: form.category.vars.full_name,
                 selected: form.category.vars.value,
@@ -97,22 +105,25 @@
                 })
             } %}
 
-				{% if form_errors(form.category) %}
-					<p class="form-error">{{ form_errors(form.category) }}</p>
-				{% endif %}
+            {% if form_errors(form.category) %}
+                <div class="form-error-block">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ form_errors(form.category) }}
+                </div>
+            {% endif %}
 
-				{% do form.category.setRendered() %}
-			</div>
+            {% do form.category.setRendered() %}
+        </div>
 
-			{# ============================================================
-						           LOCALISATION — Autocomplete BAN API
-			============================================================ #}
-			<div data-controller="location-autocomplete" class="relative">
-				{{ form_label(form.location, null, {'label_attr': {'class': 'form-label'}}) }}
+        {# ============================================================
+                           LOCALISATION — Autocomplete
+        ============================================================ #}
+        <div data-controller="location-autocomplete" class="relative">
+            {{ form_label(form.location, null, {'label_attr': {'class': 'form-label'}}) }}
 
-				{{ form_widget(form.location, {
+            {{ form_widget(form.location, {
                 attr: {
-                    class: 'form-input',
+                    class: 'form-input ' ~ (form_errors(form.location) ? 'is-invalid' : ''),
                     placeholder: 'ex. Paris, Lyon, Marseille',
                     autocomplete: 'off',
                     'data-location-autocomplete-target': 'input',
@@ -120,31 +131,38 @@
                 }
             }) }}
 
-				<ul data-location-autocomplete-target="list" class="hidden absolute left-0 right-0 z-40 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-64 overflow-y-auto" role="listbox"></ul>
+            <ul data-location-autocomplete-target="list"
+                class="hidden absolute left-0 right-0 z-40 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-64 overflow-y-auto"
+                role="listbox"></ul>
 
-				{% if form_errors(form.location) %}
-					<p class="form-error">{{ form_errors(form.location) }}</p>
-				{% endif %}
-			</div>
+            {% if form_errors(form.location) %}
+                <div class="form-error-block">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ form_errors(form.location) }}
+                </div>
+            {% endif %}
+        </div>
 
-			{# ============================================================
-						           UPLOAD IMAGE + Preview (Stimulus)
-			============================================================ #}
-			<div data-controller="image-preview">
-				{{ form_label(form.newImage, 'Image', {'label_attr': {'class': 'form-label'}}) }}
+        {# ============================================================
+                           UPLOAD IMAGE
+        ============================================================ #}
+        <div data-controller="image-preview">
+            {{ form_label(form.newImage, 'Image', {'label_attr': {'class': 'form-label'}}) }}
 
-				<div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
-										                        flex flex-col items-center justify-center text-gray-400
-										                        hover:border-talenteko-orange-500 transition" onclick="document.getElementById('{{ form.newImage.vars.id }}').click();">
+            <div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
+                        flex flex-col items-center justify-center text-gray-400
+                        hover:border-talenteko-orange-500 transition"
+                 onclick="document.getElementById('{{ form.newImage.vars.id }}').click();">
 
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
-					</svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
+                </svg>
 
-					<span class="text-sm">Cliquez ou déposez votre image ici</span>
-				</div>
+                <span class="text-sm">Cliquez ou déposez votre image ici</span>
+            </div>
 
-				{{ form_widget(form.newImage, {
+            {{ form_widget(form.newImage, {
                 attr: {
                     class: 'hidden',
                     accept: 'image/*',
@@ -153,23 +171,26 @@
                 }
             }) }}
 
-				<div data-image-preview-target="preview" class="flex flex-wrap gap-3 mt-4 w-full min-h-[1px]"></div>
+            <div data-image-preview-target="preview" class="flex flex-wrap gap-3 mt-4 w-full min-h-[1px]"></div>
 
-				{% if form_errors(form.newImage) %}
-					<p class="form-error">{{ form_errors(form.newImage) }}</p>
-				{% endif %}
-			</div>
+            {% if form_errors(form.newImage) %}
+                <div class="form-error-block">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ form_errors(form.newImage) }}
+                </div>
+            {% endif %}
+        </div>
 
-			{# ============================================================
-						           BOUTON SUBMIT
-			============================================================ #}
-			<div class="pt-4 flex justify-center">
-				<button type="submit" class="btn-primary w-1/2 text-center py-3">
-					Publier l’annonce
-				</button>
-			</div>
+        {# ============================================================
+                           BOUTON SUBMIT
+        ============================================================ #}
+        <div class="pt-4 flex justify-center">
+            <button type="submit" class="btn-primary w-1/2 text-center py-3">
+                Publier l’annonce
+            </button>
+        </div>
 
-			{{ form_end(form) }}
-		</div>
-	</main>
+        {{ form_end(form) }}
+    </div>
+</main>
 {% endblock %}

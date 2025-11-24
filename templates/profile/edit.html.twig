@@ -1,182 +1,213 @@
 {# ================================
   templates/profile/edit.html.twig
   Page d'édition de profil
-  ================================ #}
+================================ #}
 
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	Modifier mon profil | TalentÉkô
-{% endblock %}
+{% block title %}Modifier mon profil | TalentÉkô{% endblock %}
+
 {% block body %}
-	{% include 'profile/_profile_nav.html.twig' %}
-	<section class="bg-orange-50 py-12 mt-10">
-		<div class="mx-auto max-w-2xl px-6">
-			<h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
-				Modifier mon profil
-			</h1>
-			{# --- Bandeau erreurs global --- #}
-			{% if not form.vars.valid and form.vars.submitted %}
-				<div id="form-global-errors" class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700" role="alert">
-					<strong class="font-semibold">Le formulaire contient des erreurs.</strong>
-					<span class="ml-1">Merci de corriger les champs en rouge.</span>
-				</div>
-			{% endif %}
+    {% include 'profile/_profile_nav.html.twig' %}
 
-			<div class="rounded-2xl bg-white p-6 shadow-sm">
-				{{
-          form_start(
-            form,
-            {
-              attr: {
-                novalidate: 'novalidate',
-                id: 'profile-form',
-                class: 'tk-form'
-              }
-            }
-          )
-        }}
+    <section class="bg-orange-50 py-12 mt-10">
+        <div class="mx-auto max-w-2xl px-6">
 
-				<div
-					class="space-y-6">
-					{# === PSEUDO === #}
-					{{
-            form_row(
-              form.pseudo,
-              {
-                label: 'Pseudonyme',
-                row_attr: {
-                  class: 'space-y-1'
-                },
-                attr: {
-                  class: 'form-input',
-                  placeholder: 'ex. BricoMan42'
-                }
-              }
-            )
-          }}
+            <h1 class="mb-6 text-center text-3xl font-bold text-talenteko-orange-500">
+                Modifier mon profil
+            </h1>
 
-					{# === LOCALISATION === #}
-					{{
-            form_row(
-              form.location,
-              {
-                label: 'Localisation',
-                row_attr: {
-                  class: 'space-y-1'
-                },
-                attr: {
-                  class: 'form-input',
-                  placeholder: 'ex. Paris, Lyon...'
-                }
-              }
-            )
-          }}
+            {% if not form.vars.valid and form.vars.submitted %}
+                <div class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-red-700 flex items-start gap-2" role="alert">
+                    <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                    <span>
+                        <strong class="font-semibold">Le formulaire contient des erreurs.</strong><br>
+                        Merci de corriger les champs en rouge.
+                    </span>
+                </div>
+            {% endif %}
 
-					<hr
-					class="my-6 border-t border-gray-200"/>
+            <div class="rounded-2xl bg-white p-8 shadow">
+                {{ form_start(form, { attr: { novalidate: 'novalidate', class: 'space-y-6' } }) }}
 
-					{# === BIO === #}
-					{{
-            form_row(
-              form.profile.bio,
-              {
-                label: 'À propos de vous',
-                row_attr: {
-                  class: 'space-y-1'
-                },
-                attr: {
-                  class: 'form-textarea',
-                  rows: 4
-                }
-              }
-            )
-          }}
+                {# ================= EMAIL ================= #}
+                <div class="space-y-1">
+                    {{ form_label(form.email, null, { label_attr: { class: 'form-label' } }) }}
 
-					{# === COMPÉTENCES PROPOSÉES === #}
-					{{
-            form_row(
-              form.profile.skillsOffered,
-              {
-                label: 'Compétences proposées',
-                row_attr: {
-                  class: 'space-y-1'
-                },
-                attr: {
-                  class: 'form-input'
-                }
-              }
-            )
-          }}
+                    {{ form_widget(form.email, {
+                        value: form.email.vars.value ?? '',
+                        attr: {
+                            class: 'form-input ' ~ (form_errors(form.email) ? 'is-invalid' : ''),
+                            placeholder: 'ex. utilisateur@example.com'
+                        }
+                    }) }}
 
-					{# === COMPÉTENCES RECHERCHÉES === #}
-					{{
-            form_row(
-              form.profile.skillsWanted,
-              {
-                label: 'Compétences recherchées',
-                row_attr: {
-                  class: 'space-y-1'
-                },
-                attr: {
-                  class: 'form-input'
-                }
-              }
-            )
-          }}
-					{# === AVATAR (upload + preview + affichage actuel) === #}
+                    {% if form_errors(form.email) %}
+                        <div class="form-error-block flex items-start gap-2 text-red-700 text-sm">
+                            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                            {{ form_errors(form.email) }}
+                        </div>
+                    {% endif %}
+                </div>
 
-					<div data-controller="image-preview" class="space-y-3">
-						{{ form_label(form.profile.avatarFilename, 'Photo de profil', {
-        label_attr: { class: 'form-label' }
-    }) }}
-						{# --- Avatar actuel s'il existe --- #}
-						{% if app.user.profile and app.user.profile.avatarFilename %}
-							<div class="flex items-center gap-4">
-								<img src="{{ asset('uploads/avatars/' ~ app.user.profile.avatarFilename) }}" alt="Avatar actuel" class="w-20 h-20 rounded-full object-cover shadow-md border border-gray-200">
-								<span class="text-sm text-gray-600 italic">Avatar actuel</span>
-							</div>
-						{% endif %}
+                {# ================= PSEUDO ================= #}
+                <div class="space-y-1">
+                    {{ form_label(form.pseudo, null, { label_attr: { class: 'form-label' } }) }}
 
-						{# Zone cliquable (comme annonces) #}
-						<div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
-														               flex flex-col items-center justify-center text-gray-400
-														               hover:border-talenteko-orange-500 cursor-pointer transition" onclick="document.getElementById('{{ form.profile.avatarFilename.vars.id }}').click();">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
-							</svg>
-							<span class="text-sm">Cliquez ou déposez votre avatar</span>
-						</div>
+                    {{ form_widget(form.pseudo, {
+                        value: form.pseudo.vars.value ?? '',
+                        attr: {
+                            class: 'form-input ' ~ (form_errors(form.pseudo) ? 'is-invalid' : ''),
+                            placeholder: 'ex. BricoMan42'
+                        }
+                    }) }}
 
-						{# Input invisible géré par Stimulus #}
-						<div class="mt-2">
-							{{ form_widget(form.profile.avatarFilename, {
-            attr: {
-                id: form.profile.avatarFilename.vars.id,
-                class: 'w-full opacity-0 h-0 p-0 m-0',
-                accept: 'image/*',
-                'data-image-preview-target': 'input',
-                'data-action': 'change->image-preview#preview'
-            }
-        }) }}
-						</div>
-						{# Zone preview (Stimulus) #}
-						<div data-image-preview-target="preview" class="flex flex-wrap gap-3 mt-2 w-full min-h-[1px]"></div>
-						{{ form_errors(form.profile.avatarFilename) }}
-					</div>
-				</div>
-				<div class="mt-8 flex justify-between">
-					<a href="{{ path('app_profile_dashboard') }}" class="btn-outline">
-						<i class="fa-solid fa-arrow-left mr-1"></i>
-						Retour
-					</a>
-					<button class="btn-primary">
-						<i class="fa-solid fa-floppy-disk mr-1"></i>
-						Enregistrer
-					</button>
-				</div>
-				{{ form_end(form) }}
-			</div>
-		</div>
-	</section>
+                    {% if form_errors(form.pseudo) %}
+                        <div class="form-error-block flex items-start gap-2 text-red-700 text-sm">
+                            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                            {{ form_errors(form.pseudo) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                {# ================= LOCATION ================= #}
+                <div class="space-y-1">
+                    {{ form_label(form.location, null, { label_attr: { class: 'form-label' } }) }}
+
+                    {{ form_widget(form.location, {
+                        value: form.location.vars.value ?? '',
+                        attr: {
+                            class: 'form-input ' ~ (form_errors(form.location) ? 'is-invalid' : ''),
+                            placeholder: 'ex. Paris, Lyon...'
+                        }
+                    }) }}
+
+                    {% if form_errors(form.location) %}
+                        <div class="form-error-block flex items-start gap-2 text-red-700 text-sm">
+                            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                            {{ form_errors(form.location) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <hr class="my-6 border-t border-gray-200" />
+
+                {# ================= BIO ================= #}
+                <div class="space-y-1">
+                    {{ form_label(form.profile.bio, null, { label_attr: { class: 'form-label' } }) }}
+
+                    {{ form_widget(form.profile.bio, {
+                        value: form.profile.bio.vars.value ?? '',
+                        attr: {
+                            class: 'form-input min-h-[120px] ' ~ (form_errors(form.profile.bio) ? 'is-invalid' : ''),
+                            rows: 4
+                        }
+                    }) }}
+
+                    {% if form_errors(form.profile.bio) %}
+                        <div class="form-error-block flex items-start gap-2 text-red-700 text-sm">
+                            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                            {{ form_errors(form.profile.bio) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                {# ================= SKILLS OFFERED ================= #}
+                <div class="space-y-1">
+                    {{ form_label(form.profile.skillsOffered, null, { label_attr: { class: 'form-label' } }) }}
+
+                    {{ form_widget(form.profile.skillsOffered, {
+                        value: form.profile.skillsOffered.vars.value ?? '',
+                        attr: {
+                            class: 'form-input ' ~ (form_errors(form.profile.skillsOffered) ? 'is-invalid' : '')
+                        }
+                    }) }}
+
+                    {% if form_errors(form.profile.skillsOffered) %}
+                        <div class="form-error-block flex items-start gap-2 text-red-700 text-sm">
+                            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                            {{ form_errors(form.profile.skillsOffered) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                {# ================= SKILLS WANTED ================= #}
+                <div class="space-y-1">
+                    {{ form_label(form.profile.skillsWanted, null, { label_attr: { class: 'form-label' } }) }}
+
+                    {{ form_widget(form.profile.skillsWanted, {
+                        value: form.profile.skillsWanted.vars.value ?? '',
+                        attr: {
+                            class: 'form-input ' ~ (form_errors(form.profile.skillsWanted) ? 'is-invalid' : '')
+                        }
+                    }) }}
+
+                    {% if form_errors(form.profile.skillsWanted) %}
+                        <div class="form-error-block flex items-start gap-2 text-red-700 text-sm">
+                            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                            {{ form_errors(form.profile.skillsWanted) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                {# ================= AVATAR ================= #}
+                <div data-controller="image-preview" class="space-y-3">
+                    {{ form_label(form.profile.avatarFilename, 'Photo de profil', { label_attr: { class: 'form-label' } }) }}
+
+                    {% if app.user.profile and app.user.profile.avatarFilename %}
+                        <div class="flex items-center gap-4">
+                            <img src="{{ asset('uploads/avatars/' ~ app.user.profile.avatarFilename) }}"
+                                class="w-20 h-20 rounded-full object-cover shadow-md border border-gray-200"
+                                alt="Avatar actuel">
+                            <span class="text-sm text-gray-600 italic">Avatar actuel</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-lg
+                                flex flex-col items-center justify-center text-gray-400
+                                hover:border-talenteko-orange-500 transition cursor-pointer"
+                         onclick="document.getElementById('{{ form.profile.avatarFilename.vars.id }}').click();">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4-4m0 0l-4 4m4-4v12"/>
+                        </svg>
+
+                        <span class="text-sm">Cliquez ou déposez votre avatar</span>
+                    </div>
+
+                    {{ form_widget(form.profile.avatarFilename, {
+                        attr: {
+                            id: form.profile.avatarFilename.vars.id,
+                            class: 'hidden',
+                            accept: 'image/*',
+                            'data-action': 'change->image-preview#preview',
+                            'data-image-preview-target': 'input'
+                        }
+                    }) }}
+
+                    <div data-image-preview-target="preview" class="flex flex-wrap gap-3 mt-2 w-full min-h-[1px]"></div>
+
+                    {% if form_errors(form.profile.avatarFilename) %}
+                        <div class="form-error-block flex items-start gap-2 text-red-700 text-sm">
+                            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                            {{ form_errors(form.profile.avatarFilename) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="pt-6 flex justify-between">
+                    <a href="{{ path('app_profile_dashboard') }}" class="btn-outline">
+                        <i class="fa-solid fa-arrow-left mr-1"></i>Retour
+                    </a>
+                    <button class="btn-primary">
+                        <i class="fa-solid fa-floppy-disk mr-1"></i>Enregistrer
+                    </button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
 {% endblock %}

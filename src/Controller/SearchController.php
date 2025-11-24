@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * - type d’annonce (offre / demande)
  * - note minimale
  * - date de publication
+ * - catégorie (NOUVEAU)
  */
 final class SearchController extends AbstractController
 {
@@ -36,20 +37,37 @@ final class SearchController extends AbstractController
             'type'      => $request->query->get('type'),
             'rating'    => $request->query->get('rating'),
             'date'      => $request->query->get('date'),
+
+            // ⭐️ AJOUT : filtre catégorie
+            'category'  => $request->query->get('category'),
         ], static fn($v) => $v !== null && $v !== '');
 
         // Requête Doctrine via ListingRepository
         $results = $listingRepository->searchByFilters($criteria);
 
-        //  Récupération des catégories (pour filtres ou affichage)
+        // Récupération des catégories (pour les filtres)
         $categories = $categoryRepository->findBy([], ['name' => 'ASC']);
 
-        //  Rendu du template
+        // Rendu du template
         return $this->render('search/index.html.twig', [
             'results'    => $results,
             'criteria'   => $criteria,
             'categories' => $categories,
             'page_title' => 'Recherche d’annonces',
         ]);
+    }
+
+    /**
+     * Sauvegarde d'une recherche (critères + filtres)
+     * ------------------------------------------------
+     * Pour l’instant simple redirection : aucune base
+     * n’est requise plus tard 1 savecontroller.
+     */
+    #[Route('/recherche/sauvegarder', name: 'app_save_search', methods: ['POST'])]
+    public function saveSearch(Request $request): Response
+    {
+        $this->addFlash('success', 'Recherche sauvegardée (fonction à finaliser).');
+
+        return $this->redirectToRoute('app_search', $request->request->all());
     }
 }

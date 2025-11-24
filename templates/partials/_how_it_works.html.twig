@@ -44,9 +44,15 @@
       {% endfor %}
     </div>
     <div class="mt-10">
-      <a href="{{ path('app_login') }}" class="btn-primary" aria-label="Commencer maintenant">
-        Commencer maintenant
-      </a>
-    </div>
+    {% if app.user %}
+        <a href="{{ path('app_listing_new') }}" class="btn-primary" aria-label="Créer une nouvelle annonce">
+            Créer une annonce
+        </a>
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn-primary" aria-label="Commencer maintenant">
+            Commencer maintenant
+        </a>
+    {% endif %}
+</div>
   </div>
 </section>

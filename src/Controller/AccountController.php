@@ -10,9 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 #[Route('/compte')]
@@ -22,17 +21,18 @@ final class AccountController extends AbstractController
     public function delete(
         Request $request,
         EntityManagerInterface $em,
+        TokenStorageInterface $tokenStorage
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
 
-        // -- Confirmation
         if ($request->isMethod('POST')) {
+
             $submittedToken = $request->request->get('_token');
 
             if ($this->isCsrfTokenValid('delete_account', $submittedToken)) {
 
-                // Supprimer avatar si existe
+                // --- SUPPRESSION AVATAR ---
                 $profile = $user->getProfile();
                 if ($profile && $profile->getAvatarFilename()) {
                     $path = $this->getParameter('kernel.project_dir') . '/public/uploads/avatars/' . $profile->getAvatarFilename();
@@ -40,29 +40,40 @@ final class AccountController extends AbstractController
                         @unlink($path);
                     }
                 }
-                // === Suppression des images des annonces de l'utilisateur ===
-                foreach ($user->getListings() as $listing) {
 
-                    // Pour chaque listing, supprimer les images physiques
+                // --- SUPPRESSION IMAGES DES ANNONCES ---
+                foreach ($user->getListings() as $listing) {
                     foreach ($listing->getImages() as $img) {
                         $filePath = $this->getParameter('kernel.project_dir') . '/public/' . $img->getPath();
-
                         if (file_exists($filePath)) {
                             @unlink($filePath);
                         }
                     }
                 }
-                // SUPPRIMER L'UTILISATEUR
+
+                // --- SUPPRESSION en BDD ---
                 $em->remove($user);
                 $em->flush();
 
-                // Déconnexion automatique
-                $request->getSession()->invalidate();
+                // Ajouter un flash AVANT d'invalider
+                $this->addFlash('success', 'Votre compte a bien été supprimé. À bientôt sur TalentÉkô !');
 
+                // --- DÉCONNEXION ---
+                // 1) Vider le token de sécurité
+                $tokenStorage->setToken(null);
+
+                // 2) Invalider la session
+                $session = $request->getSession();
+                $session->invalidate();
+
+                // 3) Redémarrer une session pour permettre l'affichage du flash
+                $session->start();
+
+                // 4) Redirection vers l'accueil
                 return $this->redirectToRoute('app_home');
+
             }
         }
-
         return $this->render('account/delete_confirm.html.twig', [
             'page_title' => 'Supprimer mon compte'
         ]);

@@ -130,12 +130,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reviewsGiven = new ArrayCollection();
         $this->reviewsReceived = new ArrayCollection();
 
-        // Génération du TAG à 4 chiffres
         $this->tag = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
     }
 
     // =============================
-    // SECURITY
+    // SECURITY (FIXES)
     // =============================
 
     public function getId(): ?int
@@ -148,9 +147,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
-        $this->email = mb_strtolower($email);
+        $this->email = $email ? mb_strtolower($email) : '';
         return $this;
     }
 
@@ -204,7 +203,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     // =============================
-    // DISPLAY
+    // DISPLAY (FIXES)
     // =============================
 
     public function getPseudo(): ?string
@@ -212,9 +211,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pseudo;
     }
 
-    public function setPseudo(string $pseudo): static
+    public function setPseudo(?string $pseudo): static
     {
-        $this->pseudo = $pseudo;
+        $this->pseudo = $pseudo ?? '';
         return $this;
     }
 
@@ -236,12 +235,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $fallback = mb_substr(explode('@', $this->email)[0] ?? 'membre', 0, 4) . '****';
-
         return $this->pseudo ?: $fallback;
     }
 
     // =============================
-    // LOCATION
+    // LOCATION (FIX)
     // =============================
 
     public function getLocation(): ?string
@@ -249,9 +247,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->location;
     }
 
-    public function setLocation(string $location): static
+    public function setLocation(?string $location): static
     {
-        $this->location = $location;
+        $this->location = $location ?? '';
         return $this;
     }
 

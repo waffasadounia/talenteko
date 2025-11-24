@@ -5,102 +5,160 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Recherche d'annonces | TalentÉkô
-{% endblock %}
+{% block title %}Recherche d'annonces | TalentÉkô{% endblock %}
 
 {% block body %}
-	<section class="bg-white py-12 px-4 sm:px-8 md:px-12" data-controller="filter-panel">
-		<div
-			class="mx-auto max-w-7xl">
-			{# Barre de recherche — Responsive + effet zoom #}
-			<div
-				class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 tk-form">
-				{# ======= Barre de recherche + bouton Rechercher ======= #}
-				<form method="get" action="{{ path('app_search') }}" class="flex w-full sm:flex-1 items-center gap-2">
-					<label for="search-input" class="sr-only">Rechercher une compétence ou une ville</label>
-					{# Champ de saisie #}
-					<div class="relative flex-1">
-						<input id="search-input" type="search" name="q" placeholder="Compétence, ville..." value="{{ app.request.get('q') }}" class="w-full h-[44px] rounded-full border border-gray-300 bg-white pl-10 pr-4 shadow-sm
-							               text-talenteko-blue-900 placeholder-gray-400
-							               focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500 focus:border-talenteko-orange-500 transition-all duration-200 ease-in-out" aria-label="Rechercher une compétence ou une ville"/>
-					</div>
 
-					{# ======= Bouton Rechercher (texte desktop / icône mobile) ======= #}
-					<button type="submit" class="btn-primary h-[44px] sm:px-5 sm:min-w-[130px] px-3 w-[44px] sm:w-auto flex items-center justify-center">
-						<i class="fa fa-search text-base" aria-hidden="true"></i>
-						<span class="hidden sm:inline font-semibold">Rechercher</span>
-					</button>
-				</form>
+<section class="bg-white py-12 px-4 sm:px-8 md:px-12" data-controller="filter-panel">
+    <div class="mx-auto max-w-7xl">
 
-				{# ======= Bouton Filtres ======= #}
-				<button type="button" class="btn-outline h-[44px] px-5" data-action="click->filter-panel#toggle" aria-label="Ouvrir les filtres de recherche">
-					<i class="fa fa-sliders text-talenteko-orange-500" aria-hidden="true"></i>
-					<span>Filtres</span>
-				</button>
-			</div>
-		</div>
-		{# Compteur de résultats #}
-		<p class="text-sm font-semibold text-talenteko-blue-900 mb-6">
-			{{ results|length }}résultat
-			{% if results|length > 1 %}s
-			{% endif %}
-			trouvé
-			{% if results|length > 1 %}s
-			{% endif %}
-		</p>
+        {# ============================================================
+           BARRE DE RECHERCHE + BOUTONS
+        ============================================================ #}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 tk-form">
 
-		{# Filtres actifs — Bandeau UX #}
-		{% set active_filters = [] %}
+            {# Formulaire de recherche #}
+            <form method="get" action="{{ path('app_search') }}" class="flex w-full sm:flex-1 items-center gap-2">
+                <label for="search-input" class="sr-only">Rechercher une compétence ou une ville</label>
 
-		{% if criteria.q|default('') %}
-			{% set active_filters = active_filters|merge([{'label': 'Mot-clé : ' ~ criteria.q, 'param': 'q'}]) %}
-		{% endif %}
-		{% if criteria.location|default('') %}
-			{% set active_filters = active_filters|merge([{'label': 'Localisation : ' ~ criteria.location, 'param': 'location'}]) %}
-		{% endif %}
-		{% if criteria.type|default('') %}
-			{% set active_filters = active_filters|merge([{'label': 'Type : ' ~ (criteria.type == 'OFFER' ? 'Offres' : 'Demandes'), 'param': 'type'}]) %}
-		{% endif %}
-		{% if criteria.rating|default('') %}
-			{% set active_filters = active_filters|merge([{'label': 'Note ≥ ' ~ criteria.rating, 'param': 'rating'}]) %}
-		{% endif %}
-		{% if criteria.date|default('') %}
-			{% set active_filters = active_filters|merge([{'label': 'Publié depuis ' ~ criteria.date ~ ' jour' ~ (criteria.date > 1 ? 's' : ''), 'param': 'date'}]) %}
-		{% endif %}
-		{% if criteria.distance|default('') and criteria.distance != 25 %}
-			{% set active_filters = active_filters|merge([{'label': 'Distance ≤ ' ~ criteria.distance ~ ' km', 'param': 'distance'}]) %}
-		{% endif %}
-		{% if active_filters|length > 0 %}
-			<div class="flex flex-wrap items-center gap-2 mb-8">
-				{% for filter in active_filters %}
-					<a href="{{ path('app_search', criteria|merge({ (filter.param): null })) }}" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-talenteko-peach-100 text-talenteko-blue-900 text-sm hover:bg-talenteko-peach-200 transition" title="Retirer ce filtre">
-						<span>{{ filter.label }}</span>
-						<span class="text-talenteko-orange-600 font-bold">✕</span>
-					</a>
-				{% endfor %}
-				<a href="{{ path('app_search') }}" class="ml-auto text-sm text-talenteko-orange-600 font-semibold hover:underline">
-					Réinitialiser les filtres
-				</a>
-			</div>
-		{% endif %}
-		{# Grille des annonces #}
-		<div class="mt-10 mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-			{% for listing in results %}
-				<div class="px-2 sm:px-0">
-					{% include 'partials/_listing_card.html.twig' with { listing: listing } %}
-				</div>
-			{% else %}
-				<p class="col-span-full text-center text-gray-500 italic py-10">
-					Aucun résultat ne correspond à vos critères.
-				</p>
-			{% endfor %}
-		</div>
-		{% if app.user %}
-			<div class="mt-8 text-center">
-				<button type="button" class="btn-outline">Sauvegarder cette recherche</button>
-			</div>
-		{% endif %}
-	</div>
-	{# Panneau de filtres (slide-in animé) #}
-	{% include 'partials/_listing_filters.html.twig' %}
+                <div class="relative flex-1"
+					data-controller="location-autocomplete"
+					data-action="input->location-autocomplete#search keydown->location-autocomplete#keydown">
+
+					<input
+						id="search-input"
+						type="search"
+						name="q"
+						placeholder="Compétence, ville..."
+						value="{{ app.request.get('q') }}"
+						class="w-full h-[44px] rounded-full border border-gray-300 bg-white pl-10 pr-4 shadow-sm
+							text-talenteko-blue-900 placeholder-gray-400
+							focus:outline-none focus:ring-2 focus:ring-talenteko-orange-500
+							focus:border-talenteko-orange-500 transition-all duration-200 ease-in-out"
+						aria-label="Rechercher une compétence ou une ville"
+						data-location-autocomplete-target="input"
+					/>
+
+    {# LISTE DES PROPOSITIONS AUTOCOMPLETE #}
+    <ul
+        class="absolute z-30 w-full bg-white border border-gray-200 rounded-md mt-1 shadow-lg hidden max-h-60 overflow-y-auto"
+        data-location-autocomplete-target="list">
+    </ul>
+</div>
+
+                <button type="submit" class="btn-primary h-[44px] sm:px-5 sm:min-w-[130px] px-3 w-[44px] sm:w-auto flex items-center justify-center">
+                    <i class="fa fa-search text-base"></i>
+                    <span class="hidden sm:inline font-semibold">Rechercher</span>
+                </button>
+            </form>
+
+            {# Bouton Filtres #}
+            <button
+                type="button"
+                class="btn-outline h-[44px] px-5 flex items-center gap-2"
+                data-action="click->filter-panel#toggle"
+                aria-label="Ouvrir les filtres de recherche"
+            >
+                <i class="fa fa-sliders text-talenteko-orange-500"></i>
+                <span>Filtres</span>
+            </button>
+        </div>
+
+        {# ============================================================
+           COMPTEUR + SAUVEGARDE + RÉINITIALISATION
+        ============================================================ #}
+
+        <div class="flex items-center justify-between mb-6">
+
+            {# Compteur #}
+            <p class="text-sm font-semibold text-talenteko-blue-900">
+                {{ results|length }}
+                résultat{{ results|length > 1 ? 's' : '' }} trouvé{{ results|length > 1 ? 's' : '' }}
+            </p>
+
+            {# Sauvegarde recherche (avec filtres) #}
+            <form method="post" action="{{ path('app_save_search') }}" class="flex items-center">
+
+                {# On envoie tous les filtres actifs #}
+                {% for name, value in criteria %}
+                    {% if value is not empty %}
+                        <input type="hidden" name="{{ name }}" value="{{ value }}">
+                    {% endif %}
+                {% endfor %}
+
+                <button type="submit" class="btn-outline flex items-center gap-2">
+                    <i class="fa-solid fa-star text-talenteko-orange-500"></i>
+                    Sauvegarder cette recherche
+                </button>
+            </form>
+        </div>
+
+        {# ============================================================
+           FILTRES ACTIFS (pastilles)
+        ============================================================ #}
+
+        {% set active_filters = [] %}
+
+        {% if criteria.q|default('') %}
+            {% set active_filters = active_filters|merge([{ 'label': 'Mot-clé : ' ~ criteria.q, 'param': 'q' }]) %}
+        {% endif %}
+        {% if criteria.location|default('') %}
+            {% set active_filters = active_filters|merge([{ 'label': 'Localisation : ' ~ criteria.location, 'param': 'location' }]) %}
+        {% endif %}
+        {% if criteria.type|default('') %}
+            {% set active_filters = active_filters|merge([{ 'label': 'Type : ' ~ (criteria.type == 'OFFER' ? 'Offres' : 'Demandes'), 'param': 'type' }]) %}
+        {% endif %}
+        {% if criteria.rating|default('') %}
+            {% set active_filters = active_filters|merge([{ 'label': 'Note ≥ ' ~ criteria.rating, 'param': 'rating' }]) %}
+        {% endif %}
+        {% if criteria.date|default('') %}
+            {% set active_filters = active_filters|merge([{ 'label': 'Publié depuis ' ~ criteria.date ~ ' jour' ~ (criteria.date > 1 ? 's' : ''), 'param': 'date' }]) %}
+        {% endif %}
+        {% if criteria.distance|default('') and criteria.distance != 25 %}
+            {% set active_filters = active_filters|merge([{ 'label': 'Distance ≤ ' ~ criteria.distance ~ ' km', 'param': 'distance' }]) %}
+        {% endif %}
+
+        {% if active_filters|length > 0 %}
+            <div class="flex flex-wrap items-center gap-2 mb-8">
+
+                {% for filter in active_filters %}
+                    <a
+                        href="{{ path('app_search', criteria|merge({ (filter.param): null })) }}"
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-talenteko-peach-100 text-talenteko-blue-900 text-sm hover:bg-talenteko-peach-200 transition"
+                        title="Retirer ce filtre"
+                    >
+                        <span>{{ filter.label }}</span>
+                        <span class="text-talenteko-orange-600 font-bold">✕</span>
+                    </a>
+                {% endfor %}
+
+                {# Réinitialiser Filtres #}
+                <a href="{{ path('app_search') }}" class="ml-auto text-sm text-talenteko-orange-600 font-semibold hover:underline">
+                    Réinitialiser les filtres
+                </a>
+            </div>
+        {% endif %}
+
+        {# ============================================================
+           GRILLE DES ANNONCES
+        ============================================================ #}
+
+        <div class="mt-10 mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+            {% for listing in results %}
+                <div class="px-2 sm:px-0">
+                    {% include 'partials/_listing_card.html.twig' with { listing: listing } %}
+                </div>
+            {% else %}
+                <p class="col-span-full text-center text-gray-500 italic py-10">
+                    Aucun résultat ne correspond à vos critères.
+                </p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    {# Panneau latéral des filtres #}
+    {% include 'partials/_listing_filters.html.twig' %}
+</section>
+
 {% endblock %}
