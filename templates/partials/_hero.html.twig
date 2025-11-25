@@ -17,19 +17,28 @@
 		</p>
 
 		{# --- Appels à l'action --- #}
-		<div
-			class="flex flex-wrap justify-center gap-4">
-			{# CTA principal : déposer une annonce #}
-			<a href="{{ path('app_listing_new') }}" class="btn-primary flex items-center gap-2" aria-label="Déposer une annonce sur Talentéko">
-				<i class="fa fa-plus-circle" aria-hidden="true"></i>
-				<span>Déposer une annonce</span>
-			</a>
+		<div class="flex flex-wrap justify-center gap-4 w-full">
 
-			{# CTA secondaire : voir les tendances #}
-			<a href="{{ path('app_search') }}" class="btn-outline" aria-label="Découvrir les annonces en tendance">
-				<i class="fa fa-search" aria-hidden="true"></i>
-				<span>Découvrir les talents</span>
-			</a>
-		</div>
+    {# CTA principal : déposer une annonce #}
+    <a href="{{ path('app_listing_new') }}"
+       class="btn-primary flex items-center justify-center gap-2
+              w-4/5 py-2 text-sm
+              md:w-auto md:py-3 md:text-base"
+       aria-label="Déposer une annonce sur TalentÉkô">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        <span>Déposer une annonce</span>
+    </a>
+
+    {# CTA secondaire : voir les tendances #}
+    <a href="{{ path('app_search') }}"
+       class="btn-outline flex items-center justify-center gap-2
+              w-4/5 py-2 text-sm
+              md:w-auto md:py-3 md:text-base"
+       aria-label="Découvrir les annonces en tendance">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>Découvrir les talents</span>
+    </a>
+</div>
+
 	</div>
 </section>
