@@ -57,19 +57,20 @@ final class RegistrationController extends AbstractController
             // Flash AVANT login
             $this->addFlash('success', 'Votre compte a été créé avec succès. Bienvenue sur TalentÉkô !');
 
-            // Login + redirection dans la même action
-            return $security->login(
-                $user,
-                'app_profile_dashboard'
-            );
-        }
-            // Code HTTP selon état du formulaire
-            $statusCode = $form->isSubmitted()
-                ? Response::HTTP_UNPROCESSABLE_ENTITY
-                : Response::HTTP_OK;
+            // Connexion de l'utilisateur
+            $security->login($user);
 
-            return $this->render('security/register.html.twig', [
-                'form' => $form->createView(),
-            ], new Response('', $statusCode));
+            // Redirection après connexion
+            return $this->redirectToRoute('app_profile_dashboard');
+        }
+
+        // Code HTTP selon état du formulaire
+        $statusCode = $form->isSubmitted()
+            ? Response::HTTP_UNPROCESSABLE_ENTITY
+            : Response::HTTP_OK;
+
+        return $this->render('security/register.html.twig', [
+            'form' => $form->createView(),
+        ], new Response('', $statusCode));
     }
 }

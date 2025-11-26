@@ -27,6 +27,7 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         private UrlGeneratorInterface $urlGenerator
     ) {}
+
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->getString('email');
@@ -38,6 +39,7 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         $badges = [new CsrfTokenBadge('authenticate', $csrf)];
 
+        // Remember Me si coché
         if ($request->request->getBoolean('_remember_me')) {
             $badges[] = new RememberMeBadge();
         }
@@ -51,16 +53,16 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     /**
      * Redirection après authentification réussie.
-     * Gère aussi le cas spécial d'inscription.
+     * Gère le cas spécial INSCRIPTION.
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Fix spécial INSCRIPTION : ignorer le TargetPath
+        // Si l'utilisateur vient de /inscription → aller au profil
         if ($request->attributes->get('_route') === 'app_register') {
-            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+            return new RedirectResponse($this->urlGenerator->generate('app_profile_dashboard'));
         }
 
-        // Retourne vers la page protégée d'origine si existante
+        // Redirection vers une page protégée d'origine si existante
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
@@ -70,7 +72,7 @@ final class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * URL de la page de login (obligatoire pour AbstractLoginFormAuthenticator).
+     * URL de la page de login
      */
     protected function getLoginUrl(Request $request): string
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Profile;
 use App\Form\UserProfileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,20 @@ final class ProfileController extends AbstractController
 {
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('', name: 'dashboard', methods: ['GET'])]
-    public function dashboard(): Response
-    {
+    public function dashboard(
+        EntityManagerInterface $em
+    ): Response {
         /** @var User $user */
         $user = $this->getUser();
+
+        // ✅ Créer un profil si inexistant
+        if (null === $user->getProfile()) {
+            $profile = new Profile();
+            $user->setProfile($profile);
+
+            $em->persist($user);
+            $em->flush();
+        }
 
         return $this->render('profile/dashboard.html.twig', [
             'page_title' => 'Mon tableau de bord',
@@ -42,6 +53,7 @@ final class ProfileController extends AbstractController
             'favorites' => $user->getFavorites(),
         ]);
     }
+
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/annonces', name: 'listings', methods: ['GET'])]
     public function myListings(
@@ -58,6 +70,7 @@ final class ProfileController extends AbstractController
             'listings' => $listings,
         ]);
     }
+
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/echanges', name: 'exchanges', methods: ['GET'])]
     public function myExchanges(
@@ -78,6 +91,7 @@ final class ProfileController extends AbstractController
             'exchanges' => $exchanges,
         ]);
     }
+
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
@@ -89,9 +103,9 @@ final class ProfileController extends AbstractController
         /** @var User $user */
         $user = $security->getUser();
 
-        // Si l'utilisateur n'a pas encore de Profile, on le crée
+        // ✅ Créer un profil si inexistant
         if (null === $user->getProfile()) {
-            $profile = new \App\Entity\Profile();
+            $profile = new Profile();
             $user->setProfile($profile);
         }
 
@@ -127,7 +141,7 @@ final class ProfileController extends AbstractController
                 $user->getProfile()->setAvatarFilename($newFilename);
             }
 
-            // IMPORTANT : toujours persist le User
+            // Sauvegarde User + Profile
             $em->persist($user);
             $em->flush();
 

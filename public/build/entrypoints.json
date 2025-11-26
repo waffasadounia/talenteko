@@ -2,19 +2,13 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.aa1d72e7.js",
-        "/build/333.e75537e7.js",
-        "/build/app.da5feb8a.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_hotwired_stimulus_dist_stimulus_js-node_modules_core-js_modules_es_array-37cfed.js",
+        "/build/app.js"
       ],
       "css": [
-        "/build/app.c5b97c5e.css"
+        "/build/app.css"
       ]
     }
-  },
-  "integrity": {
-    "/build/runtime.aa1d72e7.js": "sha384-d3s47/kDyMWxQIrFd5eIOVhUk74F9tHgHTeNWCMraQl9JY0ChUw4rvIvLqvKhEfW",
-    "/build/333.e75537e7.js": "sha384-RZQdhV6+4swP3UhVA1vMKY5A6asCYhKcgstzXvfqwm8WgKPfkJNjk1XlX3CnWp+T",
-    "/build/app.da5feb8a.js": "sha384-vfJxSM6SiulFaFZIGTcBatAGbE6rbNCAdzk97cTPL1skBL5u9Qav9elv1MXJk9qj",
-    "/build/app.c5b97c5e.css": "sha384-5CaWYmO4C+d7qKjMXBEwwjDC0gi6sOGl9MXCU0NfghgHPIbgHcxOZ2SuRpnmb6IS"
   }
 }
